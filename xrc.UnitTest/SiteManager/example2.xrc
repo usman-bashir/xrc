@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:xrc xmlns:xrc="urn:xrc">
+
+	<xrc:action method="GET">
+		<xrc:renderer type="XsltRenderer">
+      <xslt>@File.Xml("books.xslt")</xslt>
+      <data xmlns="">
+        <bookstore>
+          <book>
+            <title>Book 1</title>
+          </book>
+          <book>
+            <title>Book 2</title>
+          </book>
+        </bookstore>
+      </data>
+    </xrc:renderer>
+
+		<xrc:outputcache />
+  </xrc:action>
+
+	<xrc:parameters>
+		<xrc:add key="p1" value="My page title" />
+		<xrc:add key="p2" value="My page title" />
+		<xrc:add key="p3" value="My page title" />
+		<xrc:add key="p4" value="My page title" />
+		<xrc:add key="p5" value="My page title" />
+	</xrc:parameters>
+
+</xrc:xrc>

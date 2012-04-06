@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:xrc xmlns:xrc="urn:xrc">
+
+	<xrc:action method="GET" parent="~/shared/_layout">
+		<xrc:renderer type="RazorRenderer">
+      <view>~/root/contact/index.cshtml</view>
+			<model>@Player.GetPlayer()</model>
+			<!--<model>Ciao</model>-->
+		</xrc:renderer>
+
+		<xrc:outputcache />
+	</xrc:action>
+
+	<xrc:parameters>
+		<xrc:add key="title" value="Contact" />
+	</xrc:parameters>
+  
+</xrc:xrc>

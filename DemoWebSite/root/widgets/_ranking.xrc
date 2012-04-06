@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:xrc xmlns:xrc="urn:xrc">
+
+  <!-- This is an example of static html output. Can also be used @{File.Xml("footer.html")} -->
+
+	<xrc:action method="GET">
+		<xrc:renderer type="XHtmlRenderer">
+      <content>
+				<div class="widget">
+					<img style="visibility:hidden;width:0px;height:0px;" border="0" width="0" height="0" src="http://c.gigcount.com/wildfire/IMP/CXNID=2000002.0NXC/bT*xJmx*PTEzMzIyNjA3OTY3MjcmcHQ9MTMzMjI2MDc5OTcwNyZwPTExMjQxMjEmZD13b3JsZHJhbmtpbmdfZW4mZz*yJm89MjEy/NTBmMzg2ZTcyNGYxYThjZDRjMzA4YzJjMjFiMWQmb2Y9MA==.gif" />
+					<object  classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="300" height="400" align="top" id="WFHost">
+						<param name = "FlashVars" value = "Partner=1124121&amp;theme=New Classic&amp;widgetW=300&amp;widgetH=400&amp;widgetX=0&amp;widgetY=0&amp;stickyType=&amp;WFBtnX=0&amp;WFBtnY=0&amp;defaultPreviewURL=http://www.fifa.com/flash/widgets/worldranking/images/image_en.png&amp;useFacebookMystuff=false&amp;buttonURL=http://www.fifa.com/flash/widgets/worldranking/images/button.png&amp;URL=http://www.fifa.com/flash/widgets/worldranking/app.swf%3FteamId%3Dita%26lang%3Den" />
+						<param name="wmode" value="transparent"/>
+						<param name="allowScriptAccess" value="always" />
+						<param name = "movie" value = "http://cdn.gigya.com/wildfire/swf/WildfireHost3.swf" />
+						<embed name = "WFHost" id = "WFHost" width = "300" height = "400"
+											src = "http://cdn.gigya.com/wildfire/swf/WildfireHost3.swf"	flashvars="Partner=1124121&amp;theme=New Classic&amp;widgetW=300&amp;widgetH=400&amp;widgetX=0&amp;widgetY=0&amp;stickyType=&amp;WFBtnX=0&amp;WFBtnY=0&amp;defaultPreviewURL=http://www.fifa.com/flash/widgets/worldranking/images/image_en.png&amp;useFacebookMystuff=false&amp;buttonURL=http://www.fifa.com/flash/widgets/worldranking/images/button.png&amp;URL=http://www.fifa.com/flash/widgets/worldranking/app.swf%3FteamId%3Dita%26lang%3Den" AllowScriptAccess="always" quality="high" wmode="transparent" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
+					</object>
+				</div>
+			</content>
+      
+    </xrc:renderer>
+  </xrc:action>
+  
+</xrc:xrc>

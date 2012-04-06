@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:xrc xmlns:xrc="urn:xrc">
+
+	<xrc:action method="GET" parent="~/shared/_layout">
+		<xrc:renderer type="XsltRenderer">
+      <xslt>@File.Xml("index.xslt")</xslt>
+      <data>@Weather.Get(Context.Parameters["location"])</data>
+    </xrc:renderer>
+
+		<xrc:outputcache />
+  </xrc:action>
+
+	<xrc:parameters>
+		<xrc:add key="title" value="Weather" />
+		<xrc:add key="location" value="Torino" />
+  </xrc:parameters>
+  
+</xrc:xrc>

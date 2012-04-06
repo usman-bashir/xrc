@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<div xmlns="http://www.w3.org/1999/xhtml">
+
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="http://knockoutjs.com/js/knockout-2.0.0.js"></script>
+  <h1>Google news</h1>
+  
+  <form id="newsSearch">
+    <input id="value" name="value" value="obama" />
+    <input type="submit" />
+  </form>
+
+  <ul data-bind="foreach: results">
+    <li>
+      <span data-bind="if: $data.image != undefined">
+        <img data-bind="attr: { src: image.tbUrl }" align="left" />
+      </span>
+      <h2 data-bind="html: title"></h2>
+      <div data-bind="html: content">
+      </div>
+      <a data-bind="attr: { href: unescapedUrl }">Source</a>
+    </li>
+  </ul>
+  
+  <script type="text/javascript">
+
+    var GridModel = function() {
+    this.results = ko.observableArray([]);
+    };
+
+    $('#newsSearch').submit(function() {
+    $.ajax({
+    url: 'search',
+    data: {value:$('#value').val()},
+    success: function(data) {
+    model.results(data.responseData.results);
+    }
+    });
+
+    return false;
+    });
+
+    var model = new GridModel(new Array());
+    ko.applyBindings(model);
+  </script>
+  
+</div>

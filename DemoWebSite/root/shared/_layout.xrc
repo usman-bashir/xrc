@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:xrc xmlns:xrc="urn:xrc">
+
+  <!-- This is an example of a layout file -->
+
+	<xrc:action method="GET">
+		<xrc:renderer type="XsltRenderer">
+      <xslt>@File.Xml("_layout.xslt")</xslt>
+    </xrc:renderer>
+  </xrc:action>
+  
+</xrc:xrc>

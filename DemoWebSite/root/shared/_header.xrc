@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:xrc xmlns:xrc="urn:xrc">
+
+  <!-- This is an example of an inline xslt action, with xslt and xml inline in the text -->
+
+	<xrc:action method="GET">
+		<xrc:renderer type="XsltRenderer">
+      <xslt xmlns="">
+        <xsl:stylesheet version="1.0"
+                  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                  xmlns:Url="urn:xrc/Url" exclude-result-prefixes="Url">
+					<xsl:output method="html" omit-xml-declaration="yes"/>
+					<xsl:param name="title" />
+					
+					<xsl:template match="header">
+            <ul class="menu">
+              <xsl:apply-templates select="menu"/>
+            </ul>
+          </xsl:template>
+          <xsl:template match="menu">
+            <li>
+              <a href="{Url:Content(@url)}">
+                <xsl:value-of select="@text"/>
+              </a>
+            </li>
+          </xsl:template>
+        </xsl:stylesheet>
+      </xslt>
+      
+      <data xmlns="">
+        <header>
+          <menu text="home" url="~/" />
+          <menu text="books" url="~/books" />
+          <menu text="weather" url="~/weather/" />
+          <menu text="news" url="~/news/" />
+          <menu text="widgets" url="~/widgets" />
+					<menu text="about" url="~/about" />
+				</header>
+      </data>
+      
+    </xrc:renderer>
+  </xrc:action>
+  
+</xrc:xrc>

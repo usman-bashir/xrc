@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{71988DA4-8569-490F-9D08-5B47EF2202F7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>xrc</RootNamespace>
+    <AssemblyName>xrc</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\packages\Castle.Windsor.3.0.0.4001\lib\net40\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Json">
+      <HintPath>..\packages\System.Json.4.0.20126.16343\lib\net40\System.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuration\ModuleCollection.cs" />
+    <Compile Include="Configuration\ModuleElement.cs" />
+    <Compile Include="Context\Context.cs" />
+    <Compile Include="Context\IContext.cs" />
+    <Compile Include="ConvertEx.cs" />
+    <Compile Include="Kernel\RenderSlotEvent.cs" />
+    <Compile Include="Modules\ISlotModule.cs" />
+    <Compile Include="Modules\SlotModule.cs" />
+    <Compile Include="Modules\UrlModule.cs" />
+    <Compile Include="Modules\IUrlModule.cs" />
+    <Compile Include="Modules\HtmlModule.cs" />
+    <Compile Include="Modules\IHtmlModule.cs" />
+    <Compile Include="Modules\FileModule.cs" />
+    <Compile Include="Kernel\Kernel.cs" />
+    <Compile Include="Kernel\IKernel.cs" />
+    <Compile Include="Configuration\XrcSection.cs" />
+    <Compile Include="Configuration\SiteConfiguration.cs" />
+    <Compile Include="Configuration\ISiteConfiguration.cs" />
+    <Compile Include="Configuration\ISiteConfigurationProviderService.cs" />
+    <Compile Include="Configuration\SiteConfigurationProviderService.cs" />
+    <Compile Include="Configuration\SiteParameterCollection.cs" />
+    <Compile Include="Configuration\SiteParameterElement.cs" />
+    <Compile Include="Configuration\SiteCollection.cs" />
+    <Compile Include="Configuration\SiteElement.cs" />
+    <Compile Include="Configuration\TypeResolverService.cs" />
+    <Compile Include="Controller\XrcController.cs" />
+    <Compile Include="HttpHandler\HttpHandler.cs" />
+    <Compile Include="Modules\IFileModule.cs" />
+    <Compile Include="Modules\IModuleFactory.cs" />
+    <Compile Include="Modules\Module.cs" />
+    <Compile Include="Renderers\SlotRenderer.cs" />
+    <Compile Include="Renderers\XmlRenderer.cs" />
+    <Compile Include="Reflection.cs" />
+    <Compile Include="Request\XrcRequest.cs" />
+    <Compile Include="Response\XrcResponse.cs" />
+    <Compile Include="RouteHandler\XrcRouteHandler.cs" />
+    <Compile Include="Script\DynamicExpression\Dynamic.cs" />
+    <Compile Include="Script\DynamicExpression\FunctionFactory.cs" />
+    <Compile Include="Script\IScriptExpression.cs" />
+    <Compile Include="SiteManager\MashupFolder.cs" />
+    <Compile Include="SiteManager\MashupParserService.cs" />
+    <Compile Include="SiteManager\MashupLocatorService.cs" />
+    <Compile Include="SiteManager\IMashupLocatorService.cs" />
+    <Compile Include="SiteManager\RendererDefinition.cs" />
+    <Compile Include="Script\ScriptService.cs" />
+    <Compile Include="Script\IScriptService.cs" />
+    <Compile Include="XElementExtensions.cs" />
+    <Compile Include="SiteManager\XProperty.cs" />
+    <Compile Include="SiteManager\XClass.cs" />
+    <Compile Include="Script\ScriptExpression.cs" />
+    <Compile Include="SiteManager\IMashupParserService.cs" />
+    <Compile Include="SiteManager\MashupAction.cs" />
+    <Compile Include="SiteManager\MashupPage.cs" />
+    <Compile Include="UriExtensions.cs" />
+    <Compile Include="Renderers\NodeJsRenderer.cs" />
+    <Compile Include="Renderers\XHtmlRenderer.cs" />
+    <Compile Include="Renderers\JsonRenderer.cs" />
+    <Compile Include="Renderers\XsltRenderer.cs" />
+    <Compile Include="Renderers\RazorRenderer.cs" />
+    <Compile Include="SiteManager\MashupFile.cs" />
+    <Compile Include="Renderers\IRenderer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Script\TODO.txt" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

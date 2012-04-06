@@ -1,0 +1,25 @@
+﻿ul.menu {
+list-style-type: none;
+/*background-image: url(navi_bg.png);*/
+height: 80px;
+/*width: 663px;*/
+margin: auto;
+}
+
+ul.menu a {
+/*background-image: url(navi_bg_divider.png);*/
+background-repeat: no-repeat;
+background-position: right;
+padding-right: 32px;
+padding-left: 32px;
+display: block;
+line-height: 80px;
+/*text-decoration: none;*/
+font-family: Georgia, "Times New Roman", Times, serif;
+font-size: 21px;
+color: #371C1C;
+}
+
+ul.menu li {
+float: left;
+}

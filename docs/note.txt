@@ -1,0 +1,24 @@
+Proposte
+ Separazione controller per layer accesso ai dati e logiche di business da slot di presentazione
+ Possibilita di scrivere direttamente slot in html
+ Possibilita di usare razor
+ Tenere funzionalita xslt
+ Site manager su file system (tutto su source control, facile da trasferire)
+ Struttura di base mvc, utilizzabile sia normalmente che su azure
+ Doppia cache configurabile su presentazione e su layer accesso ai dati.
+ Vocabolario senza necessità di rebuild
+ Vocabolario unico con possibilita di categorizzare o taggare
+ Utilizzo di ioc, tutti i servizi programmabili
+ Pipeline style processing/rendering (dove si possono concatenare i processamenti da eseguire)
+ Site configuration on .config (per url)
+ Creazione di un modello di routing per il match tra url e news/photo/video...
+ 
+Problemi
+ Dipendenze dati: valutare se non risolvere con altri tipi di cache o con una nuova cache dependency
+ I Module potrebbero essere anche singleton, dovrebbe essere chi li registra a decidere.
+ XHtmlRendered dovrebbe renderizzare per i fragment solo il contenuto (senza xml declaration ...), pensare anche come gestire correttamente l'editor visual studio
+ Disabilitare direct browse su cartella root
+ Gestire tutti i link anche relativi alla pagina corrente (comprese parent e Url.Content), bisogna quindi sistemare l'url di request e fare in modo che in caso di path restituisca sempre slash finale.
+ Fare il redirect anche quando l'url è not lower case o non formattato bene.
+
+

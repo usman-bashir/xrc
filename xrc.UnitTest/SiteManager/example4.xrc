@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:xrc xmlns:xrc="urn:xrc">
+
+	<xrc:action method="Get">
+		<xrc:renderer type="XsltRenderer">
+      <xslt>@File.Xml("books.xslt")</xslt>
+      <data xmlns="">
+        <bookstore />
+      </data>
+    </xrc:renderer>
+  </xrc:action>
+
+  <xrc:action method="delete">
+    <xrc:renderer type="XsltRenderer">
+      <xslt>@File.Xml("books.xslt")</xslt>
+      <data xmlns="">
+        <bookstore />
+      </data>
+    </xrc:renderer>
+  </xrc:action>
+
+  <xrc:action method="post">
+    <xrc:renderer type="XsltRenderer">
+      <xslt>@File.Xml("books.xslt")</xslt>
+      <data xmlns="">
+        <bookstore />
+      </data>
+    </xrc:renderer>
+  </xrc:action>
+
+</xrc:xrc>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:xrc xmlns:xrc="urn:xrc">
+
+	<xrc:action method="GET">
+		<xrc:renderer type="JsonRenderer">
+      <content>@GoogleNews.Search(Context.Parameters["value"])</content>
+    </xrc:renderer>
+  </xrc:action>
+  
+</xrc:xrc>

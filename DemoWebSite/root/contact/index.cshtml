@@ -1,0 +1,14 @@
+﻿@model DemoWebSite.Player
+
+<div>
+	Hello from razor: @DateTime.Now
+	<form>
+		<label>First Name</label>
+		<input value="@Model.FirstName" />
+		<br />
+		<label>Last Name</label>
+		<input value="@Model.LastName" />
+
+		<input type="submit" value="save" />
+	</form>
+</div>
