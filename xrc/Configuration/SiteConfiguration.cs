@@ -56,47 +56,47 @@ namespace xrc.Configuration
             private set;
         }
 
-        public Uri GetRelativeUri(Uri absoluteUri)
+        public Uri GetRelativeUrl(Uri absoluteUrl)
         {
-            if (!absoluteUri.IsAbsoluteUri)
-                throw new UriFormatException(string.Format("Uri '{0}' is not absolute.", absoluteUri));
+            if (!absoluteUrl.IsAbsoluteUri)
+                throw new UriFormatException(string.Format("Uri '{0}' is not absolute.", absoluteUrl));
 
-            absoluteUri = absoluteUri.ToLower();
+            absoluteUrl = absoluteUrl.ToLower();
 
             Uri resultUri;
-            if (SecureUri.IsBaseOfWithPath(absoluteUri))
-                resultUri = absoluteUri.MakeRelativeUriEx(SecureUri);
-            else if (Uri.IsBaseOfWithPath(absoluteUri))
-                resultUri = absoluteUri.MakeRelativeUriEx(Uri);
+            if (SecureUri.IsBaseOfWithPath(absoluteUrl))
+                resultUri = absoluteUrl.MakeRelativeUriEx(SecureUri);
+            else if (Uri.IsBaseOfWithPath(absoluteUrl))
+                resultUri = absoluteUrl.MakeRelativeUriEx(Uri);
             else
-                throw new ApplicationException(string.Format("Uri '{0}' is not valid for the site '{1}'.", absoluteUri, Key));
+                throw new ApplicationException(string.Format("Uri '{0}' is not valid for the site '{1}'.", absoluteUrl, Key));
 
             if (resultUri.IsAbsoluteUri)
-                throw new ApplicationException(string.Format("Uri '{0}' is not valid for the site '{1}'.", absoluteUri, Key));
+                throw new ApplicationException(string.Format("Uri '{0}' is not valid for the site '{1}'.", absoluteUrl, Key));
 
             return resultUri;
         }
 
-		public string UrlContent(string contentUri, Uri contextUri)
+		public string GetAbsoluteUrl(string url, Uri contextUrl)
         {
             // Similar code of UrlHelper.Content Method
 
-			if (contextUri == null || !contextUri.IsAbsoluteUri)
-				throw new ApplicationException(string.Format("Context uri '{0}' is not valid. Expected an absolute url.", contextUri));
+			if (contextUrl == null || !contextUrl.IsAbsoluteUri)
+				throw new ApplicationException(string.Format("Context url '{0}' is not valid. Expected an absolute url.", contextUrl));
 
 			System.Uri resultUri;
-			if (contentUri.StartsWith("~"))
+			if (url.StartsWith("~"))
 			{
-				contentUri = contentUri.Substring(1);
-				if (SecureUri.IsBaseOfWithPath(contextUri))
-					resultUri = SecureUri.Combine(contentUri);
-				else if (Uri.IsBaseOfWithPath(contextUri))
-					resultUri = Uri.Combine(contentUri);
+				url = url.Substring(1);
+				if (SecureUri.IsBaseOfWithPath(contextUrl))
+					resultUri = SecureUri.Combine(url);
+				else if (Uri.IsBaseOfWithPath(contextUrl))
+					resultUri = Uri.Combine(url);
 				else
-					throw new ApplicationException(string.Format("Uri '{0}' is not valid for the site '{1}'.", contentUri, Key));
+					throw new ApplicationException(string.Format("Uri '{0}' is not valid for the site '{1}'.", url, Key));
 			}
 			else
-				resultUri = new System.Uri(contextUri, contentUri);
+				resultUri = new System.Uri(contextUrl, url);
 
 			return resultUri.ToString();
         }

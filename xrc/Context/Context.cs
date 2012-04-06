@@ -5,6 +5,7 @@ using System.Text;
 using xrc.SiteManager;
 using xrc.Configuration;
 using System.Web;
+using System.IO;
 
 namespace xrc
 {
@@ -77,5 +78,18 @@ namespace xrc
             get;
             set;
         }
+
+		public string GetAbsoluteUrl(string url)
+		{
+			return Configuration.GetAbsoluteUrl(url, Request.Url);
+		}
+
+		public string GetAbsoluteFile(string file)
+		{
+			if (VirtualPathUtility.IsAppRelative(file))
+				return VirtualPathUtility.ToAbsolute(file);
+			else
+				return Path.Combine(WorkingPath, file);
+		}
     }
 }

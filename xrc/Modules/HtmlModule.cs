@@ -21,8 +21,7 @@ namespace xrc.Modules
 
         public void RenderAction(string url, Stream output)
         {
-            var cfg = _context.Configuration;
-            url = cfg.UrlContent(url, _context.Request.Url);
+			url = _context.GetAbsoluteUrl(url);
             XrcRequest request = new XrcRequest(new Uri(url));
 
             using (XrcResponse response = new XrcResponse(output))

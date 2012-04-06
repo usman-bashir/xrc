@@ -23,5 +23,8 @@ namespace xrc
         Dictionary<Module, object> Modules { get; }
 
         RenderSlotEventHandler SlotCallback { get; set; }
+
+		string GetAbsoluteUrl(string url);
+		string GetAbsoluteFile(string file);
     }
 }

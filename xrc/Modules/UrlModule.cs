@@ -17,10 +17,8 @@ namespace xrc.Modules
 
         public string Content(string contentPath)
         {
-            var cfg = _context.Configuration;
-            return cfg.UrlContent(contentPath, _context.Request.Url);
+			return _context.GetAbsoluteUrl(contentPath);
         }
-
 
         public string Content(string baseUri, string uri)
         {

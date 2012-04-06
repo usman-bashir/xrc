@@ -198,7 +198,7 @@ namespace xrc
             // The event will be called from the parent action by using Cms.Slot().
             // Parameters will be also copied from slot to parent.
 
-            Uri parentUri = new Uri(context.Configuration.UrlContent(action.Parent, context.Request.Url));
+            Uri parentUri = new Uri(context.GetAbsoluteUrl(action.Parent));
             Context parentContext = new Context(new XrcRequest(parentUri), currentResponse);
             foreach (var item in context.Parameters)
                 parentContext.Parameters.Add(item.Key, item.Value);
@@ -260,7 +260,7 @@ namespace xrc
 
         private bool LocateXrcFile(IContext context)
         {
-			context.File = _fileLocator.Locate(context.Configuration.GetRelativeUri(context.Request.Url));
+			context.File = _fileLocator.Locate(context.Configuration.GetRelativeUrl(context.Request.Url));
             if (context.File == null)
                 return false;
             else

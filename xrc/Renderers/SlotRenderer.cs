@@ -27,8 +27,7 @@ namespace xrc.Renderers
             if (SlotUrl == null)
                 throw new ArgumentNullException("Slot");
 
-            var cfg = context.Configuration;
-            var url = cfg.UrlContent(SlotUrl, context.Request.Url);
+			var url = context.GetAbsoluteUrl(SlotUrl);
             XrcRequest request = new XrcRequest(new Uri(url));
 
             Context slotContext = new Context(request, context.Response);

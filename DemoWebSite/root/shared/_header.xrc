@@ -34,6 +34,7 @@
           <menu text="weather" url="~/weather/" />
           <menu text="news" url="~/news/" />
           <menu text="widgets" url="~/widgets" />
+					<menu text="contact" url="~/contact" />
 					<menu text="about" url="~/about" />
 				</header>
       </data>

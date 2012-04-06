@@ -3,7 +3,9 @@
 
 	<xrc:action method="GET" parent="~/shared/_layout">
 		<xrc:renderer type="RazorRenderer">
-      <view>~/root/contact/index.cshtml</view>
+			<!-- TODO Fare in modo di accettare anche questa sintassi -->
+      <!--<view>index.cshtml</view>-->
+			<view>~/root/contact/index.cshtml</view>
 			<model>@Player.GetPlayer()</model>
 			<!--<model>Ciao</model>-->
 		</xrc:renderer>

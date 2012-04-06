@@ -10,6 +10,12 @@ namespace xrc.Renderers
 {
     public class RazorRenderer : IRenderer
     {
+		private IKernel _kernel;
+		public RazorRenderer(IKernel kernel)
+		{
+			_kernel = kernel;
+		}
+
 		public string View
 		{
 			get;
@@ -37,7 +43,6 @@ namespace xrc.Renderers
 			controllerContext.HttpContext = new RazorHttpContext(context);
 
 			// TODO Fare in modo di accettare anche path relativi
-			//string fullViewName = Path.Combine(context.WorkingPath, View);
 			var result = ViewEngines.Engines.FindPartialView(controllerContext, View);
 
 			if (result.View == null)
