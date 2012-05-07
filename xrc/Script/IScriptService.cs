@@ -5,8 +5,10 @@ namespace xrc.Script
 {
     public interface IScriptService
     {
-		IScriptExpression Parse(string script, Dictionary<string, Type> arguments, Type returnType);
+		IScriptExpression Parse(string script, Modules.ModuleDefinitionList modules, Type returnType);
 
-		bool TryExtractInlineScript(string text, out string expression);
+		bool TryExtractInlineScript(string text, out string script);
+
+        object Eval(IScriptExpression expression, IContext context);
 	}
 }

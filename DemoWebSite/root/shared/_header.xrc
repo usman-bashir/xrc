@@ -8,7 +8,7 @@
       <xslt xmlns="">
         <xsl:stylesheet version="1.0"
                   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                  xmlns:Url="urn:xrc/Url" exclude-result-prefixes="Url">
+                  xmlns:Url="xrc:UrlModule" exclude-result-prefixes="Url">
 					<xsl:output method="html" omit-xml-declaration="yes"/>
 					<xsl:param name="title" />
 					

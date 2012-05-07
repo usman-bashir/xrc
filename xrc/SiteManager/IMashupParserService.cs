@@ -7,6 +7,6 @@ namespace xrc.SiteManager
 {
     public interface IMashupParserService
     {
-        MashupPage Parse(string file, Module[] modules);
+        MashupPage Parse(string file);
     }
 }

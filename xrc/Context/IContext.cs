@@ -20,8 +20,6 @@ namespace xrc
 
         MashupPage Page { get; set; }
 
-        Dictionary<Module, object> Modules { get; }
-
         RenderSlotEventHandler SlotCallback { get; set; }
 
 		string GetAbsoluteUrl(string url);

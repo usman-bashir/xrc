@@ -5,9 +5,9 @@ using System.Text;
 
 namespace xrc.SiteManager
 {
-    public class MashupAction : IEnumerable<RendererDefinition>
+    public class MashupAction
     {
-        private Dictionary<string, RendererDefinition> _renderers = new Dictionary<string, RendererDefinition>(StringComparer.OrdinalIgnoreCase);
+        private RendererDefinitionList _renderers = new RendererDefinitionList();
 
         public MashupAction(string method)
         {
@@ -31,32 +31,9 @@ namespace xrc.SiteManager
             set;
         }
 
-        public IEnumerator<RendererDefinition> GetEnumerator()
+        public RendererDefinitionList Renderers
         {
-            return _renderers.Values.GetEnumerator();
-        }
-
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return _renderers.Values.GetEnumerator();
-        }
-
-        public RendererDefinition this[string name]
-        {
-            get
-            {
-                return _renderers[name];
-            }
-        }
-
-        public void Add(RendererDefinition item)
-        {
-            _renderers.Add(item.Slot, item);
-        }
-
-        public int Count
-        {
-            get { return _renderers.Count; }
+            get { return _renderers; }
         }
     }
 }

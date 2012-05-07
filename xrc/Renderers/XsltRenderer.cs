@@ -8,20 +8,27 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Collections.Specialized;
 using System.Web.UI;
+using xrc.Modules;
 
 namespace xrc.Renderers
 {
     public class XsltRenderer : IRenderer
     {
+        public static ComponentDefinition Definition = new ComponentDefinition("XsltRenderer", typeof(XsltRenderer));
+
         private const string XSL_ARGUMENTS_NAMESPACE = "";
-        private const string XSL_EXTENSIONS_PATTERN = "urn:xrc/{0}";
+        private const string XSL_EXTENSIONS_PREFIX = "xrc";
         private XslCompiledTransform _transform;
         private XsltSettings _settings = new XsltSettings();
+        private IModuleFactory _moduleFactory;
+        private IModuleCatalogService _moduleCatalog;
 
-        public XsltRenderer()
+        public XsltRenderer(IModuleFactory moduleFactory, IModuleCatalogService moduleCatalog)
         {
             //this.Debug = false;
             this.Xslt = null;
+            _moduleFactory = moduleFactory;
+            _moduleCatalog = moduleCatalog;
         }
 
 		//public bool Debug
@@ -76,8 +83,22 @@ namespace xrc.Renderers
             foreach (var item in context.Parameters)
                 arguments.AddParam(item.Key, XSL_ARGUMENTS_NAMESPACE, item.Value);
 
-            foreach (var item in context.Modules)
-                arguments.AddExtensionObject(string.Format(XSL_EXTENSIONS_PATTERN, item.Key.Name), item.Value);
+            // Load modules from xsl namespaces
+            List<object> modules = new List<object>();
+            foreach (var attr in Xslt.Root.Attributes())
+            {
+                if (attr.Name.Namespace == XNamespace.Xmlns)
+                {
+                    Uri moduleUri = new Uri(attr.Value);
+                    if (moduleUri.Scheme == XSL_EXTENSIONS_PREFIX)
+                    {
+                        var moduleDefinition = _moduleCatalog.Get(moduleUri.Segments[0]);
+                        var module = _moduleFactory.Get(moduleDefinition, context);
+                        modules.Add(module);
+                        arguments.AddExtensionObject(attr.Value, module);
+                    }
+                }
+            }
 
 			if (_transform.OutputSettings.OutputMethod == XmlOutputMethod.Html)
 			{

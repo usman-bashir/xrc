@@ -16,9 +16,9 @@ namespace xrc.Renderers
         [TestMethod]
         public void Transform_Simple()
         {
-            XsltRenderer target = new XsltRenderer();
-			target.Data = XDocument.Load(TestHelper.GetFile(@"Renderers\books.xml"));
-			target.Xslt = XDocument.Load(TestHelper.GetFile(@"Renderers\books_simple.xslt"));
+            XsltRenderer target = new XsltRenderer(new Mocks.ModuleFactoryMock(null), new Mocks.ModuleCatalogServiceMock(null));
+			target.Data = XDocument.Load(TestHelper.GetFile(@"Renderers\xslt\books.xml"));
+            target.Xslt = XDocument.Load(TestHelper.GetFile(@"Renderers\xslt\books_simple.xslt"));
 
             string output;
             XrcRequest request = new XrcRequest(new Uri("http://test/"));
@@ -41,8 +41,8 @@ namespace xrc.Renderers
         [TestMethod]
         public void Transform_WithoutData()
         {
-            XsltRenderer target = new XsltRenderer();
-            target.Xslt = XDocument.Load(TestHelper.GetFile(@"Renderers\transform_withoutdata.xslt"));
+            XsltRenderer target = new XsltRenderer(new Mocks.ModuleFactoryMock(null), new Mocks.ModuleCatalogServiceMock(null));
+            target.Xslt = XDocument.Load(TestHelper.GetFile(@"Renderers\xslt\transform_withoutdata.xslt"));
 
             string output;
             XrcRequest request = new XrcRequest(new Uri("http://test/"));
@@ -65,9 +65,9 @@ namespace xrc.Renderers
         [TestMethod]
         public void Transform_Parameter()
         {
-            XsltRenderer target = new XsltRenderer();
-			target.Data = XDocument.Load(TestHelper.GetFile(@"Renderers\books.xml"));
-			target.Xslt = XDocument.Load(TestHelper.GetFile(@"Renderers\parameter.xslt"));
+            XsltRenderer target = new XsltRenderer(new Mocks.ModuleFactoryMock(null), new Mocks.ModuleCatalogServiceMock(null));
+            target.Data = XDocument.Load(TestHelper.GetFile(@"Renderers\xslt\books.xml"));
+            target.Xslt = XDocument.Load(TestHelper.GetFile(@"Renderers\xslt\parameter.xslt"));
 
             string output;
             XrcRequest request = new XrcRequest(new Uri("http://test/"));
@@ -91,9 +91,9 @@ namespace xrc.Renderers
         [TestMethod]
         public void Transform_Module_Extensions()
         {
-            XsltRenderer target = new XsltRenderer();
-			target.Data = XDocument.Load(TestHelper.GetFile(@"Renderers\books.xml"));
-			target.Xslt = XDocument.Load(TestHelper.GetFile(@"Renderers\extension.xslt"));
+            XsltRenderer target = new XsltRenderer(new Mocks.ModuleFactoryMock(new MyModuleExtension()), new Mocks.ModuleCatalogServiceMock(MyModuleExtension.Definition));
+            target.Data = XDocument.Load(TestHelper.GetFile(@"Renderers\xslt\books.xml"));
+            target.Xslt = XDocument.Load(TestHelper.GetFile(@"Renderers\xslt\extension.xslt"));
 
             string output;
             XrcRequest request = new XrcRequest(new Uri("http://test/"));
@@ -101,7 +101,6 @@ namespace xrc.Renderers
             {
                 XrcResponse response = new XrcResponse(outStream);
                 Context context = new Context(request, response);
-                context.Modules.Add(new Module("MyModule", typeof(MyModuleExtension)), new MyModuleExtension());
                 target.RenderRequest(context);
 
                 outStream.Seek(0, SeekOrigin.Begin);
@@ -114,8 +113,10 @@ namespace xrc.Renderers
             Assert.AreEqual("Hello from module", output);
         }
 
-        public class MyModuleExtension
+        public class MyModuleExtension : xrc.Modules.IModule
         {
+            public static ComponentDefinition Definition = new ComponentDefinition("MyModuleExt", typeof(MyModuleExtension));
+
             public string SayHelloFromModule()
             {
                 return "Hello from module";

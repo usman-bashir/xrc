@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using DynamicExpression;
+using xrc.Modules;
 
 namespace xrc.Script
 {
@@ -61,54 +62,47 @@ namespace xrc.Script
         [TestMethod()]
         public void It_should_be_possible_to_eval_script()
         {
-			ScriptService target = new ScriptService();
+            ScriptService target = new ScriptService(new Mocks.ModuleFactoryMock(new TestModule()));
 
-			Dictionary<string, Type> arguments = new Dictionary<string,Type>();
-			arguments.Add("Person", typeof(Person));
+            Modules.ModuleDefinitionList modules = new Modules.ModuleDefinitionList();
+            modules.Add(new ModuleDefinition("Test", TestModule.Definition));
 			IScriptExpression exp;
 
-			exp = target.Parse("\"ciao\"", arguments, typeof(string));
-			Assert.AreEqual("ciao", exp.Eval(new object[]{null}));
-            TestHelper.Throws<ParseException>(() => target.Parse("\"ciao\"", arguments, typeof(int)));
+			exp = target.Parse("\"ciao\"", modules, typeof(string));
+			Assert.AreEqual("ciao", target.Eval(exp, null));
+            TestHelper.Throws<ParseException>(() => target.Parse("\"ciao\"", modules, typeof(int)));
 
-            var person = new Person() { Name = "Davide", DateOfBirth = new DateTime(1981, 1, 1) };
+            exp = target.Parse("Test.Name", modules, typeof(string));
+            Assert.AreEqual("Davide", target.Eval(exp, null));
 
-            exp = target.Parse("Person.Name", arguments, typeof(string));
-            Assert.AreEqual("Davide", exp.Eval(person));
+            exp = target.Parse("Test[\"k1\"]", modules, typeof(string));
+            Assert.AreEqual("k1value", target.Eval(exp, null));
 
-            exp = target.Parse("Person[\"k1\"]", arguments, typeof(string));
-            Assert.AreEqual("k1value", exp.Eval(person));
+            exp = target.Parse("Test.Name + \" \" + Test.DateOfBirth.Year.ToString()", modules, typeof(string));
+            Assert.AreEqual("Davide 1981", target.Eval(exp, null));
 
-            exp = target.Parse("Person.Name + \" \" + Person.DateOfBirth.Year.ToString()", arguments, typeof(string));
-            Assert.AreEqual("Davide 1981", exp.Eval(person));
+            exp = target.Parse("Test.SayHello()", modules, typeof(string));
+            Assert.AreEqual("Hello Davide", target.Eval(exp, null));
 
-            exp = target.Parse("Person.SayHello()", arguments, typeof(string));
-            Assert.AreEqual("Hello Davide", exp.Eval(person));
-
-            TestHelper.Throws<ParseException>(() => target.Parse("Person.SayHello()", arguments, typeof(DateTime)));
+            TestHelper.Throws<ParseException>(() => target.Parse("Test.SayHello()", modules, typeof(DateTime)));
         }
 
-        public class Person
+        [TestMethod()]
+        public void It_should_be_possible_to_eval_script_context()
         {
-            public string Name { get; set; }
-            public int Age { get; set; }
-            public DateTime DateOfBirth { get; set; }
+            ScriptService target = new ScriptService(new Mocks.ModuleFactoryMock(null));
 
-            public string SayHello()
-            {
-                return string.Format("Hello {0}", Name);
-            }
+            Modules.ModuleDefinitionList modules = new Modules.ModuleDefinitionList();
+            IScriptExpression exp;
 
-            public string this[string key]
-            {
-                get { return key + "value"; }
-            }
+            exp = target.Parse("Context.WorkingPath", modules, typeof(string));
+            Assert.AreEqual("testValue", target.Eval(exp, new ContextMock()));
         }
 
 		[TestMethod()]
 		public void It_Should_be_possible_to_ExtractInlineScript()
 		{
-			ScriptService target = new ScriptService();
+			ScriptService target = new ScriptService(new Mocks.ModuleFactoryMock(null));
 
 			string expression;
 			bool valid;
@@ -135,5 +129,125 @@ namespace xrc.Script
 			Assert.AreEqual(false, valid);
 		}
 
+        public class TestModule : IModule
+        {
+            public static ComponentDefinition Definition = new ComponentDefinition("TestModule", typeof(TestModule));
+
+            public string Name { get { return "Davide"; } }
+            public int Age { get { return 30; } }
+            public DateTime DateOfBirth { get { return new DateTime(1981, 1, 1); } }
+
+            public string SayHello()
+            {
+                return string.Format("Hello {0}", Name);
+            }
+
+            public string this[string key]
+            {
+                get { return key + "value"; }
+            }
+        }
+
+        public class ContextMock : IContext
+        {
+            public System.Web.HttpRequestBase Request
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+                set
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            public System.Web.HttpResponseBase Response
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+                set
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            public Configuration.ISiteConfiguration Configuration
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+                set
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            public string WorkingPath
+            {
+                get
+                {
+                    return "testValue";
+                }
+                set
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            public SiteManager.MashupFile File
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+                set
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            public Dictionary<string, string> Parameters
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public SiteManager.MashupPage Page
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+                set
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            public RenderSlotEventHandler SlotCallback
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+                set
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            public string GetAbsoluteUrl(string url)
+            {
+                throw new NotImplementedException();
+            }
+
+            public string GetAbsoluteFile(string file)
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

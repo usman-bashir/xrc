@@ -9,7 +9,7 @@ namespace xrc.Modules
 {
     // TODO This code is very similar to the one of HtmlModule.Slot. Maybe I can merge it?
 
-    public class HtmlModule : IHtmlModule
+    public class HtmlModule : IModule
     {
         private IContext _context;
         private IKernel _kernel;

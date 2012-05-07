@@ -14,7 +14,6 @@ namespace xrc
 		private HttpRequestBase _request;
 		private HttpResponseBase _response;
         private Dictionary<string, string> _parameters = new Dictionary<string, string>();
-        private Dictionary<Module, object> _modules = new Dictionary<Module, object>();
 
 		public Context(HttpRequestBase request, HttpResponseBase response)
         {
@@ -66,11 +65,6 @@ namespace xrc
         public Dictionary<string, string> Parameters
         {
             get { return _parameters; }
-        }
-
-        public Dictionary<Module, object> Modules
-        {
-            get { return _modules; }
         }
 
         public RenderSlotEventHandler SlotCallback

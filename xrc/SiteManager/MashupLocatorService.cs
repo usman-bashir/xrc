@@ -9,16 +9,12 @@ namespace xrc.SiteManager
 {
     public class MashupLocatorService : IMashupLocatorService
     {
-        public MashupLocatorService(IRootPath location)
-            : this(location.Path)
+        public MashupLocatorService(WorkingPath workingPath)
         {
-        }
-        public MashupLocatorService(string applicationPath)
-        {
-            if (!System.IO.Directory.Exists(applicationPath))
-                throw new ApplicationException(string.Format("Path '{0}' doesn't exist.", applicationPath));
+            if (!System.IO.Directory.Exists(workingPath))
+                throw new ApplicationException(string.Format("Path '{0}' doesn't exist.", workingPath));
 
-            Root = new MashupFolder(applicationPath);
+            Root = new MashupFolder(workingPath);
 		}
 
 		public MashupFolder Root

@@ -36,10 +36,16 @@ namespace xrc.Configuration
             get { return this["parameters"] as SiteParameterCollection; }
         }
 
-        //[ConfigurationProperty("modules")]
-        //public ModuleCollection Modules
-        //{
-        //    get { return this["modules"] as ModuleCollection; }
-        //}
+        [ConfigurationProperty("modules")]
+        public ComponentCollection Modules
+        {
+            get { return this["modules"] as ComponentCollection; }
+        }
+
+        [ConfigurationProperty("renderers")]
+        public ComponentCollection Renderers
+        {
+            get { return this["renderers"] as ComponentCollection; }
+        }
     }
 }

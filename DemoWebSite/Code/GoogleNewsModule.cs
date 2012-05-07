@@ -7,7 +7,7 @@ using System.Net;
 
 namespace DemoWebSite
 {
-    public class GoogleNewsModule
+    public class GoogleNewsModule : xrc.Modules.IModule
     {
         public JsonValue Search(string searchValue)
         {

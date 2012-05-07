@@ -2,25 +2,9 @@
 <xrc:xrc xmlns:xrc="urn:xrc">
 
 	<xrc:action method="GET">
-		<xrc:renderer type="XsltRenderer" slot="SLOT1">
-      <xslt>@File.Xml("books.xslt")</xslt>
-      <data xmlns="">
-        <bookstore />
-      </data>
-    </xrc:renderer>
-    <xrc:renderer type="XsltRenderer" slot="slot2">
-      <xslt>@File.Xml("books.xslt")</xslt>
-      <data xmlns="">
-        <bookstore />
-      </data>
-    </xrc:renderer>
-    <xrc:renderer type="XsltRenderer" slot="SLOT3">
-      <xslt>@File.Xml("books.xslt")</xslt>
-      <data xmlns="">
-        <bookstore />
-      </data>
-    </xrc:renderer>
-
+		<xrc:renderer type="TestRenderer" slot="SLOT1" />
+    <xrc:renderer type="TestRenderer" slot="slot2" />
+    <xrc:renderer type="TestRenderer" slot="SLOT3" />
   </xrc:action>
 
 </xrc:xrc>

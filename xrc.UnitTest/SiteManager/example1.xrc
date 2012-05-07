@@ -2,9 +2,8 @@
 <xrc:xrc xmlns:xrc="urn:xrc">
 
 	<xrc:action method="GET">
-		<xrc:renderer type="XsltRenderer">
-      <xslt>@File.Xml("books.xslt")</xslt>
-      <data>@File.Xml("books.xml")</data>
+		<xrc:renderer type="TestRenderer">
+      <scriptProperty>@DummyScript</scriptProperty>
     </xrc:renderer>
 
 		<xrc:outputcache />

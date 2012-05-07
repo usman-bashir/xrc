@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace xrc
+namespace xrc.Modules
 {
-	public class Module
+	public class ModuleDefinition
 	{
-		public Module(string name, Type type)
+        public ModuleDefinition(string name, ComponentDefinition component)
 		{
 			if (string.IsNullOrWhiteSpace(name))
 				throw new ArgumentNullException("name");
-			if (type == null)
-				throw new ArgumentNullException("type");
+            if (component == null)
+                throw new ArgumentNullException("component");
 
 			Name = name;
-			ModuleType = type;
+            Component = component;
 		}
 
 		public string Name
@@ -24,7 +24,7 @@ namespace xrc
 			private set;
 		}
 
-		public Type ModuleType
+        public ComponentDefinition Component
 		{
 			get;
 			private set;

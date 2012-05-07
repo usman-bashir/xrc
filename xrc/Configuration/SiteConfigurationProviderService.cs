@@ -10,10 +10,6 @@ namespace xrc.Configuration
     {
         private Dictionary<string, ISiteConfiguration> _sites = new Dictionary<string,ISiteConfiguration>();
 
-        public SiteConfigurationProviderService():this(XrcSection.GetSection())
-        {
-        }
-
         public SiteConfigurationProviderService(XrcSection section)
         {
             if (section == null)

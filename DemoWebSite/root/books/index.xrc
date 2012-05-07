@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<xrc:xrc xmlns:xrc="urn:xrc">
+<xrc:xrc xmlns:xrc="urn:xrc"
+         xmlns:File="xrc:FileModule">
 
 	<xrc:action method="GET" parent="~/shared/_layout">
 		<xrc:renderer type="XsltRenderer">

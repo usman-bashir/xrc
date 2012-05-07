@@ -141,7 +141,7 @@ namespace xrc.Configuration
         public void It_should_be_possible_to_read_configuration_file()
         {
             // see App.config
-            SiteConfigurationProviderService target = new SiteConfigurationProviderService();
+            SiteConfigurationProviderService target = new SiteConfigurationProviderService(XrcSection.GetSection());
             ISiteConfiguration configuration;
 
             configuration = target.GetSiteFromUri(new Uri("http://www.northwind.com"));

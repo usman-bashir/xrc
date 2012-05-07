@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Castle.Windsor;
-using Castle.MicroKernel.Registration;
 using xrc.SiteManager;
 using xrc.Configuration;
 using System.IO;
 using System.Reflection;
 using xrc.Renderers;
 using System.Web;
+using xrc.Script;
 
 namespace xrc
 {
@@ -18,117 +17,34 @@ namespace xrc
         private IMashupParserService _parser;
         private ISiteConfigurationProviderService _siteConfigurationProvider;
         private IMashupLocatorService _fileLocator;
-        private string _workingPath;
+        private IRendererFactory _rendererFactory;
+        private IScriptService _scriptService;
 
-		#region Static code
-        private static Kernel _current;
-        public static Kernel Current
-		{
-			get { return _current; }
+        public Kernel(IRendererFactory rendererFactory,
+                    IMashupParserService parser,
+                    ISiteConfigurationProviderService siteConfigurationProvider,
+                    IMashupLocatorService fileLocator,
+                    IScriptService scriptService)
+        {
+            _rendererFactory = rendererFactory;
+            _parser = parser;
+            _siteConfigurationProvider = siteConfigurationProvider;
+            _fileLocator = fileLocator;
+            _scriptService = scriptService;
 		}
-		public static void Start(Kernel kernel)
-		{
-			kernel.Init();
+
+        // TODO Check if it is possible to remove this static reference
+        #region Static
+        private static IKernel _current;
+        public static void Init(IKernel kernel)
+        {
             _current = kernel;
-		}
-		#endregion
-
-        public Kernel(string workingPath)
-        {
-            _workingPath = workingPath;
-		}
-
-        protected virtual void Init()
-        {
-            BootstrapContainer();
-
-            _parser = _container.Resolve<IMashupParserService>();
-            _siteConfigurationProvider = _container.Resolve<ISiteConfigurationProviderService>();
-            _fileLocator = _container.Resolve<IMashupLocatorService>();
-
-            Modules.Add(new Module("Kernel", typeof(IKernel)));
-            Modules.Add(new Module("Context", typeof(IContext)));
-            Modules.Add(new Module("File", typeof(Modules.IFileModule)));
-            Modules.Add(new Module("Html", typeof(Modules.IHtmlModule)));
-            Modules.Add(new Module("Url", typeof(Modules.IUrlModule)));
-            Modules.Add(new Module("Slot", typeof(Modules.ISlotModule)));
         }
-
-        #region Windsor IoC
-        private IWindsorContainer _container;
-        private void BootstrapContainer()
+        public static IKernel Current
         {
-            _container = new WindsorContainer()
-                .Install(Castle.Windsor.Installer.FromAssembly.This());
-
-            RegisterComponentsFromAssembly(Assembly.GetExecutingAssembly());
-
-            _container.Register(Component.For<IKernel, IRootPath>().Instance(this));
-        }
-
-        protected void RegisterComponentsFromAssembly(Assembly assembly)
-        {
-            // TODO Verificare che questo metodo di inizializzazione e registrazione sia corretto
-            _container.Register(Classes.FromAssembly(assembly)
-                                .Where(p => p.Name.EndsWith("Service"))
-                                .WithServiceAllInterfaces()
-                                .LifestyleSingleton());
-
-            // TODO E' corretto transient? Forse meglio usare scoped?
-            // TODO Valutare se usare interfaccie per renderer e module
-            _container.Register(Classes.FromAssembly(assembly)
-                                .Where(p => p.Name.EndsWith("Renderer"))
-                                .LifestyleTransient());
-            _container.Register(Classes.FromAssembly(assembly)
-                                .Where(p => p.Name.EndsWith("Module"))
-                                .WithServiceAllInterfaces()
-                                .WithServiceSelf()
-                                .LifestyleTransient());
+            get { return _current; }
         }
         #endregion
-
-        public string Path
-        {
-            get { return _workingPath; }
-        }
-
-        //public IContext Context
-        //{
-        //    get
-        //    {
-        //        // TODO Rivedere questa parte...gestire casi in cui non c'è un HttpContext 
-        //        //  o quando ci sono chiamate nested al xrc e quindi il context è sempre lo stesso...
-        //        if (System.Web.HttpContext.Current == null)
-        //            throw new ApplicationException("HttpContext is null");
-
-		//        var context = System.Web.HttpContext.Current.Items["XrcContext"] as IContext;
-        //        return context;
-        //    }
-        //    private set
-        //    {
-        //        if (System.Web.HttpContext.Current == null)
-        //            throw new ApplicationException("HttpContext is null");
-
-        //        System.Web.HttpContext.Current.Items["XrcContext"] = value;
-        //    }
-        //}
-
-        //public object GetModule(Type moduleType, object arguments)
-        //{
-        //    return _container.Resolve(moduleType, arguments);
-        //}
-
-        //public T GetModule<T>(object arguments)
-        //{
-        //    // TODO Devo fare il releasse dei moduli?
-        //    return _container.Resolve<T>(arguments);
-        //}
-
-        private List<Module> _modules = new List<Module>();
-        public List<Module> Modules
-		{
-			get { return _modules; }
-		}
 
         #region Processing pipeline
         protected virtual void BeginRequest(IContext context)
@@ -139,13 +55,6 @@ namespace xrc
         {
         }
 
-        private IRenderer CreateRenderer(Type type)
-        {
-            // TODO There are other way to create the components?
-            // Should I release it?
-            return (IRenderer)_container.Resolve(type);
-        }
-
         public void RenderRequest(IContext context)
         {
 			// TODO se lo user chiede http://localhost:8082/demowebsite/widgets
@@ -154,8 +63,6 @@ namespace xrc
             //Process pipeline
 
             BeginRequest(context);
-
-            LoadContextModules(context);
 
             LoadConfiguration(context);
 
@@ -169,27 +76,25 @@ namespace xrc
 
             LoadParameters(context);
 
-            var action = context.Page[context.Request.HttpMethod];
+            var action = context.Page.Actions[context.Request.HttpMethod];
             if (action == null)
             {
                 ProcessRequestNotFound(context);
                 return;
             }
 
-            var renderers = LoadRenderers(action, context.Modules.Values.ToArray());
-
             if (!string.IsNullOrWhiteSpace(action.Parent))
-                RenderParent(context, action, renderers);
+                RenderParent(context, action);
             else
             {
-                foreach (var r in renderers)
-                    r.Value.RenderRequest(context);
+                foreach (var renderer in action.Renderers)
+                    RunRenderer(context, action, renderer);
             }
 
             EndRequest(context);
         }
 
-        private void RenderParent(IContext context, MashupAction action, Dictionary<string, IRenderer> renderers)
+        private void RenderParent(IContext context, MashupAction action)
         {
 			HttpResponseBase currentResponse = context.Response;
 
@@ -202,6 +107,7 @@ namespace xrc
             Context parentContext = new Context(new XrcRequest(parentUri), currentResponse);
             foreach (var item in context.Parameters)
                 parentContext.Parameters.Add(item.Key, item.Value);
+
             parentContext.SlotCallback = (s, e) =>
                 {
                     using (MemoryStream stream = new MemoryStream())
@@ -210,9 +116,9 @@ namespace xrc
                         {
                             context.Response = response;
 
-                            IRenderer renderer;
-                            if (renderers.TryGetValue(e.Name, out renderer))
-                                renderer.RenderRequest(context);
+                            RendererDefinition rendererDefinition = action.Renderers[e.Name];
+                            if (rendererDefinition != null)
+                                RunRenderer(context, action, rendererDefinition);
                         }
 
                         // TODO Come gestire i casi di errore?
@@ -234,23 +140,6 @@ namespace xrc
         {
             context.Response.StatusCode = (int)System.Net.HttpStatusCode.NotFound;
             context.Response.StatusDescription = string.Format("Resource '{0}' not found.", context.Request.Url);
-        }
-
-        private void LoadContextModules(IContext context)
-        {
-            // TODO Devo fare release? (potrei farla nella EndRequest)
-            foreach (var m in Modules)
-            {
-                if (m.ModuleType == typeof(IKernel))
-                    context.Modules.Add(m, this);
-                else if (m.ModuleType == typeof(IContext))
-                    context.Modules.Add(m, context);
-                else
-                {
-                    object module = _container.Resolve(m.ModuleType, new { context = context });
-                    context.Modules.Add(m, module);
-                }
-            }
         }
 
         private void LoadConfiguration(IContext context)
@@ -284,31 +173,31 @@ namespace xrc
 
         private void LoadXrcDefinition(IContext context)
         {
-            context.Page = _parser.Parse(context.File.FullPath, Modules.ToArray());
+            context.Page = _parser.Parse(context.File.FullPath);
         }
 
-        private Dictionary<string, IRenderer> LoadRenderers(MashupAction action, object[] modules)
+        private void RunRenderer(IContext context, MashupAction action, RendererDefinition rendererDefinition)
         {
-            Dictionary<string, IRenderer> renderers = new Dictionary<string, IRenderer>(StringComparer.OrdinalIgnoreCase);
-
-            foreach (var rendererDefinition in action)
+            IRenderer renderer = _rendererFactory.Get(rendererDefinition.Component, context);
+            try
             {
-                IRenderer renderer = CreateRenderer(rendererDefinition.RendererType);
-                foreach (var property in rendererDefinition)
+                foreach (var property in rendererDefinition.Properties)
                 {
                     object value;
                     if (property.Expression != null)
-                        value = property.Expression.Eval(modules);
+                        value = _scriptService.Eval(property.Expression, context);
                     else
                         value = property.Value;
 
                     property.PropertyInfo.SetValue(renderer, value, null);
                 }
 
-                renderers.Add(rendererDefinition.Slot, renderer);
+                renderer.RenderRequest(context);
             }
-
-            return renderers;
+            finally
+            {
+                _rendererFactory.Release(renderer);
+            }
         }
         #endregion
     }

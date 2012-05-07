@@ -31,12 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core">
-      <HintPath>..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.Windsor">
-      <HintPath>..\packages\Castle.Windsor.3.0.0.4001\lib\net40\Castle.Windsor.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -52,18 +46,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\ModuleCollection.cs" />
-    <Compile Include="Configuration\ModuleElement.cs" />
+    <Compile Include="Components\ComponentCatalogService.cs" />
+    <Compile Include="Components\ComponentDefinitionList.cs" />
+    <Compile Include="Configuration\ComponentCollection.cs" />
+    <Compile Include="Configuration\ComponentElement.cs" />
+    <Compile Include="Configuration\WorkingPath.cs" />
     <Compile Include="Context\Context.cs" />
     <Compile Include="Context\IContext.cs" />
     <Compile Include="ConvertEx.cs" />
+    <Compile Include="Components\ComponentDefinition.cs" />
+    <Compile Include="Modules\ModuleCatalogService.cs" />
+    <Compile Include="Modules\IModuleCatalogService.cs" />
+    <Compile Include="Modules\ModuleDefinitionList.cs" />
+    <Compile Include="Modules\ModuleDefinition.cs" />
+    <Compile Include="Modules\IModuleFactory.cs" />
+    <Compile Include="Renderers\IRendererCatalogService.cs" />
+    <Compile Include="Renderers\IRendererFactory.cs" />
     <Compile Include="Kernel\RenderSlotEvent.cs" />
-    <Compile Include="Modules\ISlotModule.cs" />
+    <Compile Include="Modules\IModule.cs" />
     <Compile Include="Modules\SlotModule.cs" />
     <Compile Include="Modules\UrlModule.cs" />
-    <Compile Include="Modules\IUrlModule.cs" />
     <Compile Include="Modules\HtmlModule.cs" />
-    <Compile Include="Modules\IHtmlModule.cs" />
     <Compile Include="Modules\FileModule.cs" />
     <Compile Include="Kernel\Kernel.cs" />
     <Compile Include="Kernel\IKernel.cs" />
@@ -76,12 +79,9 @@
     <Compile Include="Configuration\SiteParameterElement.cs" />
     <Compile Include="Configuration\SiteCollection.cs" />
     <Compile Include="Configuration\SiteElement.cs" />
-    <Compile Include="Configuration\TypeResolverService.cs" />
     <Compile Include="Controller\XrcController.cs" />
     <Compile Include="HttpHandler\HttpHandler.cs" />
-    <Compile Include="Modules\IFileModule.cs" />
-    <Compile Include="Modules\IModuleFactory.cs" />
-    <Compile Include="Modules\Module.cs" />
+    <Compile Include="Renderers\RendererCatalogService.cs" />
     <Compile Include="Renderers\SlotRenderer.cs" />
     <Compile Include="Renderers\XmlRenderer.cs" />
     <Compile Include="Reflection.cs" />
@@ -91,6 +91,9 @@
     <Compile Include="Script\DynamicExpression\Dynamic.cs" />
     <Compile Include="Script\DynamicExpression\FunctionFactory.cs" />
     <Compile Include="Script\IScriptExpression.cs" />
+    <Compile Include="SiteManager\XPropertyList.cs" />
+    <Compile Include="SiteManager\RendererDefinitionList.cs" />
+    <Compile Include="SiteManager\MashupActionList.cs" />
     <Compile Include="SiteManager\MashupFolder.cs" />
     <Compile Include="SiteManager\MashupParserService.cs" />
     <Compile Include="SiteManager\MashupLocatorService.cs" />

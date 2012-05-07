@@ -8,6 +8,7 @@ using System.Reflection;
 using xrc.Script;
 using System.Globalization;
 using xrc.Renderers;
+using xrc.Modules;
 
 namespace xrc.SiteManager
 {
@@ -26,18 +27,25 @@ namespace xrc.SiteManager
         private static XName PARENT = "parent";
         private static XName SLOT = "slot";
 
-        private IScriptService _scriptService;
+        private const string MODULE_PREFIX = "xrc";
 
-		public MashupParserService(IScriptService scriptService)
+        private IScriptService _scriptService;
+        private IModuleCatalogService _moduleCatalog;
+        private IRendererCatalogService _rendererCatalog;
+
+        public MashupParserService(IScriptService scriptService, IModuleCatalogService moduleCatalog, IRendererCatalogService rendererCatalog)
         {
             _scriptService = scriptService;
+            _moduleCatalog = moduleCatalog;
+            _rendererCatalog = rendererCatalog;
         }
 
         // TODO Qui si può parsificare il file una solva volta e metterlo in cache (con dipendenza al file?)
-        public MashupPage Parse(string file, Module[] modules)
+        public MashupPage Parse(string file)
         {
             try
             {
+                // TODO Valutare se usare Xpath per la lettura
                 XDocument xdoc = XDocument.Load(file);
 
                 MashupPage page = new MashupPage();
@@ -46,7 +54,7 @@ namespace xrc.SiteManager
 				if (rootElement == null)
 					throw new ApplicationException(string.Format("Element root '{0}' not found.", XRC));
 
-                // TODO Valutare se usare Xpath per la lettura
+                ParseModules(xdoc, page);
 
                 foreach (var actionElement in xdoc.Root.Elements(ACTION))
                 {
@@ -57,11 +65,11 @@ namespace xrc.SiteManager
 
                     foreach (var rendererElement in actionElement.Elements(RENDERER))
                     {
-                        var renderer = ParseRenderer(rendererElement, modules);
-                        action.Add(renderer);
+                        var renderer = ParseRenderer(rendererElement, page);
+                        action.Renderers.Add(renderer);
                     }
 
-                    page.Add(action);
+                    page.Actions.Add(action);
                 }
 
                 var paramsElement = xdoc.Root.Element(PARAMETERS);
@@ -76,6 +84,22 @@ namespace xrc.SiteManager
             }
         }
 
+        private void ParseModules(XDocument doc, MashupPage page)
+        {
+            foreach (var attr in doc.Root.Attributes())
+            {
+                if (attr.Name.Namespace == XNamespace.Xmlns)
+                {
+                    Uri moduleUri = new Uri(attr.Value);
+                    if (moduleUri.Scheme == MODULE_PREFIX)
+                    {
+                        var moduleDefinition = new ModuleDefinition(attr.Name.LocalName, _moduleCatalog.Get(moduleUri.Segments[0]));
+                        page.Modules.Add(moduleDefinition);
+                    }
+                }
+            }
+        }
+
         private void ParseParameters(XElement paramsElement, MashupPage page)
         {
             foreach (var actionElement in paramsElement.Elements(ADD))
@@ -86,33 +110,33 @@ namespace xrc.SiteManager
             }
         }
 
-        private RendererDefinition ParseRenderer(XElement xElement, Module[] modules)
+        private RendererDefinition ParseRenderer(XElement xElement, MashupPage page)
 		{
 			string typeName = xElement.AttributeAs<string>(TYPE);
-			Type type = TypeResolverService.ResolveType(typeName);
-			if (type == null)
-				throw new ApplicationException(string.Format("Type '{0}' not found'.", typeName));
-			if (!typeof(IRenderer).IsAssignableFrom(type))
-				throw new ApplicationException(string.Format("Type '{0}' is not a renderer.", type));
+            ComponentDefinition component = _rendererCatalog.Get(typeName);
+            if (component == null)
+				throw new ApplicationException(string.Format("Component '{0}' not found'.", typeName));
+			if (!typeof(IRenderer).IsAssignableFrom(component.Type))
+                throw new ApplicationException(string.Format("Type '{0}' is not a renderer.", component.Type));
 
             string slot = string.Empty;
             if (xElement.Attribute(SLOT) != null)
                 slot = xElement.AttributeAs<string>(SLOT);
 
-            RendererDefinition renderer = new RendererDefinition(type, slot);
+            RendererDefinition renderer = new RendererDefinition(component, slot);
 
             // TODO Escludere le property con un namespace? O usare un namespace particolare per le property?
             foreach (var element in xElement.Elements())
 			{
-                var property = ParseProperty(element, type, modules);
+                var property = ParseProperty(element, component.Type, page);
 
-                renderer.Add(property);
+                renderer.Properties.Add(property);
 			}
 
 			return renderer;
 		}
 
-        private XProperty ParseProperty(XElement element, Type ownerType, Module[] modules)
+        private XProperty ParseProperty(XElement element, Type ownerType, MashupPage page)
         {
             var property = ownerType.GetProperty(element.Name.LocalName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
             if (property == null)
@@ -140,11 +164,7 @@ namespace xrc.SiteManager
                 string script;
                 if (_scriptService.TryExtractInlineScript(element.Value, out script))
                 {
-                    Dictionary<string, Type> arguments = new Dictionary<string, Type>();
-                    foreach (var m in modules)
-                        arguments.Add(m.Name, m.ModuleType);
-
-                    IScriptExpression expression = _scriptService.Parse(script, arguments, property.PropertyType);
+                    IScriptExpression expression = _scriptService.Parse(script, page.Modules, property.PropertyType);
                     return new XProperty(property, expression);
                 }
                 else

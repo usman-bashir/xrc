@@ -5,7 +5,7 @@ using System.Web;
 
 namespace DemoWebSite
 {
-	public class PlayerModule
+    public class PlayerModule : xrc.Modules.IModule
 	{
 		public Player GetPlayer()
 		{

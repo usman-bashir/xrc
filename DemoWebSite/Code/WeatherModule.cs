@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace DemoWebSite
 {
-    public class WeatherModule
+    public class WeatherModule : xrc.Modules.IModule
     {
         public XDocument Get(string location)
         {

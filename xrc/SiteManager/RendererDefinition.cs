@@ -7,21 +7,21 @@ namespace xrc.SiteManager
 {
     public class RendererDefinition : XClass
     {
-        private Type _type;
+        private ComponentDefinition _component;
         private string _slot;
 
-        public RendererDefinition(Type type, string slot)
+        public RendererDefinition(ComponentDefinition component, string slot)
         {
             if (slot == null)
                 slot = string.Empty;
 
-            _type = type;
+            _component = component;
             _slot = slot.ToLower();
         }
 
-        public Type RendererType
+        public ComponentDefinition Component
         {
-            get { return _type; }
+            get { return _component; }
         }
 
         public string Slot

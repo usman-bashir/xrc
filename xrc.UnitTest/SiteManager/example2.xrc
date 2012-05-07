@@ -2,9 +2,8 @@
 <xrc:xrc xmlns:xrc="urn:xrc">
 
 	<xrc:action method="GET">
-		<xrc:renderer type="XsltRenderer">
-      <xslt>@File.Xml("books.xslt")</xslt>
-      <data xmlns="">
+		<xrc:renderer type="TestRenderer">
+      <XDocProperty xmlns="">
         <bookstore>
           <book>
             <title>Book 1</title>
@@ -13,7 +12,7 @@
             <title>Book 2</title>
           </book>
         </bookstore>
-      </data>
+      </XDocProperty>
     </xrc:renderer>
 
 		<xrc:outputcache />

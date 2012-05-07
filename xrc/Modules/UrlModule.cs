@@ -7,7 +7,7 @@ using System.IO;
 
 namespace xrc.Modules
 {
-    public class UrlModule : IUrlModule
+    public class UrlModule : IModule
     {
         private IContext _context;
         public UrlModule(IContext context)

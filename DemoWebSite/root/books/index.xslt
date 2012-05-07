@@ -1,7 +1,7 @@
 ﻿<xsl:stylesheet version="1.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:Url="urn:xrc/Url"
-                xmlns:Html="urn:xrc/Html" 
+                xmlns:Url="xrc:UrlModule"
+                xmlns:Html="xrc:HtmlModule" 
                 exclude-result-prefixes="Html Url">
   <xsl:output omit-xml-declaration="yes"/>
   
