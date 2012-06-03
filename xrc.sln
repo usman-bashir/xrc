@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0C914B1E-05A1-401F-BD55-1286523C0CED}"
 	ProjectSection(SolutionItems) = preProject
 		Local.testsettings = Local.testsettings
+		README = README
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 		xrc.vsmdi = xrc.vsmdi
 	EndProjectSection
@@ -19,6 +20,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{D9CD02D9-3452-46F3-ADD3-4897957E4734}"
 	ProjectSection(SolutionItems) = preProject
 		docs\note.txt = docs\note.txt
+		README = README
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xrc.Windsor", "xrc.Windsor\xrc.Windsor.csproj", "{2496197E-8B17-4AA0-98B2-E57B2C924EDF}"
