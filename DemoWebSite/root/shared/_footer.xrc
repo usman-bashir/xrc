@@ -6,8 +6,10 @@
 	<xrc:action method="GET">
 		<xrc:renderer type="XHtmlRenderer">
       <content>
-        <div style="text-align:center;background-color:gray;">
-          This is the footer content
+        <div class="row-fluid">
+          <div id="footer" class="span12">
+            This is the footer content
+          </div>
         </div>
       </content>
       

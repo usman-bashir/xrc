@@ -15,16 +15,28 @@
         <title>
           <xsl:value-of select="$title" />
         </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <!-- jquery -->
+        <script type="text/javascript" src="{Url:Content('~/scripts/jquery-1.7.2.min.js')}">//</script>
+
+        <!-- bootstrap -->
+        <link rel="Stylesheet" type="text/css" href="{Url:Content('~/content/bootstrap.min.css')}" />
+        <link rel="Stylesheet" type="text/css" href="{Url:Content('~/content/bootstrap-responsive.min.css')}" />
+        <script type="text/javascript" src="{Url:Content('~/scripts/bootstrap.min.js')}">//</script>
+
         <link rel="stylesheet" type="text/css" href="{Url:Content('~/css/demo.css')}" />
       </head>
       <body>
 
-        <xsl:value-of disable-output-escaping="yes" select="Html:Action('~/shared/_header')" />
+        <div class="container-fluid">
+          <xsl:value-of disable-output-escaping="yes" select="Html:Action('~/shared/_header')" />
 
-        <xsl:value-of disable-output-escaping="yes" select="Slot:Include()" />
+          <xsl:value-of disable-output-escaping="yes" select="Slot:Include()" />
 
-        <xsl:value-of disable-output-escaping="yes" select="Html:Action('~/shared/_footer')" />
-
+          <xsl:value-of disable-output-escaping="yes" select="Html:Action('~/shared/_footer')" />
+        </div>
+        
       </body>
     </html>
   </xsl:template>
