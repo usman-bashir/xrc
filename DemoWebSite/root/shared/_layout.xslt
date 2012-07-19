@@ -23,9 +23,16 @@
         <!-- bootstrap -->
         <link rel="Stylesheet" type="text/css" href="{Url:Content('~/content/bootstrap.min.css')}" />
         <link rel="Stylesheet" type="text/css" href="{Url:Content('~/content/bootstrap-responsive.min.css')}" />
-        <script type="text/javascript" src="{Url:Content('~/scripts/bootstrap.min.js')}">//</script>
+        <script type="text/javascript" src="{Url:Content('~/scripts/bootstrap.min.js')}">
+          <xsl:text xml:space="preserve"> </xsl:text>
+        </script>
 
-        <link rel="stylesheet" type="text/css" href="{Url:Content('~/css/demo.css')}" />
+        <!-- knockoutjs -->
+        <script type="text/javascript" src="{Url:Content('~/scripts/knockout-2.1.0.js')}">
+          <xsl:text xml:space="preserve"> </xsl:text>
+        </script>
+
+        <link rel="stylesheet" type="text/css" href="{Url:Content('~/content/demo.css')}" />
       </head>
       <body>
 

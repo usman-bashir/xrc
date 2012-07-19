@@ -6,8 +6,6 @@
 		<xrc:renderer type="XHtmlRenderer">
       <content>@File.Xml("index.xhtml")</content>
     </xrc:renderer>
-
-		<xrc:outputcache />
   </xrc:action>
 
 	<xrc:parameters>

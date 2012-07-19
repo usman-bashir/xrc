@@ -40,9 +40,9 @@ namespace xrc
 
                     return _list[name];
                 }
-                catch (KeyNotFoundException ex)
+                catch (KeyNotFoundException)
                 {
-                    throw new KeyNotFoundException(string.Format("Component for key '{0}' not found.", name));
+                    throw new KeyNotFoundException(string.Format("Component with name '{0}' not found.", name));
                 }
             }
         }

@@ -7,8 +7,6 @@
       <xslt>@File.Xml("index.xslt")</xslt>
       <data>@File.Xml("books.xml")</data>
     </xrc:renderer>
-
-		<xrc:outputcache />
   </xrc:action>
 
 	<xrc:parameters>

@@ -2,22 +2,17 @@
   <xsl:param name="genre"/>
   
   <xsl:template match="bookstore">
-    <HTML>
-      <BODY>
-
-        <h1>Books by genre <xsl:value-of select="$genre"/>
-        </h1>
+    <h1>Books by genre <xsl:value-of select="$genre"/>
+    </h1>
         
-        <TABLE BORDER="2">
-          <TR>
-            <TD>ISBN</TD>
-            <TD>Title</TD>
-            <TD>Price</TD>
-          </TR>
-          <xsl:apply-templates select="book[@genre=$genre]"/>
-        </TABLE>
-      </BODY>
-    </HTML>
+    <TABLE BORDER="2">
+      <TR>
+        <TD>ISBN</TD>
+        <TD>Title</TD>
+        <TD>Price</TD>
+      </TR>
+      <xsl:apply-templates select="book[@genre=$genre]"/>
+    </TABLE>
   </xsl:template>
   <xsl:template match="book">
     <TR>

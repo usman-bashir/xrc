@@ -2,13 +2,16 @@
 <xrc:xrc xmlns:xrc="urn:xrc"
          xmlns:File="xrc:FileModule">
 
-	<xrc:action method="GET">
+	<xrc:action method="GET" parent="~/shared/_layout">
 		<xrc:renderer type="XsltRenderer">
       <xslt>@File.Xml("books_genre.xslt")</xslt>
       <data>@File.Xml("..\..\books.xml")</data>
     </xrc:renderer>
-
-		<xrc:outputcache />
   </xrc:action>
+
+  <xrc:parameters>
+    <!-- TODO: Enable this syntax in some way. Maybe using a function? -->
+    <xrc:add key="title" value="My books - {genre}" />
+  </xrc:parameters>
 
 </xrc:xrc>

@@ -36,14 +36,14 @@ namespace DemoWebSite
 
         private void RegisterRoutes(RouteCollection routes)
 		{
-            // Standard mvc route
 			// Catch all the path starting with "mvc"
 			routes.MapRoute(
 			     "mvc_route",
 			     "mvc/{controller}/{action}/{id}",
 			     new { controller = "Home", action = "Index", id = UrlParameter.Optional });
 
-			//routes.MapRoute(
+            // Standard mvc route
+            //routes.MapRoute(
 			//     "Default", // Route name
 			//     "{controller}/{action}/{id}", // URL with parameters
 			//     new { controller = "Home", action = "Index", id = UrlParameter.Optional }); // Parameter defaults
@@ -58,6 +58,7 @@ namespace DemoWebSite
             // Catch all
             routes.Add("xrc_route", new Route("{*path}", new xrc.XrcRouteHandler()));
 
+            // Xrc using a controller
             //routes.MapRoute("xrc", "{*path}", new { controller = "XrcController", action = "DoWork" });
         }
     }
