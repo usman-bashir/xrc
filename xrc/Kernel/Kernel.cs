@@ -59,6 +59,7 @@ namespace xrc
         {
 			// TODO se lo user chiede http://localhost:8082/demowebsite/widgets
 			// e widgets è una directory, devo fare il redirect su http://localhost:8082/demowebsite/widgets/ (con slash finale?)
+            // inoltre fare sempre un redirect con la request lower case (vedere se esiste qualcosa di built-in)
 
             //Process pipeline
 

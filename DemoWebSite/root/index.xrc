@@ -11,8 +11,9 @@
 		<xrc:outputcache />
 	</xrc:action>
 
-	<xrc:parameters>
-		<xrc:add key="title" value="xrc home" />
+  <xrc:parameters>
+    <!-- Example of a parameter that will be used as the page title in the shared/layout.xslt page -->
+    <xrc:add key="title" value="xrc home" />
 	</xrc:parameters>
   
 </xrc:xrc>
