@@ -17,5 +17,15 @@ namespace xrc
 				return (T)Convert.ChangeType(a.Value, typeof(T),
 											System.Globalization.CultureInfo.InvariantCulture);
 		}
+
+        public static T AttributeAsOrDefault<T>(this XElement element, XName name)
+        {
+            var a = element.Attribute(name);
+            if (a == null)
+                return default(T);
+            else
+                return (T)Convert.ChangeType(a.Value, typeof(T),
+                                            System.Globalization.CultureInfo.InvariantCulture);
+        }
 	}
 }

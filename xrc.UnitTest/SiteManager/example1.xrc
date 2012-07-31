@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <xrc:xrc xmlns:xrc="urn:xrc">
 
-	<xrc:action method="GET">
+  <xrc:parameters>
+    <xrc:add key="title" value="My page title" />
+  </xrc:parameters>
+
+  <xrc:action method="GET">
 		<xrc:renderer type="TestRenderer">
       <scriptProperty>@DummyScript</scriptProperty>
     </xrc:renderer>
@@ -9,8 +13,4 @@
 		<xrc:outputcache />
 	</xrc:action>
 
-	<xrc:parameters>
-		<xrc:add key="title" value="My page title" />
-	</xrc:parameters>
-  
 </xrc:xrc>

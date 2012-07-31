@@ -15,7 +15,7 @@ namespace xrc.Mocks
             _module = module;
         }
 
-        public IModule Get(ComponentDefinition component, IContext context = null)
+        public IModule Get(ComponentDefinition component, IContext context)
         {
             return _module;
         }

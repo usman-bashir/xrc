@@ -10,8 +10,9 @@
   </xrc:action>
 
   <xrc:parameters>
+    <xrc:add key="genre" />
     <!-- TODO: Enable this syntax in some way. Maybe using a function? -->
-    <xrc:add key="title" value="My books - {genre}" />
+    <xrc:add key="title" value='@string.Format("My books - {0}", genre)' />
   </xrc:parameters>
 
 </xrc:xrc>

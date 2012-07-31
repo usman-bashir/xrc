@@ -20,16 +20,20 @@ namespace xrc.SiteManager
         }
 
         [TestMethod]
-        public void It_Should_be_possible_to_parse_example1_page_parameter()
+        public void It_Should_be_possible_to_parse_example5_page_parameter()
         {
             string file = TestHelper.GetFile(@"SiteManager\example5.xrc");
 
-            MashupParserService target = new MashupParserService(new Mocks.ScriptServiceMock(), 
+            MashupParserService target = new MashupParserService(new Mocks.MashupScriptServiceMock(), 
                                         new Mocks.ModuleCatalogServiceMock(null), 
                                         new Mocks.RendererCatalogServiceMock(TestRenderer.Definition));
 
             MashupPage page = target.Parse(file);
-            Assert.AreEqual("My page title", page.PageParameters["title"]);
+            Assert.AreEqual("My page title", page.Parameters["title"].Value.ToString());
+            Assert.AreEqual(typeof(string), page.Parameters["title"].Value.ValueType);
+
+            Assert.AreEqual("100", page.Parameters["timeout"].Value.ToString());
+            Assert.AreEqual(typeof(int), page.Parameters["timeout"].Value.ValueType);
         }
 
         [TestMethod]
@@ -37,12 +41,19 @@ namespace xrc.SiteManager
         {
             string file = TestHelper.GetFile(@"SiteManager\example2.xrc");
 
-            MashupParserService target = new MashupParserService(new Mocks.ScriptServiceMock(),
+            MashupParserService target = new MashupParserService(new Mocks.MashupScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
                                         new Mocks.RendererCatalogServiceMock(TestRenderer.Definition));
 
             MashupPage page = target.Parse(file);
-            Assert.AreEqual(5, page.PageParameters.Count);
+            Assert.AreEqual(5, page.Parameters.Count);
+            Assert.AreEqual(false, page.Parameters["p1"].AllowRequestOverride);
+            Assert.AreEqual("My page title", page.Parameters["p1"].Value.Value);
+            Assert.AreEqual(true, page.Parameters["p2"].AllowRequestOverride);
+            Assert.AreEqual(true, page.Parameters["p2"].Value.IsEmpty());
+            Assert.IsNull(page.Parameters["p2"].Value.Value);
+            Assert.IsNull(page.Parameters["p2"].Value.Expression);
+            Assert.AreEqual(false, page.Parameters["p3"].AllowRequestOverride);
         }
 
 		[TestMethod]
@@ -50,7 +61,7 @@ namespace xrc.SiteManager
 		{
 			string file = TestHelper.GetFile(@"SiteManager\example1.xrc");
 
-            MashupParserService target = new MashupParserService(new Mocks.ScriptServiceMock(true, null, "DummyScript"),
+            MashupParserService target = new MashupParserService(new Mocks.MashupScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
                                         new Mocks.RendererCatalogServiceMock(TestRenderer.Definition));
 
@@ -59,7 +70,7 @@ namespace xrc.SiteManager
 			var renderer = action.Renderers.Single();
             Assert.AreEqual(1, renderer.Properties.Count());
             Assert.AreEqual(typeof(TestRenderer), renderer.Component.Type);
-            Assert.AreEqual("DummyScript", renderer.Properties["scriptProperty"].Expression.ToString());
+            Assert.AreEqual("DummyScript", renderer.Properties["scriptProperty"].Value.ToString());
         }
 
 		[TestMethod]
@@ -67,7 +78,7 @@ namespace xrc.SiteManager
 		{
             string file = TestHelper.GetFile(@"SiteManager\example2.xrc");
 
-            MashupParserService target = new MashupParserService(new Mocks.ScriptServiceMock(),
+            MashupParserService target = new MashupParserService(new Mocks.MashupScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
                                         new Mocks.RendererCatalogServiceMock(TestRenderer.Definition));
 
@@ -75,7 +86,7 @@ namespace xrc.SiteManager
             MashupAction action = page.Actions["GET"];
             var renderer = action.Renderers.Single();
             Assert.AreEqual(typeof(TestRenderer), renderer.Component.Type);
-            XDocument xmlData = (XDocument)renderer.Properties["XDocProperty"].Value;
+            XDocument xmlData = (XDocument)renderer.Properties["XDocProperty"].Value.Value;
 
             var xpath = xmlData.CreateNavigator().Select("book[1]/title");
             while (xpath.MoveNext())
@@ -87,7 +98,7 @@ namespace xrc.SiteManager
         {
             string file = TestHelper.GetFile(@"SiteManager\example3.xrc");
 
-            MashupParserService target = new MashupParserService(new Mocks.ScriptServiceMock(),
+            MashupParserService target = new MashupParserService(new Mocks.MashupScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
                                         new Mocks.RendererCatalogServiceMock(TestRenderer.Definition));
 
@@ -104,7 +115,7 @@ namespace xrc.SiteManager
         {
             string file = TestHelper.GetFile(@"SiteManager\example4.xrc");
 
-            MashupParserService target = new MashupParserService(new Mocks.ScriptServiceMock(),
+            MashupParserService target = new MashupParserService(new Mocks.MashupScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
                                         new Mocks.RendererCatalogServiceMock(TestRenderer.Definition));
 

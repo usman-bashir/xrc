@@ -9,7 +9,7 @@ namespace xrc.SiteManager
     public class MashupPage
     {
         private MashupActionList _actions = new MashupActionList();
-        private Dictionary<string, string> _pageParameters = new Dictionary<string, string>();
+        private MashupParameterList _parameters = new MashupParameterList();
         private ModuleDefinitionList _modules = new ModuleDefinitionList();
 
         public MashupPage()
@@ -21,9 +21,9 @@ namespace xrc.SiteManager
             get { return _actions; }
         }
 
-        public Dictionary<string, string> PageParameters
+        public MashupParameterList Parameters
         {
-            get { return _pageParameters; }
+            get { return _parameters; }
         }
 
         public ModuleDefinitionList Modules

@@ -55,6 +55,8 @@
     <Compile Include="Configuration\WorkingPath.cs" />
     <Compile Include="Context\Context.cs" />
     <Compile Include="Context\IContext.cs" />
+    <Compile Include="Context\ContextParameterList.cs" />
+    <Compile Include="Context\ContextParameter.cs" />
     <Compile Include="ConvertEx.cs" />
     <Compile Include="Components\ComponentDefinition.cs" />
     <Compile Include="Modules\ModuleCatalogService.cs" />
@@ -90,9 +92,16 @@
     <Compile Include="Request\XrcRequest.cs" />
     <Compile Include="Response\XrcResponse.cs" />
     <Compile Include="RouteHandler\XrcRouteHandler.cs" />
+    <Compile Include="Script\ScriptParameter.cs" />
+    <Compile Include="Script\ScriptParameterList.cs" />
     <Compile Include="Script\DynamicExpression\Dynamic.cs" />
     <Compile Include="Script\DynamicExpression\FunctionFactory.cs" />
     <Compile Include="Script\IScriptExpression.cs" />
+    <Compile Include="SiteManager\MashupScriptService.cs" />
+    <Compile Include="SiteManager\IMashupScriptService.cs" />
+    <Compile Include="SiteManager\MashupParameter.cs" />
+    <Compile Include="SiteManager\MashupParameterList.cs" />
+    <Compile Include="SiteManager\XValue.cs" />
     <Compile Include="SiteManager\XPropertyList.cs" />
     <Compile Include="SiteManager\RendererDefinitionList.cs" />
     <Compile Include="SiteManager\MashupActionList.cs" />

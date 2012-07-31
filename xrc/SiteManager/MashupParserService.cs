@@ -26,21 +26,22 @@ namespace xrc.SiteManager
         private static XName VALUE = "value";
         private static XName PARENT = "parent";
         private static XName SLOT = "slot";
+        private static XName ALLOWREQUESTOVERRIDE = "allowRequestOverride";
 
         private const string MODULE_PREFIX = "xrc";
 
-        private IScriptService _scriptService;
+        private IMashupScriptService _scriptService;
         private IModuleCatalogService _moduleCatalog;
         private IRendererCatalogService _rendererCatalog;
 
-        public MashupParserService(IScriptService scriptService, IModuleCatalogService moduleCatalog, IRendererCatalogService rendererCatalog)
+        public MashupParserService(IMashupScriptService scriptService, IModuleCatalogService moduleCatalog, IRendererCatalogService rendererCatalog)
         {
             _scriptService = scriptService;
             _moduleCatalog = moduleCatalog;
             _rendererCatalog = rendererCatalog;
         }
 
-        // TODO Qui si può parsificare il file una solva volta e metterlo in cache (con dipendenza al file?)
+        // TODO Qui si può parsificare il file una sola volta e metterlo in cache (con dipendenza al file?)
         public MashupPage Parse(string file)
         {
             try
@@ -55,6 +56,10 @@ namespace xrc.SiteManager
 					throw new ApplicationException(string.Format("Element root '{0}' not found.", XRC));
 
                 ParseModules(xdoc, page);
+
+                var paramsElement = xdoc.Root.Element(PARAMETERS);
+                if (paramsElement != null)
+                    ParseParameters(paramsElement, page);
 
                 foreach (var actionElement in xdoc.Root.Elements(ACTION))
                 {
@@ -71,10 +76,6 @@ namespace xrc.SiteManager
 
                     page.Actions.Add(action);
                 }
-
-                var paramsElement = xdoc.Root.Element(PARAMETERS);
-                if (paramsElement != null)
-                    ParseParameters(paramsElement, page);
 
                 return page;
             }
@@ -105,8 +106,16 @@ namespace xrc.SiteManager
             foreach (var actionElement in paramsElement.Elements(ADD))
             {
                 string key = actionElement.AttributeAs<string>(KEY);
-                string value = actionElement.AttributeAs<string>(VALUE);
-                page.PageParameters.Add(key, value);
+                string value = actionElement.AttributeAsOrDefault<string>(VALUE);
+                string typeName = actionElement.AttributeAsOrDefault<string>(TYPE);
+                if (string.IsNullOrWhiteSpace(typeName))
+                    typeName = typeof(string).FullName;
+                Type type = Type.GetType(typeName, true, true);
+                bool allowRequestOverride = actionElement.AttributeAsOrDefault<bool>(ALLOWREQUESTOVERRIDE);
+
+                var xValue = _scriptService.Parse(value, type, page.Modules, page.Parameters);
+
+                page.Parameters.Add(new MashupParameter(key, xValue, allowRequestOverride)); ;
             }
         }
 
@@ -153,7 +162,8 @@ namespace xrc.SiteManager
 						// TODO Valutare se c'è un modo migliore per passare da un XElement a un XDocument
 						// o valutare se usare invece XElement direttamente e non richiedere un XDocument
 						string xmlContent = element.Elements().First().ToString();
-						return new XProperty(property, XDocument.Parse(xmlContent));
+                        var xValue = new XValue(property.PropertyType, XDocument.Parse(xmlContent));
+						return new XProperty(property, xValue);
 					}
                 }
                 else
@@ -161,17 +171,8 @@ namespace xrc.SiteManager
             }
             else if (element.IsEmpty == false)
             {
-                string script;
-                if (_scriptService.TryExtractInlineScript(element.Value, out script))
-                {
-                    IScriptExpression expression = _scriptService.Parse(script, page.Modules, property.PropertyType);
-                    return new XProperty(property, expression);
-                }
-                else
-                {
-                    object value = ConvertEx.ChangeType(element.Value, property.PropertyType, CultureInfo.InvariantCulture);
-                    return new XProperty(property, value);
-                }
+                var xValue = _scriptService.Parse(element.Value, property.PropertyType, page.Modules, page.Parameters);
+                return new XProperty(property, xValue);
             }
             else
                 throw new ApplicationException(string.Format("Invalid element '{0}', valuenot defined.", element.Name));

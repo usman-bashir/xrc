@@ -81,7 +81,7 @@ namespace xrc.Renderers
             //arguments.XsltMessageEncountered += event
 
             foreach (var item in context.Parameters)
-                arguments.AddParam(item.Key, XSL_ARGUMENTS_NAMESPACE, item.Value);
+                arguments.AddParam(item.Name, XSL_ARGUMENTS_NAMESPACE, item.Value);
 
             // Load modules from xsl namespaces
             List<object> modules = new List<object>();

@@ -16,12 +16,14 @@ namespace xrc
         string WorkingPath { get; set; }
         MashupFile File { get; set; }
 
-        Dictionary<string, string> Parameters { get; }
-
         MashupPage Page { get; set; }
 
+        ContextParameterList Parameters { get; }
+
+        // TODO Non mi piace questo evento sul context...spostare forse sul kernel??
         RenderSlotEventHandler SlotCallback { get; set; }
 
+        // TODO Anche questi due metodi qui non mi piacciono tanto...
 		string GetAbsoluteUrl(string url);
 		string GetAbsoluteFile(string file);
     }

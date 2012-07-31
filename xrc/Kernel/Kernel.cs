@@ -17,21 +17,24 @@ namespace xrc
         private IMashupParserService _parser;
         private ISiteConfigurationProviderService _siteConfigurationProvider;
         private IMashupLocatorService _fileLocator;
+        private IMashupScriptService _scriptService;
         private IRendererFactory _rendererFactory;
-        private IScriptService _scriptService;
+        private Modules.IModuleFactory _moduleFactory;
 
-        public Kernel(IRendererFactory rendererFactory,
-                    IMashupParserService parser,
+        public Kernel(IMashupParserService parser,
                     ISiteConfigurationProviderService siteConfigurationProvider,
                     IMashupLocatorService fileLocator,
-                    IScriptService scriptService)
+                    IRendererFactory rendererFactory,
+                    IMashupScriptService scriptService,
+                    Modules.IModuleFactory moduleFactory)
         {
-            _rendererFactory = rendererFactory;
             _parser = parser;
             _siteConfigurationProvider = siteConfigurationProvider;
             _fileLocator = fileLocator;
+            _rendererFactory = rendererFactory;
             _scriptService = scriptService;
-		}
+            _moduleFactory = moduleFactory;
+        }
 
         // TODO Check if it is possible to remove this static reference
         #region Static
@@ -75,27 +78,35 @@ namespace xrc
 
             LoadXrcDefinition(context);
 
-            LoadParameters(context);
-
-            var action = context.Page.Actions[context.Request.HttpMethod];
-            if (action == null)
+            var modules = LoadModules(context);
+            try
             {
-                ProcessRequestNotFound(context);
-                return;
+                LoadParameters(context, modules);
+
+                var action = context.Page.Actions[context.Request.HttpMethod];
+                if (action == null)
+                {
+                    ProcessRequestNotFound(context);
+                    return;
+                }
+
+                if (!string.IsNullOrWhiteSpace(action.Parent))
+                    RenderParent(context, action, modules);
+                else
+                {
+                    foreach (var renderer in action.Renderers)
+                        RunRenderer(context, action, renderer, modules);
+                }
             }
-
-            if (!string.IsNullOrWhiteSpace(action.Parent))
-                RenderParent(context, action);
-            else
+            finally
             {
-                foreach (var renderer in action.Renderers)
-                    RunRenderer(context, action, renderer);
+                UnloadModules(modules);
             }
 
             EndRequest(context);
         }
 
-        private void RenderParent(IContext context, MashupAction action)
+        private void RenderParent(IContext context, MashupAction action, Dictionary<string, Modules.IModule> modules)
         {
 			HttpResponseBase currentResponse = context.Response;
 
@@ -107,7 +118,7 @@ namespace xrc
             Uri parentUri = new Uri(context.GetAbsoluteUrl(action.Parent));
             Context parentContext = new Context(new XrcRequest(parentUri), currentResponse);
             foreach (var item in context.Parameters)
-                parentContext.Parameters.Add(item.Key, item.Value);
+                parentContext.Parameters.Add(new ContextParameter(item.Name, item.Type, item.Value));
 
             parentContext.SlotCallback = (s, e) =>
                 {
@@ -119,7 +130,7 @@ namespace xrc
 
                             RendererDefinition rendererDefinition = action.Renderers[e.Name];
                             if (rendererDefinition != null)
-                                RunRenderer(context, action, rendererDefinition);
+                                RunRenderer(context, action, rendererDefinition, modules);
                         }
 
                         // TODO Come gestire i casi di errore?
@@ -157,39 +168,72 @@ namespace xrc
                 return true;
         }
 
-        private void LoadParameters(IContext context)
-        {
-            // Set context parameters
-            // the order of the imported parameters define the parameters priority (that last overwrite)
-
-            foreach (var item in context.Configuration.Parameters)
-                context.Parameters[item.Key] = item.Value;
-            foreach (var item in context.File.UrlSegmentsParameters)
-                context.Parameters[item.Key] = item.Value;
-            foreach (var item in context.Page.PageParameters)
-                context.Parameters[item.Key] = item.Value;
-            foreach (var key in context.Request.QueryString.AllKeys)
-                context.Parameters[key] = context.Request.QueryString[key];
-        }
-
         private void LoadXrcDefinition(IContext context)
         {
             context.Page = _parser.Parse(context.File.FullPath);
         }
 
-        private void RunRenderer(IContext context, MashupAction action, RendererDefinition rendererDefinition)
+        private Dictionary<string, Modules.IModule> LoadModules(IContext context)
+        {
+            Dictionary<string, Modules.IModule> modules = new Dictionary<string,Modules.IModule>();
+            foreach (var m in context.Page.Modules)
+                modules.Add(m.Name, _moduleFactory.Get(m.Component, context));
+
+            return modules;
+        }
+
+        private void UnloadModules(Dictionary<string, Modules.IModule> modules)
+        {
+            foreach (var m in modules)
+                _moduleFactory.Release(m.Value);
+        }
+
+        private void LoadParameters(IContext context, Dictionary<string, Modules.IModule> modules)
+        {
+            // Note: Automatically read only server parameters (Configuration, UrlSegments, Page),
+            // user parameters (cookie, query string, post, header, ...) are readed only on request
+
+            foreach (var item in context.Configuration.Parameters)
+                context.Parameters[item.Key] = new ContextParameter(item.Key, typeof(string), item.Value);
+
+            foreach (var item in context.File.UrlSegmentsParameters)
+                context.Parameters[item.Key] = new ContextParameter(item.Key, typeof(string), item.Value);
+
+            // Page.Parameters override any other values except Request if the allowRequestOverride is true.
+            // Page.Parameters type is used for conversion.
+            foreach (var item in context.Page.Parameters)
+            {
+                string requestValue;
+                if (item.AllowRequestOverride && (requestValue = context.Request[item.Name]) != null)
+                {
+                    context.Parameters[item.Name] = new ContextParameter(item.Name, item.Value.ValueType,
+                                                            ConvertEx.ChangeType(requestValue, item.Value.ValueType, System.Globalization.CultureInfo.InvariantCulture));
+                }
+                else if (item.Value.Expression == null && item.Value.Value == null)
+                {
+                    ContextParameter currentValue;
+                    if (context.Parameters.TryGetValue(item.Name, out currentValue))
+                        context.Parameters[item.Name] = new ContextParameter(item.Name, item.Value.ValueType,
+                                                                ConvertEx.ChangeType(currentValue.Value, item.Value.ValueType, System.Globalization.CultureInfo.InvariantCulture));
+                    else
+                        throw new ApplicationException(string.Format("Parameter '{0}' not defined.", item.Name));
+                }
+                else
+                {
+                    object value = _scriptService.Eval(item.Value, modules, context.Parameters);
+                    context.Parameters[item.Name] = new ContextParameter(item.Name, item.Value.ValueType, value);
+                }
+            }
+        }
+
+        private void RunRenderer(IContext context, MashupAction action, RendererDefinition rendererDefinition, Dictionary<string, Modules.IModule> modules)
         {
             IRenderer renderer = _rendererFactory.Get(rendererDefinition.Component, context);
             try
             {
                 foreach (var property in rendererDefinition.Properties)
                 {
-                    object value;
-                    if (property.Expression != null)
-                        value = _scriptService.Eval(property.Expression, context);
-                    else
-                        value = property.Value;
-
+                    object value = _scriptService.Eval(property.Value, modules, context.Parameters);
                     property.PropertyInfo.SetValue(renderer, value, null);
                 }
 

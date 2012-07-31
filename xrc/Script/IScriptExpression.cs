@@ -5,6 +5,5 @@ namespace xrc.Script
     public interface IScriptExpression
     {
         Type ReturnType { get; }
-        Modules.ModuleDefinitionList Modules { get; }
 	}
 }

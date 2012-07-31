@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace xrc.Script
 {
     public interface IScriptService
     {
-		IScriptExpression Parse(string script, Modules.ModuleDefinitionList modules, Type returnType);
+        IScriptExpression Parse(string expression, Type returnType, ScriptParameterList parameters);
 
-		bool TryExtractInlineScript(string text, out string script);
-
-        object Eval(IScriptExpression expression, IContext context);
+        object Eval(IScriptExpression expression, ScriptParameterList parameters);
 	}
 }

@@ -10,35 +10,22 @@ namespace xrc.SiteManager
 {
     public class XProperty
     {
-        public XProperty(PropertyInfo propertyInfo, object value)
+        public XProperty(PropertyInfo propertyInfo, XValue xvalue)
         {
-            PropertyInfo = propertyInfo;
-            _value = value;
+            _propertyInfo = propertyInfo;
+            _xValue = xvalue;
         }
 
-        public XProperty(PropertyInfo propertyInfo, IScriptExpression expression)
-        {
-            PropertyInfo = propertyInfo;
-            _expression = expression;
-        }
-
+        private PropertyInfo _propertyInfo;
         public PropertyInfo PropertyInfo
         {
-            get;
-            private set;
+            get { return _propertyInfo; }
         }
 
-        private object _value;
-        public object Value
+        private XValue _xValue;
+        public XValue Value
         {
-            get { return _value; }
+            get { return _xValue; }
         }
-
-        private IScriptExpression _expression;
-        public IScriptExpression Expression
-        {
-            get { return _expression; }
-        }
-
     }
 }

@@ -75,7 +75,7 @@ namespace xrc.Renderers
             {
                 XrcResponse response = new XrcResponse(outStream);
                 Context context = new Context(request, response);
-                context.Parameters.Add("myParameter", "hello from parameter");
+                context.Parameters.Add(new ContextParameter("myParameter", typeof(string), "hello from parameter"));
                 target.RenderRequest(context);
 
                 outStream.Seek(0, SeekOrigin.Begin);

@@ -7,7 +7,7 @@ namespace xrc.Modules
 {
     public interface IModuleFactory
     {
-        IModule Get(ComponentDefinition component, IContext context = null);
+        IModule Get(ComponentDefinition component, IContext context);
         void Release(IModule component);
     }
 }

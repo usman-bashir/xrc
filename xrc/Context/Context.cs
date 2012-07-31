@@ -13,7 +13,7 @@ namespace xrc
     {
 		private HttpRequestBase _request;
 		private HttpResponseBase _response;
-        private Dictionary<string, string> _parameters = new Dictionary<string, string>();
+        private ContextParameterList _parameters = new ContextParameterList();
 
 		public Context(HttpRequestBase request, HttpResponseBase response)
         {
@@ -62,7 +62,7 @@ namespace xrc
             set { _response = value; }
         }
 
-        public Dictionary<string, string> Parameters
+        public ContextParameterList Parameters
         {
             get { return _parameters; }
         }

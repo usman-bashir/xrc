@@ -1,7 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <xrc:xrc xmlns:xrc="urn:xrc">
 
-	<xrc:action method="GET">
+  <xrc:parameters>
+    <xrc:add key="p1" value="My page title" allowRequestOverride="false" />
+    <xrc:add key="p2" allowRequestOverride="true" />
+    <xrc:add key="p3" />
+    <xrc:add key="p4" />
+    <xrc:add key="p5" value="p5 value" />
+  </xrc:parameters>
+
+  <xrc:action method="GET">
 		<xrc:renderer type="TestRenderer">
       <XDocProperty xmlns="">
         <bookstore>
@@ -17,13 +25,5 @@
 
 		<xrc:outputcache />
   </xrc:action>
-
-	<xrc:parameters>
-		<xrc:add key="p1" value="My page title" />
-		<xrc:add key="p2" value="My page title" />
-		<xrc:add key="p3" value="My page title" />
-		<xrc:add key="p4" value="My page title" />
-		<xrc:add key="p5" value="My page title" />
-	</xrc:parameters>
 
 </xrc:xrc>
