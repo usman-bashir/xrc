@@ -73,6 +73,12 @@ namespace xrc
             set;
         }
 
+        public Exception Exception 
+        { 
+            get; 
+            set; 
+        }
+
 		public string GetAbsoluteUrl(string url)
 		{
 			return Configuration.GetAbsoluteUrl(url, Request.Url);
@@ -85,5 +91,13 @@ namespace xrc
 			else
 				return Path.Combine(WorkingPath, file);
 		}
+
+        public void CheckError()
+        {
+            if (Exception != null)
+                throw Exception;
+            else if (Response.StatusCode < 200 || Response.StatusCode >= 300)
+                throw new HttpException(Response.StatusCode, Response.StatusDescription ?? "Failed to process request.");
+        }
     }
 }

@@ -59,6 +59,9 @@
     <Compile Include="Context\ContextParameter.cs" />
     <Compile Include="ConvertEx.cs" />
     <Compile Include="Components\ComponentDefinition.cs" />
+    <Compile Include="Exceptions\MovedPermanentlyException.cs" />
+    <Compile Include="Exceptions\ResourceNotFoundException.cs" />
+    <Compile Include="Exceptions\XrcException.cs" />
     <Compile Include="Modules\ModuleCatalogService.cs" />
     <Compile Include="Modules\IModuleCatalogService.cs" />
     <Compile Include="Modules\ModuleDefinitionList.cs" />

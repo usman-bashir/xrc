@@ -144,17 +144,20 @@ namespace xrc
                 };
 
             RenderRequest(parentContext);
+            parentContext.CheckError();
         }
 
         private static void ProcessRequestNotFound(IContext context)
         {
             context.Response.StatusCode = (int)System.Net.HttpStatusCode.NotFound;
             context.Response.StatusDescription = string.Format("Resource '{0}' not found.", context.Request.Url);
+            context.Exception = new ResourceNotFoundException(context.Request.Url.ToString());
         }
 
         private void ProcessPermanentRedirect(IContext context, string canonicalUrl)
         {
             context.Response.RedirectPermanent(canonicalUrl);
+            context.Exception = new MovedPermanentlyException(context.Request.Url.ToString(), canonicalUrl);
         }
 
         private void LoadConfiguration(IContext context)

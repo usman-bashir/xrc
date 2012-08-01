@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.XPath;
 using System.IO;
+using System.Net;
 
 namespace xrc.Modules
 {
@@ -27,7 +28,7 @@ namespace xrc.Modules
                 Context context = new Context(request, response);
                 _kernel.RenderRequest(context);
 
-				// TODO Here I must check the response if it is valid, otherwise throw an exception?
+                context.CheckError();
 			}
         }
 

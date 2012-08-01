@@ -20,11 +20,15 @@ namespace xrc
 
         ContextParameterList Parameters { get; }
 
+        Exception Exception { get; set; }
+
         // TODO Non mi piace questo evento sul context...spostare forse sul kernel??
         RenderSlotEventHandler SlotCallback { get; set; }
 
         // TODO Questi due metodi qui non mi piacciono tanto...
 		string GetAbsoluteUrl(string url);
 		string GetAbsoluteFile(string file);
+
+        void CheckError();
     }
 }

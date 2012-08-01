@@ -70,5 +70,17 @@ namespace xrc.Mocks
         {
             return file;
         }
+
+
+        public Exception Exception
+        {
+            get;
+            set;
+        }
+
+        public void CheckError()
+        {
+            
+        }
     }
 }

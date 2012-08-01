@@ -33,7 +33,7 @@ namespace xrc.Renderers
             Context slotContext = new Context(request, context.Response);
             _kernel.RenderRequest(slotContext);
 
-            // TODO Here I must check the response if it is valid, otherwise throw an exception?
+            slotContext.CheckError();
         }
     }
 }
