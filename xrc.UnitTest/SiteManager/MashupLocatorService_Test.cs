@@ -70,7 +70,12 @@ namespace xrc.SiteManager
 
 			// Base functionalities
             Assert.AreEqual(target.Locate("/").FullPath, Path.Combine(appPath, "index.xrc"));
+            Assert.AreEqual(target.Locate("/").CanonicalUrl, "~/");
+            Assert.AreEqual(target.Locate("/index").CanonicalUrl, "~/");
             Assert.AreEqual(target.Locate("/athletes").FullPath, Path.Combine(appPath, @"athletes\index.xrc"));
+            Assert.AreEqual(target.Locate("/athletes").CanonicalUrl, "~/athletes/");
+            Assert.AreEqual(target.Locate("/ATHLETES").CanonicalUrl, "~/athletes/");
+            Assert.AreEqual(target.Locate("/ATHLETES/indeX").CanonicalUrl, "~/athletes/");
             Assert.AreEqual(target.Locate("").FullPath, Path.Combine(appPath, "index.xrc"));
             Assert.AreEqual(target.Locate("athletes").FullPath, Path.Combine(appPath, @"athletes\index.xrc"));
 
@@ -79,7 +84,9 @@ namespace xrc.SiteManager
             Assert.AreEqual(target.Locate("/athletes/totti").UrlSegmentsParameters["athleteid"], "totti");
             Assert.AreEqual(target.Locate("/athletes/ToTTi").UrlSegmentsParameters["athleteid"], "totti");
             Assert.AreEqual(target.Locate("/teams/torino").FullPath, Path.Combine(appPath, @"teams\{teamid}\index.xrc"));
+            Assert.AreEqual(target.Locate("/teams/torino").CanonicalUrl, "~/teams/torino/");
             Assert.AreEqual(target.Locate("/teams/torino/matches").FullPath, Path.Combine(appPath, @"teams\{teamid}\matches.xrc"));
+            Assert.AreEqual(target.Locate("/TEAMS/TORINO/MATCHES").CanonicalUrl, "~/teams/torino/matches");
             Assert.AreEqual(target.Locate("/teams/torino/cravero").UrlSegmentsParameters["teamid"], "torino");
             Assert.AreEqual(target.Locate("/teams/torino/cravero").UrlSegmentsParameters["playerid"], "cravero");
             Assert.AreEqual(target.Locate("/teams/torino/matches.xrc").UrlSegmentsParameters["playerid"], "matches.xrc");
@@ -98,6 +105,5 @@ namespace xrc.SiteManager
             TestHelper.Throws<UriFormatException>(() => target.Locate("http://server1/"));
             TestHelper.Throws<UriFormatException>(() => target.Locate("http://server1.com"));
         }
-
 	}
 }

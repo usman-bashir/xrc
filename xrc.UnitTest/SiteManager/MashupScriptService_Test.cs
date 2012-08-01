@@ -59,33 +59,37 @@ namespace xrc.SiteManager
         //
         #endregion
 
-        // TODO Da rivedere questi metodi di test (parse e eval)
-        //[TestMethod()]
-        //public void It_should_be_possible_to_eval_script_with_modules()
-        //{
-        //    var scriptService = new Mocks.ScriptServiceMock("Eval_mock");
-        //    var moduleFactory = new Moq.Mock<Modules.IModuleFactory>();
-        //    IContext context = new Mocks.ContextMock();
-        //    TestModule testModule = new TestModule();
-        //    moduleFactory.Setup(p => p.Get(TestModule.Definition, context)).Returns(testModule);
-        //    MashupPage page = new MashupPage();
-        //    page.Modules.Add(new ModuleDefinition("TestModule", TestModule.Definition));
+        [TestMethod()]
+        public void It_should_be_possible_to_parse_and_eval_script_with_modules()
+        {
+            var scriptService = new Moq.Mock<Script.IScriptService>();
+            scriptService.Setup(p => p.Parse("TestModule.Name", typeof(string), Moq.It.IsAny<Script.ScriptParameterList>())).Returns(new Mocks.ScriptExpressionMock("TestModule.Name", typeof(string)));
+            TestModule testModule = new TestModule();
 
-        //    MashupScriptService target = new MashupScriptService(scriptService, moduleFactory.Object);
-        //    XValue exp;
+            ModuleDefinitionList modules = new ModuleDefinitionList();
+            modules.Add(new ModuleDefinition("TestModule", TestModule.Definition));
+            MashupParameterList parameters = new MashupParameterList();
 
-        //    exp = target.Parse("@TestModule.Name", typeof(string), page);
+            MashupScriptService target = new MashupScriptService(scriptService.Object);
 
-        //    Assert.AreEqual("Eval_mock", target.Eval(exp, page, context));
+            XValue exp;
+            exp = target.Parse("@TestModule.Name", typeof(string), modules, parameters);
 
-        //    moduleFactory.Verify(p => p.Get(TestModule.Definition, context));
-        //    moduleFactory.Verify(p => p.Release(testModule));
-        //}
+            scriptService.Verify(p => p.Parse("TestModule.Name", typeof(string), Moq.It.IsAny<Script.ScriptParameterList>()));
+
+            Dictionary<string, IModule> modulesInstance = new Dictionary<string, IModule>();
+            modulesInstance.Add("TestModule", testModule);
+            ContextParameterList parametersInstance = new ContextParameterList();
+
+            target.Eval(exp, modulesInstance, parametersInstance);
+
+            scriptService.Verify(p => p.Eval(Moq.It.IsAny<Script.IScriptExpression>(), Moq.It.IsAny<Script.ScriptParameterList>()));
+        }
 
         [TestMethod()]
         public void It_should_be_possible_to_eval_constant()
         {
-            MashupScriptService target = new MashupScriptService(null, null);
+            MashupScriptService target = new MashupScriptService(null);
             IContext context = new Mocks.ContextMock();
             ModuleDefinitionList modulesDefinition = new ModuleDefinitionList();
             MashupParameterList mashupParameters = new MashupParameterList();
@@ -110,7 +114,7 @@ namespace xrc.SiteManager
 		[TestMethod()]
 		public void It_Should_be_possible_to_ExtractScript()
 		{
-            MashupScriptService target = new MashupScriptService(null, null);
+            MashupScriptService target = new MashupScriptService(null);
 
 			string expression;
 			bool valid;

@@ -20,12 +20,10 @@ namespace xrc.SiteManager
         private static Regex _xmlExpRegEx = new Regex(@"^\s*@(?<code>.+)\s*$", RegexOptions.Compiled);
 
         private IScriptService _scriptService;
-        private IModuleFactory _moduleFactory;
 
-        public MashupScriptService(IScriptService scriptService, IModuleFactory moduleFactory)
+        public MashupScriptService(IScriptService scriptService)
         {
             _scriptService = scriptService;
-            _moduleFactory = moduleFactory;
         }
 
         public bool TryExtractScript(string text, out string script)

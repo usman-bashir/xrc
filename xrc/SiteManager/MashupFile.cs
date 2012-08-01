@@ -8,11 +8,12 @@ namespace xrc.SiteManager
 {
     public class MashupFile
     {
-        public MashupFile(string xrcFile, Dictionary<string, string> urlSegmentsParameters)
+        public MashupFile(string xrcFile, string canonicalUrl, Dictionary<string, string> urlSegmentsParameters)
         {
 			FullPath = xrcFile.ToLowerInvariant();
 			Name = Path.GetFileNameWithoutExtension(FullPath).ToLowerInvariant();
             UrlSegmentsParameters = urlSegmentsParameters;
+            CanonicalUrl = canonicalUrl;
 		}
 
 		public string Name
@@ -26,6 +27,18 @@ namespace xrc.SiteManager
 			get;
 			private set;
 		}
+
+        /// <summary>
+        /// Gets the canonical url for the specified file.
+        /// A canonical url is always lower case, doesn't include the index page but just append a slash at the end.
+        /// Example: ~/folder1/, ~/folder1/page1
+        /// 
+        /// </summary>
+        public string CanonicalUrl
+        {
+            get;
+            private set;
+        }
 
         public Dictionary<string, string> UrlSegmentsParameters
         {

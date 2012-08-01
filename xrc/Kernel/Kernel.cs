@@ -50,29 +50,22 @@ namespace xrc
         #endregion
 
         #region Processing pipeline
-        protected virtual void BeginRequest(IContext context)
-        {
-        }
-
-        protected virtual void EndRequest(IContext context)
-        {
-        }
-
         public void RenderRequest(IContext context)
         {
-			// TODO se lo user chiede http://localhost:8082/demowebsite/widgets
-			// e widgets è una directory, devo fare il redirect su http://localhost:8082/demowebsite/widgets/ (con slash finale?)
-            // inoltre fare sempre un redirect con la request lower case (vedere se esiste qualcosa di built-in)
-
             //Process pipeline
-
-            BeginRequest(context);
 
             LoadConfiguration(context);
 
             if (!LocateXrcFile(context))
             {
                 ProcessRequestNotFound(context);
+                return;
+            }
+
+            string canonicalUrl;
+            if (IsCanonicalUrl(context, out canonicalUrl))
+            {
+                ProcessPermanentRedirect(context, canonicalUrl);
                 return;
             }
 
@@ -102,8 +95,13 @@ namespace xrc
             {
                 UnloadModules(modules);
             }
+        }
 
-            EndRequest(context);
+        private bool IsCanonicalUrl(IContext context, out string canonicalUrl)
+        {
+            canonicalUrl = context.GetAbsoluteUrl(context.File.CanonicalUrl);
+
+            return canonicalUrl != context.Request.Url.GetLeftPart(UriPartial.Path);
         }
 
         private void RenderParent(IContext context, MashupAction action, Dictionary<string, Modules.IModule> modules)
@@ -131,9 +129,9 @@ namespace xrc
                             RendererDefinition rendererDefinition = action.Renderers[e.Name];
                             if (rendererDefinition != null)
                                 RunRenderer(context, action, rendererDefinition, modules);
+                            else
+                                throw new ApplicationException(string.Format("Slot '{0}' not found.", e.Name));
                         }
-
-                        // TODO Come gestire i casi di errore?
 
                         stream.Flush();
                         stream.Seek(0, SeekOrigin.Begin);
@@ -152,6 +150,11 @@ namespace xrc
         {
             context.Response.StatusCode = (int)System.Net.HttpStatusCode.NotFound;
             context.Response.StatusDescription = string.Format("Resource '{0}' not found.", context.Request.Url);
+        }
+
+        private void ProcessPermanentRedirect(IContext context, string canonicalUrl)
+        {
+            context.Response.RedirectPermanent(canonicalUrl);
         }
 
         private void LoadConfiguration(IContext context)

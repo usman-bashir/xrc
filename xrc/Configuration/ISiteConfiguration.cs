@@ -11,6 +11,7 @@ namespace xrc.Configuration
         Uri Uri { get; }
         Uri SecureUri { get; }
         IDictionary<string, string> Parameters { get; }
+
         Uri GetRelativeUrl(Uri absoluteUrl);
 
         /// <summary>

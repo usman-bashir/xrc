@@ -39,6 +39,7 @@ namespace xrc.SiteManager
             string[] segments = GetUriSegments(relativeUri);
             MashupFolder currentFolder = Root;
             string requestFile = null;
+            StringBuilder canonicalUrl = new StringBuilder("~/");
 
             if (segments.Length > 0)
             {
@@ -48,7 +49,9 @@ namespace xrc.SiteManager
                     if (currentFolder == null)
                         return null; //Not found
                     if (currentFolder.IsParameter)
-                        urlSegmentParameters.Add(currentFolder.ParameterName, segments[i].ToLowerInvariant());
+                        urlSegmentParameters.Add(currentFolder.ParameterName, segments[i]);
+
+                    canonicalUrl.AppendFormat("{0}/", segments[i]);
                 }
 
                 string lastSegment = segments.LastOrDefault();
@@ -59,7 +62,14 @@ namespace xrc.SiteManager
                     if (currentFolder == null)
                         return null; //Not found
                     if (currentFolder.IsParameter)
-                        urlSegmentParameters.Add(currentFolder.ParameterName, lastSegment.ToLowerInvariant());
+                        urlSegmentParameters.Add(currentFolder.ParameterName, lastSegment);
+
+                    canonicalUrl.AppendFormat("{0}/", lastSegment);
+                }
+                else
+                {
+                    if (!string.Equals(requestFile, currentFolder.GetIndexFile(), StringComparison.InvariantCultureIgnoreCase))
+                        canonicalUrl.Append(lastSegment);
                 }
             }
 
@@ -71,12 +81,12 @@ namespace xrc.SiteManager
                     return null; //Not found
             }
 
-            return new MashupFile(requestFile, urlSegmentParameters);
+            return new MashupFile(requestFile, canonicalUrl.ToString(), urlSegmentParameters);
         }
 
         private string[] GetUriSegments(Uri relativeUri)
         {
-            string requestPath = relativeUri.GetPath();
+            string requestPath = relativeUri.GetPath().ToLowerInvariant();
 
             return requestPath.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
         }
