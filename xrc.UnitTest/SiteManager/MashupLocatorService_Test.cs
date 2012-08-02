@@ -64,9 +64,9 @@ namespace xrc.SiteManager
 		[TestMethod]
         public void It_should_be_possible_to_Locate_File()
 		{
-            string appPath = TestHelper.GetFile(@"sampleWebSiteStructure");
-            MashupLocatorService target = new MashupLocatorService(appPath);
-            appPath = appPath.ToLowerInvariant();
+            var workingPath = new WorkingPath("~/sampleWebSiteStructure", TestHelper.GetFile("sampleWebSiteStructure"));
+            MashupLocatorService target = new MashupLocatorService(workingPath);
+            var appPath = workingPath.PhysicalPath.ToLowerInvariant();
 
 			// Base functionalities
             Assert.AreEqual(target.Locate("/").FullPath, Path.Combine(appPath, "index.xrc"));

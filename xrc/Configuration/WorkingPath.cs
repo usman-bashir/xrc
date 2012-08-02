@@ -7,42 +7,22 @@ namespace xrc.Configuration
 {
     public class WorkingPath
     {
-        public string Value;
-
-        public WorkingPath(string value)
+        public WorkingPath(string virtualPath, string phisicalPath)
         {
-            Value = value;
+            VirtualPath = virtualPath;
+            PhysicalPath = phisicalPath;
         }
 
-        public static implicit operator string(WorkingPath w)
+        public string VirtualPath
         {
-            return w.Value;
+            get;
+            private set;
         }
 
-        public static implicit operator WorkingPath(string value)
+        public string PhysicalPath
         {
-            return new WorkingPath(value);
-        }
-
-        public override int GetHashCode()
-        {
-            if (Value != null)
-                return Value.GetHashCode();
-            else
-                return 0;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (!(obj is WorkingPath))
-                return false;
-
-            return string.Equals(Value, ((WorkingPath)obj).Value);
-        }
-
-        public override string ToString()
-        {
-            return Value;
+            get;
+            private set;
         }
     }
 }

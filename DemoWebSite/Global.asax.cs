@@ -26,9 +26,13 @@ namespace DemoWebSite
 
         private void BootstrapContainer()
         {
+            string xrcVirtualPath = "~/root";
+
             _container = new WindsorContainer();
-            _container.Register(Component.For<xrc.Configuration.WorkingPath>().Instance(this.Server.MapPath("~/root")));
-            _container.Register(Component.For<xrc.Configuration.XrcSection>().Instance(xrc.Configuration.XrcSection.GetSection()));
+            _container.Register(Component.For<xrc.Configuration.WorkingPath>().Instance(
+                                new xrc.Configuration.WorkingPath(xrcVirtualPath, this.Server.MapPath(xrcVirtualPath))));
+            _container.Register(Component.For<xrc.Configuration.XrcSection>().Instance(
+                                   xrc.Configuration.XrcSection.GetSection()));
             _container.Install(new xrc.IoC.Windsor.XrcDefaultInstaller());
 
             _container.Register(Types.FromThisAssembly().BasedOn<xrc.Modules.IModule>());

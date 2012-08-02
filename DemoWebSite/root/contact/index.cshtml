@@ -1,14 +1,20 @@
 ﻿@model DemoWebSite.Player
 
 <div>
-	Hello from razor: @DateTime.Now
-	<form>
+	<p>Hello from razor: @DateTime.Now</p>
+	<p>Hello from xrc parameter: @ViewData["param1"]</p>
+
+	<form action="#">
+
 		<label>First Name</label>
 		<input value="@Model.FirstName" />
+
 		<br />
-		<label>Last Name</label>
-		<input value="@Model.LastName" />
+
+		@Html.LabelFor(p => p.LastName)
+		@Html.TextBoxFor(p => p.LastName)
 
 		<input type="submit" value="save" />
+        
 	</form>
 </div>

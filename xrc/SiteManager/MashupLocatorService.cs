@@ -11,10 +11,10 @@ namespace xrc.SiteManager
     {
         public MashupLocatorService(WorkingPath workingPath)
         {
-            if (!System.IO.Directory.Exists(workingPath))
+            if (!System.IO.Directory.Exists(workingPath.PhysicalPath))
                 throw new ApplicationException(string.Format("Path '{0}' doesn't exist.", workingPath));
 
-            Root = new MashupFolder(workingPath);
+            Root = new MashupFolder(workingPath.PhysicalPath);
 		}
 
 		public MashupFolder Root
