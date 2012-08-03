@@ -70,6 +70,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\Contact.cs" />
+    <Compile Include="Code\ContactModule.cs" />
     <Compile Include="Code\GoogleNewsModule.cs" />
     <Compile Include="Code\Player.cs" />
     <Compile Include="Code\PlayerModule.cs" />

@@ -1,20 +1,45 @@
-﻿@model DemoWebSite.Player
+﻿@inherits xrc.Razor.XrcWebViewPage<DemoWebSite.Contact>
+
+@functions
+{
+    public DateTime param1
+    {
+        get;
+        set;
+    }
+
+    public DemoWebSite.IContactModule ContactModule
+    {
+        get;
+        set;
+    }
+}
 
 <div>
-	<p>Hello from razor: @DateTime.Now</p>
-	<p>Hello from xrc parameter: @ViewData["param1"]</p>
+    
+	<p>Show an example of how to read parameters: <br />
+    hello from razor: @DateTime.Now, hello from xrc parameter: @param1</p>
 
-	<form action="#">
+    <p>An example of a module call: @ContactModule.SayHello()</p>
+
+    <p>A form that submit to MVC.</p>
+	<form class="well" action="#">
+        <h2>Contact form</h2>
 
 		<label>First Name</label>
-		<input value="@Model.FirstName" />
+		<input name="FirstName" value="@Model.FirstName" type="text" />
 
 		<br />
 
 		@Html.LabelFor(p => p.LastName)
 		@Html.TextBoxFor(p => p.LastName)
 
-		<input type="submit" value="save" />
+        <label>Message</label>
+        <textarea name="Message" rows="3" cols="50">@Model.Message</textarea>
+
+		<button type="submit" class="btn btn-info">
+            Send
+        </button>
         
 	</form>
 </div>

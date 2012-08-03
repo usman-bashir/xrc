@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <xrc:xrc xmlns:xrc="urn:xrc"
-         xmlns:Player="xrc:PlayerModule">
+         xmlns:Contact="xrc:ContactModule">
 
   <xrc:parameters>
     <xrc:add key="title" value="Contact" />
@@ -10,7 +10,7 @@
   <xrc:action method="GET" parent="~/shared/_layout">
 		<xrc:renderer type="RazorRenderer">
 			<view>index.cshtml</view>
-			<model>@Player.GetPlayer()</model>
+			<model>@Contact.GetDefault()</model>
 		</xrc:renderer>
 	</xrc:action>
   
