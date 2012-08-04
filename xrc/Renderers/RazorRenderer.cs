@@ -52,8 +52,8 @@ namespace xrc.Renderers
             ViewContext viewContext = new ViewContext();
             viewContext.ViewData = new ViewDataDictionary(Model);
             viewContext.RouteData.Values.Add("controller", "RazorRenderer");
-            viewContext.RequestContext = new System.Web.Routing.RequestContext();
-            viewContext.HttpContext = new RazorHttpContext(context);
+            viewContext.RequestContext = new XrcRequestContext(context);
+            viewContext.HttpContext = viewContext.RequestContext.HttpContext;
 
             LoadParameters(context, viewContext);
 
@@ -188,33 +188,6 @@ namespace xrc.Razor
             finally
             {
                 _moduleFactory.Release(module);
-            }
-        }
-    }
-
-    class RazorHttpContext : HttpContextBase
-    {
-        private IContext _context;
-        private Dictionary<object, object> _items = new Dictionary<object, object>();
-
-        public RazorHttpContext(IContext context)
-        {
-            _context = context;
-        }
-
-        public override HttpRequestBase Request
-        {
-            get
-            {
-                return _context.Request;
-            }
-        }
-
-        public override System.Collections.IDictionary Items
-        {
-            get
-            {
-                return _items;
             }
         }
     }

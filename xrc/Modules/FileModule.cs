@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace xrc.Modules
 {
-    public class FileModule : IModule
+    public class FileModule : IFileModule
     {
         private IContext _context;
         public FileModule(IContext context)

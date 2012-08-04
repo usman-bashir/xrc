@@ -14,6 +14,9 @@
   <xrc:parameters>
     <!-- Example of a parameter that will be used as the page title in the shared/layout.xslt page -->
     <xrc:add key="title" value="xrc home" />
+    
+    <!-- TODO Questo parametro non viene propagato agli slot header...pensare come fare... -->
+    <xrc:add key="activeMenu" value="home" />
 	</xrc:parameters>
   
 </xrc:xrc>

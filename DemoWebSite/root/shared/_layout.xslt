@@ -37,11 +37,11 @@
       <body>
 
         <div class="container-fluid">
-          <xsl:value-of disable-output-escaping="yes" select="Html:Action('~/shared/_header')" />
+          <xsl:value-of disable-output-escaping="yes" select="Html:Page('~/shared/_header')" />
 
           <xsl:value-of disable-output-escaping="yes" select="Slot:Include()" />
 
-          <xsl:value-of disable-output-escaping="yes" select="Html:Action('~/shared/_footer')" />
+          <xsl:value-of disable-output-escaping="yes" select="Html:Page('~/shared/_footer')" />
         </div>
         
       </body>

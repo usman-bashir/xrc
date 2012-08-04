@@ -70,12 +70,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Code\Contact.cs" />
-    <Compile Include="Code\ContactModule.cs" />
-    <Compile Include="Code\GoogleNewsModule.cs" />
-    <Compile Include="Code\Player.cs" />
-    <Compile Include="Code\PlayerModule.cs" />
-    <Compile Include="Code\WeatherModule.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -110,6 +104,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="Content\demo.css" />
+    <Content Include="root\shared\_header.xslt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="root\shared\_layout3cols.xslt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -151,8 +148,14 @@
     <None Include="root\widgets\index.xrc">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Views\Test\PartialSlot.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DemoWebSite.Lib\DemoWebSite.Lib.csproj">
+      <Project>{8015F2FD-AC46-47FD-9FD3-8E48A0001433}</Project>
+      <Name>DemoWebSite.Lib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\xrc.Windsor\xrc.Windsor.csproj">
       <Project>{2496197E-8B17-4AA0-98B2-E57B2C924EDF}</Project>
       <Name>xrc.Windsor</Name>

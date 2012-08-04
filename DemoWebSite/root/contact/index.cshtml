@@ -16,14 +16,18 @@
 }
 
 <div>
-    
 	<p>Show an example of how to read parameters: <br />
     hello from razor: @DateTime.Now, hello from xrc parameter: @param1</p>
 
     <p>An example of a module call: @ContactModule.SayHello()</p>
 
+
+    @* TODO Non funziona...
+    @Html.Action("PartialSlot", "Test")
+    *@
+
     <p>A form that submit to MVC.</p>
-	<form class="well" action="#">
+	<form class="well" action="@Url.Action("Send", "Contact")" method="post">
         <h2>Contact form</h2>
 
 		<label>First Name</label>

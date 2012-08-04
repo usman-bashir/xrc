@@ -85,6 +85,12 @@ namespace xrc
 			get { return _outputStream; }
 		}
 
+        public override string ApplyAppPathModifier(string virtualPath)
+        {
+            // TODO Valutare se bisogna implementare qualche logica o è sempre sufficiente restituire la virtualPath
+            return virtualPath;
+        }
+
 		#region IDisposable
 		private bool disposed = false;
 

@@ -10,7 +10,13 @@ namespace DemoWebSite.Controllers
     {
         public ActionResult Index()
         {
-            return Content("Hello from mvc controller");
+            return View();
+        }
+
+        [ChildActionOnly]
+        public ActionResult PartialSlot()
+        {
+            return View();
         }
     }
 }

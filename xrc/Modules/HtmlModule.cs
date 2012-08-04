@@ -8,7 +8,7 @@ using System.Net;
 
 namespace xrc.Modules
 {
-    public class HtmlModule : IModule
+    public class HtmlModule : IHtmlModule
     {
         private IContext _context;
         private IKernel _kernel;
@@ -18,7 +18,7 @@ namespace xrc.Modules
             _kernel = kernel;
         }
 
-        public void RenderAction(string url, Stream output)
+        public void RenderPage(string url, Stream output)
         {
 			url = _context.GetAbsoluteUrl(url);
             XrcRequest request = new XrcRequest(new Uri(url));
@@ -32,11 +32,11 @@ namespace xrc.Modules
 			}
         }
 
-        public string Action(string url)
+        public string Page(string url)
         {
             using (MemoryStream stream = new MemoryStream())
             {
-                RenderAction(url, stream);
+                RenderPage(url, stream);
 
                 stream.Flush();
                 stream.Seek(0, SeekOrigin.Begin);

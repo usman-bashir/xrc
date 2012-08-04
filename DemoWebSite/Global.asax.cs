@@ -35,7 +35,7 @@ namespace DemoWebSite
                                    xrc.Configuration.XrcSection.GetSection()));
             _container.Install(new xrc.IoC.Windsor.XrcDefaultInstaller());
 
-            _container.Register(Types.FromThisAssembly().BasedOn<xrc.Modules.IModule>());
+            _container.Register(Types.FromAssemblyContaining<WeatherModule>().BasedOn<xrc.Modules.IModule>());
         }
 
         private void RegisterRoutes(RouteCollection routes)

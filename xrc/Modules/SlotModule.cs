@@ -7,7 +7,7 @@ using System.IO;
 
 namespace xrc.Modules
 {
-    public class SlotModule : IModule
+    public class SlotModule : ISlotModule
     {
         private IContext _context;
         public SlotModule(IContext context)

@@ -24,3 +24,13 @@ Problemi
  Unit test, verificare cosa manca
 
 
+TODO
+ Documentation website using xrc (reading class reference from assembly and xml doc, xslt transformation of xml doc, custom docs, search, ...)
+ MVC Module (xrc->mvc)
+ Xrc helpers (mvc->xrc)
+ Authentication
+ Cache
+ Sample explanation
+ Gestione parametri gerarchici per folder (tramte un file di configurazione xrc.config?)
+
+
