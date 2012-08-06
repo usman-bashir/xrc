@@ -12,13 +12,13 @@
 
     <div class="row-fluid">
       <div class="span4">
-        <xsl:value-of disable-output-escaping="yes" select="Slot:Include('left')" />
+        <xsl:value-of disable-output-escaping="yes" select="Slot:IncludeChild('left')" />
       </div>
       <div class="span4">
-        <xsl:value-of disable-output-escaping="yes" select="Slot:Include('center')" />
+        <xsl:value-of disable-output-escaping="yes" select="Slot:IncludeChild('center')" />
       </div>
       <div class="span4">
-        <xsl:value-of disable-output-escaping="yes" select="Slot:Include('right')" />
+        <xsl:value-of disable-output-escaping="yes" select="Slot:IncludeChild('right')" />
       </div>
     </div>
 

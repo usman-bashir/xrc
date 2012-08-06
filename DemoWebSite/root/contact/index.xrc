@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<xrc:xrc xmlns:xrc="urn:xrc"
+<xrc:page xmlns:xrc="urn:xrc"
          xmlns:Contact="xrc:ContactModule">
 
   <xrc:parameters>
     <xrc:add key="title" value="Contact" />
+    <xrc:add key="activeMenu" value="contact" />
     <xrc:add key="param1" value="@DateTime.Now" type="System.DateTime" />
   </xrc:parameters>
 
@@ -14,4 +15,4 @@
 		</xrc:renderer>
 	</xrc:action>
   
-</xrc:xrc>
+</xrc:page>

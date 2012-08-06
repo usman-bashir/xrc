@@ -63,7 +63,7 @@ namespace xrc.Renderers
         {
             RendererCatalogService target = new RendererCatalogService(Configuration.XrcSection.GetSection());
 
-            Assert.AreEqual(8, target.GetAll().Count());
+            Assert.AreEqual(7, target.GetAll().Count());
         }
 
     }

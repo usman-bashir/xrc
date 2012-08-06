@@ -1,13 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<xrc:xrc xmlns:xrc="urn:xrc"
+<xrc:page xmlns:xrc="urn:xrc"
          xmlns:File="xrc:FileModule">
-
-	<xrc:action method="GET" parent="~/shared/_layout">
-		<xrc:renderer type="XsltRenderer">
-      <xslt>@File.Xml("books_genre.xslt")</xslt>
-      <data>@File.Xml("..\..\books.xml")</data>
-    </xrc:renderer>
-  </xrc:action>
 
   <xrc:parameters>
     <xrc:add key="genre" />
@@ -15,4 +8,11 @@
     <xrc:add key="title" value='@string.Format("My books - {0}", genre)' />
   </xrc:parameters>
 
-</xrc:xrc>
+  <xrc:action method="GET" parent="~/shared/_layout">
+		<xrc:renderer type="XsltRenderer">
+      <xslt>@File.Xml("books_genre.xslt")</xslt>
+      <data>@File.Xml("..\..\books.xml")</data>
+    </xrc:renderer>
+  </xrc:action>
+
+</xrc:page>

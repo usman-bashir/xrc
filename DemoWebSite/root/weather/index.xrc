@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<xrc:xrc xmlns:xrc="urn:xrc"
+<xrc:page xmlns:xrc="urn:xrc"
          xmlns:File="xrc:FileModule"
          xmlns:Weather="xrc:WeatherModule">
 
   <xrc:parameters>
     <xrc:add key="title" value="Weather" />
+    <xrc:add key="activeMenu" value="weather" />
     <xrc:add key="location" value="Torino" allowRequestOverride="true" />
   </xrc:parameters>
 
@@ -17,4 +18,4 @@
 		<xrc:outputcache />
   </xrc:action>
 
-</xrc:xrc>
+</xrc:page>

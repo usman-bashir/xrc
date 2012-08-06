@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<xrc:xrc xmlns:xrc="urn:xrc">
+<xrc:page xmlns:xrc="urn:xrc">
 
   <!-- This is an example of static html output. Can also be used @{File.Xml("footer.html")} -->
 
@@ -16,4 +16,4 @@
     </xrc:renderer>
   </xrc:action>
   
-</xrc:xrc>
+</xrc:page>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<xrc:xrc xmlns:xrc="urn:xrc">
+<xrc:page xmlns:xrc="urn:xrc">
 
   <xrc:parameters>
     <xrc:add key="title" value="My page title" />
@@ -13,4 +13,4 @@
 		<xrc:outputcache />
 	</xrc:action>
 
-</xrc:xrc>
+</xrc:page>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<xrc:xrc xmlns:xrc="urn:xrc">
+<xrc:page xmlns:xrc="urn:xrc">
 
 	<xrc:action method="Get">
 		<xrc:renderer type="TestRenderer" />
@@ -13,4 +13,4 @@
     <xrc:renderer type="TestRenderer" />
   </xrc:action>
 
-</xrc:xrc>
+</xrc:page>

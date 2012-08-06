@@ -67,6 +67,7 @@
     <Compile Include="Mocks\ContextMock.cs" />
     <Compile Include="Mocks\MashupScriptServiceMock.cs" />
     <Compile Include="Modules\ModuleCatalogService_Test.cs" />
+    <Compile Include="Modules\TestModule.cs" />
     <Compile Include="Renderers\RendererCatalogService_Test.cs" />
     <Compile Include="Configuration\SiteConfigurationProviderService_Test.cs" />
     <Compile Include="Configuration\SiteConfiguration_Test.cs" />

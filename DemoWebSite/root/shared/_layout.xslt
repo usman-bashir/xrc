@@ -7,8 +7,9 @@
                 exclude-result-prefixes="Html Url Slot">
 	<xsl:output method="html" encoding="utf-8" />
 	<xsl:param name="title" />
+  <xsl:param name="activeMenu" />
 
-	<xsl:template match="/">
+  <xsl:template match="/">
     <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html></xsl:text>
     <html>
       <head>
@@ -37,11 +38,16 @@
       <body>
 
         <div class="container-fluid">
-          <xsl:value-of disable-output-escaping="yes" select="Html:Page('~/shared/_header')" />
+          <xsl:variable name="headerParameters">
+            <activeMenu>
+              <xsl:value-of select="$activeMenu"/>
+            </activeMenu>
+          </xsl:variable>
+          <xsl:value-of disable-output-escaping="yes" select="Slot:Include('~/shared/_header', $headerParameters )" />
 
-          <xsl:value-of disable-output-escaping="yes" select="Slot:Include()" />
+          <xsl:value-of disable-output-escaping="yes" select="Slot:IncludeChild()" />
 
-          <xsl:value-of disable-output-escaping="yes" select="Html:Page('~/shared/_footer')" />
+          <xsl:value-of disable-output-escaping="yes" select="Slot:Include('~/shared/_footer')" />
         </div>
         
       </body>

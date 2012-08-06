@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<xrc:xrc xmlns:xrc="urn:xrc">
+<xrc:page xmlns:xrc="urn:xrc">
 
   <!-- Example using an inline xhtml content -->
   
@@ -15,6 +15,7 @@
 
 	<xrc:parameters>
 		<xrc:add key="title" value="About" />
+    <xrc:add key="activeMenu" value="about" />
   </xrc:parameters>
 
-</xrc:xrc>
+</xrc:page>

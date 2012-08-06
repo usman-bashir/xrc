@@ -1,16 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<xrc:xrc xmlns:xrc="urn:xrc"
+<xrc:page xmlns:xrc="urn:xrc"
          xmlns:File="xrc:FileModule">
 
-	<xrc:action method="GET" parent="~/shared/_layout">
+  <xrc:parameters>
+    <xrc:add key="title" value="My books" />
+    <xrc:add key="activeMenu" value="books" />
+  </xrc:parameters>
+
+  <xrc:action method="GET" parent="~/shared/_layout">
 		<xrc:renderer type="XsltRenderer">
       <xslt>@File.Xml("index.xslt")</xslt>
       <data>@File.Xml("books.xml")</data>
     </xrc:renderer>
   </xrc:action>
-
-	<xrc:parameters>
-		<xrc:add key="title" value="My books" />
-  </xrc:parameters>
   
-</xrc:xrc>
+</xrc:page>

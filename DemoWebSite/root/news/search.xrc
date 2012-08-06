@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<xrc:xrc xmlns:xrc="urn:xrc"
+<xrc:page xmlns:xrc="urn:xrc"
          xmlns:GoogleNews="xrc:GoogleNewsModule">
 
   <xrc:parameters>
@@ -12,4 +12,4 @@
     </xrc:renderer>
   </xrc:action>
   
-</xrc:xrc>
+</xrc:page>

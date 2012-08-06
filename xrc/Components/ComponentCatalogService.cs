@@ -29,6 +29,7 @@ namespace xrc
         {
             var types = from t in assembly.GetTypes()
                         where typeof(T).IsAssignableFrom(t)
+                            && t.IsClass
                         select t;
 
             foreach (var t in types)
