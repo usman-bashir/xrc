@@ -15,7 +15,7 @@ namespace xrc.SiteManager
     public class MashupParserService : IMashupParserService
     {
 		private static XNamespace XMLNS = "urn:xrc";
-		private static XName XRC = XMLNS + "xrc";
+		private static XName PAGE = XMLNS + "page";
 		private static XName ACTION = XMLNS + "action";
         private static XName PARAMETERS = XMLNS + "parameters";
         private static XName ADD = XMLNS + "add";
@@ -51,9 +51,9 @@ namespace xrc.SiteManager
 
                 MashupPage page = new MashupPage();
 
-				var rootElement = xdoc.Element(XRC);
+				var rootElement = xdoc.Element(PAGE);
 				if (rootElement == null)
-					throw new ApplicationException(string.Format("Element root '{0}' not found.", XRC));
+					throw new ApplicationException(string.Format("Element root '{0}' not found.", PAGE));
 
                 ParseModules(xdoc, page);
 

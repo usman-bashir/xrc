@@ -19,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{B51A8B94-7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{D9CD02D9-3452-46F3-ADD3-4897957E4734}"
 	ProjectSection(SolutionItems) = preProject
+		install_xrc_schema.txt = install_xrc_schema.txt
 		docs\note.txt = docs\note.txt
 		README = README
 	EndProjectSection
