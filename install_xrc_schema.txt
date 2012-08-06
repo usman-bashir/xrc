@@ -1,0 +1,1 @@
+To enable intellisense on xrc files copy xrc\xrc_schema.xsd and xrc\xrc_schema_catalog.xml to the folder: C:\Program Files (x86)\Microsoft Visual Studio 10.0\Xml\Schemas
