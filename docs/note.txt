@@ -28,6 +28,7 @@ TODO
  MVC Module (xrc->mvc)
  Xrc helpers (mvc->xrc)
  Gestione parametri gerarchici per folder (tramte un file di configurazione xrc.config?)
+ Block the root browse directory (necessary?)
 
  Documentation website using xrc (reading class reference from assembly and xml doc, xslt transformation of xml doc, custom docs, search, ...)
  Authentication

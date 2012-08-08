@@ -26,6 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PrecompileBeforePublish>false</PrecompileBeforePublish>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -86,6 +87,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
+    <Content Include="favicon.ico" />
     <Content Include="root\books\books.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -93,39 +95,42 @@
     <Content Include="root\books\index.xslt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="root\about.xrc">
+    <None Include="Properties\PublishProfiles\localhost.pubxml" />
+    <None Include="Properties\PublishProfiles\xrcdemo - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\xrcdemo - Web Deploy.pubxml" />
+    <Content Include="root\about.xrc">
       <SubType>Designer</SubType>
-    </None>
+    </Content>
     <Content Include="root\contact\index.cshtml" />
     <Content Include="root\contact\_contactList.cshtml" />
     <Content Include="root\contact\_contactForm1.cshtml" />
     <Content Include="root\contact\_test.cshtml" />
     <Content Include="root\contact\_contactForm2.cshtml" />
     <Content Include="root\contact\_sendSuccess.cshtml" />
-    <None Include="root\contact\_sendSuccess.xrc">
+    <Content Include="root\contact\_sendSuccess.xrc">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="root\contact\_contactForm2.xrc">
+    </Content>
+    <Content Include="root\contact\_contactForm2.xrc">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="root\contact\_test.xrc">
+    </Content>
+    <Content Include="root\contact\_test.xrc">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="root\contact\_contactList.xrc">
+    </Content>
+    <Content Include="root\contact\_contactList.xrc">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="root\contact\_contactForm1.xrc">
+    </Content>
+    <Content Include="root\contact\_contactForm1.xrc">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="root\contact\index.xrc">
+    </Content>
+    <Content Include="root\contact\index.xrc">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="root\news\search.xrc">
+    </Content>
+    <Content Include="root\news\search.xrc">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="root\news\index.xhtml">
+    </Content>
+    <Content Include="root\news\index.xhtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
     <Content Include="Content\demo.css" />
     <Content Include="root\shared\_header.xslt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -140,10 +145,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="packages.config" />
-    <None Include="root\index.xhtml">
+    <Content Include="root\index.xhtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
-    </None>
+    </Content>
     <Content Include="root\books\genre\{genre}\books_genre.xslt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -165,12 +170,12 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <None Include="root\shared\_layout3cols.xrc">
+    <Content Include="root\shared\_layout3cols.xrc">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="root\widgets\index.xrc">
+    </Content>
+    <Content Include="root\widgets\index.xrc">
       <SubType>Designer</SubType>
-    </None>
+    </Content>
     <Content Include="Views\Test\PartialSlot.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Contact\SendMVC.cshtml" />
@@ -190,36 +195,36 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="root\books\index.xrc">
+    <Content Include="root\books\index.xrc">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="root\news\index.xrc">
+    </Content>
+    <Content Include="root\news\index.xrc">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="root\widgets\_latestphotos.xrc">
+    </Content>
+    <Content Include="root\widgets\_latestphotos.xrc">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="root\widgets\_ranking.xrc">
+    </Content>
+    <Content Include="root\widgets\_ranking.xrc">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="root\weather\index.xrc">
+    </Content>
+    <Content Include="root\weather\index.xrc">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="root\shared\_layout.xrc">
+    </Content>
+    <Content Include="root\shared\_layout.xrc">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="root\shared\_footer.xrc">
+    </Content>
+    <Content Include="root\shared\_footer.xrc">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="root\shared\_header.xrc">
+    </Content>
+    <Content Include="root\shared\_header.xrc">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="root\books\genre\{genre}\index.xrc">
+    </Content>
+    <Content Include="root\books\genre\{genre}\index.xrc">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="root\index.xrc">
+    </Content>
+    <Content Include="root\index.xrc">
       <SubType>Designer</SubType>
-    </None>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

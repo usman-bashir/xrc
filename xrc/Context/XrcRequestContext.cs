@@ -11,12 +11,14 @@ namespace xrc
 
     public class XrcRequestContext : RequestContext
     {
-        private IContext _context;
-
         public XrcRequestContext(IContext context)
             : base(new XrcHttpContext(context), new RouteData()) // TODO Valutare cosa passare a route data
         {
-            _context = context;
+        }
+
+        public XrcRequestContext(HttpContextBase httpContext)
+            : base(httpContext, new RouteData()) // TODO Valutare cosa passare a route data
+        {
         }
     }
 }

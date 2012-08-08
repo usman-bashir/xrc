@@ -10,7 +10,7 @@ using xrc.Razor;
 // TODO 
 // Rivedere questo codice di chiamata a razor. 
 // Attualmente chiamo direttamente il ViewEngine così come caricato nel sito web.
-// Questo approccio ha alcuni vantaggi perchè offre lo stesso modello di svilupo (compreso intellisense, ...).
+// Questo approccio ha alcuni vantaggi perchè offre lo stesso modello di svilupo (compreso intellisense, ...) sulla pagina razor perchè viene invocata dal viewengine di default.
 // Alternative:
 // http://razorengine.codeplex.com/
 // http://vibrantcode.com/blog/2010/11/16/hosting-razor-outside-of-aspnet-revised-for-mvc3-rc.html
@@ -52,7 +52,10 @@ namespace xrc.Renderers
             ViewContext viewContext = new ViewContext();
             viewContext.ViewData = new ViewDataDictionary(Model);
             viewContext.RouteData.Values.Add("controller", "RazorRenderer");
-            viewContext.RequestContext = new XrcRequestContext(context);
+            if (HttpContext.Current == null)
+                viewContext.RequestContext = new XrcRequestContext(context);
+            else
+                viewContext.RequestContext = new XrcRequestContext(new HttpContextWrapper(HttpContext.Current)); // TODO Sembra che questo codice in release su IIS non funzionava (anche su azure), era qualcosa legato alla cache (DefaultViewLocationCache.GetViewLocation) ma non sono riuscito a capire il problema
             viewContext.HttpContext = viewContext.RequestContext.HttpContext;
 
             LoadParameters(context, viewContext);
