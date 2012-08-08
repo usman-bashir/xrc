@@ -3,8 +3,8 @@
          xmlns:File="xrc:FileModule">
 
   <xrc:parameters>
+    <!-- this parameter is readed using the url segment value {genre} -->
     <xrc:add key="genre" />
-    <!-- TODO: Enable this syntax in some way. Maybe using a function? -->
     <xrc:add key="title" value='@string.Format("My books - {0}", genre)' />
   </xrc:parameters>
 
