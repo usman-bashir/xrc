@@ -15,12 +15,15 @@ namespace xrc
 		private HttpCookieCollection _cookies = new HttpCookieCollection();
 		private NameValueCollection _form = new NameValueCollection();
 		private NameValueCollection _headers = new NameValueCollection();
+        private NameValueCollection _serverVariables = new NameValueCollection();
 		private NameValueCollection _queryString;
 		private Uri _url;
 		private Encoding _contentEncoding;
 		private string _httpMethod;
 
-		public XrcRequest(Uri request, Encoding encoding = null, string httpMethod = "GET")
+        private HttpRequestBase _parentRequest;
+
+		public XrcRequest(Uri request, Encoding encoding = null, string httpMethod = "GET", HttpRequestBase parentRequest = null)
 		{
 			if (request == null)
 				throw new ArgumentNullException("request");
@@ -32,6 +35,7 @@ namespace xrc
 			_contentEncoding = encoding;
 			_url = request;
 			_queryString = HttpUtility.ParseQueryString(_url.Query, _contentEncoding);
+            _parentRequest = parentRequest;
 		}
 
 		//public override string[] AcceptTypes
@@ -162,6 +166,36 @@ namespace xrc
 		//    get;
 		//    set;
 		//}
+
+        public override bool IsLocal
+        {
+            get
+            {
+                if (_parentRequest == null)
+                    return true;
+                else
+                    return _parentRequest.IsLocal;
+            }
+        }
+
+        public override string ApplicationPath
+        {
+            get
+            {
+                if (_parentRequest == null)
+                    return string.Empty;
+                else
+                    return _parentRequest.ApplicationPath;
+            }
+        }
+
+        public override NameValueCollection ServerVariables
+        {
+            get
+            {
+                return _serverVariables;
+            }
+        }
 
 		public override string ToString()
 		{

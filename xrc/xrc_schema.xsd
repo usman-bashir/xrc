@@ -10,18 +10,7 @@
                 <xs:complexType>
                   <xs:attribute name="key" type="xs:string" use="required" />
                   <xs:attribute name="value" type="xs:string" use="optional" />
-                  <xs:attribute name="type" use="optional">
-                    <xs:simpleType>
-                      <xs:restriction base="xs:NMTOKEN">
-                        <xs:enumeration value="System.String"/>
-                        <xs:enumeration value="System.DateTime"/>
-                        <xs:enumeration value="System.Int32"/>
-                        <xs:enumeration value="System.Guid"/>
-                        <xs:enumeration value="System.Double"/>
-                        <xs:enumeration value="System.Decimal"/>
-                      </xs:restriction>
-                    </xs:simpleType>
-                  </xs:attribute>
+                  <xs:attribute name="type" use="optional" type="xrc:parameterType" />
                   <xs:attribute name="allowRequestOverride" type="xs:boolean" use="optional" />
                 </xs:complexType>
               </xs:element>
@@ -36,17 +25,7 @@
                   <xs:sequence>
                     <xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded" />
                   </xs:sequence>
-                  <xs:attribute name="type" use="required">
-                    <xs:simpleType>
-                      <xs:restriction base="xs:NMTOKEN">
-                        <xs:enumeration value="XsltRenderer"/>
-                        <xs:enumeration value="XHtmlRenderer"/>
-                        <xs:enumeration value="RazorRenderer"/>
-                        <xs:enumeration value="JsonRenderer" />
-                        <xs:enumeration value="SlotRenderer" />
-                      </xs:restriction>
-                    </xs:simpleType>
-                  </xs:attribute>
+                  <xs:attribute name="type" use="required" type="xrc:rendererTypeCode" />
                   <xs:attribute name="slot" type="xs:string" use="optional" />
                 </xs:complexType>
               </xs:element>
@@ -62,4 +41,43 @@
     </xs:complexType>
   </xs:element>
 
+  <xs:simpleType name="parameterType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="System.String"/>
+          <xs:enumeration value="System.DateTime"/>
+          <xs:enumeration value="System.Int32"/>
+          <xs:enumeration value="System.Guid"/>
+          <xs:enumeration value="System.Double"/>
+          <xs:enumeration value="System.Decimal"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value=".*" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+
+  <xs:simpleType name="rendererTypeCode">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="XsltRenderer"/>
+          <xs:enumeration value="XHtmlRenderer"/>
+          <xs:enumeration value="RazorRenderer"/>
+          <xs:enumeration value="JsonRenderer" />
+          <xs:enumeration value="SlotRenderer" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value=".*" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  
 </xs:schema>

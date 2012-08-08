@@ -1,0 +1,18 @@
+﻿@inherits xrc.Razor.XrcWebViewPage
+
+@functions
+{
+    public DateTime param1
+    {
+        get;
+        set;
+    }
+}
+
+<p>Show an example of a razor page and how to read parameters: <br />
+hello from razor: @DateTime.Now, hello from xrc parameter: @param1</p>
+
+
+@* TODO Non funziona...
+@Html.Action("PartialSlot", "Test")
+*@

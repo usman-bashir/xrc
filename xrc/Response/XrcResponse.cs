@@ -23,7 +23,9 @@ namespace xrc
 		private TextWriter _output;
 		private Stream _outputStream;
 
-		public XrcResponse(Stream stream, Encoding encoding = null)
+        private HttpResponseBase _parentResponse;
+
+		public XrcResponse(Stream stream, Encoding encoding = null, HttpResponseBase parentResponse = null)
 		{
 			if (stream == null)
 				throw new ArgumentNullException("stream");
@@ -34,6 +36,7 @@ namespace xrc
 			_contentEncoding = encoding;
 			_outputStream = stream;
 			_output = new StreamWriter(stream, _contentEncoding);
+            _parentResponse = parentResponse;
 		}
 
 		public override HttpCookieCollection Cookies
@@ -87,8 +90,16 @@ namespace xrc
 
         public override string ApplyAppPathModifier(string virtualPath)
         {
-            // TODO Valutare se bisogna implementare qualche logica o è sempre sufficiente restituire la virtualPath
-            return virtualPath;
+            if (_parentResponse != null)
+                return _parentResponse.ApplyAppPathModifier(virtualPath);
+            else
+                // TODO Valutare se bisogna implementare qualche logica o è sempre sufficiente restituire la virtualPath
+                return virtualPath;
+        }
+
+        public override void RedirectPermanent(string url)
+        {
+            throw new XrcException(string.Format("Response redirection required, redirect url is '{0}'.", url));
         }
 
 		#region IDisposable
@@ -105,7 +116,7 @@ namespace xrc
 						_output.Flush();
 					}
 
-					// TODO Check it is right.
+					// TODO Check it is right. Some classes like StreamReader seems that close the internal stream.
 					// Note:
 					// I should not dispose this stream because it is an input of this class.
 					// It is caller responsability to dispose it.

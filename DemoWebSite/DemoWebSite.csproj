@@ -70,7 +70,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ContactController.cs" />
+    <Compile Include="Controllers\ControllerInstaller.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\WindsorControllerFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -94,6 +97,26 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="root\contact\index.cshtml" />
+    <Content Include="root\contact\_contactList.cshtml" />
+    <Content Include="root\contact\_contactForm1.cshtml" />
+    <Content Include="root\contact\_test.cshtml" />
+    <Content Include="root\contact\_contactForm2.cshtml" />
+    <Content Include="root\contact\_sendSuccess.cshtml" />
+    <None Include="root\contact\_sendSuccess.xrc">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="root\contact\_contactForm2.xrc">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="root\contact\_test.xrc">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="root\contact\_contactList.xrc">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="root\contact\_contactForm1.xrc">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="root\contact\index.xrc">
       <SubType>Designer</SubType>
     </None>
@@ -150,6 +173,7 @@
     </None>
     <Content Include="Views\Test\PartialSlot.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\Contact\SendMVC.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DemoWebSite.Lib\DemoWebSite.Lib.csproj">

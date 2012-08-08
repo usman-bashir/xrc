@@ -2,13 +2,13 @@
 <xrc:page xmlns:xrc="urn:xrc">
 
   <xrc:parameters>
-    <xrc:add key="title" value="Contact" />
-    <xrc:add key="activeMenu" value="contact" />
+    <xrc:add key="newContact" type="DemoWebSite.Contact, DemoWebSite.Lib"/>
   </xrc:parameters>
-
-  <xrc:action method="GET" parent="~/shared/_layout">
+  
+  <xrc:action method="GET">
 		<xrc:renderer type="RazorRenderer">
-			<view>index.cshtml</view>
+      <view>_sendSuccess.cshtml</view>
+      <model>@newContact</model>
 		</xrc:renderer>
 	</xrc:action>
   

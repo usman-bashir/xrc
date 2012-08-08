@@ -34,6 +34,7 @@ namespace xrc.IoC.Windsor
             container.Register(Classes.FromAssembly(assembly)
                                 .BasedOn<xrc.Modules.IModule>()
                                 .WithServiceSelf()
+                                .WithServiceFirstInterface()
                                 .LifestyleTransient());
         }
     }

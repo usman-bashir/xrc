@@ -85,9 +85,7 @@ namespace xrc.Renderers
 
         void LoadContextVariables(IContext context, ViewContext viewContext)
         {
-            viewContext.ViewData[Razor.ViewDataConstant.VIEWDATA_XRCCONTEXT] = context;
-            viewContext.ViewData[Razor.ViewDataConstant.VIEWDATA_IMODULEFACTORY] = _moduleFactory;
-            viewContext.ViewData[Razor.ViewDataConstant.VIEWDATA_IMODULECATALOGSERVICE] = _moduleCatalog;
+            Razor.XrcWebViewPageExtension.LoadViewContextVariables(viewContext, context, _moduleCatalog, _moduleFactory);
         }
 
         /// <summary>
@@ -101,94 +99,4 @@ namespace xrc.Renderers
             return UriExtensions.Combine(_workingPath.VirtualPath, relative.ToString());
         }
 	}
-}
-
-
-// A custom razor page that can be used as a base class for razor page.
-//  The problem is that currently I cannot find an easy method to IoC with WebViewPage so I use a dynamic proxy that create the modules and release it.
-//  I load all the modules and parameters defined in the page (using the @functions keyword).
-namespace xrc.Razor
-{
-    public class ViewDataConstant
-    {
-        public const string VIEWDATA_XRCCONTEXT = "_XrcContext";
-        public const string VIEWDATA_IMODULEFACTORY = "_IModuleFactory";
-        public const string VIEWDATA_IMODULECATALOGSERVICE = "_IModuleCatalogService";
-    }
-
-    public abstract class XrcWebViewPage<TModel> : WebViewPage<TModel>
-    {
-        public XrcWebViewPage()
-        {
-        }
-
-        private IContext _xrcContext;
-        private Modules.IModuleFactory _moduleFactory;
-        private Modules.IModuleCatalogService _moduleCatalog;
-        private static readonly Castle.DynamicProxy.ProxyGenerator _generator = new Castle.DynamicProxy.ProxyGenerator();
-
-        public override void InitHelpers()
-        {
-            base.InitHelpers();
-
-            _xrcContext = (IContext)ViewData[ViewDataConstant.VIEWDATA_XRCCONTEXT];
-            _moduleFactory = (Modules.IModuleFactory)ViewData[ViewDataConstant.VIEWDATA_IMODULEFACTORY];
-            _moduleCatalog = (Modules.IModuleCatalogService)ViewData[ViewDataConstant.VIEWDATA_IMODULECATALOGSERVICE];
-
-            LoadModulesAndParameters();
-        }
-
-        private void LoadModulesAndParameters()
-        {
-            foreach (var p in GetType().GetProperties())
-            {
-                if (typeof(Modules.IModule).IsAssignableFrom(p.PropertyType))
-                {
-                    var component = _moduleCatalog.Get(p.Name);
-                    if (p.PropertyType.IsAssignableFrom(component.Type))
-                    {
-                        var interceptor = new ModuleInterceptor(component, _xrcContext, _moduleFactory);
-                        p.SetValue(this, _generator.CreateInterfaceProxyWithoutTarget(p.PropertyType, interceptor), null);
-                    }
-                }
-                else
-                {
-                    ContextParameter parameter;
-                    if (_xrcContext.Parameters.TryGetValue(p.Name, out parameter) &&
-                                    p.PropertyType.IsAssignableFrom(parameter.Type))
-                        p.SetValue(this, parameter.Value, null);
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// Interceptor to invoke a module inside a page. This allow to create it using the factory and release it.
-    /// Note: when MVC will correctly implement dependency injection for razor web page this class can be removed.
-    /// </summary>
-    class ModuleInterceptor : Castle.DynamicProxy.IInterceptor
-    {
-        private ComponentDefinition _component;
-        private IContext _context;
-        private Modules.IModuleFactory _moduleFactory;
-        public ModuleInterceptor(ComponentDefinition component, IContext context, Modules.IModuleFactory moduleFactory)
-        {
-            _component = component;
-            _context = context;
-            _moduleFactory = moduleFactory;
-        }
-
-        public void Intercept(Castle.DynamicProxy.IInvocation invocation)
-        {
-            Modules.IModule module = _moduleFactory.Get(_component, _context);
-            try
-            {
-                invocation.ReturnValue = invocation.Method.Invoke(module, invocation.Arguments);
-            }
-            finally
-            {
-                _moduleFactory.Release(module);
-            }
-        }
-    }
 }

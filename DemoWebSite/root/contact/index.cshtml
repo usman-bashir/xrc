@@ -1,49 +1,28 @@
-﻿@inherits xrc.Razor.XrcWebViewPage<DemoWebSite.Contact>
+﻿@inherits xrc.Razor.XrcWebViewPage
 
 @functions
 {
-    public DateTime param1
-    {
-        get;
-        set;
-    }
-
-    public DemoWebSite.IContactModule ContactModule
+    public xrc.Modules.ISlotModule SlotModule
     {
         get;
         set;
     }
 }
 
-<div>
-	<p>Show an example of how to read parameters: <br />
-    hello from razor: @DateTime.Now, hello from xrc parameter: @param1</p>
+<div class="row-fluid">
+    <div class="span12">
+        @Html.Raw(SlotModule.Include("_test"))
+    </div>
+</div>
 
-    <p>An example of a module call: @ContactModule.SayHello()</p>
-
-
-    @* TODO Non funziona...
-    @Html.Action("PartialSlot", "Test")
-    *@
-
-    <p>A form that submit to MVC.</p>
-	<form class="well" action="@Url.Action("Send", "Contact")" method="post">
-        <h2>Contact form</h2>
-
-		<label>First Name</label>
-		<input name="FirstName" value="@Model.FirstName" type="text" />
-
-		<br />
-
-		@Html.LabelFor(p => p.LastName)
-		@Html.TextBoxFor(p => p.LastName)
-
-        <label>Message</label>
-        <textarea name="Message" rows="3" cols="50">@Model.Message</textarea>
-
-		<button type="submit" class="btn btn-info">
-            Send
-        </button>
-        
-	</form>
+<div class="row-fluid">
+    <div class="span4">
+        @Html.Raw(SlotModule.Include("_contactform1"))
+    </div>
+    <div class="span4">
+        @Html.Raw(SlotModule.Include("_contactform2"))
+    </div>
+    <div class="span4">
+        @Html.Raw(SlotModule.Include("_contactlist"))
+    </div>
 </div>

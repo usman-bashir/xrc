@@ -77,6 +77,11 @@
     <Compile Include="Modules\ModuleDefinitionList.cs" />
     <Compile Include="Modules\ModuleDefinition.cs" />
     <Compile Include="Modules\IModuleFactory.cs" />
+    <Compile Include="Kernel\IXrcService.cs" />
+    <Compile Include="Kernel\XrcService.cs" />
+    <Compile Include="Razor\XrcWebViewPageExtension.cs" />
+    <Compile Include="Razor\ModuleInterceptor.cs" />
+    <Compile Include="Razor\XrcWebViewPage.cs" />
     <Compile Include="Renderers\IRendererCatalogService.cs" />
     <Compile Include="Renderers\IRendererFactory.cs" />
     <Compile Include="Kernel\RenderSlotEvent.cs" />

@@ -13,7 +13,7 @@ namespace DemoWebSite
 
 	public class MvcApplication : System.Web.HttpApplication
 	{
-        private IWindsorContainer _container;
+        private static IWindsorContainer _container;
 
 		protected void Application_Start()
 		{
@@ -29,17 +29,30 @@ namespace DemoWebSite
             string xrcVirtualPath = "~/root";
 
             _container = new WindsorContainer();
+
+            // register xrc required classes
             _container.Register(Component.For<xrc.Configuration.WorkingPath>().Instance(
                                 new xrc.Configuration.WorkingPath(xrcVirtualPath, this.Server.MapPath(xrcVirtualPath))));
             _container.Register(Component.For<xrc.Configuration.XrcSection>().Instance(
                                    xrc.Configuration.XrcSection.GetSection()));
             _container.Install(new xrc.IoC.Windsor.XrcDefaultInstaller());
 
-            _container.Register(Types.FromAssemblyContaining<WeatherModule>().BasedOn<xrc.Modules.IModule>());
+            // Register demo web site modules
+            _container.Register(Classes.FromAssemblyContaining<WeatherModule>()
+                                .BasedOn<xrc.Modules.IModule>()
+                                .WithServiceSelf()
+                                .WithServiceDefaultInterfaces());
+
+            // Windsor MVC integration
+            _container.Install(Castle.Windsor.Installer.FromAssembly.This());
+            var controllerFactory = new Controllers.WindsorControllerFactory(_container.Kernel);
+            ControllerBuilder.Current.SetControllerFactory(controllerFactory);
         }
 
         private void RegisterRoutes(RouteCollection routes)
 		{
+            routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
+
 			// Catch all the path starting with "mvc"
 			routes.MapRoute(
 			     "mvc_route",

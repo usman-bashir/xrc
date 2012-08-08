@@ -1,0 +1,52 @@
+﻿@inherits xrc.Razor.XrcWebViewPage<DemoWebSite.Contact>
+
+@functions
+{
+    public DemoWebSite.IContactModule ContactModule
+    {
+        get;
+        set;
+    }
+}
+
+<div id="result2">
+    <p>Post to MVC and redirect to xrc view.</p>
+	<form id="contactForm2" class="well" action="@Url.Action("SendXRC", "Contact")" method="post">
+        <h2>Contact form</h2>
+
+		<label>First Name</label>
+		<input name="FirstName" value="@Model.FirstName" type="text" />
+
+		<br />
+
+		@Html.LabelFor(p => p.LastName)
+		@Html.TextBoxFor(p => p.LastName)
+
+        <label>Message</label>
+        <textarea name="Message" rows="3" cols="50">@Model.Message</textarea>
+
+		<button type="submit" class="btn btn-info">
+            Send
+        </button>
+        
+	</form>
+
+    <script type="text/javascript">
+        (function() {
+            var frm = $('#contactForm2');
+            frm.submit(function () {
+                $.ajax({
+                    type: frm.attr('method'),
+                    url: frm.attr('action'),
+                    data: frm.serialize(),
+                    success: function (data) {
+                        $('#result2').html(data);
+                    }
+                });
+
+                return false;
+            });
+        })();
+    </script>
+
+</div>

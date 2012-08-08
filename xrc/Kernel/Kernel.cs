@@ -114,7 +114,7 @@ namespace xrc
             // Parameters will be also copied from slot to parent.
 
             Uri parentUri = new Uri(context.GetAbsoluteUrl(action.Parent));
-            Context parentContext = new Context(new XrcRequest(parentUri), currentResponse);
+            Context parentContext = new Context(new XrcRequest(parentUri, parentRequest:context.Request), currentResponse);
             foreach (var item in context.Parameters)
                 parentContext.Parameters.Add(new ContextParameter(item.Name, item.Type, item.Value));
 
@@ -122,7 +122,7 @@ namespace xrc
                 {
                     using (MemoryStream stream = new MemoryStream())
                     {
-                        using (XrcResponse response = new XrcResponse(stream))
+                        using (XrcResponse response = new XrcResponse(stream, parentResponse:currentResponse))
                         {
                             context.Response = response;
 

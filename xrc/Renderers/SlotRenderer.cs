@@ -28,7 +28,7 @@ namespace xrc.Renderers
                 throw new ArgumentNullException("Slot");
 
 			var url = context.GetAbsoluteUrl(SlotUrl);
-            XrcRequest request = new XrcRequest(new Uri(url));
+            XrcRequest request = new XrcRequest(new Uri(url), parentRequest: context.Request);
 
             Context slotContext = new Context(request, context.Response);
             _kernel.RenderRequest(slotContext);
