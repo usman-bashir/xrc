@@ -1,0 +1,2 @@
+To enable intellisense on xrc files copy xrc\xrc_schema.xsd and xrc\xrc_schema_catalog.xml to the folder: C:\Program Files (x86)\Microsoft Visual Studio 10.0\Xml\Schemas
+To enable default build action for .xrc files to "Content" copy xrc\xrc_content.pkgdef file to %PROGRAMFILES(x86)%\Microsoft Visual Studio 10.0\Common7\IDE\Extensions
