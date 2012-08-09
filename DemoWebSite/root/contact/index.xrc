@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <xrc:page xmlns:xrc="urn:xrc">
 
-  <xrc:parameters>
-    <xrc:add key="title" value="Contact" />
-    <xrc:add key="activeMenu" value="contact" />
-  </xrc:parameters>
+	<xrc:parameters>
+		<xrc:add key="title" value="Contact" />
+		<xrc:add key="activeMenu" value="contact" />
+	</xrc:parameters>
 
-  <xrc:action method="GET" parent="~/shared/_layout">
+	<xrc:action method="GET" parent="~/shared/_layout">
 		<xrc:renderer type="RazorRenderer">
 			<view>index.cshtml</view>
 		</xrc:renderer>
 	</xrc:action>
-  
+
 </xrc:page>

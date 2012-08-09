@@ -3,19 +3,19 @@
          xmlns:File="xrc:FileModule"
          xmlns:Weather="xrc:WeatherModule">
 
-  <xrc:parameters>
-    <xrc:add key="title" value="Weather" />
-    <xrc:add key="activeMenu" value="weather" />
-    <xrc:add key="location" value="Torino" allowRequestOverride="true" />
-  </xrc:parameters>
+	<xrc:parameters>
+		<xrc:add key="title" value="Weather" />
+		<xrc:add key="activeMenu" value="weather" />
+		<xrc:add key="location" value="Torino" allowRequestOverride="true" />
+	</xrc:parameters>
 
-  <xrc:action method="GET" parent="~/shared/_layout">
+	<xrc:action method="GET" parent="~/shared/_layout">
 		<xrc:renderer type="XsltRenderer">
-      <xslt>@File.Xml("index.xslt")</xslt>
-      <data>@Weather.Get(location)</data>
-    </xrc:renderer>
+			<xslt>@File.Xml("index.xslt")</xslt>
+			<data>@Weather.Get(location)</data>
+		</xrc:renderer>
 
 		<xrc:outputcache />
-  </xrc:action>
+	</xrc:action>
 
 </xrc:page>

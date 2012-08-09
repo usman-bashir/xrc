@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <xrc:page xmlns:xrc="urn:xrc">
 
-  <!-- This is an example of static html output. Can also be used @{File.Xml("footer.html")} -->
+	<!-- This is an example of static html output. Can also be used @{File.Xml("footer.html")} -->
 
 	<xrc:action method="GET">
 		<xrc:renderer type="XHtmlRenderer">
-      <content>
-        <div class="row-fluid">
-          <div id="footer" class="span12">
-            This is the footer content
-          </div>
-        </div>
-      </content>
-      
-    </xrc:renderer>
-  </xrc:action>
-  
+			<content>
+				<div class="row-fluid">
+					<div id="footer" class="span12">
+						This is the footer content
+					</div>
+				</div>
+			</content>
+
+		</xrc:renderer>
+	</xrc:action>
+
 </xrc:page>

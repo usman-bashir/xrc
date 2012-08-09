@@ -2,29 +2,29 @@
 <xrc:page xmlns:xrc="urn:xrc"
          xmlns:File="xrc:FileModule">
 
-  <xrc:parameters>
-    <!-- This parameter can be overriden by child pages because when including header the shared/_layout.xrc pass this parameter. -->
-    <xrc:add key="activeMenu" />
-  </xrc:parameters>
+	<xrc:parameters>
+		<!-- This parameter can be overriden by child pages because when including header the shared/_layout.xrc pass this parameter. -->
+		<xrc:add key="activeMenu" />
+	</xrc:parameters>
 
-  <xrc:action method="GET">
-    <xrc:renderer type="XsltRenderer">
-      <xslt>@File.Xml("_header.xslt")</xslt>
+	<xrc:action method="GET">
+		<xrc:renderer type="XsltRenderer">
+			<xslt>@File.Xml("_header.xslt")</xslt>
 
-      <!-- This is an example of an inline xml, also the xslt can be inline but is not very easy to read -->
-      <data xmlns="">
-        <header>
-          <menu text="home" url="~/" />
-          <menu text="books" url="~/books" />
-          <menu text="weather" url="~/weather/" />
-          <menu text="news" url="~/news/" />
-          <menu text="widgets" url="~/widgets" />
+			<!-- This is an example of an inline xml, also the xslt can be inline but is not very easy to read -->
+			<data xmlns="">
+				<header>
+					<menu text="home" url="~/" />
+					<menu text="books" url="~/books" />
+					<menu text="weather" url="~/weather/" />
+					<menu text="news" url="~/news/" />
+					<menu text="widgets" url="~/widgets" />
 					<menu text="contact" url="~/contact" />
 					<menu text="about" url="~/about" />
 				</header>
-      </data>
-      
-    </xrc:renderer>
-  </xrc:action>
-  
+			</data>
+
+		</xrc:renderer>
+	</xrc:action>
+
 </xrc:page>

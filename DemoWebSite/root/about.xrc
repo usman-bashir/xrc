@@ -3,18 +3,18 @@
 
 	<xrc:action method="GET" parent="~/shared/_layout">
 		<xrc:renderer type="XHtmlRenderer">
-      <!-- Example using an inline xhtml content -->
-      <content>
-        <div>
-          This is the <b>about</b> page!
-        </div>
-      </content>
-    </xrc:renderer>
-  </xrc:action>
+			<!-- Example using an inline xhtml content -->
+			<content>
+				<div>
+					This is the <b>about</b> page!
+				</div>
+			</content>
+		</xrc:renderer>
+	</xrc:action>
 
 	<xrc:parameters>
 		<xrc:add key="title" value="About" />
-    <xrc:add key="activeMenu" value="about" />
-  </xrc:parameters>
+		<xrc:add key="activeMenu" value="about" />
+	</xrc:parameters>
 
 </xrc:page>

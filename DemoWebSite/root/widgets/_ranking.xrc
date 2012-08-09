@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <xrc:page xmlns:xrc="urn:xrc">
 
-  <!-- This is an example of static html output. Can also be used @{File.Xml("footer.html")} -->
+	<!-- This is an example of static html output. Can also be used @{File.Xml("footer.html")} -->
 
 	<xrc:action method="GET">
 		<xrc:renderer type="XHtmlRenderer">
-      <content>
+			<content>
 				<div class="widget">
 					<img style="visibility:hidden;width:0px;height:0px;" border="0" width="0" height="0" src="http://c.gigcount.com/wildfire/IMP/CXNID=2000002.0NXC/bT*xJmx*PTEzMzIyNjA3OTY3MjcmcHQ9MTMzMjI2MDc5OTcwNyZwPTExMjQxMjEmZD13b3JsZHJhbmtpbmdfZW4mZz*yJm89MjEy/NTBmMzg2ZTcyNGYxYThjZDRjMzA4YzJjMjFiMWQmb2Y9MA==.gif" />
 					<object  classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="300" height="400" align="top" id="WFHost">
@@ -18,8 +18,8 @@
 					</object>
 				</div>
 			</content>
-      
-    </xrc:renderer>
-  </xrc:action>
-  
+
+		</xrc:renderer>
+	</xrc:action>
+
 </xrc:page>

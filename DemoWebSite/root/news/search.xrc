@@ -2,14 +2,14 @@
 <xrc:page xmlns:xrc="urn:xrc"
          xmlns:GoogleNews="xrc:GoogleNewsModule">
 
-  <xrc:parameters>
-    <xrc:add key="value" allowRequestOverride="true" />
-  </xrc:parameters>
-  
+	<xrc:parameters>
+		<xrc:add key="value" allowRequestOverride="true" />
+	</xrc:parameters>
+
 	<xrc:action method="GET">
 		<xrc:renderer type="JsonRenderer">
-      <content>@GoogleNews.Search(value)</content>
-    </xrc:renderer>
-  </xrc:action>
-  
+			<content>@GoogleNews.Search(value)</content>
+		</xrc:renderer>
+	</xrc:action>
+
 </xrc:page>

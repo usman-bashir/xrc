@@ -2,17 +2,17 @@
 <xrc:page xmlns:xrc="urn:xrc"
          xmlns:File="xrc:FileModule">
 
-  <xrc:parameters>
-    <!-- this parameter is readed using the url segment value {genre} -->
-    <xrc:add key="genre" />
-    <xrc:add key="title" value='@string.Format("My books - {0}", genre)' />
-  </xrc:parameters>
+	<xrc:parameters>
+		<!-- this parameter is readed using the url segment value {genre} -->
+		<xrc:add key="genre" />
+		<xrc:add key="title" value='@string.Format("My books - {0}", genre)' />
+	</xrc:parameters>
 
-  <xrc:action method="GET" parent="~/shared/_layout">
+	<xrc:action method="GET" parent="~/shared/_layout">
 		<xrc:renderer type="XsltRenderer">
-      <xslt>@File.Xml("books_genre.xslt")</xslt>
-      <data>@File.Xml("..\..\books.xml")</data>
-    </xrc:renderer>
-  </xrc:action>
+			<xslt>@File.Xml("books_genre.xslt")</xslt>
+			<data>@File.Xml("..\..\books.xml")</data>
+		</xrc:renderer>
+	</xrc:action>
 
 </xrc:page>

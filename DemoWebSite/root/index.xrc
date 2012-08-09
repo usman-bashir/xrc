@@ -2,20 +2,20 @@
 <xrc:page xmlns:xrc="urn:xrc"
          xmlns:File="xrc:FileModule">
 
-  <xrc:parameters>
-    <!-- This parameter will be used as the page title in the shared/layout.xslt page -->
-    <xrc:add key="title" value="xrc home" />
-    <!-- This parameter will be passed on the shared/_header.xrc -->
-    <xrc:add key="activeMenu" value="home" />
-  </xrc:parameters>
-  
+	<xrc:parameters>
+		<!-- This parameter will be used as the page title in the shared/layout.xslt page -->
+		<xrc:add key="title" value="xrc home" />
+		<!-- This parameter will be passed on the shared/_header.xrc -->
+		<xrc:add key="activeMenu" value="home" />
+	</xrc:parameters>
+
 	<xrc:action method="GET" parent="~/shared/_layout">
 		<xrc:renderer type="XHtmlRenderer">
-      <content>@File.XHtml("index.xhtml")</content>
-    </xrc:renderer>
+			<content>@File.XHtml("index.xhtml")</content>
+		</xrc:renderer>
 
-    <!-- TODO: How to configure outputcache -->
+		<!-- TODO: How to configure outputcache -->
 		<xrc:outputcache />
 	</xrc:action>
-  
+
 </xrc:page>

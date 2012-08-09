@@ -2,15 +2,15 @@
 <xrc:page xmlns:xrc="urn:xrc"
          xmlns:File="xrc:FileModule">
 
-  <xrc:parameters>
-    <xrc:add key="title" value="News" />
-    <xrc:add key="activeMenu" value="news" />
-  </xrc:parameters>
+	<xrc:parameters>
+		<xrc:add key="title" value="News" />
+		<xrc:add key="activeMenu" value="news" />
+	</xrc:parameters>
 
-  <xrc:action method="GET" parent="~/shared/_layout">
+	<xrc:action method="GET" parent="~/shared/_layout">
 		<xrc:renderer type="XHtmlRenderer">
-      <content>@File.Xml("index.xhtml")</content>
-    </xrc:renderer>
-  </xrc:action>
-  
+			<content>@File.Xml("index.xhtml")</content>
+		</xrc:renderer>
+	</xrc:action>
+
 </xrc:page>

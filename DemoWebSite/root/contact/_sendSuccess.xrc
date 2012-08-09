@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <xrc:page xmlns:xrc="urn:xrc">
 
-  <xrc:parameters>
-    <xrc:add key="newContact" type="DemoWebSite.Contact, DemoWebSite.Lib"/>
-  </xrc:parameters>
-  
-  <xrc:action method="GET">
+	<xrc:parameters>
+		<xrc:add key="newContact" type="DemoWebSite.Contact, DemoWebSite.Lib"/>
+	</xrc:parameters>
+
+	<xrc:action method="GET">
 		<xrc:renderer type="RazorRenderer">
-      <view>_sendSuccess.cshtml</view>
-      <model>@newContact</model>
+			<view>_sendSuccess.cshtml</view>
+			<model>@newContact</model>
 		</xrc:renderer>
 	</xrc:action>
-  
+
 </xrc:page>
