@@ -1,83 +1,94 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:xrc="urn:xrc" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="urn:xrc" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name="page">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element name="parameters" maxOccurs="1" minOccurs="0">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element minOccurs="0" maxOccurs="unbounded" name="add">
-                <xs:complexType>
-                  <xs:attribute name="key" type="xs:string" use="required" />
-                  <xs:attribute name="value" type="xs:string" use="optional" />
-                  <xs:attribute name="type" use="optional" type="xrc:parameterType" />
-                  <xs:attribute name="allowRequestOverride" type="xs:boolean" use="optional" />
-                </xs:complexType>
-              </xs:element>
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
-        <xs:element name="action">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="renderer" maxOccurs="unbounded" minOccurs="1">
-                <xs:complexType>
-                  <xs:sequence>
-                    <xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded" />
-                  </xs:sequence>
-                  <xs:attribute name="type" use="required" type="xrc:rendererTypeCode" />
-                  <xs:attribute name="slot" type="xs:string" use="optional" />
-                </xs:complexType>
-              </xs:element>
-              <xs:element name="outputcache" maxOccurs="1" minOccurs="0">
-                <xs:complexType></xs:complexType>
-              </xs:element>
-            </xs:sequence>
-            <xs:attribute name="method" type="xs:string" use="optional" />
-            <xs:attribute name="parent" type="xs:string" use="optional" />
-          </xs:complexType>
-        </xs:element>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
+	<xs:element name="page" type="xrc:pageElement">
+	</xs:element>
 
-  <xs:simpleType name="parameterType">
-    <xs:union>
-      <xs:simpleType>
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="System.String"/>
-          <xs:enumeration value="System.DateTime"/>
-          <xs:enumeration value="System.Int32"/>
-          <xs:enumeration value="System.Guid"/>
-          <xs:enumeration value="System.Double"/>
-          <xs:enumeration value="System.Decimal"/>
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType>
-        <xs:restriction base="xs:string">
-          <xs:pattern value=".*" />
-        </xs:restriction>
-      </xs:simpleType>
-    </xs:union>
-  </xs:simpleType>
+	<xs:complexType name="pageElement">
+		<xs:sequence>
+			<xs:element name="parameters" maxOccurs="1" minOccurs="0" type="xrc:parametersElement" />
+			<xs:element name="action" minOccurs="0" maxOccurs="unbounded" type="xrc:actionElement" />
+		</xs:sequence>
+	</xs:complexType>
 
-  <xs:simpleType name="rendererTypeCode">
-    <xs:union>
-      <xs:simpleType>
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="XsltRenderer"/>
-          <xs:enumeration value="XHtmlRenderer"/>
-          <xs:enumeration value="RazorRenderer"/>
-          <xs:enumeration value="JsonRenderer" />
-          <xs:enumeration value="SlotRenderer" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType>
-        <xs:restriction base="xs:string">
-          <xs:pattern value=".*" />
-        </xs:restriction>
-      </xs:simpleType>
-    </xs:union>
-  </xs:simpleType>
-  
+	<xs:complexType name="parametersElement">
+		<xs:sequence>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="add" type="xrc:parameterElement" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="parameterElement">
+		<xs:attribute name="key" type="xs:string" use="required" />
+		<xs:attribute name="value" type="xs:string" use="optional" />
+		<xs:attribute name="type" use="optional" type="xrc:parameterTypeAttribute" />
+		<xs:attribute name="allowRequestOverride" type="xs:boolean" use="optional" />
+	</xs:complexType>
+
+	<xs:complexType name="actionElement">
+		<xs:sequence>
+			<xs:element name="view" maxOccurs="unbounded" minOccurs="1" type="xrc:viewElement" />
+			<xs:element name="outputcache" maxOccurs="1" minOccurs="0">
+				<xs:complexType></xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="method" use="optional">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="GET" />
+					<xs:enumeration value="POST" />
+					<xs:enumeration value="PUT" />
+					<xs:enumeration value="DELETE" />
+					<!--<xs:enumeration value="INCLUDE" />-->
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="parent" type="xs:string" use="optional" />
+	</xs:complexType>
+
+	<xs:complexType name="viewElement">
+		<xs:sequence>
+			<xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="type" use="required" type="xrc:viewTypeAttribute" />
+		<xs:attribute name="slot" type="xs:string" use="optional" />
+	</xs:complexType>
+
+	<xs:simpleType name="parameterTypeAttribute">
+		<xs:union>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="System.String"/>
+					<xs:enumeration value="System.DateTime"/>
+					<xs:enumeration value="System.Int32"/>
+					<xs:enumeration value="System.Guid"/>
+					<xs:enumeration value="System.Double"/>
+					<xs:enumeration value="System.Decimal"/>
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:pattern value=".*" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+
+	<xs:simpleType name="viewTypeAttribute">
+		<xs:union>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="XsltView"/>
+					<xs:enumeration value="XHtmlView"/>
+					<xs:enumeration value="RazorView"/>
+					<xs:enumeration value="JsonView" />
+					<xs:enumeration value="SlotView" />
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:pattern value=".*" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+
 </xs:schema>

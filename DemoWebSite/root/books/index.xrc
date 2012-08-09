@@ -8,10 +8,10 @@
 	</xrc:parameters>
 
 	<xrc:action method="GET" parent="~/shared/_layout">
-		<xrc:renderer type="XsltRenderer">
+		<xrc:view type="XsltView">
 			<xslt>@File.Xml("index.xslt")</xslt>
 			<data>@File.Xml("books.xml")</data>
-		</xrc:renderer>
+		</xrc:view>
 	</xrc:action>
 
 </xrc:page>

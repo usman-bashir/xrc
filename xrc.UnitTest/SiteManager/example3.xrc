@@ -2,9 +2,9 @@
 <xrc:page xmlns:xrc="urn:xrc">
 
 	<xrc:action method="GET">
-		<xrc:renderer type="TestRenderer" slot="SLOT1" />
-    <xrc:renderer type="TestRenderer" slot="slot2" />
-    <xrc:renderer type="TestRenderer" slot="SLOT3" />
+		<xrc:view type="TestView" slot="SLOT1" />
+    <xrc:view type="TestView" slot="slot2" />
+    <xrc:view type="TestView" slot="SLOT3" />
   </xrc:action>
 
 </xrc:page>

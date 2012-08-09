@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:page xmlns:xrc="urn:xrc"
+         xmlns:File="xrc:FileModule"
+         xmlns:Twitter="xrc:TwitterModule">
+
+	<xrc:parameters>
+		<xrc:add key="title" value="Twitter" />
+		<xrc:add key="activeMenu" value="twitter" />
+		<xrc:add key="hashTag" value="microsoft" allowRequestOverride="true" />
+	</xrc:parameters>
+
+	<xrc:action method="GET" parent="~/shared/_layout">
+		<xrc:view type="XsltView">
+			<xslt>@File.Xml("index.xslt")</xslt>
+			<data>@Twitter.Search(hashTag)</data>
+		</xrc:view>
+
+		<xrc:outputcache />
+	</xrc:action>
+
+</xrc:page>

@@ -5,40 +5,40 @@ using System.Text;
 
 namespace xrc.SiteManager
 {
-    public class RendererDefinitionList : IEnumerable<RendererDefinition>
+    public class ViewDefinitionList : IEnumerable<ViewDefinition>
     {
-        private Dictionary<string, RendererDefinition> _renderers = new Dictionary<string, RendererDefinition>(StringComparer.OrdinalIgnoreCase);
+        private Dictionary<string, ViewDefinition> _views = new Dictionary<string, ViewDefinition>(StringComparer.OrdinalIgnoreCase);
 
-        public RendererDefinitionList()
+        public ViewDefinitionList()
         {
         }
 
-        public IEnumerator<RendererDefinition> GetEnumerator()
+        public IEnumerator<ViewDefinition> GetEnumerator()
         {
-            return _renderers.Values.GetEnumerator();
+            return _views.Values.GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return _renderers.Values.GetEnumerator();
+            return _views.Values.GetEnumerator();
         }
 
-        public RendererDefinition this[string name]
+        public ViewDefinition this[string name]
         {
             get
             {
-                return _renderers[name];
+                return _views[name];
             }
         }
 
-        public void Add(RendererDefinition item)
+        public void Add(ViewDefinition item)
         {
-            _renderers.Add(item.Slot, item);
+            _views.Add(item.Slot, item);
         }
 
         public int Count
         {
-            get { return _renderers.Count; }
+            get { return _views.Count; }
         }
     }
 }

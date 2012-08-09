@@ -8,7 +8,7 @@
 	</xrc:parameters>
 
 	<xrc:action method="GET">
-		<xrc:renderer type="XsltRenderer">
+		<xrc:view type="XsltView">
 			<xslt>@File.Xml("_header.xslt")</xslt>
 
 			<!-- This is an example of an inline xml, also the xslt can be inline but is not very easy to read -->
@@ -16,7 +16,7 @@
 				<header>
 					<menu text="home" url="~/" />
 					<menu text="books" url="~/books" />
-					<menu text="weather" url="~/weather/" />
+					<menu text="twitter" url="~/twitter/" />
 					<menu text="news" url="~/news/" />
 					<menu text="widgets" url="~/widgets" />
 					<menu text="contact" url="~/contact" />
@@ -24,7 +24,7 @@
 				</header>
 			</data>
 
-		</xrc:renderer>
+		</xrc:view>
 	</xrc:action>
 
 </xrc:page>

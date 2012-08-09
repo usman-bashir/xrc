@@ -68,7 +68,7 @@
     <Compile Include="Mocks\MashupScriptServiceMock.cs" />
     <Compile Include="Modules\ModuleCatalogService_Test.cs" />
     <Compile Include="Modules\TestModule.cs" />
-    <Compile Include="Renderers\RendererCatalogService_Test.cs" />
+    <Compile Include="Views\RendererCatalogService_Test.cs" />
     <Compile Include="Configuration\SiteConfigurationProviderService_Test.cs" />
     <Compile Include="Configuration\SiteConfiguration_Test.cs" />
     <Compile Include="Kernel\Kernel_Test.cs" />
@@ -79,31 +79,35 @@
     <Compile Include="Script\ScriptService_Test.cs" />
     <Compile Include="SiteManager\MashupLocatorService_Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Renderers\Xslt\XsltRenderer_Test.cs" />
+    <Compile Include="Views\Xslt\XsltRenderer_Test.cs" />
     <Compile Include="Mocks\ScriptServiceMock.cs" />
     <Compile Include="SiteManager\MashupScriptService_Test.cs" />
     <Compile Include="TestHelper.cs" />
     <Compile Include="SiteManager\MashupParserService_Test.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Renderers\Xslt\books.xml">
+    <None Include="SiteManager\example6.xrc">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="Views\Xslt\books.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Renderers\Xslt\books_simple.xslt">
+    <Content Include="Views\Xslt\books_simple.xslt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Renderers\Xslt\books_html.xslt">
+    <Content Include="Views\Xslt\books_html.xslt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Renderers\Xslt\parameter.xslt">
+    <Content Include="Views\Xslt\parameter.xslt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Renderers\Xslt\extension.xslt">
+    <Content Include="Views\Xslt\extension.xslt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Renderers\Xslt\transform_withoutdata.xslt">
+    <Content Include="Views\Xslt\transform_withoutdata.xslt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="sampleWebSiteStructure\athletes\index.xrc">

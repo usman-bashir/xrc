@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace xrc.Renderers
+namespace xrc.Views
 {
-    public class NodeJsRenderer : IRenderer
+    public class NodeJsView : IView
     {
         public void RenderRequest(IContext context)
         {

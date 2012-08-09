@@ -6,9 +6,9 @@
   </xrc:parameters>
 
   <xrc:action method="GET">
-		<xrc:renderer type="TestRenderer">
+		<xrc:view type="TestView">
       <scriptProperty>@DummyScript</scriptProperty>
-    </xrc:renderer>
+    </xrc:view>
 
 		<xrc:outputcache />
 	</xrc:action>

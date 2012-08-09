@@ -82,8 +82,8 @@
     <Compile Include="Razor\XrcWebViewPageExtension.cs" />
     <Compile Include="Razor\ModuleInterceptor.cs" />
     <Compile Include="Razor\XrcWebViewPage.cs" />
-    <Compile Include="Renderers\IRendererCatalogService.cs" />
-    <Compile Include="Renderers\IRendererFactory.cs" />
+    <Compile Include="Views\IViewCatalogService.cs" />
+    <Compile Include="Views\IViewFactory.cs" />
     <Compile Include="Kernel\RenderSlotEvent.cs" />
     <Compile Include="Modules\IModule.cs" />
     <Compile Include="Modules\SlotModule.cs" />
@@ -103,9 +103,9 @@
     <Compile Include="Configuration\SiteElement.cs" />
     <Compile Include="Controller\XrcController.cs" />
     <Compile Include="HttpHandler\HttpHandler.cs" />
-    <Compile Include="Renderers\RendererCatalogService.cs" />
-    <Compile Include="Renderers\SlotRenderer.cs" />
-    <Compile Include="Renderers\XmlRenderer.cs" />
+    <Compile Include="Views\ViewCatalogService.cs" />
+    <Compile Include="Views\SlotRenderer.cs" />
+    <Compile Include="Views\XmlView.cs" />
     <Compile Include="Reflection.cs" />
     <Compile Include="Request\XrcRequest.cs" />
     <Compile Include="Response\XrcResponse.cs" />
@@ -138,13 +138,13 @@
     <Compile Include="SiteManager\MashupAction.cs" />
     <Compile Include="SiteManager\MashupPage.cs" />
     <Compile Include="UriExtensions.cs" />
-    <Compile Include="Renderers\NodeJsRenderer.cs" />
-    <Compile Include="Renderers\XHtmlRenderer.cs" />
-    <Compile Include="Renderers\JsonRenderer.cs" />
-    <Compile Include="Renderers\XsltRenderer.cs" />
-    <Compile Include="Renderers\RazorRenderer.cs" />
+    <Compile Include="Views\NodeJsView.cs" />
+    <Compile Include="Views\XHtmlView.cs" />
+    <Compile Include="Views\JsonView.cs" />
+    <Compile Include="Views\XsltView.cs" />
+    <Compile Include="Views\RazorView.cs" />
     <Compile Include="SiteManager\MashupFile.cs" />
-    <Compile Include="Renderers\IRenderer.cs" />
+    <Compile Include="Views\IView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

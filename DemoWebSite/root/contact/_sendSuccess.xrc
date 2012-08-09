@@ -5,11 +5,11 @@
 		<xrc:add key="newContact" type="DemoWebSite.Contact, DemoWebSite.Lib"/>
 	</xrc:parameters>
 
-	<xrc:action method="GET">
-		<xrc:renderer type="RazorRenderer">
-			<view>_sendSuccess.cshtml</view>
+	<xrc:action>
+		<xrc:view type="RazorView">
+			<viewFile>_sendSuccess.cshtml</viewFile>
 			<model>@newContact</model>
-		</xrc:renderer>
+		</xrc:view>
 	</xrc:action>
 
 </xrc:page>

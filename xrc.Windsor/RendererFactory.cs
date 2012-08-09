@@ -2,25 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using xrc.Renderers;
+using xrc.Views;
 
 namespace xrc.IoC.Windsor
 {
-    public class RendererFactory : IRendererFactory
+    public class ViewFactory : IViewFactory
     {
         private Castle.MicroKernel.IKernel _windsorKernel;
 
-        public RendererFactory(Castle.MicroKernel.IKernel windsorKernel)
+        public ViewFactory(Castle.MicroKernel.IKernel windsorKernel)
         {
             _windsorKernel = windsorKernel;
         }
 
-        public IRenderer Get(ComponentDefinition component, IContext context = null)
+        public IView Get(ComponentDefinition component, IContext context = null)
         {
-            return (IRenderer)_windsorKernel.Resolve(component.Type, new { context = context });
+            return (IView)_windsorKernel.Resolve(component.Type, new { context = context });
         }
 
-        public void Release(IRenderer component)
+        public void Release(IView component)
         {
             _windsorKernel.ReleaseComponent(component);
         }

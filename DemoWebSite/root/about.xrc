@@ -1,20 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <xrc:page xmlns:xrc="urn:xrc">
 
+	<xrc:parameters>
+		<xrc:add key="title" value="About" />
+		<xrc:add key="activeMenu" value="about" />
+	</xrc:parameters>
+	
 	<xrc:action method="GET" parent="~/shared/_layout">
-		<xrc:renderer type="XHtmlRenderer">
-			<!-- Example using an inline xhtml content -->
+		<xrc:view type="XHtmlView">
+			<!-- Example using an inline html content -->
 			<content>
 				<div>
 					This is the <b>about</b> page!
 				</div>
 			</content>
-		</xrc:renderer>
+		</xrc:view>
 	</xrc:action>
-
-	<xrc:parameters>
-		<xrc:add key="title" value="About" />
-		<xrc:add key="activeMenu" value="about" />
-	</xrc:parameters>
 
 </xrc:page>

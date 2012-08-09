@@ -7,7 +7,7 @@ using xrc.Configuration;
 using System.Reflection;
 using xrc.Script;
 using System.Globalization;
-using xrc.Renderers;
+using xrc.Views;
 using xrc.Modules;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;

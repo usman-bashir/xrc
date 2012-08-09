@@ -10,7 +10,7 @@
   </xrc:parameters>
 
   <xrc:action method="GET">
-		<xrc:renderer type="TestRenderer">
+		<xrc:view type="TestView">
       <XDocProperty xmlns="">
         <bookstore>
           <book>
@@ -21,7 +21,7 @@
           </book>
         </bookstore>
       </XDocProperty>
-    </xrc:renderer>
+    </xrc:view>
 
 		<xrc:outputcache />
   </xrc:action>

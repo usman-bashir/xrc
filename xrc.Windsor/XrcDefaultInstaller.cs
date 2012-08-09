@@ -28,7 +28,7 @@ namespace xrc.IoC.Windsor
                                 .LifestyleSingleton());
 
             container.Register(Classes.FromAssembly(assembly)
-                                .BasedOn<xrc.Renderers.IRenderer>()
+                                .BasedOn<xrc.Views.IView>()
                                 .WithServiceSelf()
                                 .LifestyleTransient());
             container.Register(Classes.FromAssembly(assembly)

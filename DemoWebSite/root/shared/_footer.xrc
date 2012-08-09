@@ -4,7 +4,7 @@
 	<!-- This is an example of static html output. Can also be used @{File.Xml("footer.html")} -->
 
 	<xrc:action method="GET">
-		<xrc:renderer type="XHtmlRenderer">
+		<xrc:view type="XHtmlView">
 			<content>
 				<div class="row-fluid">
 					<div id="footer" class="span12">
@@ -13,7 +13,7 @@
 				</div>
 			</content>
 
-		</xrc:renderer>
+		</xrc:view>
 	</xrc:action>
 
 </xrc:page>

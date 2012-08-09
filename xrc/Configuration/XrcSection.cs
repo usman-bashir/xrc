@@ -42,10 +42,10 @@ namespace xrc.Configuration
             get { return this["modules"] as ComponentCollection; }
         }
 
-        [ConfigurationProperty("renderers")]
-        public ComponentCollection Renderers
+        [ConfigurationProperty("views")]
+        public ComponentCollection Views
         {
-            get { return this["renderers"] as ComponentCollection; }
+            get { return this["views"] as ComponentCollection; }
         }
     }
 }

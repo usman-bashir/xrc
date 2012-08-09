@@ -6,9 +6,9 @@ using System.Xml.Linq;
 using System.Web.UI;
 using System.Xml;
 
-namespace xrc.Renderers
+namespace xrc.Views
 {
-    public class XHtmlRenderer : IRenderer
+    public class XHtmlView : IView
     {
         public XDocument Content
         {

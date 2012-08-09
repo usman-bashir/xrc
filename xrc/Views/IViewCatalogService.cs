@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace xrc.Renderers
+namespace xrc.Views
 {
-    public interface IRendererCatalogService
+    public interface IViewCatalogService
     {
         IEnumerable<ComponentDefinition> GetAll();
         ComponentDefinition Get(string name);

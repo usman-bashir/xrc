@@ -10,11 +10,11 @@ using System.Collections.Specialized;
 using System.Web.UI;
 using xrc.Modules;
 
-namespace xrc.Renderers
+namespace xrc.Views
 {
-    public class XsltRenderer : IRenderer
+    public class XsltView : IView
     {
-        public static ComponentDefinition Definition = new ComponentDefinition("XsltRenderer", typeof(XsltRenderer));
+        public static ComponentDefinition Definition = new ComponentDefinition("XsltView", typeof(XsltView));
 
         private const string XSL_ARGUMENTS_NAMESPACE = "";
         private const string XSL_EXTENSIONS_PREFIX = "xrc";
@@ -22,7 +22,7 @@ namespace xrc.Renderers
         private IModuleFactory _moduleFactory;
         private IModuleCatalogService _moduleCatalog;
 
-        public XsltRenderer(IModuleFactory moduleFactory, IModuleCatalogService moduleCatalog)
+        public XsltView(IModuleFactory moduleFactory, IModuleCatalogService moduleCatalog)
         {
             this.Xslt = null;
             _moduleFactory = moduleFactory;

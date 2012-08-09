@@ -8,17 +8,17 @@ using System.Xml;
 using System.Xml.XPath;
 using System.Xml.Linq;
 
-namespace xrc.Renderers
+namespace xrc.Views
 {
     [TestClass]
-    public class XsltRenderer_Test
+    public class XsltView_Test
     {
         [TestMethod]
         public void Transform_Simple()
         {
-            XsltRenderer target = new XsltRenderer(new Mocks.ModuleFactoryMock(null), new Mocks.ModuleCatalogServiceMock(null));
-			target.Data = XDocument.Load(TestHelper.GetFile(@"Renderers\xslt\books.xml"));
-            target.Xslt = XDocument.Load(TestHelper.GetFile(@"Renderers\xslt\books_simple.xslt"));
+            XsltView target = new XsltView(new Mocks.ModuleFactoryMock(null), new Mocks.ModuleCatalogServiceMock(null));
+			target.Data = XDocument.Load(TestHelper.GetFile(@"Views\xslt\books.xml"));
+            target.Xslt = XDocument.Load(TestHelper.GetFile(@"Views\xslt\books_simple.xslt"));
 
             string output;
             XrcRequest request = new XrcRequest(new Uri("http://test/"));
@@ -41,8 +41,8 @@ namespace xrc.Renderers
         [TestMethod]
         public void Transform_WithoutData()
         {
-            XsltRenderer target = new XsltRenderer(new Mocks.ModuleFactoryMock(null), new Mocks.ModuleCatalogServiceMock(null));
-            target.Xslt = XDocument.Load(TestHelper.GetFile(@"Renderers\xslt\transform_withoutdata.xslt"));
+            XsltView target = new XsltView(new Mocks.ModuleFactoryMock(null), new Mocks.ModuleCatalogServiceMock(null));
+            target.Xslt = XDocument.Load(TestHelper.GetFile(@"Views\xslt\transform_withoutdata.xslt"));
 
             string output;
             XrcRequest request = new XrcRequest(new Uri("http://test/"));
@@ -65,9 +65,9 @@ namespace xrc.Renderers
         [TestMethod]
         public void Transform_Parameter()
         {
-            XsltRenderer target = new XsltRenderer(new Mocks.ModuleFactoryMock(null), new Mocks.ModuleCatalogServiceMock(null));
-            target.Data = XDocument.Load(TestHelper.GetFile(@"Renderers\xslt\books.xml"));
-            target.Xslt = XDocument.Load(TestHelper.GetFile(@"Renderers\xslt\parameter.xslt"));
+            XsltView target = new XsltView(new Mocks.ModuleFactoryMock(null), new Mocks.ModuleCatalogServiceMock(null));
+            target.Data = XDocument.Load(TestHelper.GetFile(@"Views\xslt\books.xml"));
+            target.Xslt = XDocument.Load(TestHelper.GetFile(@"Views\xslt\parameter.xslt"));
 
             string output;
             XrcRequest request = new XrcRequest(new Uri("http://test/"));
@@ -91,9 +91,9 @@ namespace xrc.Renderers
         [TestMethod]
         public void Transform_Module_Extensions()
         {
-            XsltRenderer target = new XsltRenderer(new Mocks.ModuleFactoryMock(new MyModuleExtension()), new Mocks.ModuleCatalogServiceMock(MyModuleExtension.Definition));
-            target.Data = XDocument.Load(TestHelper.GetFile(@"Renderers\xslt\books.xml"));
-            target.Xslt = XDocument.Load(TestHelper.GetFile(@"Renderers\xslt\extension.xslt"));
+            XsltView target = new XsltView(new Mocks.ModuleFactoryMock(new MyModuleExtension()), new Mocks.ModuleCatalogServiceMock(MyModuleExtension.Definition));
+            target.Data = XDocument.Load(TestHelper.GetFile(@"Views\xslt\books.xml"));
+            target.Xslt = XDocument.Load(TestHelper.GetFile(@"Views\xslt\extension.xslt"));
 
             string output;
             XrcRequest request = new XrcRequest(new Uri("http://test/"));

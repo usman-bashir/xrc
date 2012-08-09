@@ -13,7 +13,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">xrc demo web site</a>
+          <a class="brand" href="{Url:Content('~')}">xrc demo web site</a>
           <div class="nav-collapse">
             <ul class="nav">
               <xsl:apply-templates select="menu"/>

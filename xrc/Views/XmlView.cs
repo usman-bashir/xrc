@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace xrc.Renderers
+namespace xrc.Views
 {
-    public class XmlRenderer : IRenderer
+    public class XmlView : IView
     {
         public XElement Content
         {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using xrc.Renderers;
+using xrc.Views;
 using xrc.Script;
 using Moq;
 using System.Xml.Linq;
@@ -26,7 +26,7 @@ namespace xrc.SiteManager
 
             MashupParserService target = new MashupParserService(new Mocks.MashupScriptServiceMock(), 
                                         new Mocks.ModuleCatalogServiceMock(null), 
-                                        new Mocks.RendererCatalogServiceMock(TestRenderer.Definition));
+                                        new Mocks.ViewCatalogServiceMock(TestView.Definition));
 
             MashupPage page = target.Parse(file);
             Assert.AreEqual("My page title", page.Parameters["title"].Value.ToString());
@@ -43,7 +43,7 @@ namespace xrc.SiteManager
 
             MashupParserService target = new MashupParserService(new Mocks.MashupScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
-                                        new Mocks.RendererCatalogServiceMock(TestRenderer.Definition));
+                                        new Mocks.ViewCatalogServiceMock(TestView.Definition));
 
             MashupPage page = target.Parse(file);
             Assert.AreEqual(5, page.Parameters.Count);
@@ -61,17 +61,31 @@ namespace xrc.SiteManager
 		{
 			string file = TestHelper.GetFile(@"SiteManager\example1.xrc");
 
-            MashupParserService target = new MashupParserService(new Mocks.MashupScriptServiceMock(),
-                                        new Mocks.ModuleCatalogServiceMock(null),
-                                        new Mocks.RendererCatalogServiceMock(TestRenderer.Definition));
+			MashupParserService target = new MashupParserService(new Mocks.MashupScriptServiceMock(),
+										new Mocks.ModuleCatalogServiceMock(null),
+										new Mocks.ViewCatalogServiceMock(TestView.Definition));
 
-            MashupPage page = target.Parse(file);
-            MashupAction action = page.Actions["get"];
-			var renderer = action.Renderers.Single();
-            Assert.AreEqual(1, renderer.Properties.Count());
-            Assert.AreEqual(typeof(TestRenderer), renderer.Component.Type);
-            Assert.AreEqual("DummyScript", renderer.Properties["scriptProperty"].Value.ToString());
+			MashupPage page = target.Parse(file);
+			MashupAction action = page.Actions["get"];
+			var view = action.Views.Single();
+			Assert.AreEqual(1, view.Properties.Count());
+			Assert.AreEqual(typeof(TestView), view.Component.Type);
+			Assert.AreEqual("DummyScript", view.Properties["scriptProperty"].Value.ToString());
         }
+
+		[TestMethod]
+		public void It_Should_be_possible_to_parse_example6_action_without_method_default_to_GET()
+		{
+			string file = TestHelper.GetFile(@"SiteManager\example6.xrc");
+
+			MashupParserService target = new MashupParserService(new Mocks.MashupScriptServiceMock(),
+										new Mocks.ModuleCatalogServiceMock(null),
+										new Mocks.ViewCatalogServiceMock(TestView.Definition));
+
+			MashupPage page = target.Parse(file);
+			Assert.AreEqual(1, page.Actions.Count);
+			Assert.AreEqual("get", page.Actions.First().Method);
+		}
 
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_example2_page_with_inline_xml_data()
@@ -80,13 +94,13 @@ namespace xrc.SiteManager
 
             MashupParserService target = new MashupParserService(new Mocks.MashupScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
-                                        new Mocks.RendererCatalogServiceMock(TestRenderer.Definition));
+                                        new Mocks.ViewCatalogServiceMock(TestView.Definition));
 
             MashupPage page = target.Parse(file);
             MashupAction action = page.Actions["GET"];
-            var renderer = action.Renderers.Single();
-            Assert.AreEqual(typeof(TestRenderer), renderer.Component.Type);
-            XDocument xmlData = (XDocument)renderer.Properties["XDocProperty"].Value.Value;
+            var view = action.Views.Single();
+            Assert.AreEqual(typeof(TestView), view.Component.Type);
+            XDocument xmlData = (XDocument)view.Properties["XDocProperty"].Value.Value;
 
             var xpath = xmlData.CreateNavigator().Select("book[1]/title");
             while (xpath.MoveNext())
@@ -100,14 +114,14 @@ namespace xrc.SiteManager
 
             MashupParserService target = new MashupParserService(new Mocks.MashupScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
-                                        new Mocks.RendererCatalogServiceMock(TestRenderer.Definition));
+                                        new Mocks.ViewCatalogServiceMock(TestView.Definition));
 
             MashupPage page = target.Parse(file);
             MashupAction action = page.Actions["GET"];
-            Assert.AreEqual(3, action.Renderers.Count());
-            Assert.AreEqual("slot1", action.Renderers["SLOT1"].Slot);
-            Assert.AreEqual("slot2", action.Renderers["slot2"].Slot);
-            Assert.AreEqual("slot3", action.Renderers["slot3"].Slot);
+            Assert.AreEqual(3, action.Views.Count());
+            Assert.AreEqual("slot1", action.Views["SLOT1"].Slot);
+            Assert.AreEqual("slot2", action.Views["slot2"].Slot);
+            Assert.AreEqual("slot3", action.Views["slot3"].Slot);
         }
 
         [TestMethod]
@@ -117,7 +131,7 @@ namespace xrc.SiteManager
 
             MashupParserService target = new MashupParserService(new Mocks.MashupScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
-                                        new Mocks.RendererCatalogServiceMock(TestRenderer.Definition));
+                                        new Mocks.ViewCatalogServiceMock(TestView.Definition));
 
             MashupPage page = target.Parse(file);
             Assert.AreEqual(3, page.Actions.Count);
@@ -126,9 +140,9 @@ namespace xrc.SiteManager
             Assert.AreEqual("post", page.Actions["Post"].Method);
         }
 
-        class TestRenderer : IRenderer
+        class TestView : IView
         {
-            public static ComponentDefinition Definition = new ComponentDefinition("TestRenderer", typeof(TestRenderer));
+            public static ComponentDefinition Definition = new ComponentDefinition("TestView", typeof(TestView));
 
             public TestObject scriptProperty { get; set; }
             public XDocument XDocProperty { get; set; }

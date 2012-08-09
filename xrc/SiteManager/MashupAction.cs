@@ -7,7 +7,7 @@ namespace xrc.SiteManager
 {
     public class MashupAction
     {
-        private RendererDefinitionList _renderers = new RendererDefinitionList();
+        private ViewDefinitionList _views = new ViewDefinitionList();
 
         public MashupAction(string method)
         {
@@ -31,9 +31,9 @@ namespace xrc.SiteManager
             set;
         }
 
-        public RendererDefinitionList Renderers
+        public ViewDefinitionList Views
         {
-            get { return _renderers; }
+            get { return _views; }
         }
     }
 }

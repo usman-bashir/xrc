@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:page xmlns:xrc="urn:xrc">
+
+	<xrc:action>
+		<xrc:view type="test">
+			
+		</xrc:view>
+	</xrc:action>
+  
+</xrc:page>

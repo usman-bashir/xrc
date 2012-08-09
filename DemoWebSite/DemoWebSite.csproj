@@ -87,7 +87,6 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
-    <Content Include="favicon.ico" />
     <Content Include="root\books\books.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -138,7 +137,7 @@
     <Content Include="root\shared\_layout3cols.xslt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="root\weather\index.xslt">
+    <Content Include="root\twitter\index.xslt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="root\shared\_layout.xslt">
@@ -207,7 +206,7 @@
     <Content Include="root\widgets\_ranking.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\weather\index.xrc">
+    <Content Include="root\twitter\index.xrc">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="root\shared\_layout.xrc">

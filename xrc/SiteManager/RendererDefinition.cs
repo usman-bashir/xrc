@@ -5,12 +5,12 @@ using System.Text;
 
 namespace xrc.SiteManager
 {
-    public class RendererDefinition : XClass
+    public class ViewDefinition : XClass
     {
         private ComponentDefinition _component;
         private string _slot;
 
-        public RendererDefinition(ComponentDefinition component, string slot)
+        public ViewDefinition(ComponentDefinition component, string slot)
         {
             if (slot == null)
                 slot = string.Empty;

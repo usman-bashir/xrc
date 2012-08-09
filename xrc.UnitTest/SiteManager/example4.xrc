@@ -2,15 +2,15 @@
 <xrc:page xmlns:xrc="urn:xrc">
 
 	<xrc:action method="Get">
-		<xrc:renderer type="TestRenderer" />
+		<xrc:view type="TestView" />
   </xrc:action>
 
   <xrc:action method="delete">
-    <xrc:renderer type="TestRenderer" />
+    <xrc:view type="TestView" />
   </xrc:action>
 
   <xrc:action method="post">
-    <xrc:renderer type="TestRenderer" />
+    <xrc:view type="TestView" />
   </xrc:action>
 
 </xrc:page>

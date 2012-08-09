@@ -38,7 +38,7 @@ namespace DemoWebSite
             _container.Install(new xrc.IoC.Windsor.XrcDefaultInstaller());
 
             // Register demo web site modules
-            _container.Register(Classes.FromAssemblyContaining<WeatherModule>()
+            _container.Register(Classes.FromAssemblyContaining<TwitterModule>()
                                 .BasedOn<xrc.Modules.IModule>()
                                 .WithServiceSelf()
                                 .WithServiceDefaultInterfaces());

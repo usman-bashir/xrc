@@ -7,7 +7,7 @@ using xrc.Configuration;
 using System.Reflection;
 using xrc.Script;
 using System.Globalization;
-using xrc.Renderers;
+using xrc.Views;
 using xrc.Modules;
 
 namespace xrc.SiteManager
@@ -19,7 +19,7 @@ namespace xrc.SiteManager
 		private static XName ACTION = XMLNS + "action";
         private static XName PARAMETERS = XMLNS + "parameters";
         private static XName ADD = XMLNS + "add";
-        private static XName RENDERER = XMLNS + "renderer";
+        private static XName VIEW = XMLNS + "view";
 		private static XName METHOD = "method";
         private static XName TYPE = "type";
         private static XName KEY = "key";
@@ -27,18 +27,19 @@ namespace xrc.SiteManager
         private static XName PARENT = "parent";
         private static XName SLOT = "slot";
         private static XName ALLOWREQUESTOVERRIDE = "allowRequestOverride";
+		private static string DEFAULT_METHOD = "GET";
 
         private const string MODULE_PREFIX = "xrc";
 
         private IMashupScriptService _scriptService;
         private IModuleCatalogService _moduleCatalog;
-        private IRendererCatalogService _rendererCatalog;
+        private IViewCatalogService _viewCatalog;
 
-        public MashupParserService(IMashupScriptService scriptService, IModuleCatalogService moduleCatalog, IRendererCatalogService rendererCatalog)
+        public MashupParserService(IMashupScriptService scriptService, IModuleCatalogService moduleCatalog, IViewCatalogService viewCatalog)
         {
             _scriptService = scriptService;
             _moduleCatalog = moduleCatalog;
-            _rendererCatalog = rendererCatalog;
+            _viewCatalog = viewCatalog;
         }
 
         // TODO Qui si può parsificare il file una sola volta e metterlo in cache (con dipendenza al file?)
@@ -63,15 +64,17 @@ namespace xrc.SiteManager
 
                 foreach (var actionElement in xdoc.Root.Elements(ACTION))
                 {
-                    string method = actionElement.AttributeAs<string>(METHOD);
+                    string method = actionElement.AttributeAsOrDefault<string>(METHOD);
+					if (method == null)
+						method = DEFAULT_METHOD;
                     MashupAction action = new MashupAction(method);
                     if (actionElement.Attribute(PARENT) != null)
                         action.Parent = actionElement.AttributeAs<string>(PARENT);
 
-                    foreach (var rendererElement in actionElement.Elements(RENDERER))
+                    foreach (var viewElement in actionElement.Elements(VIEW))
                     {
-                        var renderer = ParseRenderer(rendererElement, page);
-                        action.Renderers.Add(renderer);
+                        var view = ParseView(viewElement, page);
+                        action.Views.Add(view);
                     }
 
                     page.Actions.Add(action);
@@ -119,30 +122,30 @@ namespace xrc.SiteManager
             }
         }
 
-        private RendererDefinition ParseRenderer(XElement xElement, MashupPage page)
+        private ViewDefinition ParseView(XElement xElement, MashupPage page)
 		{
 			string typeName = xElement.AttributeAs<string>(TYPE);
-            ComponentDefinition component = _rendererCatalog.Get(typeName);
+            ComponentDefinition component = _viewCatalog.Get(typeName);
             if (component == null)
 				throw new ApplicationException(string.Format("Component '{0}' not found'.", typeName));
-			if (!typeof(IRenderer).IsAssignableFrom(component.Type))
-                throw new ApplicationException(string.Format("Type '{0}' is not a renderer.", component.Type));
+			if (!typeof(IView).IsAssignableFrom(component.Type))
+                throw new ApplicationException(string.Format("Type '{0}' is not a view.", component.Type));
 
             string slot = string.Empty;
             if (xElement.Attribute(SLOT) != null)
                 slot = xElement.AttributeAs<string>(SLOT);
 
-            RendererDefinition renderer = new RendererDefinition(component, slot);
+            ViewDefinition view = new ViewDefinition(component, slot);
 
             // TODO Escludere le property con un namespace? O usare un namespace particolare per le property?
             foreach (var element in xElement.Elements())
 			{
                 var property = ParseProperty(element, component.Type, page);
 
-                renderer.Properties.Add(property);
+                view.Properties.Add(property);
 			}
 
-			return renderer;
+			return view;
 		}
 
         private XProperty ParseProperty(XElement element, Type ownerType, MashupPage page)

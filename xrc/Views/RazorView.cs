@@ -9,22 +9,22 @@ using xrc.Razor;
 
 // TODO 
 // Rivedere questo codice di chiamata a razor. 
-// Attualmente chiamo direttamente il ViewEngine così come caricato nel sito web.
+// Attualmente chiamo direttamente il Razor ViewEngine così come caricato nel sito web.
 // Questo approccio ha alcuni vantaggi perchè offre lo stesso modello di svilupo (compreso intellisense, ...) sulla pagina razor perchè viene invocata dal viewengine di default.
 // Alternative:
 // http://razorengine.codeplex.com/
 // http://vibrantcode.com/blog/2010/11/16/hosting-razor-outside-of-aspnet-revised-for-mvc3-rc.html
-// L'ultimo link prevede di riscrivere l'engine raor utilizzando solo il parser. In questo modo c'è molta più libertà ma si perdono alcune cose (ad esempio l'intellisense).
+// L'ultimo link prevede di riscrivere l'engine razor utilizzando solo il parser. In questo modo c'è molta più libertà ma si perdono alcune cose (ad esempio l'intellisense).
 
-namespace xrc.Renderers
+namespace xrc.Views
 {
-    public class RazorRenderer : IRenderer
+    public class RazorView : IView
     {
 		private IKernel _kernel;
         private Configuration.WorkingPath _workingPath;
         private Modules.IModuleFactory _moduleFactory;
         private Modules.IModuleCatalogService _moduleCatalog;
-		public RazorRenderer(IKernel kernel, Configuration.WorkingPath workingPath, Modules.IModuleFactory moduleFactory, Modules.IModuleCatalogService moduleCatalog)
+		public RazorView(IKernel kernel, Configuration.WorkingPath workingPath, Modules.IModuleFactory moduleFactory, Modules.IModuleCatalogService moduleCatalog)
 		{
 			_kernel = kernel;
             _workingPath = workingPath;
@@ -32,7 +32,7 @@ namespace xrc.Renderers
             _moduleFactory = moduleFactory;
 		}
 
-		public string View
+		public string ViewFile
 		{
 			get;
 			set;
@@ -46,12 +46,12 @@ namespace xrc.Renderers
 
         public void RenderRequest(IContext context)
         {
-			if (string.IsNullOrWhiteSpace(View))
+			if (string.IsNullOrWhiteSpace(ViewFile))
 				throw new ArgumentNullException("View");
 
             ViewContext viewContext = new ViewContext();
             viewContext.ViewData = new ViewDataDictionary(Model);
-            viewContext.RouteData.Values.Add("controller", "RazorRenderer");
+            viewContext.RouteData.Values.Add("controller", "RazorView");
             if (HttpContext.Current == null)
                 viewContext.RequestContext = new XrcRequestContext(context);
             else
@@ -65,7 +65,7 @@ namespace xrc.Renderers
             var result = ViewEngines.Engines.FindPartialView(viewContext, GetViewFullName(context));
 
 			if (result.View == null)
-				throw new ApplicationException(string.Format("Razor view '{0}' not found.", View));
+				throw new ApplicationException(string.Format("Razor view '{0}' not found.", ViewFile));
 
             var viewEngine = result.ViewEngine;
             var view = result.View;
@@ -96,7 +96,7 @@ namespace xrc.Renderers
         /// </summary>
         string GetViewFullName(IContext context)
         {
-            var viewPath = new Uri(context.GetAbsoluteUrl(View));
+            var viewPath = new Uri(context.GetAbsoluteUrl(ViewFile));
             var appPath = new Uri(context.GetAbsoluteUrl("~"));
             var relative = viewPath.MakeRelativeUriEx(appPath);
             return UriExtensions.Combine(_workingPath.VirtualPath, relative.ToString());

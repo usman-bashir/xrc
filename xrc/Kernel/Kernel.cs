@@ -6,7 +6,7 @@ using xrc.SiteManager;
 using xrc.Configuration;
 using System.IO;
 using System.Reflection;
-using xrc.Renderers;
+using xrc.Views;
 using System.Web;
 using xrc.Script;
 
@@ -18,20 +18,20 @@ namespace xrc
         private ISiteConfigurationProviderService _siteConfigurationProvider;
         private IMashupLocatorService _fileLocator;
         private IMashupScriptService _scriptService;
-        private IRendererFactory _rendererFactory;
+        private IViewFactory _viewFactory;
         private Modules.IModuleFactory _moduleFactory;
 
         public Kernel(IMashupParserService parser,
                     ISiteConfigurationProviderService siteConfigurationProvider,
                     IMashupLocatorService fileLocator,
-                    IRendererFactory rendererFactory,
+                    IViewFactory viewFactory,
                     IMashupScriptService scriptService,
                     Modules.IModuleFactory moduleFactory)
         {
             _parser = parser;
             _siteConfigurationProvider = siteConfigurationProvider;
             _fileLocator = fileLocator;
-            _rendererFactory = rendererFactory;
+            _viewFactory = viewFactory;
             _scriptService = scriptService;
             _moduleFactory = moduleFactory;
         }
@@ -87,8 +87,8 @@ namespace xrc
                     RenderParent(context, action, modules);
                 else
                 {
-                    foreach (var renderer in action.Renderers)
-                        RunRenderer(context, action, renderer, modules);
+                    foreach (var view in action.Views)
+                        RunView(context, action, view, modules);
                 }
             }
             finally
@@ -126,9 +126,9 @@ namespace xrc
                         {
                             context.Response = response;
 
-                            RendererDefinition rendererDefinition = action.Renderers[e.Name];
-                            if (rendererDefinition != null)
-                                RunRenderer(context, action, rendererDefinition, modules);
+                            ViewDefinition viewDefinition = action.Views[e.Name];
+                            if (viewDefinition != null)
+                                RunView(context, action, viewDefinition, modules);
                             else
                                 throw new ApplicationException(string.Format("Slot '{0}' not found.", e.Name));
                         }
@@ -232,22 +232,22 @@ namespace xrc
             }
         }
 
-        private void RunRenderer(IContext context, MashupAction action, RendererDefinition rendererDefinition, Dictionary<string, Modules.IModule> modules)
+        private void RunView(IContext context, MashupAction action, ViewDefinition viewDefinition, Dictionary<string, Modules.IModule> modules)
         {
-            IRenderer renderer = _rendererFactory.Get(rendererDefinition.Component, context);
+            IView view = _viewFactory.Get(viewDefinition.Component, context);
             try
             {
-                foreach (var property in rendererDefinition.Properties)
+                foreach (var property in viewDefinition.Properties)
                 {
                     object value = _scriptService.Eval(property.Value, modules, context.Parameters);
-                    property.PropertyInfo.SetValue(renderer, value, null);
+                    property.PropertyInfo.SetValue(view, value, null);
                 }
 
-                renderer.RenderRequest(context);
+                view.RenderRequest(context);
             }
             finally
             {
-                _rendererFactory.Release(renderer);
+                _viewFactory.Release(view);
             }
         }
         #endregion

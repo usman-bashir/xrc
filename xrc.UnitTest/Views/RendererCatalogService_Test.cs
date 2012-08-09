@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace xrc.Renderers
+namespace xrc.Views
 {
    
     [TestClass()]
-    public class RendererCatalogService_Test
+    public class ViewCatalogService_Test
     {
         private TestContext testContextInstance;
 
@@ -59,9 +59,9 @@ namespace xrc.Renderers
 
 
         [TestMethod()]
-        public void It_should_be_possible_to_get_all_configured_renderers()
+        public void It_should_be_possible_to_get_all_configured_views()
         {
-            RendererCatalogService target = new RendererCatalogService(Configuration.XrcSection.GetSection());
+            ViewCatalogService target = new ViewCatalogService(Configuration.XrcSection.GetSection());
 
             Assert.AreEqual(7, target.GetAll().Count());
         }

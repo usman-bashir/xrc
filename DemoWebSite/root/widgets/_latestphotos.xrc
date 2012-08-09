@@ -4,7 +4,7 @@
 	<!-- This is an example of static html output. Can also be used @{File.Xml("footer.html")} -->
 
 	<xrc:action method="GET">
-		<xrc:renderer type="XHtmlRenderer">
+		<xrc:view type="XHtmlView">
 			<content>
 				<div class="widget">
 					<img style="visibility:hidden;width:0px;height:0px;" border="0" width="0" height="0" src="http://c.gigcount.com/wildfire/IMP/CXNID=2000002.0NXC/bT*xJmx*PTEzMzIyNjAyOTMzNjkmcHQ9MTMzMjI2MDQxMDc4OSZwPTExMjQxMjEmZD1sYXRlc3RwaG9*b3NfZW4mZz*yJm89MjEy/NTBmMzg2ZTcyNGYxYThjZDRjMzA4YzJjMjFiMWQmb2Y9MA==.gif" />
@@ -19,7 +19,7 @@
 				</div>
 			</content>
 
-		</xrc:renderer>
+		</xrc:view>
 	</xrc:action>
 
 </xrc:page>

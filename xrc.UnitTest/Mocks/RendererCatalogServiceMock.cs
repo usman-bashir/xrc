@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using xrc.Renderers;
+using xrc.Views;
 
 namespace xrc.Mocks
 {
-    class RendererCatalogServiceMock : IRendererCatalogService
+    class ViewCatalogServiceMock : IViewCatalogService
     {
         ComponentDefinition _component;
 
-        public RendererCatalogServiceMock(ComponentDefinition component)
+        public ViewCatalogServiceMock(ComponentDefinition component)
         {
             _component = component;
         }

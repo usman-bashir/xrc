@@ -6,11 +6,11 @@
 		<xrc:add key="param1" value="@DateTime.Now" type="System.DateTime" />
 	</xrc:parameters>
 
-	<xrc:action method="GET">
-		<xrc:renderer type="RazorRenderer">
-			<view>_contactForm2.cshtml</view>
+	<xrc:action>
+		<xrc:view type="RazorView">
+			<viewFile>_contactForm2.cshtml</viewFile>
 			<model>@Contact.GetDefault()</model>
-		</xrc:renderer>
+		</xrc:view>
 	</xrc:action>
 
 </xrc:page>

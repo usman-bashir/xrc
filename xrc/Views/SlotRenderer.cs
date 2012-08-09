@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Json;
 
-namespace xrc.Renderers
+namespace xrc.Views
 {
     // TODO This code is very similar to the one of HtmlModule.Slot. Maybe I can merge it?
 
-    public class SlotRenderer : IRenderer
+    public class SlotView : IView
     {
         private IKernel _kernel;
-        public SlotRenderer(IKernel kernel)
+        public SlotView(IKernel kernel)
         {
             _kernel = kernel;
         }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Json;
 
-namespace xrc.Renderers
+namespace xrc.Views
 {
-    public class JsonRenderer : IRenderer
+    public class JsonView : IView
     {
 		public JsonValue Content
 		{
