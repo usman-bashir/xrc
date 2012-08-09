@@ -79,6 +79,8 @@ namespace xrc
             set; 
         }
 
+		public IContext CallerContext { get; set; }
+
 		public string GetAbsoluteUrl(string url)
 		{
 			return Configuration.GetAbsoluteUrl(url, Request.Url);

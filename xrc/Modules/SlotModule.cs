@@ -44,9 +44,7 @@ namespace xrc.Modules
         {
             url = _context.GetAbsoluteUrl(url);
 
-            return _xrcService.Page(url, parameters, 
-                                    parentRequest: _context.Request, 
-                                    parentResponse: _context.Response).Content;
+            return _xrcService.Page(url, parameters, callerContext: _context).Content;
         }
     }
 }

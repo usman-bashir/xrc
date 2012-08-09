@@ -41,7 +41,8 @@ namespace DemoWebSite
             _container.Register(Classes.FromAssemblyContaining<TwitterModule>()
                                 .BasedOn<xrc.Modules.IModule>()
                                 .WithServiceSelf()
-                                .WithServiceDefaultInterfaces());
+                                .WithServiceDefaultInterfaces()
+								.LifestyleTransient());
 
             // Windsor MVC integration
             _container.Install(Castle.Windsor.Installer.FromAssembly.This());

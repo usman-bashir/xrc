@@ -115,6 +115,7 @@ namespace xrc
 
             Uri parentUri = new Uri(context.GetAbsoluteUrl(action.Parent));
             Context parentContext = new Context(new XrcRequest(parentUri, parentRequest:context.Request), currentResponse);
+			parentContext.CallerContext = context;
             foreach (var item in context.Parameters)
                 parentContext.Parameters.Add(new ContextParameter(item.Name, item.Type, item.Value));
 

@@ -82,5 +82,12 @@ namespace xrc.Mocks
         {
             
         }
-    }
+
+
+		public IContext CallerContext
+		{
+			get;
+			set;
+		}
+	}
 }
