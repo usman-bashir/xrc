@@ -68,7 +68,7 @@
     <Compile Include="Mocks\MashupScriptServiceMock.cs" />
     <Compile Include="Modules\ModuleCatalogService_Test.cs" />
     <Compile Include="Modules\TestModule.cs" />
-    <Compile Include="Views\RendererCatalogService_Test.cs" />
+    <Compile Include="Views\ViewCatalogService_Test.cs" />
     <Compile Include="Configuration\SiteConfigurationProviderService_Test.cs" />
     <Compile Include="Configuration\SiteConfiguration_Test.cs" />
     <Compile Include="Kernel\Kernel_Test.cs" />
@@ -79,7 +79,7 @@
     <Compile Include="Script\ScriptService_Test.cs" />
     <Compile Include="SiteManager\MashupLocatorService_Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\Xslt\XsltRenderer_Test.cs" />
+    <Compile Include="Views\Xslt\XsltView_Test.cs" />
     <Compile Include="Mocks\ScriptServiceMock.cs" />
     <Compile Include="SiteManager\MashupScriptService_Test.cs" />
     <Compile Include="TestHelper.cs" />

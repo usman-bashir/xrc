@@ -8,7 +8,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0C914B1E-05A1-401F-BD55-1286523C0CED}"
 	ProjectSection(SolutionItems) = preProject
 		Local.testsettings = Local.testsettings
-		README = README
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 		xrc.vsmdi = xrc.vsmdi
 	EndProjectSection
