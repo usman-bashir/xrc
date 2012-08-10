@@ -6,17 +6,6 @@ using System.Collections.Concurrent;
 
 namespace DemoWebSite
 {
-    public interface IContactModule : xrc.Modules.IModule
-    {
-        string SayHello();
-
-        Contact GetDefault();
-
-        void Add(Contact contact);
-
-        Contact[] GetContacts();
-    }
-
     public class ContactModule : IContactModule
 	{
         private static ConcurrentBag<Contact> _contacts = new ConcurrentBag<Contact>();
@@ -36,9 +25,9 @@ namespace DemoWebSite
             _contacts.Add(contact);
         }
 
-        public Contact[] GetContacts()
+        public ContactList GetContacts()
         {
-            return _contacts.ToArray();
+            return new ContactList(_contacts.ToArray());
         }
 	}
 }

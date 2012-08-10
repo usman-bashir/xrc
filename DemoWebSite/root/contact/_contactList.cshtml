@@ -1,10 +1,26 @@
-﻿@inherits xrc.Razor.XrcWebViewPage<DemoWebSite.Contact>
+﻿@inherits xrc.Razor.XrcWebViewPage<DemoWebSite.ContactList>
 
-@functions
-{
-    public DemoWebSite.IContactModule ContactModule
-    {
-        get;
-        set;
-    }
-}
+<div>
+	
+	<p>A list of contact that is loaded with ajax.</p>
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>FirstName</th>
+				<th>LastName</th>
+				<th>Message</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var contact in Model.Contacts){
+				<tr>
+					<td>@contact.FirstName</td>
+					<td>@contact.LastName</td>
+					<td>@contact.Message</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+</div>

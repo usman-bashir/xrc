@@ -24,7 +24,9 @@
 					<th>Image</th>
 				</tr>
 			</thead>
-			<xsl:apply-templates select="item"/>
+			<tbody>
+				<xsl:apply-templates select="item"/>
+			</tbody>
 		</table>
 	</xsl:template>
 

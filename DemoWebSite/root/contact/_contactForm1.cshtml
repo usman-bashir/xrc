@@ -40,7 +40,8 @@
                     url: frm.attr('action'),
                     data: frm.serialize(),
                     success: function (data) {
-                        $('#result1').html(data);
+                    	$('#result1').html(data);
+                    	loadContactList();
                     }
                 });
 

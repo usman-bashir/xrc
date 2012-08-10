@@ -7,6 +7,12 @@
         get;
         set;
     }
+
+	public xrc.Modules.IUrlModule UrlModule
+	{
+		get;
+		set;
+	}
 }
 
 <div class="row-fluid">
@@ -22,7 +28,13 @@
     <div class="span4">
         @Html.Raw(SlotModule.Include("_contactform2"))
     </div>
-    <div class="span4">
+    <div class="span4" id="contactList">
         @Html.Raw(SlotModule.Include("_contactlist"))
     </div>
 </div>
+
+<script type="text/javascript">
+	function loadContactList() {
+		$('#contactList').load('@UrlModule.Content("_contactlist")');
+	}
+</script>

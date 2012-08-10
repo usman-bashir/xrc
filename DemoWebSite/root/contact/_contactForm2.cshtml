@@ -15,7 +15,7 @@
         <h2>Contact form</h2>
 
 		<label>First Name</label>
-		<input name="FirstName" value="@Model.FirstName" type="text" />
+		<input name="FirstName" type="text" />
 
 		<br />
 
@@ -23,7 +23,7 @@
 		@Html.TextBoxFor(p => p.LastName)
 
         <label>Message</label>
-        <textarea name="Message" rows="3" cols="50">@Model.Message</textarea>
+        <textarea name="Message" rows="3" cols="50">A message ...</textarea>
 
 		<button type="submit" class="btn btn-info">
             Send
@@ -32,20 +32,21 @@
 	</form>
 
     <script type="text/javascript">
-        (function() {
-            var frm = $('#contactForm2');
-            frm.submit(function () {
-                $.ajax({
-                    type: frm.attr('method'),
-                    url: frm.attr('action'),
-                    data: frm.serialize(),
-                    success: function (data) {
-                        $('#result2').html(data);
-                    }
-                });
+        (function () {
+        	var frm = $('#contactForm2');
+        	frm.submit(function () {
+        		$.ajax({
+        			type: frm.attr('method'),
+        			url: frm.attr('action'),
+        			data: frm.serialize(),
+        			success: function (data) {
+        				$('#result2').html(data);
+        				loadContactList();
+        			}
+        		});
 
-                return false;
-            });
+        		return false;
+        	});
         })();
     </script>
 

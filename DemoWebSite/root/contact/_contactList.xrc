@@ -2,14 +2,10 @@
 <xrc:page xmlns:xrc="urn:xrc"
          xmlns:Contact="xrc:ContactModule">
 
-	<xrc:parameters>
-		<xrc:add key="param1" value="@DateTime.Now" type="System.DateTime" />
-	</xrc:parameters>
-
 	<xrc:action>
 		<xrc:view type="RazorView">
 			<viewFile>_contactList.cshtml</viewFile>
-			<model>@Contact.GetDefault()</model>
+			<model>@Contact.GetContacts()</model>
 		</xrc:view>
 	</xrc:action>
 

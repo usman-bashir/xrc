@@ -11,4 +11,14 @@ namespace DemoWebSite
 		public string LastName { get; set; }
         public string Message { get; set; }
 	}
+
+	public class ContactList
+	{
+		public ContactList(Contact[] contacts)
+		{
+			Contacts = contacts;
+		}
+
+		public Contact[] Contacts { get; set; }
+	}
 }

@@ -1,15 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<xrc:page xmlns:xrc="urn:xrc"
-         xmlns:Contact="xrc:ContactModule">
-
-	<xrc:parameters>
-		<xrc:add key="param1" value="@DateTime.Now" type="System.DateTime" />
-	</xrc:parameters>
+<xrc:page xmlns:xrc="urn:xrc">
 
 	<xrc:action>
 		<xrc:view type="RazorView">
 			<viewFile>_contactForm2.cshtml</viewFile>
-			<model>@Contact.GetDefault()</model>
 		</xrc:view>
 	</xrc:action>
 
