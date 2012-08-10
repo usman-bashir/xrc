@@ -31,8 +31,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AEA077
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demo", "demo", "{0DB15373-3305-40F1-BD82-1B7F7DB2A614}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoWebSite.Lib", "DemoWebSite.Lib\DemoWebSite.Lib.csproj", "{8015F2FD-AC46-47FD-9FD3-8E48A0001433}"
 EndProject
 Global
@@ -70,7 +68,5 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{342FBF7C-BF21-477E-A7E6-8D8BEC6F3E88} = {B51A8B94-7352-4FBA-902D-3FF5C9022563}
-		{578499F8-3E4B-41E4-832D-BD83B55131A5} = {0DB15373-3305-40F1-BD82-1B7F7DB2A614}
-		{8015F2FD-AC46-47FD-9FD3-8E48A0001433} = {0DB15373-3305-40F1-BD82-1B7F7DB2A614}
 	EndGlobalSection
 EndGlobal
