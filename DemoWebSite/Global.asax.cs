@@ -9,8 +9,6 @@ using Castle.MicroKernel.Registration;
 
 namespace DemoWebSite
 {
-	// TODO Valutare quale è la strada migliore: HttpHandler da web.config, route su controller, route su XrcRouteHandler
-
 	public class MvcApplication : System.Web.HttpApplication
 	{
         private static IWindsorContainer _container;
@@ -19,9 +17,9 @@ namespace DemoWebSite
 		{
             BootstrapContainer();
 
-			RegisterRoutes(RouteTable.Routes);
+			BootstrapXrc(RouteTable.Routes);
 
-            BootstrapXrc(RouteTable.Routes);
+			RegisterRoutes(RouteTable.Routes);
         }
 
         private void BootstrapContainer()
@@ -30,12 +28,10 @@ namespace DemoWebSite
 
             _container = new WindsorContainer();
 
-            // register xrc required classes
-            _container.Register(Component.For<xrc.Configuration.WorkingPath>().Instance(
-                                new xrc.Configuration.WorkingPath(xrcVirtualPath, this.Server.MapPath(xrcVirtualPath))));
-            _container.Register(Component.For<xrc.Configuration.XrcSection>().Instance(
-                                   xrc.Configuration.XrcSection.GetSection()));
-            _container.Install(new xrc.IoC.Windsor.XrcDefaultInstaller());
+            // register xrc
+			var rootPath = new xrc.Configuration.RootPath(xrcVirtualPath, this.Server.MapPath(xrcVirtualPath));
+			var xrcSection = xrc.Configuration.XrcSection.GetSection();
+			_container.Install(new xrc.IoC.Windsor.XrcDefaultInstaller(rootPath, xrcSection));
 
             // Register demo web site modules
             _container.Register(Classes.FromAssemblyContaining<TwitterModule>()
@@ -50,34 +46,23 @@ namespace DemoWebSite
             ControllerBuilder.Current.SetControllerFactory(controllerFactory);
         }
 
+		private void BootstrapXrc(RouteCollection routes)
+		{
+			xrc.IKernel kernel = _container.Resolve<xrc.IKernel>();
+			xrc.Kernel.Init(kernel);
+
+			routes.Add("xrc", new xrc.Routing.XrcRoute());
+		}
+
         private void RegisterRoutes(RouteCollection routes)
 		{
             routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
 
-			// Catch all the path starting with "mvc"
+			// Standard mvc route
 			routes.MapRoute(
-			     "mvc_route",
-			     "mvc/{controller}/{action}/{id}",
-			     new { controller = "Home", action = "Index", id = UrlParameter.Optional });
-
-            // Standard mvc route
-            //routes.MapRoute(
-			//     "Default", // Route name
-			//     "{controller}/{action}/{id}", // URL with parameters
-			//     new { controller = "Home", action = "Index", id = UrlParameter.Optional }); // Parameter defaults
+				 "Default", // Route name
+				 "{controller}/{action}/{id}", // URL with parameters
+				 new { controller = "Home", action = "Index", id = UrlParameter.Optional }); // Parameter defaults
 		}
-
-        private void BootstrapXrc(RouteCollection routes)
-        {
-            xrc.IKernel kernel = _container.Resolve<xrc.IKernel>();
-            xrc.Kernel.Init(kernel);
-
-            // xrc route
-            // Catch all
-            routes.Add("xrc_route", new Route("{*path}", new xrc.XrcRouteHandler()));
-
-            // Xrc using a controller
-            //routes.MapRoute("xrc", "{*path}", new { controller = "XrcController", action = "DoWork" });
-        }
     }
 }

@@ -12,6 +12,8 @@ using xrc.Script;
 
 namespace xrc
 {
+	// TODO Rivedere classe kernel, forse rimuovere e sostituire con i singoli servizi
+
     public class Kernel : IKernel
     {
         private IMashupParserService _parser;
@@ -50,7 +52,17 @@ namespace xrc
         #endregion
 
         #region Processing pipeline
-        public void RenderRequest(IContext context)
+		public bool Match(IContext context)
+		{
+			LoadConfiguration(context);
+
+			if (!LocateXrcFile(context))
+				return false;
+
+			return true;
+		}
+
+		public void ProcessRequest(IContext context)
         {
             //Process pipeline
 
@@ -144,7 +156,7 @@ namespace xrc
                     }
                 };
 
-            RenderRequest(parentContext);
+            ProcessRequest(parentContext);
             parentContext.CheckError();
         }
 
@@ -163,11 +175,15 @@ namespace xrc
 
         private void LoadConfiguration(IContext context)
         {
-            context.Configuration = _siteConfigurationProvider.GetSiteFromUri(context.Request.Url);
+			if (context.Configuration == null)
+	            context.Configuration = _siteConfigurationProvider.GetSiteFromUri(context.Request.Url);
         }
 
         private bool LocateXrcFile(IContext context)
         {
+			if (context.File != null)
+				return true;
+
 			context.File = _fileLocator.Locate(context.Configuration.GetRelativeUrl(context.Request.Url));
             if (context.File == null)
                 return false;
@@ -244,7 +260,7 @@ namespace xrc
                     property.PropertyInfo.SetValue(view, value, null);
                 }
 
-                view.RenderRequest(context);
+                view.Execute(context);
             }
             finally
             {

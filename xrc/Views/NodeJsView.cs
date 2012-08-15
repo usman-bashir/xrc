@@ -7,7 +7,7 @@ namespace xrc.Views
 {
     public class NodeJsView : IView
     {
-        public void RenderRequest(IContext context)
+        public void Execute(IContext context)
         {
             throw new NotImplementedException();
         }

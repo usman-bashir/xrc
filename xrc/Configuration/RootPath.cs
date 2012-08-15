@@ -5,12 +5,12 @@ using System.Text;
 
 namespace xrc.Configuration
 {
-    public class WorkingPath
+    public class RootPath
     {
-        public WorkingPath(string virtualPath, string phisicalPath)
+		public RootPath(string virtualPath, string physicalPath)
         {
             VirtualPath = virtualPath;
-            PhysicalPath = phisicalPath;
+			PhysicalPath = physicalPath;
         }
 
         public string VirtualPath

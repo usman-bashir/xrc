@@ -7,6 +7,6 @@ namespace xrc.Views
 {
     public interface IView
     {
-		void RenderRequest(IContext context);
+		void Execute(IContext context);
     }
 }

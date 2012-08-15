@@ -22,7 +22,7 @@ namespace xrc.Views
 			set;
 		}
 
-		public void RenderRequest(IContext context)
+		public void Execute(IContext context)
         {
             if (SlotUrl == null)
                 throw new ArgumentNullException("Slot");
@@ -31,7 +31,7 @@ namespace xrc.Views
             XrcRequest request = new XrcRequest(new Uri(url), parentRequest: context.Request);
 
             Context slotContext = new Context(request, context.Response);
-            _kernel.RenderRequest(slotContext);
+            _kernel.ProcessRequest(slotContext);
 
             slotContext.CheckError();
         }

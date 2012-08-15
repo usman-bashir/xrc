@@ -6,6 +6,7 @@ using System.Web;
 
 namespace xrc
 {
+	// TODO Rivedere la classe context...forse eliminare e sostituire con i singoli oggetti in maniera tale da rendere più chiare le dipendenze
     public interface IContext
     {
         HttpRequestBase Request { get; set; }

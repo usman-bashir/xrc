@@ -148,7 +148,7 @@ namespace xrc.SiteManager
             public XDocument XDocProperty { get; set; }
             public string PrimitiveProperty { get; set; }
 
-            public void RenderRequest(IContext context)
+            public void Execute(IContext context)
             {
                 throw new NotImplementedException();
             }

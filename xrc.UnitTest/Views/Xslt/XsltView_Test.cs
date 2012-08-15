@@ -26,7 +26,7 @@ namespace xrc.Views
             {
                 XrcResponse response = new XrcResponse(outStream);
 
-                target.RenderRequest(new Context(request, response));
+                target.Execute(new Context(request, response));
 
                 outStream.Seek(0, SeekOrigin.Begin);
                 using (StreamReader reader = new StreamReader(outStream))
@@ -50,7 +50,7 @@ namespace xrc.Views
             {
                 XrcResponse response = new XrcResponse(outStream);
 
-                target.RenderRequest(new Context(request, response));
+                target.Execute(new Context(request, response));
 
                 outStream.Seek(0, SeekOrigin.Begin);
                 using (StreamReader reader = new StreamReader(outStream))
@@ -76,7 +76,7 @@ namespace xrc.Views
                 XrcResponse response = new XrcResponse(outStream);
                 Context context = new Context(request, response);
                 context.Parameters.Add(new ContextParameter("myParameter", typeof(string), "hello from parameter"));
-                target.RenderRequest(context);
+                target.Execute(context);
 
                 outStream.Seek(0, SeekOrigin.Begin);
                 using (StreamReader reader = new StreamReader(outStream))
@@ -101,7 +101,7 @@ namespace xrc.Views
             {
                 XrcResponse response = new XrcResponse(outStream);
                 Context context = new Context(request, response);
-                target.RenderRequest(context);
+                target.Execute(context);
 
                 outStream.Seek(0, SeekOrigin.Begin);
                 using (StreamReader reader = new StreamReader(outStream))

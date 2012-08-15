@@ -21,10 +21,10 @@ namespace xrc.Views
     public class RazorView : IView
     {
 		private IKernel _kernel;
-        private Configuration.WorkingPath _workingPath;
+        private Configuration.RootPath _workingPath;
         private Modules.IModuleFactory _moduleFactory;
         private Modules.IModuleCatalogService _moduleCatalog;
-		public RazorView(IKernel kernel, Configuration.WorkingPath workingPath, Modules.IModuleFactory moduleFactory, Modules.IModuleCatalogService moduleCatalog)
+		public RazorView(IKernel kernel, Configuration.RootPath workingPath, Modules.IModuleFactory moduleFactory, Modules.IModuleCatalogService moduleCatalog)
 		{
 			_kernel = kernel;
             _workingPath = workingPath;
@@ -44,7 +44,7 @@ namespace xrc.Views
 			set;
 		}
 
-        public void RenderRequest(IContext context)
+        public void Execute(IContext context)
         {
 			if (string.IsNullOrWhiteSpace(ViewFile))
 				throw new ArgumentNullException("View");

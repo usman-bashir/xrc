@@ -35,7 +35,7 @@ namespace xrc
 					context.CallerContext = callerContext;
                     AddParameters(context, parameters);
 
-                    _kernel.RenderRequest(context);
+                    _kernel.ProcessRequest(context);
 
                     context.CheckError(); // TODO Bisogna eventualmente gestire anche il redirect e quindi richiamare la pagina in redirect?
 

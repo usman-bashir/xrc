@@ -52,7 +52,7 @@ namespace xrc.Views
             set;
         }
 
-        public void RenderRequest(IContext context)
+        public void Execute(IContext context)
         {
             if (context == null)
                 throw new ArgumentNullException("context");

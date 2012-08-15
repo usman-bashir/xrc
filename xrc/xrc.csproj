@@ -56,7 +56,7 @@
     <Compile Include="Components\ComponentDefinitionList.cs" />
     <Compile Include="Configuration\ComponentCollection.cs" />
     <Compile Include="Configuration\ComponentElement.cs" />
-    <Compile Include="Configuration\WorkingPath.cs" />
+    <Compile Include="Configuration\RootPath.cs" />
     <Compile Include="Context\Context.cs" />
     <Compile Include="Context\XrcRequestContext.cs" />
     <Compile Include="Context\IContext.cs" />
@@ -82,6 +82,7 @@
     <Compile Include="Razor\XrcWebViewPageExtension.cs" />
     <Compile Include="Razor\ModuleInterceptor.cs" />
     <Compile Include="Razor\XrcWebViewPage.cs" />
+    <Compile Include="Routing\XrcRoute.cs" />
     <Compile Include="Views\IViewCatalogService.cs" />
     <Compile Include="Views\IViewFactory.cs" />
     <Compile Include="Kernel\RenderSlotEvent.cs" />
@@ -102,14 +103,14 @@
     <Compile Include="Configuration\SiteCollection.cs" />
     <Compile Include="Configuration\SiteElement.cs" />
     <Compile Include="Controller\XrcController.cs" />
-    <Compile Include="HttpHandler\HttpHandler.cs" />
+    <Compile Include="HttpHandler\XrcHttpHandler.cs" />
     <Compile Include="Views\ViewCatalogService.cs" />
     <Compile Include="Views\SlotRenderer.cs" />
     <Compile Include="Views\XmlView.cs" />
     <Compile Include="Reflection.cs" />
     <Compile Include="Request\XrcRequest.cs" />
     <Compile Include="Response\XrcResponse.cs" />
-    <Compile Include="RouteHandler\XrcRouteHandler.cs" />
+    <Compile Include="Routing\XrcRouteHandler.cs" />
     <Compile Include="Script\ScriptParameter.cs" />
     <Compile Include="Script\ScriptParameterList.cs" />
     <Compile Include="Script\DynamicExpression\Dynamic.cs" />
