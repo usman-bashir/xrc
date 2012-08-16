@@ -25,14 +25,28 @@ Problemi
 
 
 TODO
- MVC Module (xrc->mvc)
- Xrc helpers (mvc->xrc)
  Gestione parametri gerarchici per folder (tramte un file di configurazione xrc.config?)
  Block the root browse directory (necessary?)
-
  Documentation website using xrc (reading class reference from assembly and xml doc, xslt transformation of xml doc, custom docs, search, ...)
  Authentication
  Cache
  Sample explanation
+ Rio 2016 example
 
+
+Current features
+•	Installazione e configurazione facile sia sulle macchine di sviluppo che in ambienti di produzione. Questo perchè essendo un sito web asp.net può fare affidamento su tutte le features microsoft di pubblicazione (dovreste riuscire a scaricare da github la solution e provarla in locale senza problemi, i requisiti sono solo VS 2010 Sp1 e nuget aggiornato)
+•	Ambiente di lavoro familiare a ogni sviluppatore utilizzando tecnologie standard (visual studio->html, xslt, razor, ...). Bisogna solo imparare la sintassi del file xrc ma è piuttosto semplice.
+•	Integrazione con MVC che può quindi essere utilizzato quando necessario. Questo apre a tutto quello che gira attorno a MVC (componenti di terze parti, supporto , ...)
+•	Compatibile con Azure (o altre cloud su cui gira asp.net)
+•	Le pagine possono essere scritte in diversi linguaggi. Attualmente ho implementato xslt, razor e html. Il supporto a xslt offre una discreta portabilità con il vecchio codice
+•	Possibilità di aggiungere e modificare pagine al volo (senza rebuild), ogni pagina è autonoma 
+•	Componibilità pagine tramite slot, anche mischiando xslt e razor
+•	Pagine template (layout)
+•	Parametri nell'url (stile valueset) o ereditabili per url
+•	Possibilità di accedere a qualsiasi libreria .net esterna per il reperimento dati
+•	I dati possono essere in formato xml, json, .net model, ...
+•	Configurazione differenti a seconda dell'ambiente (local, staging, prod, ...)
+•	Sono disponibili tutte le funzionalità sui files di visual studio (versioning + social coding + copia/incolla + search and reaplace)
+•	Windsor or other IoC ready (some improvements are probably necessary...)
 
