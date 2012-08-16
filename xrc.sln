@@ -20,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{D9CD02D9-3
 	ProjectSection(SolutionItems) = preProject
 		docs\note.txt = docs\note.txt
 		README = README
-		setup_visual_studio.txt = setup_visual_studio.txt
+		docs\setup_visual_studio.txt = docs\setup_visual_studio.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xrc.Windsor", "xrc.Windsor\xrc.Windsor.csproj", "{2496197E-8B17-4AA0-98B2-E57B2C924EDF}"
