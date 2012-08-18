@@ -179,6 +179,7 @@
     <Content Include="Views\Test\PartialSlot.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Contact\SendMVC.cshtml" />
+    <Content Include="root\Web.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DemoWebSite.Lib\DemoWebSite.Lib.csproj">
