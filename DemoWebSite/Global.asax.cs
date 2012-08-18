@@ -22,6 +22,17 @@ namespace DemoWebSite
 			RegisterRoutes(RouteTable.Routes);
         }
 
+		//// Block direct browsing of the xrc root folder
+		//protected void Application_BeginRequest()
+		//{
+		//    var urlRequest = HttpContext.Current.Request.Url;
+		//    if (urlRequest.ToString().Contains("root"))
+		//    {
+		//        HttpContext.Current.Response.StatusCode = 403;
+		//        CompleteRequest();
+		//    }
+		//}
+
         private void BootstrapContainer()
         {
             string xrcVirtualPath = "~/root";
@@ -56,8 +67,6 @@ namespace DemoWebSite
 
         private void RegisterRoutes(RouteCollection routes)
 		{
-            routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
-
 			// Standard mvc route
 			routes.MapRoute(
 				 "Default", // Route name
