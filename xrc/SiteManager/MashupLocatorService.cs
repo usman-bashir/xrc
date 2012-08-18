@@ -9,7 +9,7 @@ namespace xrc.SiteManager
 {
     public class MashupLocatorService : IMashupLocatorService
     {
-        public MashupLocatorService(RootPath workingPath)
+        public MashupLocatorService(IRootPathConfig workingPath)
         {
             if (!System.IO.Directory.Exists(workingPath.PhysicalPath))
                 throw new ApplicationException(string.Format("Path '{0}' doesn't exist.", workingPath));

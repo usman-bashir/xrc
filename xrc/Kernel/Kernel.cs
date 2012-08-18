@@ -9,6 +9,8 @@ using System.Reflection;
 using xrc.Views;
 using System.Web;
 using xrc.Script;
+using xrc.Sites;
+using xrc.Modules;
 
 namespace xrc
 {
@@ -21,14 +23,14 @@ namespace xrc
         private IMashupLocatorService _fileLocator;
         private IMashupScriptService _scriptService;
         private IViewFactory _viewFactory;
-        private Modules.IModuleFactory _moduleFactory;
+        private IModuleFactory _moduleFactory;
 
         public Kernel(IMashupParserService parser,
                     ISiteConfigurationProviderService siteConfigurationProvider,
                     IMashupLocatorService fileLocator,
                     IViewFactory viewFactory,
                     IMashupScriptService scriptService,
-                    Modules.IModuleFactory moduleFactory)
+                    IModuleFactory moduleFactory)
         {
             _parser = parser;
             _siteConfigurationProvider = siteConfigurationProvider;

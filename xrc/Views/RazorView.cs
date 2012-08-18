@@ -21,10 +21,10 @@ namespace xrc.Views
     public class RazorView : IView
     {
 		private IKernel _kernel;
-        private Configuration.RootPath _workingPath;
+        private Configuration.IRootPathConfig _workingPath;
         private Modules.IModuleFactory _moduleFactory;
         private Modules.IModuleCatalogService _moduleCatalog;
-		public RazorView(IKernel kernel, Configuration.RootPath workingPath, Modules.IModuleFactory moduleFactory, Modules.IModuleCatalogService moduleCatalog)
+		public RazorView(IKernel kernel, Configuration.IRootPathConfig workingPath, Modules.IModuleFactory moduleFactory, Modules.IModuleCatalogService moduleCatalog)
 		{
 			_kernel = kernel;
             _workingPath = workingPath;

@@ -19,7 +19,7 @@ namespace xrc.Mocks
             set;
         }
 
-        public Configuration.ISiteConfiguration Configuration
+        public Sites.ISiteConfiguration Configuration
         {
             get;
             set;

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using xrc.SiteManager;
-using xrc.Configuration;
 using System.Web;
+using xrc.Sites;
 
 namespace xrc
 {

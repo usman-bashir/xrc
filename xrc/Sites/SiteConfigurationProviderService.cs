@@ -4,21 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Collections.Specialized;
 
-namespace xrc.Configuration
+namespace xrc.Sites
 {
     public class SiteConfigurationProviderService : ISiteConfigurationProviderService
     {
         private Dictionary<string, ISiteConfiguration> _sites = new Dictionary<string,ISiteConfiguration>();
 
-        public SiteConfigurationProviderService(XrcSection section)
+        public SiteConfigurationProviderService(Configuration.ISitesConfig config)
         {
-            if (section == null)
-                throw new ArgumentNullException("section");
+			if (config == null)
+				throw new ArgumentNullException("config");
 
-            foreach (SiteElement element in section.Sites)
-            {
-                _sites.Add(element.Key, GetSiteFromConfig(section, element));
-            }
+			foreach (var item in config.Sites)
+                _sites.Add(item.Key, item);
         }
 
         public ISiteConfiguration GetSiteFromUri(Uri uri)
@@ -45,19 +43,6 @@ namespace xrc.Configuration
                 throw new ApplicationException(string.Format("Site '{0}' not found.", siteKey));
 
             return site;
-        }
-
-        private ISiteConfiguration GetSiteFromConfig(XrcSection section, SiteElement element)
-        {
-            Dictionary<string, string> parameters = new Dictionary<string, string>();
-
-            foreach (SiteParameterElement param in section.Parameters)
-                parameters[param.Key] = param.Value;
-            foreach (SiteParameterElement param in element.Parameters)
-                parameters[param.Key] = param.Value;
-
-            var configuration = new SiteConfiguration(element.Key, element.Uri, parameters, element.SecureUri);
-            return configuration;
         }
     }
 }

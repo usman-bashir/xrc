@@ -35,14 +35,11 @@ namespace DemoWebSite
 
         private void BootstrapContainer()
         {
-            string xrcVirtualPath = "~/root";
-
             _container = new WindsorContainer();
 
             // register xrc
-			var rootPath = new xrc.Configuration.RootPath(xrcVirtualPath, this.Server.MapPath(xrcVirtualPath));
 			var xrcSection = xrc.Configuration.XrcSection.GetSection();
-			_container.Install(new xrc.IoC.Windsor.XrcDefaultInstaller(rootPath, xrcSection));
+			_container.Install(new xrc.IoC.Windsor.XrcDefaultInstaller(xrcSection));
 
             // Register demo web site modules
             _container.Register(Classes.FromAssemblyContaining<TwitterModule>()

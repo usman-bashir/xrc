@@ -64,13 +64,16 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\XrcSection_Test.cs" />
     <Compile Include="Mocks\ContextMock.cs" />
+    <Compile Include="Mocks\SitesConfigMock.cs" />
     <Compile Include="Mocks\MashupScriptServiceMock.cs" />
+    <Compile Include="Mocks\RootPathConfigMock.cs" />
     <Compile Include="Modules\ModuleCatalogService_Test.cs" />
     <Compile Include="Modules\TestModule.cs" />
     <Compile Include="Views\ViewCatalogService_Test.cs" />
-    <Compile Include="Configuration\SiteConfigurationProviderService_Test.cs" />
-    <Compile Include="Configuration\SiteConfiguration_Test.cs" />
+    <Compile Include="Sites\SiteConfigurationProviderService_Test.cs" />
+    <Compile Include="Sites\SiteConfiguration_Test.cs" />
     <Compile Include="Kernel\Kernel_Test.cs" />
     <Compile Include="Mocks\RendererCatalogServiceMock.cs" />
     <Compile Include="Mocks\ModuleFactoryMock.cs" />

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace xrc.Configuration
+namespace xrc.Sites
 {
    
     /// <summary>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections.Specialized;
 
-namespace xrc.Configuration
+namespace xrc.Sites
 {
     public interface ISiteConfigurationProviderService
     {

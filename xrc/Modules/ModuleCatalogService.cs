@@ -7,8 +7,8 @@ namespace xrc.Modules
 {
     public class ModuleCatalogService : ComponentCatalogService<IModule>, IModuleCatalogService
     {
-        public ModuleCatalogService(Configuration.XrcSection configuration)
-            :base(configuration.Modules)
+        public ModuleCatalogService(Configuration.IModuleConfig config)
+			: base(config.Modules)
         {
 
         }

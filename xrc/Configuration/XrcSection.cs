@@ -6,7 +6,7 @@ using System.Configuration;
 
 namespace xrc.Configuration
 {
-    public class XrcSection : ConfigurationSection
+	public class XrcSection : ConfigurationSection, IModuleConfig, IViewConfig, ISitesConfig
     {
         public static XrcSection GetSection()
         {
@@ -47,5 +47,35 @@ namespace xrc.Configuration
         {
             get { return this["views"] as ComponentCollection; }
         }
-    }
+
+		[ConfigurationProperty("rootPath")]
+		public RootPathElement RootPath
+		{
+			get { return this["rootPath"] as RootPathElement; }
+		}
+
+		IEnumerable<Sites.ISiteConfiguration> ISitesConfig.Sites
+		{
+			get 
+			{
+				foreach (SiteElement siteElement in Sites)
+				{
+					yield return GetSiteFromConfig(siteElement);
+				}
+			}
+		}
+
+		private Sites.ISiteConfiguration GetSiteFromConfig(SiteElement element)
+		{
+			Dictionary<string, string> parameters = new Dictionary<string, string>();
+
+			foreach (SiteParameterElement param in Parameters)
+				parameters[param.Key] = param.Value;
+			foreach (SiteParameterElement param in element.Parameters)
+				parameters[param.Key] = param.Value;
+
+			var configuration = new Sites.SiteConfiguration(element.Key, element.Uri, parameters, element.SecureUri);
+			return configuration;
+		}
+	}
 }

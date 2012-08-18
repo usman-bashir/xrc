@@ -25,8 +25,6 @@ Problemi
 
 
 TODO
- Togliere registrazione e dipendenze a XrcSection e mettere delle dipendenze più puntuali (probabilmente creando interfaccie singole, es. IRootPathConfig, IModulesConfig, ...)
- Spostare in XrcConfig anche il path di root
  Aggiungere una configurazione a xrc.Configuration.RootPath per bloccare tramite l'evento BeginRequest tutte le chiamata alla cartella root
  Gestione parametri gerarchici per folder (tramite un file di configurazione xrc.config?)
  Fare un esempio di razor layout

@@ -9,13 +9,10 @@ namespace xrc.IoC.Windsor
 {
     public class XrcDefaultInstaller : IWindsorInstaller
     {
-		Configuration.RootPath _rootPath;
 		Configuration.XrcSection _xrcSection;
 
-		public XrcDefaultInstaller(Configuration.RootPath rootPath,
-									Configuration.XrcSection xrcSection)
+		public XrcDefaultInstaller(Configuration.XrcSection xrcSection)
 		{
-			_rootPath = rootPath;
 			_xrcSection = xrcSection;
 		}
 
@@ -23,8 +20,10 @@ namespace xrc.IoC.Windsor
         {
             Assembly assembly = typeof(xrc.IKernel).Assembly;
 
-			container.Register(Component.For<xrc.Configuration.RootPath>().Instance(_rootPath));
-			container.Register(Component.For<xrc.Configuration.XrcSection>().Instance(_xrcSection));
+			container.Register(Component.For<xrc.Configuration.IRootPathConfig>().Instance(_xrcSection.RootPath));
+			container.Register(Component.For<xrc.Configuration.IModuleConfig>().Instance(_xrcSection).Named("IModuleConfig"));
+			container.Register(Component.For<xrc.Configuration.IViewConfig>().Instance(_xrcSection).Named("IViewConfig"));
+			container.Register(Component.For<xrc.Configuration.ISitesConfig>().Instance(_xrcSection).Named("ISitesConfig"));
 
             container.Register(Component.For<IKernel>()
                                 .ImplementedBy<Kernel>()
