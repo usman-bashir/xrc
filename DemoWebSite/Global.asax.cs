@@ -22,17 +22,6 @@ namespace DemoWebSite
 			RegisterRoutes(RouteTable.Routes);
         }
 
-		//// Block direct browsing of the xrc root folder
-		//protected void Application_BeginRequest()
-		//{
-		//    var urlRequest = HttpContext.Current.Request.Url;
-		//    if (urlRequest.ToString().Contains("root"))
-		//    {
-		//        HttpContext.Current.Response.StatusCode = 403;
-		//        CompleteRequest();
-		//    }
-		//}
-
         private void BootstrapContainer()
         {
             _container = new WindsorContainer();
@@ -57,7 +46,7 @@ namespace DemoWebSite
 		private void BootstrapXrc(RouteCollection routes)
 		{
 			xrc.IKernel kernel = _container.Resolve<xrc.IKernel>();
-			xrc.Kernel.Init(kernel);
+			kernel.Init();
 
 			routes.Add("xrc", new xrc.Routing.XrcRoute());
 		}

@@ -11,5 +11,7 @@ namespace xrc
 		bool Match(IContext context);
 
 		void ProcessRequest(IContext context);
+
+		void Init();
     }
 }

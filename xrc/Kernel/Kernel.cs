@@ -15,15 +15,16 @@ using xrc.Modules;
 namespace xrc
 {
 	// TODO Rivedere classe kernel, forse rimuovere e sostituire con i singoli servizi
+	// Ha troppe dipendenze e responsabilità...
 
     public class Kernel : IKernel
     {
-        private IMashupParserService _parser;
-        private ISiteConfigurationProviderService _siteConfigurationProvider;
-        private IMashupLocatorService _fileLocator;
-        private IMashupScriptService _scriptService;
-        private IViewFactory _viewFactory;
-        private IModuleFactory _moduleFactory;
+        IMashupParserService _parser;
+        ISiteConfigurationProviderService _siteConfigurationProvider;
+        IMashupLocatorService _fileLocator;
+        IMashupScriptService _scriptService;
+        IViewFactory _viewFactory;
+        IModuleFactory _moduleFactory;
 
         public Kernel(IMashupParserService parser,
                     ISiteConfigurationProviderService siteConfigurationProvider,
@@ -52,6 +53,11 @@ namespace xrc
             get { return _current; }
         }
         #endregion
+
+		public void Init()
+		{
+			Kernel.Init(this);
+		}
 
         #region Processing pipeline
 		public bool Match(IContext context)
@@ -270,5 +276,5 @@ namespace xrc
             }
         }
         #endregion
-    }
+	}
 }
