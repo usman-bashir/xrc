@@ -96,8 +96,8 @@ namespace xrc.Views
         /// </summary>
         string GetViewFullName(IContext context)
         {
-            var viewPath = new Uri(context.GetAbsoluteUrl(ViewFile));
-            var appPath = new Uri(context.GetAbsoluteUrl("~"));
+            var viewPath = context.Page.GetContentAbsoluteUrl(ViewFile);
+            var appPath = context.Page.GetContentAbsoluteUrl("~");
             var relative = viewPath.MakeRelativeUriEx(appPath);
             return UriExtensions.Combine(_workingPath.VirtualPath, relative.ToString());
         }

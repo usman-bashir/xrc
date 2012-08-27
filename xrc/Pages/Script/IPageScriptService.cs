@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using xrc.Script;
 
-namespace xrc.SiteManager
+namespace xrc.Pages.Script
 {
-    public interface IMashupScriptService
+    public interface IPageScriptService
     {
-        XValue Parse(string expression, Type returnType, Modules.ModuleDefinitionList modules, MashupParameterList parameters);
+        XValue Parse(string expression, Type returnType, Modules.ModuleDefinitionList modules, PageParameterList parameters);
 
         object Eval(XValue value, Dictionary<string, Modules.IModule> modules, ContextParameterList parameters);
 

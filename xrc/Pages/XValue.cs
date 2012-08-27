@@ -6,7 +6,7 @@ using System.Xml.Linq;
 using System.Reflection;
 using xrc.Script;
 
-namespace xrc.SiteManager
+namespace xrc.Pages
 {
     public class XValue
     {

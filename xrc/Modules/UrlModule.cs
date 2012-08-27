@@ -20,7 +20,7 @@ namespace xrc.Modules
 
         public string Content(string contentPath)
         {
-			return _context.GetAbsoluteUrl(contentPath);
+			return _context.Page.GetContentAbsoluteUrl(contentPath).ToString();
         }
 
         public string Content(string baseUri, string uri)
@@ -30,7 +30,7 @@ namespace xrc.Modules
 
         public string Content(string baseUri, string uri1, string uri2)
         {
-            return UriExtensions.Combine(UriExtensions.Combine(Content(baseUri), uri1), uri2);
+            return UriExtensions.Combine(Content(baseUri, uri1), uri2);
         }
 
         public string MvcAction(string actionName, string controllerName)

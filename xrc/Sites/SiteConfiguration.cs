@@ -64,7 +64,7 @@ namespace xrc.Sites
         public Uri GetRelativeUrl(Uri absoluteUrl)
         {
             if (!absoluteUrl.IsAbsoluteUri)
-                throw new UriFormatException(string.Format("Uri '{0}' is not absolute.", absoluteUrl));
+                throw new UriFormatException(string.Format("Url '{0}' is not absolute.", absoluteUrl));
 
             absoluteUrl = absoluteUrl.ToLower();
 
@@ -74,36 +74,37 @@ namespace xrc.Sites
             else if (Uri.IsBaseOfWithPath(absoluteUrl))
                 resultUri = absoluteUrl.MakeRelativeUriEx(Uri);
             else
-                throw new ApplicationException(string.Format("Uri '{0}' is not valid for the site '{1}'.", absoluteUrl, Key));
+				throw new SiteConfigurationMismatchException(string.Format("Uri '{0}' is not valid for site '{1}'.", absoluteUrl, Key));
 
-            if (resultUri.IsAbsoluteUri)
-                throw new ApplicationException(string.Format("Uri '{0}' is not valid for the site '{1}'.", absoluteUrl, Key));
+			System.Diagnostics.Debug.Assert(!resultUri.IsAbsoluteUri);
 
             return resultUri;
         }
 
-		public string GetAbsoluteUrl(string url, Uri contextUrl)
+		public Uri GetAbsoluteUrl(string virtualUrl, Uri contextUrl)
         {
             // Similar code of UrlHelper.Content Method
 
 			if (contextUrl == null || !contextUrl.IsAbsoluteUri)
-				throw new ApplicationException(string.Format("Context url '{0}' is not valid. Expected an absolute url.", contextUrl));
+				throw new UriFormatException(string.Format("Context url '{0}' is not valid. Expected an absolute url.", contextUrl));
 
 			System.Uri resultUri;
-			if (url.StartsWith("~"))
+			if (virtualUrl.StartsWith("~"))
 			{
-				url = url.Substring(1);
+				virtualUrl = virtualUrl.Substring(1);
 				if (SecureUri.IsBaseOfWithPath(contextUrl))
-					resultUri = SecureUri.Combine(url);
+					resultUri = SecureUri.Combine(virtualUrl);
 				else if (Uri.IsBaseOfWithPath(contextUrl))
-					resultUri = Uri.Combine(url);
+					resultUri = Uri.Combine(virtualUrl);
 				else
-					throw new ApplicationException(string.Format("Uri '{0}' is not valid for the site '{1}'.", url, Key));
+					throw new SiteConfigurationMismatchException(string.Format("Uri '{0}' is not valid for site '{1}'.", virtualUrl, Key));
 			}
 			else
-				resultUri = new System.Uri(contextUrl, url);
+				resultUri = new System.Uri(contextUrl, virtualUrl);
 
-			return resultUri.ToString();
+			System.Diagnostics.Debug.Assert(resultUri.IsAbsoluteUri);
+
+			return resultUri;
         }
     }
 }

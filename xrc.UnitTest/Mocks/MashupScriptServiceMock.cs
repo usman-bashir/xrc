@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using xrc.Script;
 using System.Linq.Expressions;
-using xrc.SiteManager;
+using xrc.Pages.Script;
+using xrc.Pages;
 
 namespace xrc.Mocks
 {
-    class MashupScriptServiceMock : IMashupScriptService
+    class PageScriptServiceMock : IPageScriptService
     {
-        public MashupScriptServiceMock()
+		public PageScriptServiceMock()
         {
         }
 
@@ -28,7 +29,7 @@ namespace xrc.Mocks
             }
         }
 
-        public XValue Parse(string expression, Type returnType, Modules.ModuleDefinitionList modules, MashupParameterList parameters)
+        public XValue Parse(string expression, Type returnType, Modules.ModuleDefinitionList modules, PageParameterList parameters)
         {
             string script;
             if (TryExtractScript(expression, out script))

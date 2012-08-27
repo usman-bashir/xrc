@@ -5,22 +5,29 @@ using System.Text;
 using System.Xml.XPath;
 using System.IO;
 using System.Xml.Linq;
+using xrc.Pages.Providers;
 
 namespace xrc.Modules
 {
     public class FileModule : IFileModule
     {
-        private IContext _context;
-        public FileModule(IContext context)
+        IContext _context;
+		IPageProviderService _pageProvider;
+
+		public FileModule(IContext context, IPageProviderService pageProvider)
         {
             _context = context;
+			_pageProvider = pageProvider;
         }
 
         public XDocument Xml(string file)
         {
-            string fullPath = Path.Combine(_context.WorkingPath, file);
+			XDocument doc;
 
-			XDocument doc = XDocument.Load(fullPath);
+			using (Stream stream = _pageProvider.GetPageResource(_context.Page, file))
+			{
+				doc = XDocument.Load(stream);
+			}
 
 			return doc;
         }

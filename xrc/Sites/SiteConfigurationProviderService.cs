@@ -33,14 +33,14 @@ namespace xrc.Sites
                     return site;
             }
 
-            throw new ApplicationException(string.Format("Site configuration for uri '{0}' not found.", uri));
+			throw new SiteConfigurationNotFoundException(string.Format("Site configuration for uri '{0}' not found.", uri));
         }
 
         public ISiteConfiguration GetSiteFromKey(string siteKey)
         {
             var site = _sites[siteKey];
             if (site == null)
-                throw new ApplicationException(string.Format("Site '{0}' not found.", siteKey));
+				throw new SiteConfigurationNotFoundException(string.Format("Site '{0}' not found.", siteKey));
 
             return site;
         }

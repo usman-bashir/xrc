@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using DynamicExpression;
 using xrc.Modules;
 using System.Linq.Expressions;
+using xrc.Script;
 
-namespace xrc.SiteManager
+namespace xrc.Pages.Script
 {
 
     [TestClass()]
-    public class MashupScriptService_Test
+    public class PageScriptService_Test
     {
         private TestContext testContextInstance;
 
@@ -62,20 +63,20 @@ namespace xrc.SiteManager
         [TestMethod()]
         public void It_should_be_possible_to_parse_and_eval_script_with_modules()
         {
-            var scriptService = new Moq.Mock<Script.IScriptService>();
-            scriptService.Setup(p => p.Parse("TestModule.Name", typeof(string), Moq.It.IsAny<Script.ScriptParameterList>())).Returns(new Mocks.ScriptExpressionMock("TestModule.Name", typeof(string)));
+            var scriptService = new Moq.Mock<IScriptService>();
+            scriptService.Setup(p => p.Parse("TestModule.Name", typeof(string), Moq.It.IsAny<ScriptParameterList>())).Returns(new Mocks.ScriptExpressionMock("TestModule.Name", typeof(string)));
             TestModule testModule = new TestModule();
 
             ModuleDefinitionList modules = new ModuleDefinitionList();
             modules.Add(new ModuleDefinition("TestModule", TestModule.Definition));
-            MashupParameterList parameters = new MashupParameterList();
+			PageParameterList parameters = new PageParameterList();
 
-            MashupScriptService target = new MashupScriptService(scriptService.Object);
+			PageScriptService target = new PageScriptService(scriptService.Object);
 
             XValue exp;
             exp = target.Parse("@TestModule.Name", typeof(string), modules, parameters);
 
-            scriptService.Verify(p => p.Parse("TestModule.Name", typeof(string), Moq.It.IsAny<Script.ScriptParameterList>()));
+            scriptService.Verify(p => p.Parse("TestModule.Name", typeof(string), Moq.It.IsAny<ScriptParameterList>()));
 
             Dictionary<string, IModule> modulesInstance = new Dictionary<string, IModule>();
             modulesInstance.Add("TestModule", testModule);
@@ -83,38 +84,38 @@ namespace xrc.SiteManager
 
             target.Eval(exp, modulesInstance, parametersInstance);
 
-            scriptService.Verify(p => p.Eval(Moq.It.IsAny<Script.IScriptExpression>(), Moq.It.IsAny<Script.ScriptParameterList>()));
+            scriptService.Verify(p => p.Eval(Moq.It.IsAny<IScriptExpression>(), Moq.It.IsAny<ScriptParameterList>()));
         }
 
         [TestMethod()]
         public void It_should_be_possible_to_eval_constant()
         {
-            MashupScriptService target = new MashupScriptService(null);
+			PageScriptService target = new PageScriptService(null);
             IContext context = new Mocks.ContextMock();
             ModuleDefinitionList modulesDefinition = new ModuleDefinitionList();
-            MashupParameterList mashupParameters = new MashupParameterList();
+			PageParameterList pageParameters = new PageParameterList();
             Dictionary<string, IModule> modules = new Dictionary<string, IModule>();
             ContextParameterList parameters = new ContextParameterList();
 
             XValue exp;
 
-            exp = target.Parse("ciao", typeof(string), modulesDefinition, mashupParameters);
+			exp = target.Parse("ciao", typeof(string), modulesDefinition, pageParameters);
             Assert.AreEqual("ciao", target.Eval(exp, modules, parameters));
 
-            exp = target.Parse("459", typeof(int), modulesDefinition, mashupParameters);
+			exp = target.Parse("459", typeof(int), modulesDefinition, pageParameters);
             Assert.AreEqual(459, target.Eval(exp, modules, parameters));
 
-            exp = target.Parse("0.59", typeof(double), modulesDefinition, mashupParameters);
+			exp = target.Parse("0.59", typeof(double), modulesDefinition, pageParameters);
             Assert.AreEqual(0.59, target.Eval(exp, modules, parameters));
 
-            exp = target.Parse("01/02/2045", typeof(DateTime), modulesDefinition, mashupParameters);
+			exp = target.Parse("01/02/2045", typeof(DateTime), modulesDefinition, pageParameters);
             Assert.AreEqual(new DateTime(2045, 01, 02), target.Eval(exp, modules, parameters));
         }
 
 		[TestMethod()]
 		public void It_Should_be_possible_to_ExtractScript()
 		{
-            MashupScriptService target = new MashupScriptService(null);
+			PageScriptService target = new PageScriptService(null);
 
 			string expression;
 			bool valid;

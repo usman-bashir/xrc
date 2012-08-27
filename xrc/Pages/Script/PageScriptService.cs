@@ -12,16 +12,16 @@ using xrc.Modules;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 
-namespace xrc.SiteManager
+namespace xrc.Pages.Script
 {
-    public class MashupScriptService : IMashupScriptService
+    public class PageScriptService : IPageScriptService
     {
         //_xmlExpRegEx = new Regex(@"^\s*@\{(?<code>.+)\}\s*$", RegexOptions.Compiled);
         private static Regex _xmlExpRegEx = new Regex(@"^\s*@(?<code>.+)\s*$", RegexOptions.Compiled);
 
         private IScriptService _scriptService;
 
-        public MashupScriptService(IScriptService scriptService)
+        public PageScriptService(IScriptService scriptService)
         {
             _scriptService = scriptService;
         }
@@ -44,7 +44,7 @@ namespace xrc.SiteManager
         }
 
 
-        public XValue Parse(string expression, Type returnType, Modules.ModuleDefinitionList modules, MashupParameterList parameters)
+        public XValue Parse(string expression, Type returnType, Modules.ModuleDefinitionList modules, PageParameterList parameters)
         {
             string script;
             if (TryExtractScript(expression, out script))
@@ -56,7 +56,7 @@ namespace xrc.SiteManager
             }
         }
 
-        private IScriptExpression ParseScript(string script, Type returnType, Modules.ModuleDefinitionList modules, MashupParameterList parameters)
+        private IScriptExpression ParseScript(string script, Type returnType, Modules.ModuleDefinitionList modules, PageParameterList parameters)
         {
             var argParameters = new ScriptParameterList();
             foreach (var m in modules)

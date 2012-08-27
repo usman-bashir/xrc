@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace xrc.SiteManager
+namespace xrc.Pages.Providers.FileSystem
 {
-    public class MashupFile
+    public class XrcFile
     {
-        public MashupFile(string xrcFile, string canonicalUrl, Dictionary<string, string> urlSegmentsParameters)
+        public XrcFile(string xrcFile, string canonicalUrl, Dictionary<string, string> urlSegmentsParameters)
         {
 			FullPath = xrcFile.ToLowerInvariant();
 			Name = Path.GetFileNameWithoutExtension(FullPath).ToLowerInvariant();
             UrlSegmentsParameters = urlSegmentsParameters;
-            CanonicalUrl = canonicalUrl;
+            CanonicalVirtualUrl = canonicalUrl;
 		}
 
 		public string Name
@@ -34,7 +34,7 @@ namespace xrc.SiteManager
         /// Example: ~/folder1/, ~/folder1/page1
         /// 
         /// </summary>
-        public string CanonicalUrl
+        public string CanonicalVirtualUrl
         {
             get;
             private set;

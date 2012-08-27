@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace xrc.SiteManager
+namespace xrc.Pages
 {
-    public class MashupAction
+    public class PageAction
     {
         private ViewDefinitionList _views = new ViewDefinitionList();
 
-        public MashupAction(string method)
+        public PageAction(string method)
         {
             if (string.IsNullOrWhiteSpace(method))
                 throw new ArgumentNullException("method");

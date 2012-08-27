@@ -79,10 +79,14 @@ namespace xrc.Sites
 			Assert.AreEqual(new Uri("folder/test.html", UriKind.Relative), target.GetRelativeUrl(new Uri("http://contoso.com/folder/test.html")));
 			Assert.AreEqual(new Uri("test.html?prova=3", UriKind.Relative), target.GetRelativeUrl(new Uri("http://contoso.com/test.html?prova=3")));
 			Assert.AreEqual(new Uri("test.html?prova=3", UriKind.Relative), target.GetRelativeUrl(new Uri("https://contoso.com:443/test.html?prova=3")));
+
+			// relative url are not supported
 			TestHelper.Throws<UriFormatException>(() => target.GetRelativeUrl(new Uri("test.html", UriKind.Relative)));
-			TestHelper.Throws<ApplicationException>(() => target.GetRelativeUrl(new Uri("https://contoso.com:8443/test.html?prova=3")));
-			TestHelper.Throws<ApplicationException>(() => target.GetRelativeUrl(new Uri("ftp://contoso.com:8443/test.html?prova=3")));
-			TestHelper.Throws<ApplicationException>(() => target.GetRelativeUrl(new Uri("http://northwind.com/test.html?prova=3")));
+
+			// sites not configured
+			TestHelper.Throws<SiteConfigurationMismatchException>(() => target.GetRelativeUrl(new Uri("https://contoso.com:8443/test.html?prova=3")));
+			TestHelper.Throws<SiteConfigurationMismatchException>(() => target.GetRelativeUrl(new Uri("ftp://contoso.com:8443/test.html?prova=3")));
+			TestHelper.Throws<SiteConfigurationMismatchException>(() => target.GetRelativeUrl(new Uri("http://northwind.com/test.html?prova=3")));
         }
 
         [TestMethod()]
@@ -103,11 +107,15 @@ namespace xrc.Sites
 			Assert.AreEqual(new Uri("folder/test.html", UriKind.Relative), target.GetRelativeUrl(new Uri("http://contoso.com/vpath/folder/test.html")));
 			Assert.AreEqual(new Uri("test.html?prova=3", UriKind.Relative), target.GetRelativeUrl(new Uri("http://contoso.com/vpath/test.html?prova=3")));
 			Assert.AreEqual(new Uri("test.html?prova=3", UriKind.Relative), target.GetRelativeUrl(new Uri("https://contoso.com:443/vpath/test.html?prova=3")));
+
+			// relative url are not supported
 			TestHelper.Throws<UriFormatException>(() => target.GetRelativeUrl(new Uri("vpath/test.html", UriKind.Relative)));
 			TestHelper.Throws<UriFormatException>(() => target.GetRelativeUrl(new Uri("/vpath/test.html", UriKind.Relative)));
-			TestHelper.Throws<ApplicationException>(() => target.GetRelativeUrl(new Uri("https://contoso.com:8443/vpath/test.html?prova=3")));
-			TestHelper.Throws<ApplicationException>(() => target.GetRelativeUrl(new Uri("ftp://contoso.com:8443/vpath/test.html?prova=3")));
-			TestHelper.Throws<ApplicationException>(() => target.GetRelativeUrl(new Uri("http://northwind.com/vpath/test.html?prova=3")));
+
+			// sites not configured
+			TestHelper.Throws<SiteConfigurationMismatchException>(() => target.GetRelativeUrl(new Uri("https://contoso.com:8443/vpath/test.html?prova=3")));
+			TestHelper.Throws<SiteConfigurationMismatchException>(() => target.GetRelativeUrl(new Uri("ftp://contoso.com:8443/vpath/test.html?prova=3")));
+			TestHelper.Throws<SiteConfigurationMismatchException>(() => target.GetRelativeUrl(new Uri("http://northwind.com/vpath/test.html?prova=3")));
         }
 
         [TestMethod()]
@@ -117,19 +125,32 @@ namespace xrc.Sites
                                                                 new Dictionary<string, string>(),
                                                                 new Uri("https://contoso.com:443/vpath/"));
 
-            Assert.AreEqual("http://contoso.com/vpath/", target.GetAbsoluteUrl("~", new Uri("http://contoso.com/vpath")));
-			Assert.AreEqual("https://contoso.com/vpath/", target.GetAbsoluteUrl("~", new Uri("https://contoso.com:443/vpath/")));
-			Assert.AreEqual("http://contoso.com/vpath/", target.GetAbsoluteUrl("~", new Uri("http://contoso.com/vpath/test/page?a=1")));
-			Assert.AreEqual("https://contoso.com/vpath/", target.GetAbsoluteUrl("~", new Uri("https://contoso.com:443/vpath/test/page?a=1")));
-			Assert.AreEqual("http://contoso.com/vpath/test.html", target.GetAbsoluteUrl("~/test.html", new Uri("http://contoso.com/vpath")));
-			Assert.AreEqual("http://contoso.com/vpath/path/index.html?test=12", target.GetAbsoluteUrl("~/path/index.html?test=12", new Uri("http://contoso.com/vpath")));
-			Assert.AreEqual("http://northwind.com/test", target.GetAbsoluteUrl("http://northwind.com/test", new Uri("http://contoso.com/vpath")));
-			Assert.AreEqual("http://contoso.com/test.html", target.GetAbsoluteUrl("/test.html", new Uri("http://contoso.com/vpath")));
-			Assert.AreEqual("http://contoso.com/vpath/test.html", target.GetAbsoluteUrl("test.html", new Uri("http://contoso.com/vpath/")));
-			Assert.AreEqual("http://contoso.com/vpath/test.html", target.GetAbsoluteUrl("test.html", new Uri("http://contoso.com/vpath/index.html")));
-			Assert.AreEqual("http://contoso.com/vpath/test.html", target.GetAbsoluteUrl("test.html", new Uri("http://contoso.com/vpath/index.html?p1=test")));
-			Assert.AreEqual("https://contoso.com/vpath/test.html?p2=t2", target.GetAbsoluteUrl("test.html?p2=t2", new Uri("https://contoso.com/vpath/index.html?p1=test")));
-			Assert.AreEqual("http://contoso.com/test.html", target.GetAbsoluteUrl("/test.html", new Uri("http://contoso.com/vpath/index.html")));
+            Assert.AreEqual(new Uri("http://contoso.com/vpath/"), 
+				target.GetAbsoluteUrl("~", new Uri("http://contoso.com/vpath")));
+			Assert.AreEqual(new Uri("https://contoso.com/vpath/"), 
+				target.GetAbsoluteUrl("~", new Uri("https://contoso.com:443/vpath/")));
+			Assert.AreEqual(new Uri("http://contoso.com/vpath/"), 
+				target.GetAbsoluteUrl("~", new Uri("http://contoso.com/vpath/test/page?a=1")));
+			Assert.AreEqual(new Uri("https://contoso.com/vpath/"), 
+				target.GetAbsoluteUrl("~", new Uri("https://contoso.com:443/vpath/test/page?a=1")));
+			Assert.AreEqual(new Uri("http://contoso.com/vpath/test.html"), 
+				target.GetAbsoluteUrl("~/test.html", new Uri("http://contoso.com/vpath")));
+			Assert.AreEqual(new Uri("http://contoso.com/vpath/path/index.html?test=12"), 
+				target.GetAbsoluteUrl("~/path/index.html?test=12", new Uri("http://contoso.com/vpath")));
+			Assert.AreEqual(new Uri("http://northwind.com/test"), 
+				target.GetAbsoluteUrl("http://northwind.com/test", new Uri("http://contoso.com/vpath")));
+			Assert.AreEqual(new Uri("http://contoso.com/test.html"), 
+				target.GetAbsoluteUrl("/test.html", new Uri("http://contoso.com/vpath")));
+			Assert.AreEqual(new Uri("http://contoso.com/vpath/test.html"), 
+				target.GetAbsoluteUrl("test.html", new Uri("http://contoso.com/vpath/")));
+			Assert.AreEqual(new Uri("http://contoso.com/vpath/test.html"), 
+				target.GetAbsoluteUrl("test.html", new Uri("http://contoso.com/vpath/index.html")));
+			Assert.AreEqual(new Uri("http://contoso.com/vpath/test.html"), 
+				target.GetAbsoluteUrl("test.html", new Uri("http://contoso.com/vpath/index.html?p1=test")));
+			Assert.AreEqual(new Uri("https://contoso.com/vpath/test.html?p2=t2"), 
+				target.GetAbsoluteUrl("test.html?p2=t2", new Uri("https://contoso.com/vpath/index.html?p1=test")));
+			Assert.AreEqual(new Uri("http://contoso.com/test.html"), 
+				target.GetAbsoluteUrl("/test.html", new Uri("http://contoso.com/vpath/index.html")));
 		}
     }
 }

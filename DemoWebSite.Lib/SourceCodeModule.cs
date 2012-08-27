@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Net;
 using System.Xml.Linq;
+using xrc.Pages.Providers.FileSystem;
 
 namespace DemoWebSite
 {
@@ -26,7 +27,9 @@ namespace DemoWebSite
 
         public string GetGitLink()
         {
-			string file = GetOriginalContext(_context).File.FullPath.ToLower()
+			FileSystemPage fsPage = (FileSystemPage)GetOriginalContext(_context).Page;
+
+			string file = fsPage.File.FullPath.ToLower()
 								.Replace(HttpContext.Current.Request.MapPath("~").ToLower(), "")
 								.Replace("\\", "/");
 			return xrc.UriExtensions.Combine("https://github.com/davideicardi/xrc/blob/master/DemoWebSite/", file);

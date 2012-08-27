@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using xrc.SiteManager;
+using xrc.Pages;
 using xrc.Configuration;
 using System.IO;
 using System.Reflection;
@@ -11,34 +11,29 @@ using System.Web;
 using xrc.Script;
 using xrc.Sites;
 using xrc.Modules;
+using xrc.Pages.Providers;
+using xrc.Pages.Script;
 
 namespace xrc
 {
 	// TODO Rivedere classe kernel, forse rimuovere e sostituire con i singoli servizi
-	// Ha troppe dipendenze e responsabilità...
 
     public class Kernel : IKernel
     {
-        IMashupParserService _parser;
-        ISiteConfigurationProviderService _siteConfigurationProvider;
-        IMashupLocatorService _fileLocator;
-        IMashupScriptService _scriptService;
+		IPageProviderService _pageProvider;
         IViewFactory _viewFactory;
         IModuleFactory _moduleFactory;
+		IPageScriptService _scriptService;
 
-        public Kernel(IMashupParserService parser,
-                    ISiteConfigurationProviderService siteConfigurationProvider,
-                    IMashupLocatorService fileLocator,
+        public Kernel(IPageProviderService pageProvider,
                     IViewFactory viewFactory,
-                    IMashupScriptService scriptService,
-                    IModuleFactory moduleFactory)
+                    IModuleFactory moduleFactory,
+					IPageScriptService scriptService)
         {
-            _parser = parser;
-            _siteConfigurationProvider = siteConfigurationProvider;
-            _fileLocator = fileLocator;
+			_pageProvider = pageProvider;
             _viewFactory = viewFactory;
-            _scriptService = scriptService;
             _moduleFactory = moduleFactory;
+			_scriptService = scriptService;
         }
 
         // TODO Check if it is possible to remove this static reference
@@ -59,37 +54,25 @@ namespace xrc
 			Kernel.Init(this);
 		}
 
-        #region Processing pipeline
 		public bool Match(IContext context)
 		{
-			LoadConfiguration(context);
-
-			if (!LocateXrcFile(context))
-				return false;
-
-			return true;
+			return _pageProvider.IsDefined(context.Request.Url);
 		}
 
 		public void ProcessRequest(IContext context)
         {
-            //Process pipeline
-
-            LoadConfiguration(context);
-
-            if (!LocateXrcFile(context))
+			context.Page = _pageProvider.GetPage(context.Request.Url);
+			if (context.Page == null)
             {
                 ProcessRequestNotFound(context);
                 return;
             }
 
-            string canonicalUrl;
-            if (IsCanonicalUrl(context, out canonicalUrl))
+			if (context.Page.CanonicalUrl.ToString() != context.Request.Url.GetLeftPart(UriPartial.Path))
             {
-                ProcessPermanentRedirect(context, canonicalUrl);
+				ProcessPermanentRedirect(context, context.Page.CanonicalUrl);
                 return;
             }
-
-            LoadXrcDefinition(context);
 
             var modules = LoadModules(context);
             try
@@ -117,14 +100,7 @@ namespace xrc
             }
         }
 
-        private bool IsCanonicalUrl(IContext context, out string canonicalUrl)
-        {
-            canonicalUrl = context.GetAbsoluteUrl(context.File.CanonicalUrl);
-
-            return canonicalUrl != context.Request.Url.GetLeftPart(UriPartial.Path);
-        }
-
-        private void RenderParent(IContext context, MashupAction action, Dictionary<string, Modules.IModule> modules)
+        private void RenderParent(IContext context, PageAction action, Dictionary<string, Modules.IModule> modules)
         {
 			HttpResponseBase currentResponse = context.Response;
 
@@ -133,7 +109,7 @@ namespace xrc
             // The event will be called from the parent action by using Cms.Slot().
             // Parameters will be also copied from slot to parent.
 
-            Uri parentUri = new Uri(context.GetAbsoluteUrl(action.Parent));
+            Uri parentUri = context.Page.GetContentAbsoluteUrl(action.Parent);
             Context parentContext = new Context(new XrcRequest(parentUri, parentRequest:context.Request), currentResponse);
 			parentContext.CallerContext = context;
             foreach (var item in context.Parameters)
@@ -175,33 +151,10 @@ namespace xrc
             context.Exception = new ResourceNotFoundException(context.Request.Url.ToString());
         }
 
-        private void ProcessPermanentRedirect(IContext context, string canonicalUrl)
+        private void ProcessPermanentRedirect(IContext context, Uri canonicalUrl)
         {
-            context.Response.RedirectPermanent(canonicalUrl);
-            context.Exception = new MovedPermanentlyException(context.Request.Url.ToString(), canonicalUrl);
-        }
-
-        private void LoadConfiguration(IContext context)
-        {
-			if (context.Configuration == null)
-	            context.Configuration = _siteConfigurationProvider.GetSiteFromUri(context.Request.Url);
-        }
-
-        private bool LocateXrcFile(IContext context)
-        {
-			if (context.File != null)
-				return true;
-
-			context.File = _fileLocator.Locate(context.Configuration.GetRelativeUrl(context.Request.Url));
-            if (context.File == null)
-                return false;
-            else
-                return true;
-        }
-
-        private void LoadXrcDefinition(IContext context)
-        {
-            context.Page = _parser.Parse(context.File.FullPath);
+            context.Response.RedirectPermanent(canonicalUrl.ToString());
+			context.Exception = new MovedPermanentlyException(context.Request.Url.ToString(), canonicalUrl.ToString());
         }
 
         private Dictionary<string, Modules.IModule> LoadModules(IContext context)
@@ -224,15 +177,15 @@ namespace xrc
             // Note: Automatically read only server parameters (Configuration, UrlSegments, Page),
             // user parameters (cookie, query string, post, header, ...) are readed only on request
 
-            foreach (var item in context.Configuration.Parameters)
+            foreach (var item in context.Page.SiteConfiguration.Parameters)
                 context.Parameters[item.Key] = new ContextParameter(item.Key, typeof(string), item.Value);
 
-            foreach (var item in context.File.UrlSegmentsParameters)
+            foreach (var item in context.Page.UrlSegmentsParameters)
                 context.Parameters[item.Key] = new ContextParameter(item.Key, typeof(string), item.Value);
 
             // Page.Parameters override any other values except Request if the allowRequestOverride is true.
             // Page.Parameters type is used for conversion.
-            foreach (var item in context.Page.Parameters)
+            foreach (var item in context.Page.PageParameters)
             {
                 string requestValue;
                 if (item.AllowRequestOverride && (requestValue = context.Request[item.Name]) != null)
@@ -257,7 +210,7 @@ namespace xrc
             }
         }
 
-        private void RunView(IContext context, MashupAction action, ViewDefinition viewDefinition, Dictionary<string, Modules.IModule> modules)
+        private void RunView(IContext context, PageAction action, ViewDefinition viewDefinition, Dictionary<string, Modules.IModule> modules)
         {
             IView view = _viewFactory.Get(viewDefinition.Component, context);
             try
@@ -275,6 +228,5 @@ namespace xrc
                 _viewFactory.Release(view);
             }
         }
-        #endregion
 	}
 }

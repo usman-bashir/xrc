@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace xrc.SiteManager
+namespace xrc.Pages
 {
-    public class MashupActionList : IEnumerable<MashupAction>
+    public class PageActionList : IEnumerable<PageAction>
     {
-        private Dictionary<string, MashupAction> _list = new Dictionary<string, MashupAction>(StringComparer.OrdinalIgnoreCase);
+        private Dictionary<string, PageAction> _list = new Dictionary<string, PageAction>(StringComparer.OrdinalIgnoreCase);
 
-        public MashupActionList()
+        public PageActionList()
         {
         }
 
-        public void Add(MashupAction item)
+        public void Add(PageAction item)
         {
             _list.Add(item.Method, item);
         }
@@ -26,7 +26,7 @@ namespace xrc.SiteManager
             }
         }
 
-        public MashupAction this[string method]
+        public PageAction this[string method]
         {
             get
             {
@@ -37,7 +37,7 @@ namespace xrc.SiteManager
             }
         }
 
-        public IEnumerator<MashupAction> GetEnumerator()
+        public IEnumerator<PageAction> GetEnumerator()
         {
             foreach (var item in _list)
             {

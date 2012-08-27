@@ -9,10 +9,11 @@ using xrc.Script;
 using System.Globalization;
 using xrc.Views;
 using xrc.Modules;
+using xrc.Pages.Script;
 
-namespace xrc.SiteManager
+namespace xrc.Pages.Providers.FileSystem
 {
-    public class MashupParserService : IMashupParserService
+    public class PageParserService : IPageParserService
     {
 		private static XNamespace XMLNS = "urn:xrc";
 		private static XName PAGE = XMLNS + "page";
@@ -31,11 +32,11 @@ namespace xrc.SiteManager
 
         private const string MODULE_PREFIX = "xrc";
 
-        private IMashupScriptService _scriptService;
+        private IPageScriptService _scriptService;
         private IModuleCatalogService _moduleCatalog;
         private IViewCatalogService _viewCatalog;
 
-        public MashupParserService(IMashupScriptService scriptService, IModuleCatalogService moduleCatalog, IViewCatalogService viewCatalog)
+        public PageParserService(IPageScriptService scriptService, IModuleCatalogService moduleCatalog, IViewCatalogService viewCatalog)
         {
             _scriptService = scriptService;
             _moduleCatalog = moduleCatalog;
@@ -43,14 +44,14 @@ namespace xrc.SiteManager
         }
 
         // TODO Qui si può parsificare il file una sola volta e metterlo in cache (con dipendenza al file?)
-        public MashupPage Parse(string file)
+		public PageParserResult Parse(string file)
         {
             try
             {
                 // TODO Valutare se usare Xpath per la lettura
                 XDocument xdoc = XDocument.Load(file);
 
-                MashupPage page = new MashupPage();
+				var page = new PageParserResult();
 
 				var rootElement = xdoc.Element(PAGE);
 				if (rootElement == null)
@@ -67,7 +68,7 @@ namespace xrc.SiteManager
                     string method = actionElement.AttributeAsOrDefault<string>(METHOD);
 					if (method == null)
 						method = DEFAULT_METHOD;
-                    MashupAction action = new MashupAction(method);
+                    var action = new PageAction(method);
                     if (actionElement.Attribute(PARENT) != null)
                         action.Parent = actionElement.AttributeAs<string>(PARENT);
 
@@ -88,7 +89,7 @@ namespace xrc.SiteManager
             }
         }
 
-        private void ParseModules(XDocument doc, MashupPage page)
+		private void ParseModules(XDocument doc, PageParserResult page)
         {
             foreach (var attr in doc.Root.Attributes())
             {
@@ -104,7 +105,7 @@ namespace xrc.SiteManager
             }
         }
 
-        private void ParseParameters(XElement paramsElement, MashupPage page)
+		private void ParseParameters(XElement paramsElement, PageParserResult page)
         {
             foreach (var actionElement in paramsElement.Elements(ADD))
             {
@@ -118,11 +119,11 @@ namespace xrc.SiteManager
 
                 var xValue = _scriptService.Parse(value, type, page.Modules, page.Parameters);
 
-                page.Parameters.Add(new MashupParameter(key, xValue, allowRequestOverride)); ;
+                page.Parameters.Add(new PageParameter(key, xValue, allowRequestOverride)); ;
             }
         }
 
-        private ViewDefinition ParseView(XElement xElement, MashupPage page)
+		private ViewDefinition ParseView(XElement xElement, PageParserResult page)
 		{
 			string typeName = xElement.AttributeAs<string>(TYPE);
             ComponentDefinition component = _viewCatalog.Get(typeName);
@@ -148,7 +149,7 @@ namespace xrc.SiteManager
 			return view;
 		}
 
-        private XProperty ParseProperty(XElement element, Type ownerType, MashupPage page)
+		private XProperty ParseProperty(XElement element, Type ownerType, PageParserResult page)
         {
             var property = ownerType.GetProperty(element.Name.LocalName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
             if (property == null)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace xrc.SiteManager
+namespace xrc.Pages
 {
     public class ViewDefinition : XClass
     {

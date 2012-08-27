@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using xrc.Pages;
 
 namespace xrc.Mocks
 {
@@ -19,37 +20,13 @@ namespace xrc.Mocks
             set;
         }
 
-        public Sites.ISiteConfiguration Configuration
-        {
-            get;
-            set;
-        }
-
-        public string WorkingPath
-        {
-            get
-            {
-                return "testValue";
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public SiteManager.MashupFile File
-        {
-            get;
-            set;
-        }
-
         private ContextParameterList _parameters = new ContextParameterList();
         public ContextParameterList Parameters
         {
             get { return _parameters; }
         }
 
-        public SiteManager.MashupPage Page
+        public IPage Page
         {
             get;
             set;
@@ -60,17 +37,6 @@ namespace xrc.Mocks
             get;
             set;
         }
-
-        public string GetAbsoluteUrl(string url)
-        {
-            return url;
-        }
-
-        public string GetAbsoluteFile(string file)
-        {
-            return file;
-        }
-
 
         public Exception Exception
         {

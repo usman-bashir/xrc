@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using xrc.SiteManager;
 using xrc.Sites;
 using System.Web;
 using System.IO;
@@ -21,30 +20,7 @@ namespace xrc
             _response = response;
         }
 
-        public ISiteConfiguration Configuration
-        {
-            get;
-            set;
-        }
-
-        private MashupFile _file;
-        public MashupFile File 
-        {
-            get { return _file; }
-            set
-            {
-                _file = value;
-                if (_file != null)
-                    WorkingPath = _file.WorkingPath;
-            }
-        }
-        public string WorkingPath
-        {
-            get;
-            set;
-        }
-
-        public MashupPage Page 
+		public Pages.IPage Page 
         { 
             get; 
             set; 
@@ -80,19 +56,6 @@ namespace xrc
         }
 
 		public IContext CallerContext { get; set; }
-
-		public string GetAbsoluteUrl(string url)
-		{
-			return Configuration.GetAbsoluteUrl(url, Request.Url);
-		}
-
-		public string GetAbsoluteFile(string file)
-		{
-			if (VirtualPathUtility.IsAppRelative(file))
-				return VirtualPathUtility.ToAbsolute(file);
-			else
-				return Path.Combine(WorkingPath, file);
-		}
 
         public void CheckError()
         {

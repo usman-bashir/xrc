@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using xrc.SiteManager;
 using System.Web;
 using xrc.Sites;
 
@@ -12,25 +11,16 @@ namespace xrc
         HttpRequestBase Request { get; set; }
         HttpResponseBase Response { get; set; }
 
-        ISiteConfiguration Configuration { get; set; }
-
-        string WorkingPath { get; set; }
-        MashupFile File { get; set; }
-
-        MashupPage Page { get; set; }
+        Pages.IPage Page { get; set; }
 
         ContextParameterList Parameters { get; }
 
         Exception Exception { get; set; }
 
-        // TODO Non mi piace questo evento sul context...spostare forse sul kernel??
+        // TODO Non mi piace questo evento sul context...da spostare...
         RenderSlotEventHandler SlotCallback { get; set; }
 
 		IContext CallerContext { get; set; }
-
-        // TODO Questi due metodi qui non mi piacciono tanto...
-		string GetAbsoluteUrl(string url);
-		string GetAbsoluteFile(string file);
 
         void CheckError();
     }

@@ -32,7 +32,9 @@ namespace DemoWebSite.Controllers
 
             // TODO Valutare se utilizzare un metodo migliore per ottenere un url assoluto o altrimenti prevedere di passare anche un url relativo. Valutare anche il ToLower se necessario.
             Uri absoluteUrl = new Uri(Request.Url, VirtualPathUtility.ToAbsolute("~/contact/_sendsuccess"));
-            return _xrc.Page(absoluteUrl.ToString().ToLower(), new { newContact = newContact });
+			absoluteUrl = xrc.UriExtensions.ToLower(absoluteUrl);
+
+			return _xrc.Page(absoluteUrl, new { newContact = newContact });
         }
     }
 }

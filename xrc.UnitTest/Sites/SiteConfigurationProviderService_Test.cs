@@ -60,11 +60,11 @@ namespace xrc.Sites
 			Assert.AreEqual(configuration.Key, "test_virtual");
 
             // invalid uri
-            TestHelper.Throws<ApplicationException>(() => target.GetSiteFromUri(new Uri("http://contoso.com"))); // In this case you probably need a redirect to www.contoso.com
-            TestHelper.Throws<ApplicationException>(() => target.GetSiteFromUri(new Uri("http://anothersite.it")));
-            TestHelper.Throws<ApplicationException>(() => target.GetSiteFromUri(new Uri("http://contoso")));
-            TestHelper.Throws<ApplicationException>(() => target.GetSiteFromUri(new Uri("http://contoso.com:8043")));
-            TestHelper.Throws<ApplicationException>(() => target.GetSiteFromUri(new Uri("http://www.contoso.com:443")));
+            TestHelper.Throws<SiteConfigurationNotFoundException>(() => target.GetSiteFromUri(new Uri("http://contoso.com"))); // In this case you probably need a redirect to www.contoso.com
+			TestHelper.Throws<SiteConfigurationNotFoundException>(() => target.GetSiteFromUri(new Uri("http://anothersite.it")));
+			TestHelper.Throws<SiteConfigurationNotFoundException>(() => target.GetSiteFromUri(new Uri("http://contoso")));
+			TestHelper.Throws<SiteConfigurationNotFoundException>(() => target.GetSiteFromUri(new Uri("http://contoso.com:8043")));
+			TestHelper.Throws<SiteConfigurationNotFoundException>(() => target.GetSiteFromUri(new Uri("http://www.contoso.com:443")));
         }
 
         [TestMethod]
@@ -94,6 +94,9 @@ namespace xrc.Sites
             Assert.AreEqual(configuration.Key, "local");
             Assert.AreEqual("true", configuration.Parameters["debug"]);
             Assert.AreEqual("en", configuration.Parameters["culture"]);
+
+			// invalid uri
+			TestHelper.Throws<SiteConfigurationNotFoundException>(() => target.GetSiteFromUri(new Uri("http://anothersite.it")));
         }
     }
 }

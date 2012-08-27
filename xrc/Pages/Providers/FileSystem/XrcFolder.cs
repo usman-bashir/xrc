@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace xrc.SiteManager
+namespace xrc.Pages.Providers.FileSystem
 {
-	public class MashupFolder
+	public class XrcFolder
 	{
         private const string DEFAULT_FILE = "index";
         private const string FILE_EXTENSION = ".xrc";
         private const string FILE_PATTERN = "*" + FILE_EXTENSION;
 
 		private Dictionary<string, string> _files;
-		private Dictionary<string, MashupFolder> _folders;
+		private Dictionary<string, XrcFolder> _folders;
 
-		public MashupFolder(string fullPath)
+		public XrcFolder(string fullPath)
 		{
 			FullPath = fullPath.ToLowerInvariant();
 			Name = new DirectoryInfo(fullPath).Name;
@@ -39,9 +39,9 @@ namespace xrc.SiteManager
 			SearchFiles();
 		}
 
-        public MashupFolder GetFolder(string name)
+        public XrcFolder GetFolder(string name)
         {
-            MashupFolder folder;
+            XrcFolder folder;
             _folders.TryGetValue(name, out folder);
             if (folder != null)
                 return folder;
@@ -72,7 +72,7 @@ namespace xrc.SiteManager
 
 		private void SearchFolders()
 		{
-			var folders = Directory.GetDirectories(FullPath).Select(p => new MashupFolder(p));
+			var folders = Directory.GetDirectories(FullPath).Select(p => new XrcFolder(p));
 
 			if (folders.Where(p => p.IsParameter).Count() > 1)
 				throw new ApplicationException(string.Format("Invalid directory '{0}', cannot have more than one parametric directory.", FullPath));
@@ -106,7 +106,7 @@ namespace xrc.SiteManager
 			private set;
 		}
 
-		public MashupFolder DynamicFolder
+		public XrcFolder DynamicFolder
 		{
 			get;
 			private set;

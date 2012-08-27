@@ -18,7 +18,7 @@ namespace xrc
             _kernel = kernel;
         }
 
-        public ContentResult Page(string url, object parameters = null, IContext callerContext = null)
+        public ContentResult Page(Uri url, object parameters = null, IContext callerContext = null)
         {
             ContentResult contentResult = new ContentResult();
 
@@ -27,7 +27,7 @@ namespace xrc
 
             using (MemoryStream stream = new MemoryStream())
             {
-                XrcRequest request = new XrcRequest(new Uri(url), parentRequest: parentRequest);
+                XrcRequest request = new XrcRequest(url, parentRequest: parentRequest);
 
                 using (XrcResponse response = new XrcResponse(stream, parentResponse: parentResponse))
                 {

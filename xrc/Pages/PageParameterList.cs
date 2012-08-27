@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace xrc.SiteManager
+namespace xrc.Pages
 {
-    public class MashupParameterList : IEnumerable<MashupParameter>
+    public class PageParameterList : IEnumerable<PageParameter>
     {
-        private Dictionary<string, MashupParameter> _parameters = new Dictionary<string, MashupParameter>(StringComparer.OrdinalIgnoreCase);
+        private Dictionary<string, PageParameter> _parameters = new Dictionary<string, PageParameter>(StringComparer.OrdinalIgnoreCase);
 
-        public MashupParameterList()
+        public PageParameterList()
         {
         }
 
-        public IEnumerator<MashupParameter> GetEnumerator()
+        public IEnumerator<PageParameter> GetEnumerator()
         {
             return _parameters.Values.GetEnumerator();
         }
@@ -23,7 +23,7 @@ namespace xrc.SiteManager
             return _parameters.Values.GetEnumerator();
         }
 
-        public MashupParameter this[string name]
+        public PageParameter this[string name]
         {
             get
             {
@@ -32,13 +32,13 @@ namespace xrc.SiteManager
             set
             {
                 if (name != value.Name)
-                    throw new ArgumentException("Parameter name doesn't match MashupParameter.Name value.");
+                    throw new ArgumentException("Parameter name doesn't match PageParameter.Name value.");
 
                 _parameters[name] = value;
             }
         }
 
-        public void Add(MashupParameter item)
+        public void Add(PageParameter item)
         {
             _parameters.Add(item.Name, item);
         }

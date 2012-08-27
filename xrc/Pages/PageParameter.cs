@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using xrc.Script;
 
-namespace xrc.SiteManager
+namespace xrc.Pages
 {
-    public class MashupParameter
+    public class PageParameter
     {
-        public MashupParameter(string name, XValue xvalue, bool allowRequestOverride = false)
+        public PageParameter(string name, XValue xvalue, bool allowRequestOverride = false)
         {
             _name = name;
             _xValue = xvalue;

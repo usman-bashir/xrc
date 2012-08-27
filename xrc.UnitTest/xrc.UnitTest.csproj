@@ -71,6 +71,7 @@
     <Compile Include="Mocks\RootPathConfigMock.cs" />
     <Compile Include="Modules\ModuleCatalogService_Test.cs" />
     <Compile Include="Modules\TestModule.cs" />
+    <Compile Include="Pages\FileSystemPageProviderService_Test.cs" />
     <Compile Include="Views\ViewCatalogService_Test.cs" />
     <Compile Include="Sites\SiteConfigurationProviderService_Test.cs" />
     <Compile Include="Sites\SiteConfiguration_Test.cs" />
@@ -80,16 +81,16 @@
     <Compile Include="Mocks\ModuleCatalogServiceMock.cs" />
     <Compile Include="Mocks\ScriptExpressionMock.cs" />
     <Compile Include="Script\ScriptService_Test.cs" />
-    <Compile Include="SiteManager\MashupLocatorService_Test.cs" />
+    <Compile Include="Pages\PageLocatorService_Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\Xslt\XsltView_Test.cs" />
     <Compile Include="Mocks\ScriptServiceMock.cs" />
-    <Compile Include="SiteManager\MashupScriptService_Test.cs" />
+    <Compile Include="Pages\MashupScriptService_Test.cs" />
     <Compile Include="TestHelper.cs" />
-    <Compile Include="SiteManager\MashupParserService_Test.cs" />
+    <Compile Include="Pages\PageParserService_Test.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SiteManager\example6.xrc">
+    <None Include="Pages\example6.xrc">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -138,20 +139,20 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="App.config" />
-    <None Include="SiteManager\example5.xrc">
+    <None Include="Pages\example5.xrc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
-    <None Include="SiteManager\example4.xrc">
+    <None Include="Pages\example4.xrc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="SiteManager\example3.xrc">
+    <None Include="Pages\example3.xrc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="SiteManager\example2.xrc">
+    <None Include="Pages\example2.xrc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="SiteManager\example1.xrc">
+    <None Include="Pages\example1.xrc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

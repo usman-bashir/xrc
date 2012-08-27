@@ -9,6 +9,6 @@ namespace xrc
 {
     public interface IXrcService
     {
-        ContentResult Page(string url, object parameters = null, IContext callerContext = null);
+        ContentResult Page(Uri url, object parameters = null, IContext callerContext = null);
     }
 }

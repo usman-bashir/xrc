@@ -9,10 +9,10 @@ using Moq;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-namespace xrc.SiteManager
+namespace xrc.Pages.Providers.FileSystem
 {
 	[TestClass]
-    public class MashupParserService_Test
+    public class PageParserService_Test
     {
         [TestInitialize]
         public void Init()
@@ -22,13 +22,13 @@ namespace xrc.SiteManager
         [TestMethod]
         public void It_Should_be_possible_to_parse_example5_page_parameter()
         {
-            string file = TestHelper.GetFile(@"SiteManager\example5.xrc");
+			string file = TestHelper.GetFile(@"Pages\example5.xrc");
 
-            MashupParserService target = new MashupParserService(new Mocks.MashupScriptServiceMock(), 
+			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(), 
                                         new Mocks.ModuleCatalogServiceMock(null), 
                                         new Mocks.ViewCatalogServiceMock(TestView.Definition));
 
-            MashupPage page = target.Parse(file);
+            PageParserResult page = target.Parse(file);
             Assert.AreEqual("My page title", page.Parameters["title"].Value.ToString());
             Assert.AreEqual(typeof(string), page.Parameters["title"].Value.ValueType);
 
@@ -39,13 +39,13 @@ namespace xrc.SiteManager
         [TestMethod]
         public void It_Should_be_possible_to_parse_example2_page_multiple_parameters()
         {
-            string file = TestHelper.GetFile(@"SiteManager\example2.xrc");
+			string file = TestHelper.GetFile(@"Pages\example2.xrc");
 
-            MashupParserService target = new MashupParserService(new Mocks.MashupScriptServiceMock(),
+			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
                                         new Mocks.ViewCatalogServiceMock(TestView.Definition));
 
-            MashupPage page = target.Parse(file);
+			PageParserResult page = target.Parse(file);
             Assert.AreEqual(5, page.Parameters.Count);
             Assert.AreEqual(false, page.Parameters["p1"].AllowRequestOverride);
             Assert.AreEqual("My page title", page.Parameters["p1"].Value.Value);
@@ -59,14 +59,14 @@ namespace xrc.SiteManager
 		[TestMethod]
         public void It_Should_be_possible_to_parse_example1_page_using_script()
 		{
-			string file = TestHelper.GetFile(@"SiteManager\example1.xrc");
+			string file = TestHelper.GetFile(@"Pages\example1.xrc");
 
-			MashupParserService target = new MashupParserService(new Mocks.MashupScriptServiceMock(),
+			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
 										new Mocks.ModuleCatalogServiceMock(null),
 										new Mocks.ViewCatalogServiceMock(TestView.Definition));
 
-			MashupPage page = target.Parse(file);
-			MashupAction action = page.Actions["get"];
+			PageParserResult page = target.Parse(file);
+			PageAction action = page.Actions["get"];
 			var view = action.Views.Single();
 			Assert.AreEqual(1, view.Properties.Count());
 			Assert.AreEqual(typeof(TestView), view.Component.Type);
@@ -76,13 +76,13 @@ namespace xrc.SiteManager
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_example6_action_without_method_default_to_GET()
 		{
-			string file = TestHelper.GetFile(@"SiteManager\example6.xrc");
+			string file = TestHelper.GetFile(@"Pages\example6.xrc");
 
-			MashupParserService target = new MashupParserService(new Mocks.MashupScriptServiceMock(),
+			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
 										new Mocks.ModuleCatalogServiceMock(null),
 										new Mocks.ViewCatalogServiceMock(TestView.Definition));
 
-			MashupPage page = target.Parse(file);
+			PageParserResult page = target.Parse(file);
 			Assert.AreEqual(1, page.Actions.Count);
 			Assert.AreEqual("get", page.Actions.First().Method);
 		}
@@ -90,14 +90,14 @@ namespace xrc.SiteManager
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_example2_page_with_inline_xml_data()
 		{
-            string file = TestHelper.GetFile(@"SiteManager\example2.xrc");
+            string file = TestHelper.GetFile(@"Pages\example2.xrc");
 
-            MashupParserService target = new MashupParserService(new Mocks.MashupScriptServiceMock(),
+			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
                                         new Mocks.ViewCatalogServiceMock(TestView.Definition));
 
-            MashupPage page = target.Parse(file);
-            MashupAction action = page.Actions["GET"];
+			PageParserResult page = target.Parse(file);
+            PageAction action = page.Actions["GET"];
             var view = action.Views.Single();
             Assert.AreEqual(typeof(TestView), view.Component.Type);
             XDocument xmlData = (XDocument)view.Properties["XDocProperty"].Value.Value;
@@ -110,14 +110,14 @@ namespace xrc.SiteManager
         [TestMethod]
         public void It_Should_be_possible_to_parse_example3_page_with_multiple_slots()
         {
-            string file = TestHelper.GetFile(@"SiteManager\example3.xrc");
+			string file = TestHelper.GetFile(@"Pages\example3.xrc");
 
-            MashupParserService target = new MashupParserService(new Mocks.MashupScriptServiceMock(),
+			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
                                         new Mocks.ViewCatalogServiceMock(TestView.Definition));
 
-            MashupPage page = target.Parse(file);
-            MashupAction action = page.Actions["GET"];
+			PageParserResult page = target.Parse(file);
+            PageAction action = page.Actions["GET"];
             Assert.AreEqual(3, action.Views.Count());
             Assert.AreEqual("slot1", action.Views["SLOT1"].Slot);
             Assert.AreEqual("slot2", action.Views["slot2"].Slot);
@@ -127,13 +127,13 @@ namespace xrc.SiteManager
         [TestMethod]
         public void It_Should_be_possible_to_parse_example4_page_with_multiple_actions()
         {
-            string file = TestHelper.GetFile(@"SiteManager\example4.xrc");
+			string file = TestHelper.GetFile(@"Pages\example4.xrc");
 
-            MashupParserService target = new MashupParserService(new Mocks.MashupScriptServiceMock(),
+			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
                                         new Mocks.ViewCatalogServiceMock(TestView.Definition));
 
-            MashupPage page = target.Parse(file);
+			PageParserResult page = target.Parse(file);
             Assert.AreEqual(3, page.Actions.Count);
             Assert.AreEqual("get", page.Actions["GET"].Method);
             Assert.AreEqual("delete", page.Actions["delete"].Method);
