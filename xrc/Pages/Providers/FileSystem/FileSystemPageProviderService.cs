@@ -29,7 +29,7 @@ namespace xrc.Pages.Providers.FileSystem
 			if (xrcFile == null)
 				return null;
 
-			PageParserResult parserResult = _pageParser.Parse(xrcFile.FullPath);
+			PageParserResult parserResult = _pageParser.Parse(xrcFile);
 
 			Uri canonicalUrl = siteConfiguration.GetAbsoluteUrl(xrcFile.CanonicalVirtualUrl, url);
 

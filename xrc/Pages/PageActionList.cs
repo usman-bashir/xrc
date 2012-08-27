@@ -35,6 +35,13 @@ namespace xrc.Pages
 
                 return _list[method];
             }
+			set
+			{
+				if (!string.Equals(method, value.Method, StringComparison.OrdinalIgnoreCase))
+					throw new ArgumentException("Method doesn't match Action.Method value.");
+
+				_list[method] = value;
+			}
         }
 
         public IEnumerator<PageAction> GetEnumerator()

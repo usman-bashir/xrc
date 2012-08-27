@@ -31,8 +31,8 @@ namespace xrc.Pages
             }
             set
             {
-                if (name != value.Name)
-                    throw new ArgumentException("Parameter name doesn't match PageParameter.Name value.");
+				if (!string.Equals(name, value.Name, StringComparison.OrdinalIgnoreCase))
+					throw new ArgumentException("Name doesn't match PageParameter.Name value.");
 
                 _parameters[name] = value;
             }

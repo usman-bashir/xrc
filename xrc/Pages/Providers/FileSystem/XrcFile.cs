@@ -8,12 +8,22 @@ namespace xrc.Pages.Providers.FileSystem
 {
     public class XrcFile
     {
-        public XrcFile(string xrcFile, string canonicalUrl, Dictionary<string, string> urlSegmentsParameters)
+		public XrcFile(string xrcFile, XrcFolder parent, string canonicalVirtualUrl, Dictionary<string, string> urlSegmentsParameters)
         {
+			if (string.IsNullOrWhiteSpace(xrcFile))
+				throw new ArgumentNullException("xrcFile");
+			if (parent == null)
+				throw new ArgumentNullException("parent");
+			if (string.IsNullOrWhiteSpace(canonicalVirtualUrl))
+				throw new ArgumentNullException("canonicalVirtualUrl");
+			if (urlSegmentsParameters == null)
+				throw new ArgumentNullException("urlSegmentsParameters");
+
+			Parent = parent;
 			FullPath = xrcFile.ToLowerInvariant();
 			Name = Path.GetFileNameWithoutExtension(FullPath).ToLowerInvariant();
             UrlSegmentsParameters = urlSegmentsParameters;
-            CanonicalVirtualUrl = canonicalUrl;
+			CanonicalVirtualUrl = canonicalVirtualUrl;
 		}
 
 		public string Name
@@ -23,6 +33,12 @@ namespace xrc.Pages.Providers.FileSystem
 		}
 
 		public string FullPath
+		{
+			get;
+			private set;
+		}
+
+		public XrcFolder Parent
 		{
 			get;
 			private set;

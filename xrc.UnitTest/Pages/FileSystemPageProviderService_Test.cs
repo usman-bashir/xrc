@@ -21,9 +21,10 @@ namespace xrc.Pages.Providers.FileSystem
         {
 			var parserResult = new PageParserResult();
 			var pageParser = new Mock<IPageParserService>();
-			pageParser.Setup(p => p.Parse(It.IsAny<string>())).Returns(parserResult);
+			pageParser.Setup(p => p.Parse(It.IsAny<XrcFile>())).Returns(parserResult);
 
-			var xrcFile = new XrcFile(@"c:\temp\test.xrc", "~/test", new Dictionary<string, string>());
+			var xrcFolder = new XrcFolder(@"c:\temp", null);
+			var xrcFile = new XrcFile(@"c:\temp\test.xrc", xrcFolder, "~/test", new Dictionary<string, string>());
 			var pageLocator = new Mock<IPageLocatorService>();
 			pageLocator.Setup(p => p.Locate(It.IsAny<Uri>())).Returns(xrcFile);
 	
@@ -46,7 +47,7 @@ namespace xrc.Pages.Providers.FileSystem
 			Assert.AreEqual(siteConfiguration, page.SiteConfiguration);
 
 			pageLocator.Verify(p => p.Locate(new Uri("test", UriKind.Relative)));
-			pageParser.Verify(p => p.Parse(xrcFile.FullPath));
+			pageParser.Verify(p => p.Parse(xrcFile));
 			siteConfigurationProvider.Verify(p => p.GetSiteFromUri(url));
         }
 
@@ -72,7 +73,7 @@ namespace xrc.Pages.Providers.FileSystem
 
 			pageLocator.Verify(p => p.Locate(It.IsAny<Uri>()));
 			siteConfigurationProvider.Verify(p => p.GetSiteFromUri(It.IsAny<Uri>()));
-			pageParser.Verify(p => p.Parse(It.IsAny<string>()), Times.Never());
+			pageParser.Verify(p => p.Parse(It.IsAny<XrcFile>()), Times.Never());
 		}
 	}
 }

@@ -1,3 +1,0 @@
-<SchemaCatalog xmlns="http://schemas.microsoft.com/xsd/catalog">
-  <Association extension="xrc" schema="%InstallRoot%/xml/schemas/xrc_schema.xsd" />
-</SchemaCatalog>

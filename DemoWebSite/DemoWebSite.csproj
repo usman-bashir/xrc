@@ -92,6 +92,9 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="root\books\xrcFolder.config">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="root\books\index.xslt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

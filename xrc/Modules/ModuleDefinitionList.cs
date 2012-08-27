@@ -49,5 +49,10 @@ namespace xrc.Modules
         {
             return _list.Values.GetEnumerator();
         }
-    }
+
+		public bool ContainsKey(string name)
+		{
+			return _list.ContainsKey(name);
+		}
+	}
 }

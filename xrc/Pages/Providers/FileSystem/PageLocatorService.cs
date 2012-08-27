@@ -14,7 +14,7 @@ namespace xrc.Pages.Providers.FileSystem
             if (!System.IO.Directory.Exists(workingPath.PhysicalPath))
                 throw new ApplicationException(string.Format("Path '{0}' doesn't exist.", workingPath));
 
-            Root = new XrcFolder(workingPath.PhysicalPath);
+            Root = new XrcFolder(workingPath.PhysicalPath, null);
 		}
 
 		public XrcFolder Root
@@ -81,7 +81,7 @@ namespace xrc.Pages.Providers.FileSystem
                     return null; //Not found
             }
 
-            return new XrcFile(requestFile, canonicalUrl.ToString(), urlSegmentParameters);
+            return new XrcFile(requestFile, currentFolder, canonicalUrl.ToString(), urlSegmentParameters);
         }
 
         private string[] GetUriSegments(Uri relativeUri)

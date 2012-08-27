@@ -94,6 +94,10 @@ namespace xrc.Pages.Providers.FileSystem
 			// Default page index and etensions
             Assert.AreEqual(target.Locate("/athletes/totti/index").FullPath, Path.Combine(appPath, @"athletes\{athleteid}\index.xrc"));
 
+			// folder config file
+			Assert.AreEqual(target.Locate("/athletes").Parent.GetConfigFile(), Path.Combine(appPath, @"athletes\xrcFolder.config"));
+			Assert.AreEqual(target.Locate("/teams").Parent.GetConfigFile(), null);
+
 			// File not found == null
             Assert.IsNull(target.Locate("notvalid"));
             Assert.IsNull(target.Locate("/notvalid"));

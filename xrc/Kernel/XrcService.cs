@@ -37,7 +37,7 @@ namespace xrc
 
                     _kernel.ProcessRequest(context);
 
-                    context.CheckError(); // TODO Bisogna eventualmente gestire anche il redirect e quindi richiamare la pagina in redirect?
+                    context.CheckError(); // TODO Bisogna gestire anche il redirect e quindi richiamare la pagina in redirect?
 
                     contentResult.ContentEncoding = response.ContentEncoding;
                     contentResult.ContentType = response.ContentType;

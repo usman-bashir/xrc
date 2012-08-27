@@ -44,52 +44,89 @@ namespace xrc.Pages.Providers.FileSystem
         }
 
         // TODO Qui si può parsificare il file una sola volta e metterlo in cache (con dipendenza al file?)
-		public PageParserResult Parse(string file)
+		public PageParserResult Parse(XrcFile file)
         {
-            try
-            {
-                // TODO Valutare se usare Xpath per la lettura
-                XDocument xdoc = XDocument.Load(file);
+			var parserResult = new PageParserResult();
 
-				var page = new PageParserResult();
+			ParseConfigFilesAndMergeResult(file, parserResult);
+
+			ParseFileAndMergeResult(file.FullPath, parserResult);
+
+			return parserResult;
+		}
+
+		private void ParseConfigFilesAndMergeResult(XrcFile file, PageParserResult parserResult)
+		{
+			string[] configFiles = GetFolderConfigFiles(file);
+			foreach (var f in configFiles)
+				ParseFileAndMergeResult(f, parserResult);
+		}
+
+		private string[] GetFolderConfigFiles(XrcFile file)
+		{
+			var configFiles = new List<string>();
+
+			XrcFolder currentFolder = file.Parent;
+			while (currentFolder != null)
+			{
+				string f = currentFolder.GetConfigFile();
+				if (f != null)
+					configFiles.Add(f);
+
+				currentFolder = currentFolder.Parent;
+			}
+
+			configFiles.Reverse();
+			return configFiles.ToArray();
+		}
+
+		private void ParseFileAndMergeResult(string file, PageParserResult parserResult)
+		{
+			try
+			{
+				// TODO Valutare se usare Xpath per la lettura
+				XDocument xdoc = XDocument.Load(file);
 
 				var rootElement = xdoc.Element(PAGE);
 				if (rootElement == null)
 					throw new ApplicationException(string.Format("Element root '{0}' not found.", PAGE));
 
-                ParseModules(xdoc, page);
+				ParseModules(xdoc, parserResult);
 
-                var paramsElement = xdoc.Root.Element(PARAMETERS);
-                if (paramsElement != null)
-                    ParseParameters(paramsElement, page);
+				var paramsElement = xdoc.Root.Element(PARAMETERS);
+				if (paramsElement != null)
+					ParseParameters(paramsElement, parserResult);
 
-                foreach (var actionElement in xdoc.Root.Elements(ACTION))
-                {
-                    string method = actionElement.AttributeAsOrDefault<string>(METHOD);
-					if (method == null)
-						method = DEFAULT_METHOD;
-                    var action = new PageAction(method);
-                    if (actionElement.Attribute(PARENT) != null)
-                        action.Parent = actionElement.AttributeAs<string>(PARENT);
+				ParseActions(xdoc, parserResult);
+			}
+			catch (Exception ex)
+			{
+				throw new XrcException(string.Format("Failed to parse '{0}'.", file), ex);
+			}
+		}
 
-                    foreach (var viewElement in actionElement.Elements(VIEW))
-                    {
-                        var view = ParseView(viewElement, page);
-                        action.Views.Add(view);
-                    }
+		private void ParseActions(XDocument xdoc, PageParserResult parserResult)
+		{
+			foreach (var actionElement in xdoc.Root.Elements(ACTION))
+			{
+				string method = actionElement.AttributeAsOrDefault<string>(METHOD);
+				if (method == null)
+					method = DEFAULT_METHOD;
+				var action = new PageAction(method);
+				if (actionElement.Attribute(PARENT) != null)
+					action.Parent = actionElement.AttributeAs<string>(PARENT);
 
-                    page.Actions.Add(action);
-                }
+				foreach (var viewElement in actionElement.Elements(VIEW))
+				{
+					var view = ParseView(viewElement, parserResult);
+					action.Views.Add(view);
+				}
 
-                return page;
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException(string.Format("Failed to parse '{0}'.", file), ex);
-            }
-        }
+				parserResult.Actions[method] = action;
+			}
+		}
 
-		private void ParseModules(XDocument doc, PageParserResult page)
+		private void ParseModules(XDocument doc, PageParserResult parserResult)
         {
             foreach (var attr in doc.Root.Attributes())
             {
@@ -98,14 +135,19 @@ namespace xrc.Pages.Providers.FileSystem
                     Uri moduleUri = new Uri(attr.Value);
                     if (moduleUri.Scheme == MODULE_PREFIX)
                     {
-                        var moduleDefinition = new ModuleDefinition(attr.Name.LocalName, _moduleCatalog.Get(moduleUri.Segments[0]));
-                        page.Modules.Add(moduleDefinition);
+						string name = attr.Name.LocalName;
+
+						if (!parserResult.Modules.ContainsKey(name))
+						{
+							var moduleDefinition = new ModuleDefinition(name, _moduleCatalog.Get(moduleUri.Segments[0]));
+							parserResult.Modules.Add(moduleDefinition);
+						}
                     }
                 }
             }
         }
 
-		private void ParseParameters(XElement paramsElement, PageParserResult page)
+		private void ParseParameters(XElement paramsElement, PageParserResult parserResult)
         {
             foreach (var actionElement in paramsElement.Elements(ADD))
             {
@@ -117,13 +159,13 @@ namespace xrc.Pages.Providers.FileSystem
                 Type type = Type.GetType(typeName, true, true);
                 bool allowRequestOverride = actionElement.AttributeAsOrDefault<bool>(ALLOWREQUESTOVERRIDE);
 
-                var xValue = _scriptService.Parse(value, type, page.Modules, page.Parameters);
+                var xValue = _scriptService.Parse(value, type, parserResult.Modules, parserResult.Parameters);
 
-                page.Parameters.Add(new PageParameter(key, xValue, allowRequestOverride)); ;
+				parserResult.Parameters[key] = new PageParameter(key, xValue, allowRequestOverride);
             }
         }
 
-		private ViewDefinition ParseView(XElement xElement, PageParserResult page)
+		private ViewDefinition ParseView(XElement xElement, PageParserResult parserResult)
 		{
 			string typeName = xElement.AttributeAs<string>(TYPE);
             ComponentDefinition component = _viewCatalog.Get(typeName);
@@ -141,7 +183,7 @@ namespace xrc.Pages.Providers.FileSystem
             // TODO Escludere le property con un namespace? O usare un namespace particolare per le property?
             foreach (var element in xElement.Elements())
 			{
-                var property = ParseProperty(element, component.Type, page);
+                var property = ParseProperty(element, component.Type, parserResult);
 
                 view.Properties.Add(property);
 			}
@@ -149,7 +191,7 @@ namespace xrc.Pages.Providers.FileSystem
 			return view;
 		}
 
-		private XProperty ParseProperty(XElement element, Type ownerType, PageParserResult page)
+		private XProperty ParseProperty(XElement element, Type ownerType, PageParserResult parserResult)
         {
             var property = ownerType.GetProperty(element.Name.LocalName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
             if (property == null)
@@ -175,7 +217,7 @@ namespace xrc.Pages.Providers.FileSystem
             }
             else if (element.IsEmpty == false)
             {
-                var xValue = _scriptService.Parse(element.Value, property.PropertyType, page.Modules, page.Parameters);
+                var xValue = _scriptService.Parse(element.Value, property.PropertyType, parserResult.Modules, parserResult.Parameters);
                 return new XProperty(property, xValue);
             }
             else

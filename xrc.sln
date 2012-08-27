@@ -33,6 +33,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AEA077
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoWebSite.Lib", "DemoWebSite.Lib\DemoWebSite.Lib.csproj", "{8015F2FD-AC46-47FD-9FD3-8E48A0001433}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configs", "configs", "{E488FA0A-FE0C-4F0B-95B3-C56FD6BBDABD}"
+	ProjectSection(SolutionItems) = preProject
+		configs\xrc_content.pkgdef = configs\xrc_content.pkgdef
+		configs\xrc_schema.xsd = configs\xrc_schema.xsd
+		configs\xrc_schema_catalog.xml = configs\xrc_schema_catalog.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demo", "demo", "{4D8B9E4D-A643-45EB-872F-A06C1CE01674}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B8687CAB-0363-4E20-BB9D-1ED3A253F2AB}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = xrc.vsmdi
@@ -68,5 +79,9 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{342FBF7C-BF21-477E-A7E6-8D8BEC6F3E88} = {B51A8B94-7352-4FBA-902D-3FF5C9022563}
+		{8015F2FD-AC46-47FD-9FD3-8E48A0001433} = {4D8B9E4D-A643-45EB-872F-A06C1CE01674}
+		{578499F8-3E4B-41E4-832D-BD83B55131A5} = {4D8B9E4D-A643-45EB-872F-A06C1CE01674}
+		{71988DA4-8569-490F-9D08-5B47EF2202F7} = {B8687CAB-0363-4E20-BB9D-1ED3A253F2AB}
+		{2496197E-8B17-4AA0-98B2-E57B2C924EDF} = {B8687CAB-0363-4E20-BB9D-1ED3A253F2AB}
 	EndGlobalSection
 EndGlobal
