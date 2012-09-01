@@ -49,6 +49,7 @@
     <Compile Include="Contact.cs" />
     <Compile Include="ContactModule.cs" />
     <Compile Include="IContactModule.cs" />
+    <Compile Include="ISourceCodeModule.cs" />
     <Compile Include="SourceCodeModule.cs" />
     <Compile Include="GoogleNewsModule.cs" />
     <Compile Include="Player.cs" />

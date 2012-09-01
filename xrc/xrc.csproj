@@ -69,11 +69,11 @@
     <Compile Include="Context\XrcHttpContext.cs" />
     <Compile Include="ConvertEx.cs" />
     <Compile Include="Components\ComponentDefinition.cs" />
+    <Compile Include="Exceptions\PageException.cs" />
     <Compile Include="Exceptions\MovedPermanentlyException.cs" />
     <Compile Include="Exceptions\ResourceNotFoundException.cs" />
     <Compile Include="Exceptions\XrcException.cs" />
     <Compile Include="Modules\IFileModule.cs" />
-    <Compile Include="Modules\IHtmlModule.cs" />
     <Compile Include="Modules\ISlotModule.cs" />
     <Compile Include="Modules\IUrlModule.cs" />
     <Compile Include="Modules\ModuleCatalogService.cs" />
@@ -99,7 +99,6 @@
     <Compile Include="Modules\IModule.cs" />
     <Compile Include="Modules\SlotModule.cs" />
     <Compile Include="Modules\UrlModule.cs" />
-    <Compile Include="Modules\HtmlModule.cs" />
     <Compile Include="Modules\FileModule.cs" />
     <Compile Include="Kernel\Kernel.cs" />
     <Compile Include="Kernel\IKernel.cs" />

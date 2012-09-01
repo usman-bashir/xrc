@@ -31,7 +31,7 @@ namespace xrc
 				throw new ArgumentNullException("stream");
 
 			if (encoding == null)
-				encoding = Encoding.UTF8;
+				encoding = parentResponse != null ? parentResponse.ContentEncoding : Encoding.UTF8;
 
 			_contentEncoding = encoding;
 			_outputStream = stream;
@@ -65,6 +65,7 @@ namespace xrc
 		public override Encoding ContentEncoding
 		{
 			get { return _contentEncoding; }
+			set { _contentEncoding = value; }
 		}
 
 		public override string ContentType
@@ -101,6 +102,21 @@ namespace xrc
         {
             throw new XrcException(string.Format("Response redirection required, redirect url is '{0}'.", url));
         }
+
+		public override void Write(string s)
+		{
+			_output.Write(s);
+		}
+
+		public override void Write(char ch)
+		{
+			_output.Write(ch);
+		}
+
+		public override void Write(char[] buffer, int index, int count)
+		{
+			_output.Write(buffer, index, count);
+		}
 
 		#region IDisposable
 		private bool disposed = false;

@@ -63,7 +63,7 @@ namespace xrc.Modules
         {
             ModuleCatalogService target = new ModuleCatalogService(Configuration.XrcSection.GetSection());
 
-            Assert.AreEqual(5, target.GetAll().Count());
+            Assert.AreEqual(4, target.GetAll().Count());
         }
 
     }

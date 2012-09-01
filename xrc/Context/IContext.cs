@@ -5,7 +5,7 @@ using xrc.Sites;
 
 namespace xrc
 {
-	// TODO Rivedere la classe context...forse eliminare e sostituire con i singoli oggetti in maniera tale da rendere più chiare le dipendenze
+	// TODO Rivedere la classe context...forse eliminare
     public interface IContext
     {
         HttpRequestBase Request { get; set; }
@@ -22,6 +22,6 @@ namespace xrc
 
 		IContext CallerContext { get; set; }
 
-        void CheckError();
+		void CheckResponse();
     }
 }

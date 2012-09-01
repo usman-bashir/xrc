@@ -29,7 +29,7 @@ namespace xrc.Modules
             {
                 RenderSlotEventArgs e = new RenderSlotEventArgs(slotName);
                 _context.SlotCallback(this, e);
-                return e.Content;
+                return e.Result.Content;
             }
             else
                 return string.Empty;

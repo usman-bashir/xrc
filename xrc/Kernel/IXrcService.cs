@@ -9,6 +9,10 @@ namespace xrc
 {
     public interface IXrcService
     {
+		bool Match(IContext context);
+
+		void ProcessRequest(IContext context);
+
         ContentResult Page(Uri url, object parameters = null, IContext callerContext = null);
     }
 }

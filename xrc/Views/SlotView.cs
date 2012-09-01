@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Json;
+using System.Web.Mvc;
 
 namespace xrc.Views
 {
@@ -10,10 +11,10 @@ namespace xrc.Views
 
     public class SlotView : IView
     {
-        private IKernel _kernel;
-        public SlotView(IKernel kernel)
+        private IXrcService _xrcService;
+        public SlotView(IXrcService xrcService)
         {
-            _kernel = kernel;
+			_xrcService = xrcService;
         }
 
 		public string SlotUrl
@@ -28,12 +29,12 @@ namespace xrc.Views
                 throw new ArgumentNullException("Slot");
 
 			var url = context.Page.GetContentAbsoluteUrl(SlotUrl);
-            XrcRequest request = new XrcRequest(url, parentRequest: context.Request);
 
-            Context slotContext = new Context(request, context.Response);
-            _kernel.ProcessRequest(slotContext);
+			ContentResult result = _xrcService.Page(url, null, context);
 
-            slotContext.CheckError();
+			context.Response.ContentEncoding = result.ContentEncoding;
+			context.Response.ContentType = result.ContentType;
+			context.Response.Write(result.Content);
         }
     }
 }

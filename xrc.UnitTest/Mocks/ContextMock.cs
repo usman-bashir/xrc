@@ -44,16 +44,15 @@ namespace xrc.Mocks
             set;
         }
 
-        public void CheckError()
-        {
-            
-        }
-
-
 		public IContext CallerContext
 		{
 			get;
 			set;
+		}
+
+		public void CheckResponse()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

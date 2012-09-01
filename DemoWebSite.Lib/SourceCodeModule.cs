@@ -8,21 +8,13 @@ using xrc.Pages.Providers.FileSystem;
 
 namespace DemoWebSite
 {
-	public class SourceCodeModule : xrc.Modules.IModule
+	public class SourceCodeModule : ISourceCodeModule
     {
 		private xrc.IContext _context;
 
 		public SourceCodeModule(xrc.IContext context)
 		{
 			_context = context;
-		}
-
-		private xrc.IContext GetOriginalContext(xrc.IContext context)
-		{
-			if (context.CallerContext == null)
-				return context;
-			else
-				return GetOriginalContext(context.CallerContext);
 		}
 
         public string GetGitLink()
@@ -34,5 +26,13 @@ namespace DemoWebSite
 								.Replace("\\", "/");
 			return xrc.UriExtensions.Combine("https://github.com/davideicardi/xrc/blob/master/DemoWebSite/", file);
         }
-    }
+
+		private xrc.IContext GetOriginalContext(xrc.IContext context)
+		{
+			if (context.CallerContext == null)
+				return context;
+			else
+				return GetOriginalContext(context.CallerContext);
+		}
+	}
 }

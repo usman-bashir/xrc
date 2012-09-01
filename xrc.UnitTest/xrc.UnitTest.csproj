@@ -75,7 +75,7 @@
     <Compile Include="Views\ViewCatalogService_Test.cs" />
     <Compile Include="Sites\SiteConfigurationProviderService_Test.cs" />
     <Compile Include="Sites\SiteConfiguration_Test.cs" />
-    <Compile Include="Kernel\Kernel_Test.cs" />
+    <Compile Include="Kernel\XrcService_Test.cs" />
     <Compile Include="Mocks\RendererCatalogServiceMock.cs" />
     <Compile Include="Mocks\ModuleFactoryMock.cs" />
     <Compile Include="Mocks\ModuleCatalogServiceMock.cs" />

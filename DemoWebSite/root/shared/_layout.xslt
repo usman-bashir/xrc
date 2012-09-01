@@ -2,14 +2,12 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:Url="xrc:UrlModule"
-                xmlns:Html="xrc:HtmlModule"
                 xmlns:Slot="xrc:SlotModule"
 				xmlns:SourceCode="xrc:SourceCodeModule"
-                exclude-result-prefixes="Html Url Slot">
+                exclude-result-prefixes="Url Slot">
 	<xsl:output method="html" encoding="utf-8" />
 	<xsl:param name="title" />
 	<xsl:param name="activeMenu" />
-	<xsl:param name="sourceCode" />
 
 	<xsl:template match="/">
 		<xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html></xsl:text>

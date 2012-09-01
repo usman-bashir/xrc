@@ -159,9 +159,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Global.asax" />
-    <Content Include="root\widgets\index.xslt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.7.2-vsdoc.js" />
@@ -186,6 +183,7 @@
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Contact\SendMVC.cshtml" />
     <Content Include="root\Web.config" />
+    <Content Include="root\shared\_layoutRazor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DemoWebSite.Lib\DemoWebSite.Lib.csproj">
@@ -208,7 +206,7 @@
     <Content Include="root\news\index.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\widgets\_latestphotos.xrc">
+    <Content Include="root\widgets\_latestPhotos.xrc">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="root\widgets\_ranking.xrc">
