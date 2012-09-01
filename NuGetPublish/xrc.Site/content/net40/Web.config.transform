@@ -1,0 +1,34 @@
+﻿<?xml version="1.0"?>
+<configuration>
+	<configSections>
+		<section name="xrc" type="xrc.Configuration.XrcSection, xrc" />
+	</configSections>
+
+	<xrc>
+		<rootPath virtualPath="~/xrc" />
+		<sites>
+			<!-- TODO: Customize this settings -->
+			<add key="local" uri="http://localhost/">
+				<parameters>
+					<add key="debug" value="true" />
+				</parameters>
+			</add>
+			<!--<add key="production" uri="http://yoursite.com/">
+				<parameters>
+					<add key="debug" value="false" />
+				</parameters>
+			</add>-->
+		</sites>
+		<parameters>
+			<add key="debug" value="false" />
+		</parameters>
+		<views>
+			<add name="default" assembly="xrc" />
+		</views>
+		<modules>
+			<add name="default" assembly="xrc" />
+			<!--<add name="ExampleModule" type="ExampleNamespace.ExampleModule, ExampleAssembly" />-->
+		</modules>
+	</xrc>
+
+</configuration>
