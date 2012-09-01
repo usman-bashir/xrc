@@ -5,7 +5,8 @@
 		<xrc:add key="title" value="About" />
 		<xrc:add key="activeMenu" value="about" />
 	</xrc:parameters>
-	
+
+	<!-- Example using razor layout -->
 	<xrc:action method="GET" parent="~/shared/_layoutRazor">
 		<xrc:XHtmlView>
 			<!-- Example using an inline html content -->
