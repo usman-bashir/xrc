@@ -72,9 +72,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ContactController.cs" />
-    <Compile Include="Controllers\ControllerInstaller.cs" />
+    <Compile Include="Windsor\ControllerInstaller.cs" />
     <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="Controllers\WindsorControllerFactory.cs" />
+    <Compile Include="Windsor\WindsorControllerFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

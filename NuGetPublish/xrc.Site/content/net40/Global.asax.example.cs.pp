@@ -43,7 +43,7 @@ namespace $rootnamespace$
 
             // Windsor MVC integration
             _container.Install(Castle.Windsor.Installer.FromAssembly.This());
-            var controllerFactory = new Controllers.WindsorControllerFactory(_container.Kernel);
+            var controllerFactory = new WindsorControllerFactory(_container.Kernel);
             ControllerBuilder.Current.SetControllerFactory(controllerFactory);
         }
 
@@ -64,5 +64,5 @@ namespace $rootnamespace$
 				 new { controller = "Home", action = "Index", id = UrlParameter.Optional }); // Parameter defaults
 		}
     }
-	*/
 }
+*/
