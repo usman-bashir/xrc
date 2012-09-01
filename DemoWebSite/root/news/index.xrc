@@ -8,9 +8,9 @@
 	</xrc:parameters>
 
 	<xrc:action method="GET" parent="~/shared/_layout">
-		<xrc:view type="XHtmlView">
-			<content>@File.Xml("index.xhtml")</content>
-		</xrc:view>
+		<xrc:XHtmlView>
+			<Content>@File.Xml("index.xhtml")</Content>
+		</xrc:XHtmlView>
 	</xrc:action>
 
 </xrc:page>

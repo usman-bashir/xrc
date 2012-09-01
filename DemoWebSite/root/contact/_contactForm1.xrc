@@ -7,10 +7,10 @@
 	</xrc:parameters>
 
 	<xrc:action>
-		<xrc:view type="RazorView">
-			<viewFile>_contactForm1.cshtml</viewFile>
-			<model>@Contact.GetDefault()</model>
-		</xrc:view>
+		<xrc:RazorView>
+			<ViewFile>_contactForm1.cshtml</ViewFile>
+			<Model>@Contact.GetDefault()</Model>
+		</xrc:RazorView>
 	</xrc:action>
 
 </xrc:page>

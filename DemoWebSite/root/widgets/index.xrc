@@ -8,21 +8,21 @@
 
 	<xrc:action method="GET" parent="~/shared/_layout3cols">
 
-		<xrc:view type="SlotView" slot="left">
-			<sloturl>~/widgets/_ranking</sloturl>
-		</xrc:view>
+		<xrc:SlotView slot="left">
+			<SlotUrl>~/widgets/_ranking</SlotUrl>
+		</xrc:SlotView>
 
-		<xrc:view type="XHtmlView" slot="center">
-			<content>
+		<xrc:XHtmlView slot="center">
+			<Content>
 				<div>
 					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 				</div>
-			</content>
-		</xrc:view>
+			</Content>
+		</xrc:XHtmlView>
 
-		<xrc:view type="SlotView" slot="right">
-			<sloturl>~/widgets/_latestphotos</sloturl>
-		</xrc:view>
+		<xrc:SlotView slot="right">
+			<SlotUrl>~/widgets/_latestphotos</SlotUrl>
+		</xrc:SlotView>
 
 	</xrc:action>
 

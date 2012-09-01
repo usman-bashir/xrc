@@ -6,10 +6,10 @@
 	</xrc:parameters>
 
 	<xrc:action>
-		<xrc:view type="RazorView">
-			<viewFile>_sendSuccess.cshtml</viewFile>
-			<model>@newContact</model>
-		</xrc:view>
+		<xrc:RazorView>
+			<ViewFile>_sendSuccess.cshtml</ViewFile>
+			<Model>@newContact</Model>
+		</xrc:RazorView>
 	</xrc:action>
 
 </xrc:page>

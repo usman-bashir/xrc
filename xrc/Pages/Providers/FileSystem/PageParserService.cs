@@ -15,20 +15,20 @@ namespace xrc.Pages.Providers.FileSystem
 {
     public class PageParserService : IPageParserService
     {
-		private static XNamespace XMLNS = "urn:xrc";
-		private static XName PAGE = XMLNS + "page";
-		private static XName ACTION = XMLNS + "action";
-        private static XName PARAMETERS = XMLNS + "parameters";
-        private static XName ADD = XMLNS + "add";
-        private static XName VIEW = XMLNS + "view";
-		private static XName METHOD = "method";
-        private static XName TYPE = "type";
-        private static XName KEY = "key";
-        private static XName VALUE = "value";
-        private static XName PARENT = "parent";
-        private static XName SLOT = "slot";
-        private static XName ALLOWREQUESTOVERRIDE = "allowRequestOverride";
-		private static string DEFAULT_METHOD = "GET";
+		private readonly static XNamespace XMLNS = "urn:xrc";
+		private readonly static XName PAGE = XMLNS + "page";
+		private readonly static XName ACTION = XMLNS + "action";
+		private readonly static XName PARAMETERS = XMLNS + "parameters";
+		private readonly static XName ADD = XMLNS + "add";
+		private readonly static XName METHOD = "method";
+		private readonly static XName TYPE = "type";
+		private readonly static XName KEY = "key";
+		private readonly static XName VALUE = "value";
+		private readonly static XName PARENT = "parent";
+		private readonly static XName SLOT = "slot";
+		private readonly static XName OUTPUTCACHE = XMLNS + "outputcache";
+		private readonly static XName ALLOWREQUESTOVERRIDE = "allowRequestOverride";
+		private readonly static string DEFAULT_METHOD = "GET";
 
         private const string MODULE_PREFIX = "xrc";
 
@@ -116,10 +116,13 @@ namespace xrc.Pages.Providers.FileSystem
 				if (actionElement.Attribute(PARENT) != null)
 					action.Parent = actionElement.AttributeAs<string>(PARENT);
 
-				foreach (var viewElement in actionElement.Elements(VIEW))
+				foreach (var viewElement in actionElement.Elements())
 				{
-					var view = ParseView(viewElement, parserResult);
-					action.Views.Add(view);
+					if (viewElement.Name != OUTPUTCACHE)
+					{
+						var view = ParseView(viewElement, parserResult);
+						action.Views.Add(view);
+					}
 				}
 
 				parserResult.Actions[method] = action;
@@ -167,7 +170,7 @@ namespace xrc.Pages.Providers.FileSystem
 
 		private ViewDefinition ParseView(XElement xElement, PageParserResult parserResult)
 		{
-			string typeName = xElement.AttributeAs<string>(TYPE);
+			string typeName = xElement.Name.LocalName;
             ComponentDefinition component = _viewCatalog.Get(typeName);
             if (component == null)
 				throw new ApplicationException(string.Format("Component '{0}' not found'.", typeName));

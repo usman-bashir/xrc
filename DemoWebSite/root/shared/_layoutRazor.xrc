@@ -2,12 +2,12 @@
 <xrc:page xmlns:xrc="urn:xrc"
          xmlns:File="xrc:FileModule">
 
-	<!-- This is an example of a xslt layout file -->
+	<!-- This is an example of a razor layout file -->
 
 	<xrc:action method="GET">
-		<xrc:XsltView>
-			<Xslt>@File.Xml("_layout.xslt")</Xslt>
-		</xrc:XsltView>
+		<xrc:RazorView>
+			<ViewFile>_layoutRazor.cshtml</ViewFile>
+		</xrc:RazorView>
 	</xrc:action>
 
 </xrc:page>

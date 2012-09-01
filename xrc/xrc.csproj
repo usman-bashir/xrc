@@ -114,7 +114,7 @@
     <Compile Include="Configuration\SiteElement.cs" />
     <Compile Include="HttpHandler\XrcHttpHandler.cs" />
     <Compile Include="Views\ViewCatalogService.cs" />
-    <Compile Include="Views\SlotRenderer.cs" />
+    <Compile Include="Views\SlotView.cs" />
     <Compile Include="Views\XmlView.cs" />
     <Compile Include="Reflection.cs" />
     <Compile Include="Request\XrcRequest.cs" />

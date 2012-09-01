@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:xrc="urn:xrc" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="urn:xrc" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:xrc="urn:xrc" attributeFormDefault="unqualified" elementFormDefault="qualified" 
+		   targetNamespace="urn:xrc" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
 	<xs:element name="page" type="xrc:pageElement">
 	</xs:element>
 
@@ -25,7 +27,7 @@
 
 	<xs:complexType name="actionElement">
 		<xs:sequence>
-			<xs:element name="view" maxOccurs="unbounded" minOccurs="1" type="xrc:viewElement" />
+			<xs:element ref="xrc:viewElement" maxOccurs="unbounded" minOccurs="1" />
 			<xs:element name="outputcache" maxOccurs="1" minOccurs="0">
 				<xs:complexType></xs:complexType>
 			</xs:element>
@@ -44,13 +46,87 @@
 		<xs:attribute name="parent" type="xs:string" use="optional" />
 	</xs:complexType>
 
-	<xs:complexType name="viewElement">
-		<xs:sequence>
-			<xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded" />
-		</xs:sequence>
-		<xs:attribute name="type" use="required" type="xrc:viewTypeAttribute" />
+	<xs:element name="viewElement" abstract="true" type="xrc:viewElementBase" />
+	<xs:complexType name="viewElementBase">
 		<xs:attribute name="slot" type="xs:string" use="optional" />
 	</xs:complexType>
+	
+	<xs:element name="RazorView" substitutionGroup="xrc:viewElement" type="xrc:RazorViewElement" />
+	<xs:complexType name="RazorViewElement">
+		<xs:complexContent>
+			<xs:extension base="xrc:viewElementBase">
+				<xs:sequence>
+					<xs:element name="ViewFile" minOccurs="1" maxOccurs="1" type="xs:string" form="unqualified" />
+					<xs:element name="Model" minOccurs="0" maxOccurs="1" type="xrc:contentOrScript" form="unqualified" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="XsltView" substitutionGroup="xrc:viewElement" type="xrc:XsltViewElement" />
+	<xs:complexType name="XsltViewElement">
+		<xs:complexContent>
+			<xs:extension base="xrc:viewElementBase">
+				<xs:sequence>
+					<xs:element name="Xslt" minOccurs="1" maxOccurs="1" type="xrc:contentOrScript" form="unqualified" />
+					<xs:element name="Data" minOccurs="0" maxOccurs="1" type="xrc:contentOrScript" form="unqualified" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="JsonView" substitutionGroup="xrc:viewElement" type="xrc:JsonViewElement" />
+	<xs:complexType name="JsonViewElement">
+		<xs:complexContent>
+			<xs:extension base="xrc:viewElementBase">
+				<xs:sequence>
+					<xs:element name="Content" minOccurs="0" maxOccurs="1" type="xrc:contentOrScript" form="unqualified" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="NodeJsView" substitutionGroup="xrc:viewElement" type="xrc:NodeJsViewElement" />
+	<xs:complexType name="NodeJsViewElement">
+		<xs:complexContent>
+			<xs:extension base="xrc:viewElementBase">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="SlotView" substitutionGroup="xrc:viewElement" type="xrc:SlotViewElement" />
+	<xs:complexType name="SlotViewElement">
+		<xs:complexContent>
+			<xs:extension base="xrc:viewElementBase">
+				<xs:sequence>
+					<xs:element name="SlotUrl" minOccurs="1" maxOccurs="1" type="xs:string" form="unqualified" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="XHtmlView" substitutionGroup="xrc:viewElement" type="xrc:XHtmlViewElement" />
+	<xs:complexType name="XHtmlViewElement">
+		<xs:complexContent>
+			<xs:extension base="xrc:viewElementBase">
+				<xs:sequence>
+					<xs:element name="Content" minOccurs="0" maxOccurs="1" type="xrc:contentOrScript" form="unqualified" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="XmlView" substitutionGroup="xrc:viewElement" type="xrc:XmlViewElement" />
+	<xs:complexType name="XmlViewElement">
+		<xs:complexContent>
+			<xs:extension base="xrc:viewElementBase">
+				<xs:sequence>
+					<xs:element name="Content" minOccurs="0" maxOccurs="1" type="xrc:contentOrScript" form="unqualified" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
 
 	<xs:simpleType name="parameterTypeAttribute">
 		<xs:union>
@@ -72,7 +148,7 @@
 		</xs:union>
 	</xs:simpleType>
 
-	<xs:simpleType name="viewTypeAttribute">
+	<!--<xs:simpleType name="viewTypeAttribute">
 		<xs:union>
 			<xs:simpleType>
 				<xs:restriction base="xs:string">
@@ -89,6 +165,12 @@
 				</xs:restriction>
 			</xs:simpleType>
 		</xs:union>
-	</xs:simpleType>
+	</xs:simpleType>-->
 
+	<xs:complexType name="contentOrScript" mixed="true">
+		<xs:sequence minOccurs="0">
+			<xs:any minOccurs="0" maxOccurs="unbounded" processContents="skip" namespace="##any" />
+		</xs:sequence>
+	</xs:complexType>
+	
 </xs:schema>

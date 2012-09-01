@@ -6,9 +6,9 @@
 	</xrc:parameters>
 
 	<xrc:action>
-		<xrc:view type="RazorView">
-			<viewFile>_test.cshtml</viewFile>
-		</xrc:view>
+		<xrc:RazorView>
+			<ViewFile>_test.cshtml</ViewFile>
+		</xrc:RazorView>
 	</xrc:action>
 
 </xrc:page>

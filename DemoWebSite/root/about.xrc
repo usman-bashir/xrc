@@ -7,14 +7,14 @@
 	</xrc:parameters>
 	
 	<xrc:action method="GET" parent="~/shared/_layout">
-		<xrc:view type="XHtmlView">
+		<xrc:XHtmlView>
 			<!-- Example using an inline html content -->
-			<content>
+			<Content>
 				<div>
 					This is the <b>about</b> page!
 				</div>
-			</content>
-		</xrc:view>
+			</Content>
+		</xrc:XHtmlView>
 	</xrc:action>
 
 </xrc:page>

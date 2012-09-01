@@ -8,11 +8,11 @@
 	</xrc:parameters>
 
 	<xrc:action method="GET">
-		<xrc:view type="XsltView">
-			<xslt>@File.Xml("_header.xslt")</xslt>
+		<xrc:XsltView>
+			<Xslt>@File.Xml("_header.xslt")</Xslt>
 
 			<!-- This is an example of an inline xml, also the xslt can be inline but is not very easy to read -->
-			<data xmlns="">
+			<Data xmlns="">
 				<header>
 					<menu text="home" url="~/" />
 					<menu text="books" url="~/books" />
@@ -22,9 +22,9 @@
 					<menu text="contact" url="~/contact" />
 					<menu text="about" url="~/about" />
 				</header>
-			</data>
+			</Data>
 
-		</xrc:view>
+		</xrc:XsltView>
 	</xrc:action>
 
 </xrc:page>

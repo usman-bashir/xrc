@@ -135,6 +135,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\demo.css" />
+    <Content Include="root\shared\_layoutRazor.xrc">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="root\shared\_header.xslt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

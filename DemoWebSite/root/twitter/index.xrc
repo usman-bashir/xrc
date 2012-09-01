@@ -10,10 +10,10 @@
 	</xrc:parameters>
 
 	<xrc:action method="GET" parent="~/shared/_layout">
-		<xrc:view type="XsltView">
-			<xslt>@File.Xml("index.xslt")</xslt>
-			<data>@Twitter.Search(hashTag)</data>
-		</xrc:view>
+		<xrc:XsltView>
+			<Xslt>@File.Xml("index.xslt")</Xslt>
+			<Data>@Twitter.Search(hashTag)</Data>
+		</xrc:XsltView>
 
 		<xrc:outputcache />
 	</xrc:action>

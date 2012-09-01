@@ -10,9 +10,9 @@
 	</xrc:parameters>
 
 	<xrc:action parent="~/shared/_layout">
-		<xrc:view type="XHtmlView">
-			<content>@File.XHtml("index.xhtml")</content>
-		</xrc:view>
+		<xrc:XHtmlView>
+			<Content>@File.XHtml("index.xhtml")</Content>
+		</xrc:XHtmlView>
 
 		<!-- TODO: How to configure outputcache -->
 		<xrc:outputcache />

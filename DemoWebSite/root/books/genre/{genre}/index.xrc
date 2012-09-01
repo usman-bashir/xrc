@@ -9,10 +9,10 @@
 	</xrc:parameters>
 
 	<xrc:action method="GET" parent="~/shared/_layout">
-		<xrc:view type="XsltView">
-			<xslt>@File.Xml("books_genre.xslt")</xslt>
-			<data>@File.Xml("..\..\books.xml")</data>
-		</xrc:view>
+		<xrc:XsltView>
+			<Xslt>@File.Xml("books_genre.xslt")</Xslt>
+			<Data>@File.Xml("..\..\books.xml")</Data>
+		</xrc:XsltView>
 	</xrc:action>
 
 </xrc:page>

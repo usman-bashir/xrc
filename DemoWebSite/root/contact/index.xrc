@@ -7,9 +7,9 @@
 	</xrc:parameters>
 
 	<xrc:action method="GET" parent="~/shared/_layout">
-		<xrc:view type="RazorView">
-			<viewFile>index.cshtml</viewFile>
-		</xrc:view>
+		<xrc:RazorView>
+			<ViewFile>index.cshtml</ViewFile>
+		</xrc:RazorView>
 	</xrc:action>
 
 </xrc:page>

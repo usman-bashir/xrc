@@ -4,16 +4,16 @@
 	<!-- This is an example of static html output. Can also be used @{File.Xml("footer.html")} -->
 
 	<xrc:action method="GET">
-		<xrc:view type="XHtmlView">
-			<content>
+		<xrc:XHtmlView>
+			<Content>
 				<div class="row-fluid">
 					<div id="footer" class="span12">
 						This is the footer
 					</div>
 				</div>
-			</content>
+			</Content>
 
-		</xrc:view>
+		</xrc:XHtmlView>
 	</xrc:action>
 
 </xrc:page>

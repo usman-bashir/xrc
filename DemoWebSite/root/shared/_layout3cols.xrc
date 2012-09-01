@@ -5,9 +5,9 @@
 	<!-- This is an example of a layout file -->
 
 	<xrc:action method="GET" parent="~/shared/_layout">
-		<xrc:view type="XsltView">
-			<xslt>@File.Xml("_layout3cols.xslt")</xslt>
-		</xrc:view>
+		<xrc:XsltView>
+			<Xslt>@File.Xml("_layout3cols.xslt")</Xslt>
+		</xrc:XsltView>
 	</xrc:action>
 
 </xrc:page>

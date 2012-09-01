@@ -7,9 +7,9 @@
 	</xrc:parameters>
 
 	<xrc:action method="GET">
-		<xrc:view type="JsonView">
-			<content>@GoogleNews.Search(value)</content>
-		</xrc:view>
+		<xrc:JsonView>
+			<Content>@GoogleNews.Search(value)</Content>
+		</xrc:JsonView>
 	</xrc:action>
 
 </xrc:page>

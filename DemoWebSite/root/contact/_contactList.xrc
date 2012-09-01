@@ -3,10 +3,10 @@
          xmlns:Contact="xrc:ContactModule">
 
 	<xrc:action>
-		<xrc:view type="RazorView">
-			<viewFile>_contactList.cshtml</viewFile>
-			<model>@Contact.GetContacts()</model>
-		</xrc:view>
+		<xrc:RazorView>
+			<ViewFile>_contactList.cshtml</ViewFile>
+			<Model>@Contact.GetContacts()</Model>
+		</xrc:RazorView>
 	</xrc:action>
 
 </xrc:page>

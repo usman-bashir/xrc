@@ -2,9 +2,9 @@
 <xrc:page xmlns:xrc="urn:xrc">
 
 	<xrc:action>
-		<xrc:view type="test">
+		<xrc:test>
 			
-		</xrc:view>
+		</xrc:test>
 	</xrc:action>
   
 </xrc:page>

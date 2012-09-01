@@ -1,29 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <xrc:page xmlns:xrc="urn:xrc">
 
-  <xrc:parameters>
-    <xrc:add key="p1" value="My page title" allowRequestOverride="false" />
-    <xrc:add key="p2" allowRequestOverride="true" />
-    <xrc:add key="p3" />
-    <xrc:add key="p4" />
-    <xrc:add key="p5" value="p5 value" />
-  </xrc:parameters>
+	<xrc:parameters>
+		<xrc:add key="p1" value="My page title" allowRequestOverride="false" />
+		<xrc:add key="p2" allowRequestOverride="true" />
+		<xrc:add key="p3" />
+		<xrc:add key="p4" />
+		<xrc:add key="p5" value="p5 value" />
+	</xrc:parameters>
 
-  <xrc:action method="GET">
-		<xrc:view type="TestView">
-      <XDocProperty xmlns="">
-        <bookstore>
-          <book>
-            <title>Book 1</title>
-          </book>
-          <book>
-            <title>Book 2</title>
-          </book>
-        </bookstore>
-      </XDocProperty>
-    </xrc:view>
+	<xrc:action method="GET">
+		<xrc:TestView>
+			<XDocProperty xmlns="">
+				<bookstore>
+					<book>
+						<title>Book 1</title>
+					</book>
+					<book>
+						<title>Book 2</title>
+					</book>
+				</bookstore>
+			</XDocProperty>
+		</xrc:TestView>
 
 		<xrc:outputcache />
-  </xrc:action>
+	</xrc:action>
 
 </xrc:page>

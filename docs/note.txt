@@ -25,14 +25,12 @@ Problemi
 
 
 TODO
- Aggiungere una configurazione a xrc.Configuration.RootPath per bloccare tramite l'evento BeginRequest tutte le chiamata alla cartella root
- Gestione parametri gerarchici per folder (tramite un file di configurazione xrc.config?)
  Fare un esempio di razor layout
- Documentation website using xrc (reading class reference from assembly and xml doc, xslt transformation of xml doc, custom docs, search, ...)
+ Rio 2016 example
  Authentication
  Cache
  Sample explanation
- Rio 2016 example
+ Documentation website using xrc (reading class reference from assembly and xml doc, xslt transformation of xml doc, custom docs, search, ...)
 
 
 Current features

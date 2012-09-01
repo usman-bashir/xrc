@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <xrc:page xmlns:xrc="urn:xrc">
 
-  <xrc:parameters>
-    <xrc:add key="title" value="My page title" />
-  </xrc:parameters>
+	<xrc:parameters>
+		<xrc:add key="title" value="My page title" />
+	</xrc:parameters>
 
-  <xrc:action method="GET">
-		<xrc:view type="TestView">
-      <scriptProperty>@DummyScript</scriptProperty>
-    </xrc:view>
+	<xrc:action method="GET">
+		<xrc:TestView>
+			<scriptProperty>@DummyScript</scriptProperty>
+		</xrc:TestView>
 
 		<xrc:outputcache />
 	</xrc:action>
