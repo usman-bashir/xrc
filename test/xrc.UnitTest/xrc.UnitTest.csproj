@@ -168,7 +168,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\xrc\xrc.csproj">
+    <ProjectReference Include="..\..\src\xrc\xrc.csproj">
       <Project>{71988DA4-8569-490F-9D08-5B47EF2202F7}</Project>
       <Name>xrc</Name>
     </ProjectReference>

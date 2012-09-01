@@ -186,17 +186,17 @@
     <Content Include="root\shared\_layoutRazor.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DemoWebSite.Lib\DemoWebSite.Lib.csproj">
-      <Project>{8015F2FD-AC46-47FD-9FD3-8E48A0001433}</Project>
-      <Name>DemoWebSite.Lib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\xrc.Windsor\xrc.Windsor.csproj">
+    <ProjectReference Include="..\..\src\xrc.Windsor\xrc.Windsor.csproj">
       <Project>{2496197E-8B17-4AA0-98B2-E57B2C924EDF}</Project>
       <Name>xrc.Windsor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\xrc\xrc.csproj">
+    <ProjectReference Include="..\..\src\xrc\xrc.csproj">
       <Project>{71988DA4-8569-490F-9D08-5B47EF2202F7}</Project>
       <Name>xrc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DemoWebSite.Lib\DemoWebSite.Lib.csproj">
+      <Project>{8015F2FD-AC46-47FD-9FD3-8E48A0001433}</Project>
+      <Name>DemoWebSite.Lib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

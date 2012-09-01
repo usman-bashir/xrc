@@ -24,7 +24,7 @@ namespace DemoWebSite
 			string file = fsPage.File.FullPath.ToLower()
 								.Replace(HttpContext.Current.Request.MapPath("~").ToLower(), "")
 								.Replace("\\", "/");
-			return xrc.UriExtensions.Combine("https://github.com/davideicardi/xrc/blob/master/DemoWebSite/", file);
+			return xrc.UriExtensions.Combine("https://github.com/davideicardi/xrc/blob/master/demo/DemoWebSite/", file);
         }
 
 		private xrc.IContext GetOriginalContext(xrc.IContext context)

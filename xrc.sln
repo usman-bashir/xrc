@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xrc", "xrc\xrc.csproj", "{71988DA4-8569-490F-9D08-5B47EF2202F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xrc", "src\xrc\xrc.csproj", "{71988DA4-8569-490F-9D08-5B47EF2202F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xrc.UnitTest", "xrc.UnitTest\xrc.UnitTest.csproj", "{342FBF7C-BF21-477E-A7E6-8D8BEC6F3E88}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xrc.UnitTest", "test\xrc.UnitTest\xrc.UnitTest.csproj", "{342FBF7C-BF21-477E-A7E6-8D8BEC6F3E88}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0C914B1E-05A1-401F-BD55-1286523C0CED}"
 	ProjectSection(SolutionItems) = preProject
@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		xrc.vsmdi = xrc.vsmdi
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoWebSite", "DemoWebSite\DemoWebSite.csproj", "{578499F8-3E4B-41E4-832D-BD83B55131A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoWebSite", "demo\DemoWebSite\DemoWebSite.csproj", "{578499F8-3E4B-41E4-832D-BD83B55131A5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{B51A8B94-7352-4FBA-902D-3FF5C9022563}"
 EndProject
@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{D9CD02D9-3
 		docs\setup_visual_studio.txt = docs\setup_visual_studio.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xrc.Windsor", "xrc.Windsor\xrc.Windsor.csproj", "{2496197E-8B17-4AA0-98B2-E57B2C924EDF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xrc.Windsor", "src\xrc.Windsor\xrc.Windsor.csproj", "{2496197E-8B17-4AA0-98B2-E57B2C924EDF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AEA07738-1626-4102-90CE-AD61FD38231F}"
 	ProjectSection(SolutionItems) = preProject
@@ -32,7 +32,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AEA077
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoWebSite.Lib", "DemoWebSite.Lib\DemoWebSite.Lib.csproj", "{8015F2FD-AC46-47FD-9FD3-8E48A0001433}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoWebSite.Lib", "demo\DemoWebSite.Lib\DemoWebSite.Lib.csproj", "{8015F2FD-AC46-47FD-9FD3-8E48A0001433}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configs", "configs", "{E488FA0A-FE0C-4F0B-95B3-C56FD6BBDABD}"
 	ProjectSection(SolutionItems) = preProject
