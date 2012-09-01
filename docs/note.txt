@@ -25,7 +25,6 @@ Problemi
 
 
 TODO
- Fare un esempio di razor layout
  Rio 2016 example
  Authentication
  Cache
