@@ -27,7 +27,7 @@ namespace xrc.Razor
 
         public void Intercept(Castle.DynamicProxy.IInvocation invocation)
         {
-            Modules.IModule module = _moduleFactory.Get(_component, _context);
+            object module = _moduleFactory.Get(_component, _context);
             try
             {
                 invocation.ReturnValue = invocation.Method.Invoke(module, invocation.Arguments);

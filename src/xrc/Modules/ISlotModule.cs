@@ -1,7 +1,7 @@
 ﻿using System;
 namespace xrc.Modules
 {
-    public interface ISlotModule : IModule
+    public interface ISlotModule
     {
         string IncludeChild();
         string IncludeChild(string slotName);

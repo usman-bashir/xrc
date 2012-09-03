@@ -32,7 +32,7 @@ namespace DemoWebSite
 
             // Register demo web site modules
             _container.Register(Classes.FromAssemblyContaining<TwitterModule>()
-                                .BasedOn<xrc.Modules.IModule>()
+                                .Where(p => p.Name.EndsWith("Module"))
                                 .WithServiceSelf()
                                 .WithServiceDefaultInterfaces()
 								.LifestyleTransient());

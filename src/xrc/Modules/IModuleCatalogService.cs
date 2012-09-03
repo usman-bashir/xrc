@@ -9,5 +9,6 @@ namespace xrc.Modules
     {
         IEnumerable<ComponentDefinition> GetAll();
         ComponentDefinition Get(string name);
+		bool TryGet(string name, out ComponentDefinition component);
     }
 }

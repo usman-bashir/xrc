@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using xrc.Configuration;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace xrc
 {
@@ -20,16 +21,20 @@ namespace xrc
                 else
                 {
                     Assembly assembly = Assembly.Load(c.Assembly);
-                    LoadFromAssembly(assembly);
+                    LoadFromAssembly(assembly, c.TypePattern);
                 }
             }
         }
 
-        private void LoadFromAssembly(Assembly assembly)
+        private void LoadFromAssembly(Assembly assembly, string typeFullNamePattern)
         {
+			var regEx = new Regex(typeFullNamePattern);
+
             var types = from t in assembly.GetTypes()
                         where typeof(T).IsAssignableFrom(t)
                             && t.IsClass
+							&& !t.IsAbstract
+							&& regEx.IsMatch(t.FullName)
                         select t;
 
             foreach (var t in types)
@@ -40,6 +45,11 @@ namespace xrc
         {
             return _components[name];
         }
+
+		public bool TryGet(string name, out ComponentDefinition component)
+		{
+			return _components.TryGet(name, out component);
+		}
 
         public IEnumerable<ComponentDefinition> GetAll()
         {

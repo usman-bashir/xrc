@@ -5,7 +5,7 @@ using System.Text;
 
 namespace xrc.Modules
 {
-    public class TestModule : IModule
+    public class TestModule
     {
     }
 }

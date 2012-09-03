@@ -15,12 +15,12 @@ namespace xrc.IoC.Windsor
             _windsorKernel = windsorKernel;
         }
 
-        public IModule Get(ComponentDefinition component, IContext context = null)
+        public object Get(ComponentDefinition component, IContext context = null)
         {
-            return (IModule)_windsorKernel.Resolve(component.Type, new { context = context });
+            return _windsorKernel.Resolve(component.Type, new { context = context });
         }
 
-        public void Release(IModule component)
+		public void Release(object component)
         {
             _windsorKernel.ReleaseComponent(component);
         }

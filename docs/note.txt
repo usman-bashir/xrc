@@ -26,6 +26,10 @@ Problemi
 
 TODO
  Rio 2016 example
+ Docs (architecture, features, advantages)
+ Integrate nuget with projects output
+ Nuget GlobalAsax transform: WebActivator or Scott Hanselman article (https://bitbucket.org/davidebbo/webactivator/wiki/Home) 
+ ModuleCatalogService e ViewCatalogService potrebbero leggere i dati di windsor?
  Authentication
  Cache
  Sample explanation

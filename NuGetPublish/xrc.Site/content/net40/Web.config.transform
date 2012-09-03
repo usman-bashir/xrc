@@ -26,7 +26,7 @@
 			<add name="default" assembly="xrc" />
 		</views>
 		<modules>
-			<add name="default" assembly="xrc" />
+			<add name="default" assembly="xrc" typePattern=".*Module$" />
 			<!--<add name="ExampleModule" type="ExampleNamespace.ExampleModule, ExampleAssembly" />-->
 		</modules>
 	</xrc>

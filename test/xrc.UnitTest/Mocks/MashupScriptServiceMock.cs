@@ -38,7 +38,7 @@ namespace xrc.Mocks
                 return new XValue(returnType, Convert.ChangeType(expression, returnType, System.Globalization.CultureInfo.InvariantCulture));
         }
 
-        public object Eval(XValue value, Dictionary<string, Modules.IModule> modules, ContextParameterList parameters)
+        public object Eval(XValue value, Dictionary<string, object> modules, ContextParameterList parameters)
         {
             return value.Expression.ToString();
         }

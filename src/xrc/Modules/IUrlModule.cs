@@ -2,7 +2,7 @@
 using System.Web.Routing;
 namespace xrc.Modules
 {
-    public interface IUrlModule : IModule
+    public interface IUrlModule
     {
         /// <summary>
         /// Converts a virtual (relative) path to an application absolute path.

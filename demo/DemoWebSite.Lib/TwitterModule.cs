@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace DemoWebSite
 {
-    public class TwitterModule : xrc.Modules.IModule
+    public class TwitterModule
     {
         public XDocument Search(string hashTag)
         {

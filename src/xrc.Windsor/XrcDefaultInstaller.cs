@@ -44,7 +44,7 @@ namespace xrc.IoC.Windsor
                                 .WithServiceSelf()
                                 .LifestyleTransient());
             container.Register(Classes.FromAssembly(assembly)
-                                .BasedOn<xrc.Modules.IModule>()
+                                .Where(p => p.Name.EndsWith("Module"))
                                 .WithServiceSelf()
                                 .WithServiceFirstInterface()
                                 .LifestyleTransient());

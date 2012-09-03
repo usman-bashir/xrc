@@ -24,5 +24,11 @@ namespace xrc.Mocks
         {
             return _component;
         }
-    }
+
+		public bool TryGet(string name, out ComponentDefinition component)
+		{
+			component = _component;
+			return true;
+		}
+	}
 }

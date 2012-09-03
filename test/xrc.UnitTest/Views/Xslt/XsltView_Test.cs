@@ -91,7 +91,7 @@ namespace xrc.Views
         [TestMethod]
         public void Transform_Module_Extensions()
         {
-            XsltView target = new XsltView(new Mocks.ModuleFactoryMock(new MyModuleExtension()), new Mocks.ModuleCatalogServiceMock(MyModuleExtension.Definition));
+			XsltView target = new XsltView(new Mocks.ModuleFactoryMock(new MyExtensionModule()), new Mocks.ModuleCatalogServiceMock(MyExtensionModule.Definition));
             target.Data = XDocument.Load(TestHelper.GetFile(@"Views\xslt\books.xml"));
             target.Xslt = XDocument.Load(TestHelper.GetFile(@"Views\xslt\extension.xslt"));
 
@@ -113,9 +113,9 @@ namespace xrc.Views
             Assert.AreEqual("Hello from module", output);
         }
 
-        public class MyModuleExtension : xrc.Modules.IModule
+		public class MyExtensionModule
         {
-            public static ComponentDefinition Definition = new ComponentDefinition("MyModuleExt", typeof(MyModuleExtension));
+			public static ComponentDefinition Definition = new ComponentDefinition("MyExtensionModule", typeof(MyExtensionModule));
 
             public string SayHelloFromModule()
             {

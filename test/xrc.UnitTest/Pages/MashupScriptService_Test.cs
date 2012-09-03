@@ -78,7 +78,7 @@ namespace xrc.Pages.Script
 
             scriptService.Verify(p => p.Parse("TestModule.Name", typeof(string), Moq.It.IsAny<ScriptParameterList>()));
 
-            Dictionary<string, IModule> modulesInstance = new Dictionary<string, IModule>();
+			Dictionary<string, object> modulesInstance = new Dictionary<string, object>();
             modulesInstance.Add("TestModule", testModule);
             ContextParameterList parametersInstance = new ContextParameterList();
 
@@ -94,7 +94,7 @@ namespace xrc.Pages.Script
             IContext context = new Mocks.ContextMock();
             ModuleDefinitionList modulesDefinition = new ModuleDefinitionList();
 			PageParameterList pageParameters = new PageParameterList();
-            Dictionary<string, IModule> modules = new Dictionary<string, IModule>();
+			Dictionary<string, object> modules = new Dictionary<string, object>();
             ContextParameterList parameters = new ContextParameterList();
 
             XValue exp;
@@ -146,7 +146,7 @@ namespace xrc.Pages.Script
             Assert.AreEqual(false, valid);
         }
 
-        public class TestModule : IModule
+        public class TestModule
         {
             public static ComponentDefinition Definition = new ComponentDefinition("TestModule", typeof(TestModule));
 

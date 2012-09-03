@@ -29,5 +29,12 @@ namespace xrc.Configuration
             get { return (string)this["assembly"]; }
             set { this["assembly"] = value; }
         }
+
+		[ConfigurationProperty("typePattern", IsRequired = false, DefaultValue = ".*")]
+		public string TypePattern
+		{
+			get { return (string)this["typePattern"]; }
+			set { this["typePattern"] = value; }
+		}
     }
 }

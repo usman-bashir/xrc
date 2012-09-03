@@ -47,6 +47,11 @@ namespace xrc
             }
         }
 
+		public bool TryGet(string name, out ComponentDefinition component)
+		{
+			return _list.TryGetValue(name, out component);
+		}
+
         public IEnumerator<ComponentDefinition> GetEnumerator()
         {
             foreach (var item in _list)

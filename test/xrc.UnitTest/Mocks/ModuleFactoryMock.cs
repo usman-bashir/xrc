@@ -9,18 +9,18 @@ namespace xrc.Mocks
 {
     class ModuleFactoryMock : IModuleFactory
     {
-        IModule _module;
-        public ModuleFactoryMock(IModule module)
+		object _module;
+        public ModuleFactoryMock(object module)
         {
             _module = module;
         }
 
-        public IModule Get(ComponentDefinition component, IContext context)
+		public object Get(ComponentDefinition component, IContext context)
         {
             return _module;
         }
 
-        public void Release(IModule component)
+		public void Release(object component)
         {
             
         }

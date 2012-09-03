@@ -151,7 +151,7 @@ namespace xrc
 			}
 		}
 
-		private void RenderParent(IContext childContext, PageAction childAction, Dictionary<string, Modules.IModule> childModules)
+		private void RenderParent(IContext childContext, PageAction childAction, Dictionary<string, object> childModules)
 		{
 			HttpResponseBase currentResponse = childContext.Response;
 
@@ -224,22 +224,22 @@ namespace xrc
 			context.Exception = new MovedPermanentlyException(context.Request.Url.ToString(), canonicalUrl.ToString());
 		}
 
-		private Dictionary<string, Modules.IModule> LoadModules(IContext context)
+		private Dictionary<string, object> LoadModules(IContext context)
 		{
-			Dictionary<string, Modules.IModule> modules = new Dictionary<string, Modules.IModule>();
+			var modules = new Dictionary<string, object>();
 			foreach (var m in context.Page.Modules)
 				modules.Add(m.Name, _moduleFactory.Get(m.Component, context));
 
 			return modules;
 		}
 
-		private void UnloadModules(Dictionary<string, Modules.IModule> modules)
+		private void UnloadModules(Dictionary<string, object> modules)
 		{
 			foreach (var m in modules)
 				_moduleFactory.Release(m.Value);
 		}
 
-		private void LoadParameters(IContext context, Dictionary<string, Modules.IModule> modules)
+		private void LoadParameters(IContext context, Dictionary<string, object> modules)
 		{
 			// Note: Automatically read only server parameters (Configuration, UrlSegments, Page),
 			// user parameters (cookie, query string, post, header, ...) are readed only on request
@@ -277,7 +277,7 @@ namespace xrc
 			}
 		}
 
-		private void ExecuteView(IContext context, PageAction action, ViewDefinition viewDefinition, Dictionary<string, Modules.IModule> modules)
+		private void ExecuteView(IContext context, PageAction action, ViewDefinition viewDefinition, Dictionary<string, object> modules)
 		{
 			IView view = _viewFactory.Get(viewDefinition.Component, context);
 			try

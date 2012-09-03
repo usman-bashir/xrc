@@ -97,7 +97,6 @@
     <Compile Include="Views\IViewCatalogService.cs" />
     <Compile Include="Views\IViewFactory.cs" />
     <Compile Include="Kernel\RenderSlotEvent.cs" />
-    <Compile Include="Modules\IModule.cs" />
     <Compile Include="Modules\SlotModule.cs" />
     <Compile Include="Modules\UrlModule.cs" />
     <Compile Include="Modules\FileModule.cs" />

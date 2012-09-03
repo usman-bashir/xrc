@@ -75,7 +75,7 @@ namespace xrc.Views
 
             LoadParameters(context, arguments);
 
-            List<IModule> modules = new List<IModule>();
+			var modules = new List<object>();
             try
             {
                 LoadModulesFromNamespace(context, arguments, modules);
@@ -94,13 +94,13 @@ namespace xrc.Views
                 arguments.AddParam(item.Name, XSL_ARGUMENTS_NAMESPACE, item.Value);
         }
 
-        private void UnloadModules(List<IModule> modules)
+        private void UnloadModules(List<object> modules)
         {
             foreach (var m in modules)
                 _moduleFactory.Release(m);
         }
 
-        private void LoadModulesFromNamespace(IContext context, XsltArgumentList arguments, List<IModule> modules)
+		private void LoadModulesFromNamespace(IContext context, XsltArgumentList arguments, List<object> modules)
         {
             foreach (var attr in Xslt.Root.Attributes())
             {

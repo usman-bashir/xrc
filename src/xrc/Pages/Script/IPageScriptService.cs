@@ -10,7 +10,7 @@ namespace xrc.Pages.Script
     {
         XValue Parse(string expression, Type returnType, Modules.ModuleDefinitionList modules, PageParameterList parameters);
 
-        object Eval(XValue value, Dictionary<string, Modules.IModule> modules, ContextParameterList parameters);
+        object Eval(XValue value, Dictionary<string, object> modules, ContextParameterList parameters);
 
         bool TryExtractScript(string text, out string script);
     }

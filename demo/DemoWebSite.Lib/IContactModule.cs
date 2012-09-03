@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DemoWebSite
 {
-	public interface IContactModule : xrc.Modules.IModule
+	public interface IContactModule
 	{
 		string SayHello();
 

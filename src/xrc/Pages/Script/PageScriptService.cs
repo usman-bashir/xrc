@@ -67,7 +67,7 @@ namespace xrc.Pages.Script
             return _scriptService.Parse(script, returnType, argParameters);
         }
 
-        public object Eval(XValue value, Dictionary<string, Modules.IModule> modules, ContextParameterList parameters)
+        public object Eval(XValue value, Dictionary<string, object> modules, ContextParameterList parameters)
         {
             if (value.Expression != null)
                 return EvalScript(value.Expression, modules, parameters);
@@ -75,7 +75,7 @@ namespace xrc.Pages.Script
                 return value.Value;
         }
 
-        private object EvalScript(IScriptExpression expression, Dictionary<string, Modules.IModule> modules, ContextParameterList parameters)
+        private object EvalScript(IScriptExpression expression, Dictionary<string, object> modules, ContextParameterList parameters)
         {
             var argParameters = new ScriptParameterList();
             foreach (var m in modules)

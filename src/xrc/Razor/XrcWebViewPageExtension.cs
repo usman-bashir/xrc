@@ -33,14 +33,12 @@ namespace xrc.Razor
         {
             foreach (var p in page.GetType().GetProperties())
             {
-                if (typeof(Modules.IModule).IsAssignableFrom(p.PropertyType))
+				ComponentDefinition component;
+                if (_moduleCatalog.TryGet(p.Name, out component) &&
+					p.PropertyType.IsAssignableFrom(component.Type))
                 {
-                    var component = _moduleCatalog.Get(p.Name);
-                    if (p.PropertyType.IsAssignableFrom(component.Type))
-                    {
-                        var interceptor = new ModuleInterceptor(component, _xrcContext, _moduleFactory);
-                        p.SetValue(page, _generator.CreateInterfaceProxyWithoutTarget(p.PropertyType, interceptor), null);
-                    }
+                    var interceptor = new ModuleInterceptor(component, _xrcContext, _moduleFactory);
+                    p.SetValue(page, _generator.CreateInterfaceProxyWithoutTarget(p.PropertyType, interceptor), null);
                 }
                 else
                 {
