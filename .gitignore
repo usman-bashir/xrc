@@ -9,4 +9,4 @@ debug
 release
 TestResults
 packages
-_ReSharper.xrc
+_ReSharper*
