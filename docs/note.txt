@@ -30,6 +30,7 @@ TODO
  Integrate nuget with projects output
  Nuget GlobalAsax transform: WebActivator or Scott Hanselman article (https://bitbucket.org/davidebbo/webactivator/wiki/Home) 
  ModuleCatalogService e ViewCatalogService potrebbero leggere i dati di windsor?
+ ComponentCatalogService implementare anche AssignableTo (BasedOn) property to filter type based on an interface
  Authentication
  Cache
  Sample explanation
