@@ -7,10 +7,12 @@ namespace xrc.Pages.Providers
 {
 	public interface IPageProviderService
 	{
+		bool IsDefined(Uri url);
+
 		IPage GetPage(Uri url);
 
-		System.IO.Stream GetPageResource(IPage page, string resourceLocation);
+		System.IO.Stream OpenPageResource(IPage page, string resourceLocation);
 
-		bool IsDefined(Uri url);
+		string GetPageVirtualPath(IPage page, string url);
 	}
 }

@@ -8,7 +8,7 @@ namespace xrc.Pages.Providers.FileSystem
 {
     public class XrcFile
     {
-		public XrcFile(string xrcFile, XrcFolder parent, string canonicalVirtualUrl, Dictionary<string, string> urlSegmentsParameters)
+		public XrcFile(string xrcFile, XrcFolder parent, string canonicalVirtualUrl, string virtualPath, Dictionary<string, string> urlSegmentsParameters)
         {
 			if (string.IsNullOrWhiteSpace(xrcFile))
 				throw new ArgumentNullException("xrcFile");
@@ -24,6 +24,7 @@ namespace xrc.Pages.Providers.FileSystem
 			Name = Path.GetFileNameWithoutExtension(FullPath).ToLowerInvariant();
             UrlSegmentsParameters = urlSegmentsParameters;
 			CanonicalVirtualUrl = canonicalVirtualUrl;
+			VirtualPath = virtualPath;
 		}
 
 		public string Name
@@ -55,6 +56,15 @@ namespace xrc.Pages.Providers.FileSystem
             get;
             private set;
         }
+
+		/// <summary>
+		/// Physical virtual Url of the current folder.
+		/// </summary>
+		public string VirtualPath
+		{
+			get;
+			private set;
+		}
 
         public Dictionary<string, string> UrlSegmentsParameters
         {

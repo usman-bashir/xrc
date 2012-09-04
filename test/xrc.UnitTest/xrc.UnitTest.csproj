@@ -104,6 +104,9 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="sampleWebSiteStructure\about.xrc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="Views\Xslt\books.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

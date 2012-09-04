@@ -8,16 +8,16 @@ namespace xrc.Pages.Providers.FileSystem
 {
 	public class FileSystemPage : IPage
 	{
-		PageActionList _actions;
-		PageParameterList _parameters;
-		ModuleDefinitionList _modules;
-		XrcFile _file;
-		Sites.ISiteConfiguration _siteConfiguration;
-		Uri _canonicalUrl;
+		readonly PageActionList _actions;
+		readonly PageParameterList _parameters;
+		readonly ModuleDefinitionList _modules;
+		readonly XrcFile _file;
+		readonly Sites.ISiteConfiguration _siteConfiguration;
+		readonly Uri _canonicalUrl;
 
 		public FileSystemPage(XrcFile file, 
 							PageParserResult parserResult,
-							Sites.ISiteConfiguration siteConfiguration, 
+							Sites.ISiteConfiguration siteConfiguration,
 							Uri canonicalUrl)
 		{
 			_actions = parserResult.Actions;
@@ -63,9 +63,9 @@ namespace xrc.Pages.Providers.FileSystem
 			get { return _file.UrlSegmentsParameters; }
 		}
 
-		public Uri GetContentAbsoluteUrl(string contentUrlPageRelative)
+		public Uri ToAbsoluteUrl(string relativeUrl)
 		{
-			return SiteConfiguration.GetAbsoluteUrl(contentUrlPageRelative, _canonicalUrl);
+			return SiteConfiguration.ToAbsoluteUrl(relativeUrl, _canonicalUrl);
 		}
 	}
 }

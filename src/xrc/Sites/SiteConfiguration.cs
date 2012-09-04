@@ -61,7 +61,7 @@ namespace xrc.Sites
             private set;
         }
 
-        public Uri GetRelativeUrl(Uri absoluteUrl)
+        public Uri ToRelativeUrl(Uri absoluteUrl)
         {
             if (!absoluteUrl.IsAbsoluteUri)
                 throw new UriFormatException(string.Format("Url '{0}' is not absolute.", absoluteUrl));
@@ -81,7 +81,7 @@ namespace xrc.Sites
             return resultUri;
         }
 
-		public Uri GetAbsoluteUrl(string virtualUrl, Uri contextUrl)
+		public Uri ToAbsoluteUrl(string virtualUrl, Uri contextUrl)
         {
             // Similar code of UrlHelper.Content Method
 

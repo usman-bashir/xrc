@@ -135,6 +135,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\demo.css" />
+    <Content Include="root\olympics\index.xrc">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="root\olympics\_countries.xrc">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="root\olympics\{country}\index.xrc">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="root\shared\_layoutRazor.xrc">
       <SubType>Designer</SubType>
     </Content>
@@ -184,6 +193,12 @@
     <Content Include="Views\Contact\SendMVC.cshtml" />
     <Content Include="root\Web.config" />
     <Content Include="root\shared\_layoutRazor.cshtml" />
+    <Content Include="root\olympics\_countries.cshtml" />
+    <Content Include="root\olympics\index.cshtml" />
+    <Content Include="root\olympics\{country}\index.cshtml" />
+    <Content Include="root\olympics\xrcFolder.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\xrc.Windsor\xrc.Windsor.csproj">
@@ -231,6 +246,7 @@
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

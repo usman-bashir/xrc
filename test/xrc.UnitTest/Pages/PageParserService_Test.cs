@@ -173,7 +173,7 @@ namespace xrc.Pages.Providers.FileSystem
 			string fullPath = TestHelper.GetFile(relativeFilePath);
 
 			var xrcFolder = new XrcFolder(System.IO.Path.GetDirectoryName(fullPath), null);
-			return new XrcFile(fullPath, xrcFolder, "~/test", new Dictionary<string, string>());
+			return new XrcFile(fullPath, xrcFolder, "~/test", "~/test", new Dictionary<string, string>());
 		}
 
         class TestObject

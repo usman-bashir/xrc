@@ -20,16 +20,16 @@ namespace xrc.Views
 {
     public class RazorView : IView
     {
-		private IKernel _kernel;
-        private Configuration.IRootPathConfig _workingPath;
-        private Modules.IModuleFactory _moduleFactory;
-        private Modules.IModuleCatalogService _moduleCatalog;
-		public RazorView(IKernel kernel, Configuration.IRootPathConfig workingPath, Modules.IModuleFactory moduleFactory, Modules.IModuleCatalogService moduleCatalog)
+		readonly Modules.IModuleFactory _moduleFactory;
+		readonly Modules.IModuleCatalogService _moduleCatalog;
+		readonly Pages.Providers.IPageProviderService _pageProviderService;
+
+		public RazorView(Modules.IModuleFactory moduleFactory, Modules.IModuleCatalogService moduleCatalog,
+					Pages.Providers.IPageProviderService pageProviderService)
 		{
-			_kernel = kernel;
-            _workingPath = workingPath;
             _moduleCatalog = moduleCatalog;
             _moduleFactory = moduleFactory;
+			_pageProviderService = pageProviderService;
 		}
 
 		public string ViewFile
@@ -96,10 +96,7 @@ namespace xrc.Views
         /// </summary>
         string GetViewFullName(IContext context)
         {
-            var viewPath = context.Page.GetContentAbsoluteUrl(ViewFile);
-            var appPath = context.Page.GetContentAbsoluteUrl("~");
-            var relative = viewPath.MakeRelativeUriEx(appPath);
-            return UriExtensions.Combine(_workingPath.VirtualPath, relative.ToString());
+			return _pageProviderService.GetPageVirtualPath(context.Page, ViewFile);
         }
 	}
 }

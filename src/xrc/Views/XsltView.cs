@@ -90,8 +90,11 @@ namespace xrc.Views
 
         private static void LoadParameters(IContext context, XsltArgumentList arguments)
         {
-            foreach (var item in context.Parameters)
-                arguments.AddParam(item.Name, XSL_ARGUMENTS_NAMESPACE, item.Value);
+			foreach (var item in context.Parameters)
+			{
+				if (item.Value != null)
+					arguments.AddParam(item.Name, XSL_ARGUMENTS_NAMESPACE, item.Value);
+			}
         }
 
         private void UnloadModules(List<object> modules)

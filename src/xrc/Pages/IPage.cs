@@ -36,6 +36,9 @@ namespace xrc.Pages
 
 		ISiteConfiguration SiteConfiguration { get; }
 
-		Uri GetContentAbsoluteUrl(string contentUrlPageRelative);
+		/// <summary>
+		/// Returns an absolute url for the specified relative url.
+		/// </summary>
+		Uri ToAbsoluteUrl(string relativeUrl);
 	}
 }

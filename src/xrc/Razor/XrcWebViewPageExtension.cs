@@ -31,6 +31,7 @@ namespace xrc.Razor
 
         private void LoadModulesAndParameters(WebViewPage page)
         {
+			// TODO Valutare se si riesce a non ciclare su tutte le property, perchè ptrebbe anche creare dei problemi se si sovrascrive una property errata
             foreach (var p in page.GetType().GetProperties())
             {
 				ComponentDefinition component;

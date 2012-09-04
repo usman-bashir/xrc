@@ -11,6 +11,7 @@ namespace xrc.Modules
     {
         private IContext _context;
         private System.Web.Mvc.UrlHelper _urlHelper;
+
         public UrlModule(IContext context)
         {
             _context = context;
@@ -18,20 +19,15 @@ namespace xrc.Modules
             _urlHelper = new System.Web.Mvc.UrlHelper(new XrcRequestContext(context));
         }
 
-        public string Content(string contentPath)
-        {
-			return _context.Page.GetContentAbsoluteUrl(contentPath).ToString();
-        }
+		public string Content(string contentPath)
+		{
+			return _context.Page.ToAbsoluteUrl(contentPath).ToString();
+		}
 
-        public string Content(string baseUri, string uri)
-        {
-            return UriExtensions.Combine(Content(baseUri), uri);
-        }
-
-        public string Content(string baseUri, string uri1, string uri2)
-        {
-            return UriExtensions.Combine(Content(baseUri, uri1), uri2);
-        }
+		public string Content(string contentPathBase, string contentPath)
+		{
+			return UriExtensions.Combine(Content(contentPathBase), contentPath);
+		}
 
         public string MvcAction(string actionName, string controllerName)
         {

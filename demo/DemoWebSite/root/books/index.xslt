@@ -34,7 +34,7 @@
 				<xsl:value-of select="price"/>
 			</TD>
 			<TD>
-				<a href="{Url:Content('~/books/genre', @genre)}">
+				<a href="{Url:Content('genre', @genre)}">
 					<xsl:value-of select="@genre"/>
 				</a>
 			</TD>

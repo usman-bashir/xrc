@@ -1,0 +1,33 @@
+﻿@inherits xrc.Razor.XrcWebViewPage
+
+@functions
+{
+    public xrc.Modules.ISlotModule SlotModule
+    {
+        get;
+        set;
+    }
+}
+
+<div class="row-fluid">
+    <div class="span12">
+	<p>
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt, purus pretium ultricies rutrum, diam erat adipiscing magna, quis dapibus nisi metus vitae diam. Proin egestas pretium arcu, a dignissim magna eleifend in. Vestibulum sit amet sodales libero. Pellentesque lobortis turpis eu lorem ultricies tristique. Aenean quis laoreet mauris. Phasellus cursus convallis dolor, non aliquet mi sollicitudin ut. Nulla gravida nunc ut nisl varius cursus. Donec in erat eget nulla rutrum accumsan. Phasellus in lacus et tortor vehicula egestas vitae in ante. Sed felis purus, condimentum et vehicula nec, hendrerit sit amet ipsum.
+	</p>
+	<p>
+		Praesent vel arcu risus. Donec hendrerit rutrum nulla sit amet sodales. Cras molestie vulputate nisi id fermentum. Sed rutrum vestibulum dui, ac tempus est feugiat id. Aenean tincidunt, odio sed dapibus suscipit, elit odio ullamcorper sapien, a iaculis ligula odio eu ipsum. Aliquam vitae urna dolor. Mauris libero diam, semper ut tristique vel, molestie at nisl. Sed risus magna, aliquam quis rhoncus at, consequat congue arcu. Nam accumsan aliquam sapien, eget ultricies enim congue et. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque quis dui magna. Nunc eu bibendum magna. Nunc vestibulum quam vitae diam blandit sit amet congue erat tincidunt. Suspendisse laoreet vestibulum sollicitudin. Quisque nec orci lorem. Integer justo lorem, eleifend ut euismod sit amet, aliquet vel lacus.
+	</p>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="span4">
+        @Html.Raw(SlotModule.Include("_countries"))
+    </div>
+    <div class="span4">
+        @Html.Raw(SlotModule.Include("_countries"))
+    </div>
+    <div class="span4">
+        @Html.Raw(SlotModule.Include("_countries"))
+    </div>
+</div>

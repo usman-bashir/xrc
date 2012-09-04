@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:page xmlns:xrc="urn:xrc"
+		  xmlns:Olympics="xrc:OlympicsModule">
+
+	<xrc:parameters>
+		<xrc:add key="country" />
+	</xrc:parameters>
+
+	<xrc:action method="GET" parent="~/shared/_layoutRazor">
+		<xrc:RazorView>
+			<ViewFile>index.cshtml</ViewFile>
+			<Model>@Olympics.GetAthletes(country)</Model>
+		</xrc:RazorView>
+	</xrc:action>
+
+</xrc:page>

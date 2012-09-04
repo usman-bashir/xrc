@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:page xmlns:xrc="urn:xrc"
+		  xmlns:Olympics="xrc:OlympicsModule">
+
+	<xrc:action>
+		<xrc:RazorView>
+			<ViewFile>_countries.cshtml</ViewFile>
+			<Model>@Olympics.GetCountries()</Model>
+		</xrc:RazorView>
+	</xrc:action>
+
+</xrc:page>

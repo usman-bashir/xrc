@@ -24,7 +24,7 @@ namespace xrc.Modules
         {
 			XDocument doc;
 
-			using (Stream stream = _pageProvider.GetPageResource(_context.Page, file))
+			using (Stream stream = _pageProvider.OpenPageResource(_context.Page, file))
 			{
 				doc = XDocument.Load(stream);
 			}

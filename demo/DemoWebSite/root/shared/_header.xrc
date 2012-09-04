@@ -16,6 +16,7 @@
 				<header>
 					<menu text="home" url="~/" />
 					<menu text="books" url="~/books" />
+					<menu text="olympics" url="~/olympics/" />
 					<menu text="twitter" url="~/twitter/" />
 					<menu text="news" url="~/news/" />
 					<menu text="widgets" url="~/widgets" />

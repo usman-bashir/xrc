@@ -9,12 +9,19 @@ namespace xrc.Pages.Providers.FileSystem
 {
     public class PageLocatorService : IPageLocatorService
     {
-        public PageLocatorService(IRootPathConfig workingPath)
+		public PageLocatorService(IRootPathConfig rootPathConfig)
         {
-            if (!System.IO.Directory.Exists(workingPath.PhysicalPath))
-                throw new ApplicationException(string.Format("Path '{0}' doesn't exist.", workingPath));
+			if (!System.IO.Directory.Exists(rootPathConfig.PhysicalPath))
+				throw new ApplicationException(string.Format("Path '{0}' doesn't exist.", rootPathConfig.PhysicalPath));
 
-            Root = new XrcFolder(workingPath.PhysicalPath, null);
+			RootPathConfig = rootPathConfig;
+			Root = new XrcFolder(rootPathConfig.PhysicalPath, null);
+		}
+
+		public IRootPathConfig RootPathConfig
+		{
+			get;
+			private set;
 		}
 
 		public XrcFolder Root
@@ -40,6 +47,7 @@ namespace xrc.Pages.Providers.FileSystem
             XrcFolder currentFolder = Root;
             string requestFile = null;
             StringBuilder canonicalUrl = new StringBuilder("~/");
+			StringBuilder virtualPath = new StringBuilder(VirtualPathUtility.AppendTrailingSlash(RootPathConfig.VirtualPath));
 
             if (segments.Length > 0)
             {
@@ -52,6 +60,7 @@ namespace xrc.Pages.Providers.FileSystem
                         urlSegmentParameters.Add(currentFolder.ParameterName, segments[i]);
 
                     canonicalUrl.AppendFormat("{0}/", segments[i]);
+					virtualPath.AppendFormat("{0}/", currentFolder.Name);
                 }
 
                 string lastSegment = segments.LastOrDefault();
@@ -65,12 +74,13 @@ namespace xrc.Pages.Providers.FileSystem
                         urlSegmentParameters.Add(currentFolder.ParameterName, lastSegment);
 
                     canonicalUrl.AppendFormat("{0}/", lastSegment);
-                }
+					virtualPath.AppendFormat("{0}/", currentFolder.Name);
+				}
                 else
                 {
-                    if (!string.Equals(requestFile, currentFolder.GetIndexFile(), StringComparison.InvariantCultureIgnoreCase))
-                        canonicalUrl.Append(lastSegment);
-                }
+					if (!string.Equals(requestFile, currentFolder.GetIndexFile(), StringComparison.InvariantCultureIgnoreCase))
+						canonicalUrl.Append(lastSegment);
+				}
             }
 
 			//the last segment found is not a file, so try to read the default (index) file
@@ -81,7 +91,7 @@ namespace xrc.Pages.Providers.FileSystem
                     return null; //Not found
             }
 
-            return new XrcFile(requestFile, currentFolder, canonicalUrl.ToString(), urlSegmentParameters);
+			return new XrcFile(requestFile, currentFolder, canonicalUrl.ToString(), virtualPath.ToString(), urlSegmentParameters);
         }
 
         private string[] GetUriSegments(Uri relativeUri)

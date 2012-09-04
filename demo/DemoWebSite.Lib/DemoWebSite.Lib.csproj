@@ -48,7 +48,9 @@
   <ItemGroup>
     <Compile Include="Contact.cs" />
     <Compile Include="ContactModule.cs" />
+    <Compile Include="OlympicsModule.cs" />
     <Compile Include="IContactModule.cs" />
+    <Compile Include="IOlympicsModule.cs" />
     <Compile Include="ISourceCodeModule.cs" />
     <Compile Include="SourceCodeModule.cs" />
     <Compile Include="GoogleNewsModule.cs" />

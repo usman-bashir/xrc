@@ -160,7 +160,7 @@ namespace xrc
 			// The event will be called from the parent action by using Cms.Slot().
 			// Parameters will be also copied from slot to parent.
 
-			Uri parentUrl = childContext.Page.GetContentAbsoluteUrl(childAction.Parent.ToLower());
+			Uri parentUrl = childContext.Page.ToAbsoluteUrl(childAction.Parent.ToLower());
 			Context parentContext = new Context(new XrcRequest(parentUrl, parentRequest: childContext.Request), currentResponse);
 			parentContext.CallerContext = childContext;
 			foreach (var item in childContext.Parameters)
