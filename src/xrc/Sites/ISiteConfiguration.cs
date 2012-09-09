@@ -18,6 +18,7 @@ namespace xrc.Sites
         /// Converts a virtual (relative) path to an application absolute path using the specified site configuration as the root url.
         /// If the specified content path does not start with the tilde (~) character, this method returns an absolute url starting from contextUrl.
         /// </summary>
+		/// <param name="virtualUrl">Virtual path to convert.</param>
 		/// <param name="contextUrl">Is the current context url. Used when the specified uri is a relative url but without tilde or to check if the secure url should be used.</param>
 		Uri ToAbsoluteUrl(string virtualUrl, Uri contextUrl);
     }

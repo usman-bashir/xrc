@@ -1,6 +1,4 @@
-﻿// This is an example of a Global.asax.cs file that uses xrc and Windsor.
-
-/* 
+﻿/* 
 
 using System;
 using System.Collections.Generic;
@@ -10,6 +8,8 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Castle.Windsor;
 using Castle.MicroKernel.Registration;
+
+// This is an example of a Global.asax.cs file that uses xrc and Windsor.
 
 namespace $rootnamespace$
 {
@@ -34,9 +34,9 @@ namespace $rootnamespace$
 			var xrcSection = xrc.Configuration.XrcSection.GetSection();
 			_container.Install(new xrc.IoC.Windsor.XrcDefaultInstaller(xrcSection));
 
-            // Register demo web site modules
+            // Register custom modules
             _container.Register(Classes.FromAssemblyContaining<MvcApplication>()
-                                .BasedOn<xrc.Modules.IModule>()
+								.Where(p => p.Name.EndsWith("Module"))
                                 .WithServiceSelf()
                                 .WithServiceDefaultInterfaces()
 								.LifestyleTransient());
@@ -57,6 +57,8 @@ namespace $rootnamespace$
 
         private void RegisterRoutes(RouteCollection routes)
 		{
+			routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
+
 			// Standard mvc route
 			routes.MapRoute(
 				 "Default", // Route name

@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2C565518-5478-410A-9334-B8301920676D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>dummy</RootNamespace>
+    <AssemblyName>dummy</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="xrc.Core\xrc.Core.nuspec" />
+    <None Include="xrc.Site\content\net40\Global.asax.example.cs.pp" />
+    <None Include="xrc.Site\content\net40\Web.config.transform" />
+    <None Include="xrc.Site\content\net40\Windsor\ControllerInstaller.cs.pp" />
+    <None Include="xrc.Site\content\net40\Windsor\WindsorControllerFactory.cs.pp" />
+    <None Include="xrc.Site\content\net40\xrc\Web.config" />
+    <None Include="xrc.Site\xrc.Site.nuspec" />
+    <None Include="xrc.Windsor\xrc.Windsor.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="NuGet.exe" />
+    <Content Include="xrc.Site\content\net40\xrc\index.xrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PackageVersion.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\xrc.Windsor\xrc.Windsor.csproj">
+      <Project>{2496197E-8B17-4AA0-98B2-E57B2C924EDF}</Project>
+      <Name>xrc.Windsor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\xrc\xrc.csproj">
+      <Project>{71988DA4-8569-490F-9D08-5B47EF2202F7}</Project>
+      <Name>xrc</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <NugetExe>"$(ProjectDir)nuget.exe"</NugetExe>
+  </PropertyGroup>
+  <Target Name="AfterBuild">
+    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+      <Output TaskParameter="Assemblies" ItemName="NuGetAssemblyInfo" />
+    </GetAssemblyIdentity>
+    <Exec Command="$(NugetExe) pack xrc.Core\xrc.Core.nuspec -OutputDirectory $(OutputPath) -BasePath $(OutputPath) -Version %(NuGetAssemblyInfo.Version)" />
+    <Exec Command="$(NugetExe) pack xrc.Windsor\xrc.Windsor.nuspec -OutputDirectory $(OutputPath) -BasePath $(OutputPath) -Version %(NuGetAssemblyInfo.Version)" />
+    <Exec Command="$(NugetExe) pack xrc.Site\xrc.Site.nuspec -OutputDirectory $(OutputPath) -BasePath $(OutputPath) -Version %(NuGetAssemblyInfo.Version)" />
+  </Target>
+</Project>
