@@ -36,17 +36,29 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="xrc.Core\xrc.Core.nuspec" />
-    <None Include="xrc.Site\content\net40\Global.asax.example.cs.pp" />
-    <None Include="xrc.Site\content\net40\Web.config.transform" />
-    <None Include="xrc.Site\content\net40\Windsor\ControllerInstaller.cs.pp" />
-    <None Include="xrc.Site\content\net40\Windsor\WindsorControllerFactory.cs.pp" />
-    <None Include="xrc.Site\content\net40\xrc\Web.config" />
+    <None Include="xrc.Site\content\net40\Global.asax.example.cs.pp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="xrc.Site\content\net40\Web.config.transform">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="xrc.Site\content\net40\Windsor\ControllerInstaller.cs.pp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="xrc.Site\content\net40\Windsor\WindsorControllerFactory.cs.pp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="xrc.Site\content\net40\xrc\Web.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="xrc.Site\xrc.Site.nuspec" />
     <None Include="xrc.Windsor\xrc.Windsor.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="NuGet.exe" />
-    <Content Include="xrc.Site\content\net40\xrc\index.xrc" />
+    <None Include="xrc.Site\content\net40\xrc\index.xrc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PackageVersion.cs" />
@@ -74,6 +86,9 @@
   -->
   <PropertyGroup>
     <NugetExe>"$(ProjectDir)nuget.exe"</NugetExe>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>REM See .csproj content for post build actions</PostBuildEvent>
   </PropertyGroup>
   <Target Name="AfterBuild">
     <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
