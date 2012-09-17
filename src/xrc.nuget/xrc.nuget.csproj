@@ -55,7 +55,6 @@
     <None Include="xrc.Windsor\xrc.Windsor.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="NuGet.exe" />
     <None Include="xrc.Site\content\net40\xrc\index.xrc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -85,7 +84,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <NugetExe>"$(ProjectDir)nuget.exe"</NugetExe>
+    <NugetExe>"$(SolutionDir).nuget\nuget.exe"</NugetExe>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>REM See .csproj content for post build actions</PostBuildEvent>
