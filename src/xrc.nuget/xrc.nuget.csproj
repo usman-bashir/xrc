@@ -35,7 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="xrc.Core\xrc.Core.nuspec" />
+    <None Include="xrc.Core.nuspec" />
     <None Include="xrc.Site\content\net40\Global.asax.example.cs.pp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -51,8 +51,8 @@
     <None Include="xrc.Site\content\net40\xrc\Web.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="xrc.Site\xrc.Site.nuspec" />
-    <None Include="xrc.Windsor\xrc.Windsor.nuspec" />
+    <None Include="xrc.Site.nuspec" />
+    <None Include="xrc.Windsor.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <None Include="xrc.Site\content\net40\xrc\index.xrc">
@@ -84,17 +84,21 @@
   </Target>
   -->
   <PropertyGroup>
-    <NugetExe>"$(SolutionDir).nuget\nuget.exe"</NugetExe>
-  </PropertyGroup>
-  <PropertyGroup>
     <PostBuildEvent>REM See .csproj content for post build actions</PostBuildEvent>
   </PropertyGroup>
+	
+	<!-- Call nuget pack for each nuspec file included in the project. -->
   <Target Name="AfterBuild">
-    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+		<GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
       <Output TaskParameter="Assemblies" ItemName="NuGetAssemblyInfo" />
     </GetAssemblyIdentity>
-    <Exec Command="$(NugetExe) pack xrc.Core\xrc.Core.nuspec -OutputDirectory $(OutputPath) -BasePath $(OutputPath) -Version %(NuGetAssemblyInfo.Version)" />
-    <Exec Command="$(NugetExe) pack xrc.Windsor\xrc.Windsor.nuspec -OutputDirectory $(OutputPath) -BasePath $(OutputPath) -Version %(NuGetAssemblyInfo.Version)" />
-    <Exec Command="$(NugetExe) pack xrc.Site\xrc.Site.nuspec -OutputDirectory $(OutputPath) -BasePath $(OutputPath) -Version %(NuGetAssemblyInfo.Version)" />
+		<ItemGroup>
+			<NuspecFiles Include="$(ProjectDir)*.nuspec"/>
+		</ItemGroup>
+		<PropertyGroup>
+			<NugetExe>"$(SolutionDir).nuget\nuget.exe"</NugetExe>
+			<NugetVersion>%(NuGetAssemblyInfo.Version)</NugetVersion>
+		</PropertyGroup>
+		<Exec Command="$(NugetExe) pack %(NuspecFiles.FullPath) -OutputDirectory $(OutputPath) -BasePath $(OutputPath) -Version $(NugetVersion)" />
   </Target>
 </Project>
