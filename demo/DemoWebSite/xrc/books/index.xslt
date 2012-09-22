@@ -1,7 +1,8 @@
 ﻿<xsl:stylesheet version="1.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:Url="xrc:UrlModule"
-                exclude-result-prefixes="Url">
+                xmlns:Slot="xrc:SlotModule"
+                exclude-result-prefixes="Url Slot">
 	<xsl:output omit-xml-declaration="yes"/>
 
 	<xsl:template match="bookstore">
@@ -20,6 +21,10 @@
 				<xsl:apply-templates select="book"/>
 			</tbody>
 		</table>
+
+		<div>
+			<xsl:value-of select="Slot:Include('_loremIpsum')" disable-output-escaping="yes" />
+		</div>
 	</xsl:template>
 
 	<xsl:template match="book">

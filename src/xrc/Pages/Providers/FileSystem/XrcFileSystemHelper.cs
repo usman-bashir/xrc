@@ -14,7 +14,7 @@ namespace xrc.Pages.Providers.FileSystem
 		public const string INDEX_FILE = "index";
 		public const string FOLDER_CONFIG_FILE = "xrc.config";
 		public const string FILE_EXTENSION = ".xrc";
-		public const string FILE_PATTERN = "*" + FILE_EXTENSION;
+		public const string FILE_PATTERN = "*.xrc*";
 		private static Regex _xrcFileRegEx = new Regex(@"^(?<name>.+)\.xrc(\.\w*)?$", RegexOptions.Compiled);
 		private static Regex _xrcDirectoryParameterRegEx = new Regex(@"^\{(?<name>.+)\}$", RegexOptions.Compiled);
 

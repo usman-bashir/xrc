@@ -71,6 +71,7 @@
     <Compile Include="Mocks\RootPathConfigMock.cs" />
     <Compile Include="Modules\ModuleCatalogService_Test.cs" />
     <Compile Include="Modules\TestModule.cs" />
+    <Compile Include="Pages\Providers\FileSystem\XHtmlParserService_Test.cs" />
     <Compile Include="Pages\Providers\FileSystem\XrcParserService_Test.cs" />
     <Compile Include="Pages\Providers\FileSystem\PageParserResult_Test.cs" />
     <Compile Include="Pages\Providers\FileSystem\XrcFileSystemHelper_Test.cs" />
@@ -100,6 +101,7 @@
     <None Include="sampleWebSite1\athletes\xrc.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="sampleWebSite2\example8.xrc.xhtml" />
     <None Include="sampleWebSite2\xrc.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -23,14 +23,19 @@ namespace xrc.Pages.Providers.FileSystem
 		public void It_Should_be_possible_to_parse_example7_folder_parameters()
 		{
 			var file = GetFile(@"sampleWebSite2\example7.xrc");
+			var fileConfig = TestHelper.GetFile(@"sampleWebSite2\xrc.config");
 
-			// TODO Da rivedere, fatto così non è un vero unit test
+			var schemaParser = new Mock<IXrcSchemaParserService>();
+			var configParserResult = new PageParserResult();
+			configParserResult.Parameters.Add(new PageParameter("folderParameter1", new XValue("folder")));
+			configParserResult.Parameters.Add(new PageParameter("folderParameter2", new XValue("folder")));
+			schemaParser.Setup(p => p.Parse(fileConfig)).Returns(configParserResult);
 
-			var schemaParser = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(),
-										new Mocks.ModuleCatalogServiceMock(null),
-										new Mocks.ViewCatalogServiceMock(null));
+			var pageParserResult = new PageParserResult();
+			pageParserResult.Parameters.Add(new PageParameter("folderParameter2", new XValue("page")));
+			schemaParser.Setup(p => p.Parse(file.File.FullPath)).Returns(pageParserResult);
 
-			var target = new XrcParserService(schemaParser, schemaParser);
+			var target = new XrcParserService(schemaParser.Object, schemaParser.Object);
 
 			PageParserResult page = target.Parse(file);
 			Assert.AreEqual("folder", page.Parameters["folderParameter1"].Value.ToString());

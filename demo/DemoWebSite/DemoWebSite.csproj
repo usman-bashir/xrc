@@ -88,83 +88,87 @@
     <Content Include="Content\images\github.ico" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
-    <Content Include="root\books\books.xml">
+    <Content Include="xrc\books\books.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="root\books\xrc.config">
+    <None Include="xrc\books\xrc.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="root\books\index.xslt">
+    <None Include="xrc\books\_loremIpsum.xrc.xhtml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="xrc\books\index.xslt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Properties\PublishProfiles\localhost.pubxml" />
     <None Include="Properties\PublishProfiles\xrcdemo - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\xrcdemo - Web Deploy.pubxml" />
-    <Content Include="root\about.xrc">
+    <Content Include="xrc\about.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\contact\index.cshtml" />
-    <Content Include="root\contact\_contactList.cshtml" />
-    <Content Include="root\contact\_contactForm1.cshtml" />
-    <Content Include="root\contact\_test.cshtml" />
-    <Content Include="root\contact\_contactForm2.cshtml" />
-    <Content Include="root\contact\_sendSuccess.cshtml" />
-    <Content Include="root\contact\_sendSuccess.xrc">
+    <Content Include="xrc\contact\index.cshtml" />
+    <Content Include="xrc\contact\_contactList.cshtml" />
+    <Content Include="xrc\contact\_contactForm1.cshtml" />
+    <Content Include="xrc\contact\_test.cshtml" />
+    <Content Include="xrc\contact\_contactForm2.cshtml" />
+    <Content Include="xrc\contact\_sendSuccess.cshtml" />
+    <Content Include="xrc\contact\_sendSuccess.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\contact\_contactForm2.xrc">
+    <Content Include="xrc\contact\_contactForm2.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\contact\_test.xrc">
+    <Content Include="xrc\contact\_test.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\contact\_contactList.xrc">
+    <Content Include="xrc\contact\_contactList.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\contact\_contactForm1.xrc">
+    <Content Include="xrc\contact\_contactForm1.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\contact\index.xrc">
+    <Content Include="xrc\contact\index.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\news\search.xrc">
+    <Content Include="xrc\news\search.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\news\index.xhtml">
+    <Content Include="xrc\news\index.xhtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\demo.css" />
-    <Content Include="root\olympics\index.xrc">
+    <Content Include="xrc\olympics\index.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\olympics\_countries.xrc">
+    <Content Include="xrc\olympics\_countries.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\olympics\{country}\index.xrc">
+    <Content Include="xrc\olympics\{country}\index.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\shared\_layoutRazor.xrc">
+    <Content Include="xrc\shared\_layoutRazor.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\shared\_header.xslt">
+    <Content Include="xrc\shared\_header.xslt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="root\shared\_layout3cols.xslt">
+    <Content Include="xrc\shared\_layout3cols.xslt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="root\twitter\index.xslt">
+    <Content Include="xrc\twitter\index.xslt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="root\shared\_layout.xslt">
+    <Content Include="xrc\shared\_layout.xslt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="packages.config" />
-    <Content Include="root\index.xhtml">
+    <Content Include="xrc\index.xhtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\books\genre\{genre}\books_genre.xslt">
+    <Content Include="xrc\books\genre\{genre}\books_genre.xslt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Global.asax" />
@@ -182,21 +186,21 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="root\shared\_layout3cols.xrc">
+    <Content Include="xrc\shared\_layout3cols.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\widgets\index.xrc">
+    <Content Include="xrc\widgets\index.xrc">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Test\PartialSlot.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Contact\SendMVC.cshtml" />
-    <Content Include="root\Web.config" />
-    <Content Include="root\shared\_layoutRazor.cshtml" />
-    <Content Include="root\olympics\_countries.cshtml" />
-    <Content Include="root\olympics\index.cshtml" />
-    <Content Include="root\olympics\{country}\index.cshtml" />
-    <Content Include="root\olympics\xrc.config">
+    <Content Include="xrc\Web.config" />
+    <Content Include="xrc\shared\_layoutRazor.cshtml" />
+    <Content Include="xrc\olympics\_countries.cshtml" />
+    <Content Include="xrc\olympics\index.cshtml" />
+    <Content Include="xrc\olympics\{country}\index.cshtml" />
+    <Content Include="xrc\olympics\xrc.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
@@ -215,34 +219,34 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="root\books\index.xrc">
+    <Content Include="xrc\books\index.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\news\index.xrc">
+    <Content Include="xrc\news\index.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\widgets\_latestPhotos.xrc">
+    <Content Include="xrc\widgets\_latestPhotos.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\widgets\_ranking.xrc">
+    <Content Include="xrc\widgets\_ranking.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\twitter\index.xrc">
+    <Content Include="xrc\twitter\index.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\shared\_layout.xrc">
+    <Content Include="xrc\shared\_layout.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\shared\_footer.xrc">
+    <Content Include="xrc\shared\_footer.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\shared\_header.xrc">
+    <Content Include="xrc\shared\_header.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\books\genre\{genre}\index.xrc">
+    <Content Include="xrc\books\genre\{genre}\index.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="root\index.xrc">
+    <Content Include="xrc\index.xrc">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>

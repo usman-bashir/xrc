@@ -40,6 +40,11 @@ namespace xrc.Pages.Providers.FileSystem
 			private set;
 		}
 
+		public string FileName
+		{
+			get { return Path.GetFileName(FullPath); }
+		}
+
 		public XrcFolder Parent
 		{
 			get;

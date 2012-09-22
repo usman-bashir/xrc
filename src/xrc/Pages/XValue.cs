@@ -10,6 +10,11 @@ namespace xrc.Pages
 {
     public class XValue
     {
+		public XValue(object value)
+			:this(value.GetType(), value)
+		{
+		}
+
         public XValue(Type valueType, object value)
         {
             if (valueType == null)
