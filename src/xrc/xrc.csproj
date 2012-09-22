@@ -86,6 +86,11 @@
     <Compile Include="Modules\IModuleFactory.cs" />
     <Compile Include="Kernel\IXrcService.cs" />
     <Compile Include="Kernel\XrcService.cs" />
+    <Compile Include="Pages\Providers\FileSystem\Parsers\IXrcSchemaParserService.cs" />
+    <Compile Include="Pages\Providers\FileSystem\Parsers\XrcSchemaParserService.cs" />
+    <Compile Include="Pages\Providers\FileSystem\Parsers\ParserServiceBase.cs" />
+    <Compile Include="Pages\Providers\FileSystem\Parsers\IParserService.cs" />
+    <Compile Include="Pages\Providers\FileSystem\Parsers\XrcParserService.cs" />
     <Compile Include="Pages\Providers\FileSystem\XrcFile.cs" />
     <Compile Include="Pages\Providers\FileSystem\XrcFileSystemHelper.cs" />
     <Compile Include="Pages\Providers\FileSystem\FileSystemPage.cs" />

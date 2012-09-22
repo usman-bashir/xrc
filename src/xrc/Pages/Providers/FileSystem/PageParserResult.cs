@@ -27,5 +27,27 @@ namespace xrc.Pages.Providers.FileSystem
 		{
 			get { return _modules; }
 		}
+
+		public PageParserResult Union(PageParserResult other)
+		{
+			var result = new PageParserResult();
+
+			foreach (var a in Actions)
+				result.Actions[a.Method] = a;
+			foreach (var a in other.Actions)
+				result.Actions[a.Method] = a;
+
+			foreach (var a in Parameters)
+				result.Parameters[a.Name] = a;
+			foreach (var a in other.Parameters)
+				result.Parameters[a.Name] = a;
+
+			foreach (var a in Modules)
+				result.Modules[a.Name] = a;
+			foreach (var a in other.Modules)
+				result.Modules[a.Name] = a;
+
+			return result;
+		}
 	}
 }

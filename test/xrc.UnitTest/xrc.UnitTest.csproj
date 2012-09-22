@@ -71,6 +71,8 @@
     <Compile Include="Mocks\RootPathConfigMock.cs" />
     <Compile Include="Modules\ModuleCatalogService_Test.cs" />
     <Compile Include="Modules\TestModule.cs" />
+    <Compile Include="Pages\Providers\FileSystem\XrcParserService_Test.cs" />
+    <Compile Include="Pages\Providers\FileSystem\PageParserResult_Test.cs" />
     <Compile Include="Pages\Providers\FileSystem\XrcFileSystemHelper_Test.cs" />
     <Compile Include="Pages\Providers\FileSystem\FileSystemPageProviderService_Test.cs" />
     <Compile Include="Views\ViewCatalogService_Test.cs" />
@@ -88,7 +90,7 @@
     <Compile Include="Mocks\ScriptServiceMock.cs" />
     <Compile Include="Pages\Script\PageScriptService_Test.cs" />
     <Compile Include="TestHelper.cs" />
-    <Compile Include="Pages\Providers\FileSystem\PageParserService_Test.cs" />
+    <Compile Include="Pages\Providers\FileSystem\XrcSchemaParserService_Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="sampleWebSite2\example6.xrc">

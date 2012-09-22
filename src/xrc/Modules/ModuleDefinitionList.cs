@@ -35,6 +35,13 @@ namespace xrc.Modules
 
                 return _list[name];
             }
+			set
+			{
+				if (!string.Equals(name, value.Name, StringComparison.OrdinalIgnoreCase))
+					throw new ArgumentException("Name doesn't match ModuleDefinition.Name value.");
+
+				_list[name] = value;
+			}
         }
 
         public IEnumerator<ModuleDefinition> GetEnumerator()

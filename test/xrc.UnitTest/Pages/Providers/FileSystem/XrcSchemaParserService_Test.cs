@@ -8,11 +8,12 @@ using xrc.Script;
 using Moq;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using xrc.Pages.Providers.FileSystem.Parsers;
 
 namespace xrc.Pages.Providers.FileSystem
 {
 	[TestClass]
-    public class PageParserService_Test
+    public class XrcSchemaParserService_Test
     {
         [TestInitialize]
         public void Init()
@@ -22,9 +23,9 @@ namespace xrc.Pages.Providers.FileSystem
         [TestMethod]
         public void It_Should_be_possible_to_parse_example5_page_parameter()
         {
-			XrcFileResource file = GetFile(@"sampleWebSite2\example5.xrc");
+			var file = TestHelper.GetFile(@"sampleWebSite2\example5.xrc");
 
-			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(), 
+			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(), 
                                         new Mocks.ModuleCatalogServiceMock(null), 
                                         new Mocks.ViewCatalogServiceMock(TestView.Definition));
 
@@ -39,14 +40,14 @@ namespace xrc.Pages.Providers.FileSystem
         [TestMethod]
         public void It_Should_be_possible_to_parse_example2_page_multiple_parameters()
         {
-			XrcFileResource file = GetFile(@"sampleWebSite2\example2.xrc");
+			var file = TestHelper.GetFile(@"sampleWebSite2\example2.xrc");
 
-			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
+			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
                                         new Mocks.ViewCatalogServiceMock(TestView.Definition));
 
 			PageParserResult page = target.Parse(file);
-            Assert.AreEqual(7, page.Parameters.Count);
+            Assert.AreEqual(5, page.Parameters.Count);
             Assert.AreEqual(false, page.Parameters["p1"].AllowRequestOverride);
             Assert.AreEqual("My page title", page.Parameters["p1"].Value.Value);
             Assert.AreEqual(true, page.Parameters["p2"].AllowRequestOverride);
@@ -59,9 +60,9 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
         public void It_Should_be_possible_to_parse_example1_page_using_script()
 		{
-			XrcFileResource file = GetFile(@"sampleWebSite2\example1.xrc");
+			var file = TestHelper.GetFile(@"sampleWebSite2\example1.xrc");
 
-			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
+			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(),
 										new Mocks.ModuleCatalogServiceMock(null),
 										new Mocks.ViewCatalogServiceMock(TestView.Definition));
 
@@ -76,9 +77,9 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_example6_action_without_method_default_to_GET()
 		{
-			XrcFileResource file = GetFile(@"sampleWebSite2\example6.xrc");
+			var file = TestHelper.GetFile(@"sampleWebSite2\example6.xrc");
 
-			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
+			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(),
 										new Mocks.ModuleCatalogServiceMock(null),
 										new Mocks.ViewCatalogServiceMock(TestView.Definition));
 
@@ -90,9 +91,9 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_example2_page_with_inline_xml_data()
 		{
-			XrcFileResource file = GetFile(@"sampleWebSite2\example2.xrc");
+			var file = TestHelper.GetFile(@"sampleWebSite2\example2.xrc");
 
-			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
+			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
                                         new Mocks.ViewCatalogServiceMock(TestView.Definition));
 
@@ -110,9 +111,9 @@ namespace xrc.Pages.Providers.FileSystem
         [TestMethod]
         public void It_Should_be_possible_to_parse_example3_page_with_multiple_slots()
         {
-			XrcFileResource file = GetFile(@"sampleWebSite2\example3.xrc");
+			var file = TestHelper.GetFile(@"sampleWebSite2\example3.xrc");
 
-			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
+			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
                                         new Mocks.ViewCatalogServiceMock(TestView.Definition));
 
@@ -127,9 +128,9 @@ namespace xrc.Pages.Providers.FileSystem
         [TestMethod]
         public void It_Should_be_possible_to_parse_example4_page_with_multiple_actions()
         {
-			XrcFileResource file = GetFile(@"sampleWebSite2\example4.xrc");
+			var file = TestHelper.GetFile(@"sampleWebSite2\example4.xrc");
 
-			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
+			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
                                         new Mocks.ViewCatalogServiceMock(TestView.Definition));
 
@@ -139,20 +140,6 @@ namespace xrc.Pages.Providers.FileSystem
             Assert.AreEqual("delete", page.Actions["delete"].Method);
             Assert.AreEqual("post", page.Actions["Post"].Method);
         }
-
-		[TestMethod]
-		public void It_Should_be_possible_to_parse_example7_folder_parameters()
-		{
-			XrcFileResource file = GetFile(@"sampleWebSite2\example7.xrc");
-
-			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
-										new Mocks.ModuleCatalogServiceMock(null),
-										new Mocks.ViewCatalogServiceMock(TestView.Definition));
-
-			PageParserResult page = target.Parse(file);
-			Assert.AreEqual("folder", page.Parameters["folderParameter1"].Value.ToString());
-			Assert.AreEqual("page", page.Parameters["folderParameter2"].Value.ToString());
-		}
 
         class TestView : IView
         {
@@ -167,15 +154,6 @@ namespace xrc.Pages.Providers.FileSystem
                 throw new NotImplementedException();
             }
         }
-
-		private XrcFileResource GetFile(string relativeFilePath)
-		{
-			string fullPath = TestHelper.GetFile(relativeFilePath);
-
-			var xrcFolder = new XrcFolder(System.IO.Path.GetDirectoryName(fullPath), null);
-			var xrcFile = new XrcFile(fullPath, xrcFolder);
-			return new XrcFileResource(xrcFile, "~/test", "~/test", new Dictionary<string, string>());
-		}
 
         class TestObject
         {
