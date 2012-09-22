@@ -27,19 +27,19 @@ namespace xrc.Pages.Providers.FileSystem
 
 			var schemaParser = new Mock<IXrcSchemaParserService>();
 			schemaParser.Setup(p => p.Parse(It.IsAny<string>())).Returns(new PageParserResult());
-			var scriptService = new Mocks.PageScriptServiceMock();
-			var moduleCatalog = new Mocks.ModuleCatalogServiceMock(new ComponentDefinition(typeof(FileModule).Name, typeof(FileModule)));
 			var viewCatalog = new Mocks.ViewCatalogServiceMock(new ComponentDefinition(typeof(XHtmlView).Name, typeof(XHtmlView)));
 
-			var target = new XHtmlParserService(schemaParser.Object, viewCatalog, moduleCatalog, scriptService);
+			var target = new XHtmlParserService(schemaParser.Object, viewCatalog);
 
 			PageParserResult page = target.Parse(file);
 			var view = page.Actions["GET"].Views.Single();
 			Assert.AreEqual(typeof(XHtmlView), view.Component.Type);
-			Assert.AreEqual(typeof(FileModule).Name, page.Modules.Single().Name);
 
-			var expression = string.Format("{0}.Xml(\"{1}\")", typeof(FileModule).Name, file.File.FileName);
-			Assert.AreEqual(expression, view.Properties["Content"].Value.Expression.ToString());
+			Assert.AreEqual(typeof(XDocument), view.Properties["Content"].Value.Expression.ReturnType);
+			ScriptExpression expression = (ScriptExpression)view.Properties["Content"].Value.Expression;
+
+			var xhtmlDoc = (XDocument)expression.CompiledExpression.DynamicInvoke(null);
+			Assert.AreEqual("Hello", xhtmlDoc.Root.Value);
 		}
 
 		private XrcFileResource GetFile(string relativeFilePath)

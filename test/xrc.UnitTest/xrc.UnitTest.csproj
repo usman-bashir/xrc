@@ -101,7 +101,9 @@
     <None Include="sampleWebSite1\athletes\xrc.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="sampleWebSite2\example8.xrc.xhtml" />
+    <None Include="sampleWebSite2\example8.xrc.xhtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="sampleWebSite2\xrc.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
