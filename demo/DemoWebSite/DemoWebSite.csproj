@@ -92,7 +92,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="root\books\xrcFolder.config">
+    <None Include="root\books\xrc.config">
       <SubType>Designer</SubType>
     </None>
     <Content Include="root\books\index.xslt">
@@ -196,7 +196,7 @@
     <Content Include="root\olympics\_countries.cshtml" />
     <Content Include="root\olympics\index.cshtml" />
     <Content Include="root\olympics\{country}\index.cshtml" />
-    <Content Include="root\olympics\xrcFolder.config">
+    <Content Include="root\olympics\xrc.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>

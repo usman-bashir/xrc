@@ -11,11 +11,11 @@ namespace xrc.Pages.Providers.FileSystem
 		readonly PageActionList _actions;
 		readonly PageParameterList _parameters;
 		readonly ModuleDefinitionList _modules;
-		readonly XrcFile _file;
+		readonly XrcFileResource _fileResource;
 		readonly Sites.ISiteConfiguration _siteConfiguration;
 		readonly Uri _canonicalUrl;
 
-		public FileSystemPage(XrcFile file, 
+		public FileSystemPage(XrcFileResource fileResource, 
 							PageParserResult parserResult,
 							Sites.ISiteConfiguration siteConfiguration,
 							Uri canonicalUrl)
@@ -23,14 +23,19 @@ namespace xrc.Pages.Providers.FileSystem
 			_actions = parserResult.Actions;
 			_parameters = parserResult.Parameters;
 			_modules = parserResult.Modules;
-			_file = file;
+			_fileResource = fileResource;
 			_siteConfiguration = siteConfiguration;
 			_canonicalUrl = canonicalUrl;
 		}
 
 		public XrcFile File
 		{
-			get { return _file; }
+			get { return FileResource.File; }
+		}
+
+		public XrcFileResource FileResource
+		{
+			get { return _fileResource; }
 		}
 
 		public PageActionList Actions
@@ -60,7 +65,7 @@ namespace xrc.Pages.Providers.FileSystem
 
 		public Dictionary<string, string> UrlSegmentsParameters
 		{
-			get { return _file.UrlSegmentsParameters; }
+			get { return _fileResource.UrlSegmentsParameters; }
 		}
 
 		public Uri ToAbsoluteUrl(string relativeUrl)

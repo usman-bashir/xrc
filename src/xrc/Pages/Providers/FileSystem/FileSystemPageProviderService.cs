@@ -28,7 +28,7 @@ namespace xrc.Pages.Providers.FileSystem
 		public IPage GetPage(Uri url)
 		{
 			ISiteConfiguration siteConfiguration = _siteConfigurationProvider.GetSiteFromUri(url);
-			XrcFile xrcFile = _pageLocator.Locate(siteConfiguration.ToRelativeUrl(url));
+			XrcFileResource xrcFile = _pageLocator.Locate(siteConfiguration.ToRelativeUrl(url));
 			if (xrcFile == null)
 				return null;
 
@@ -59,7 +59,7 @@ namespace xrc.Pages.Providers.FileSystem
 			if (VirtualPathUtility.IsAbsolute(url))
 				return url;
 
-			return VirtualPathUtility.Combine(fsPage.File.VirtualPath, url);
+			return VirtualPathUtility.Combine(fsPage.FileResource.VirtualPath, url);
 
 			//var viewPath = page.ToAbsoluteUrl(url);
 			//var appPath = page.ToAbsoluteUrl("~");
@@ -70,7 +70,7 @@ namespace xrc.Pages.Providers.FileSystem
 		public bool IsDefined(Uri url)
 		{
 			ISiteConfiguration siteConfiguration = _siteConfigurationProvider.GetSiteFromUri(url);
-			XrcFile xrcFile = _pageLocator.Locate(siteConfiguration.ToRelativeUrl(url));
+			XrcFileResource xrcFile = _pageLocator.Locate(siteConfiguration.ToRelativeUrl(url));
 
 			return xrcFile != null;
 		}
@@ -80,7 +80,7 @@ namespace xrc.Pages.Providers.FileSystem
 			if (Path.IsPathRooted(resourceLocation))
 				return resourceLocation;
 			else
-				return Path.Combine(page.File.WorkingPath, resourceLocation);
+				return Path.Combine(page.FileResource.WorkingPath, resourceLocation);
 		}
 	}
 }

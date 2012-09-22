@@ -69,41 +69,41 @@ namespace xrc.Pages.Providers.FileSystem
             var appPath = workingPath.PhysicalPath.ToLowerInvariant();
 
 			// Base functionalities
-            Assert.AreEqual(target.Locate("/").FullPath, Path.Combine(appPath, "index.xrc"));
+            Assert.AreEqual(target.Locate("/").File.FullPath, Path.Combine(appPath, "index.xrc"));
             Assert.AreEqual(target.Locate("/").CanonicalVirtualUrl, "~/");
 			Assert.AreEqual(target.Locate("/").VirtualPath, "~/sampleWebSite1/");
-			Assert.AreEqual(target.Locate("/about").FullPath, Path.Combine(appPath, "about.xrc"));
+			Assert.AreEqual(target.Locate("/about").File.FullPath, Path.Combine(appPath, "about.xrc"));
 			Assert.AreEqual(target.Locate("/about").CanonicalVirtualUrl, "~/about");
 			Assert.AreEqual(target.Locate("/about").VirtualPath, "~/sampleWebSite1/");
 			Assert.AreEqual(target.Locate("/index").CanonicalVirtualUrl, "~/");
-            Assert.AreEqual(target.Locate("/athletes").FullPath, Path.Combine(appPath, @"athletes\index.xrc"));
+			Assert.AreEqual(target.Locate("/athletes").File.FullPath, Path.Combine(appPath, @"athletes\index.xrc"));
 			Assert.AreEqual(target.Locate("/athletes").CanonicalVirtualUrl, "~/athletes/");
 			Assert.AreEqual(target.Locate("/athletes").VirtualPath, "~/sampleWebSite1/athletes/");
 			Assert.AreEqual(target.Locate("/ATHLETES").CanonicalVirtualUrl, "~/athletes/");
 			Assert.AreEqual(target.Locate("/ATHLETES/indeX").CanonicalVirtualUrl, "~/athletes/");
-            Assert.AreEqual(target.Locate("").FullPath, Path.Combine(appPath, "index.xrc"));
-            Assert.AreEqual(target.Locate("athletes").FullPath, Path.Combine(appPath, @"athletes\index.xrc"));
+			Assert.AreEqual(target.Locate("").File.FullPath, Path.Combine(appPath, "index.xrc"));
+			Assert.AreEqual(target.Locate("athletes").File.FullPath, Path.Combine(appPath, @"athletes\index.xrc"));
 
 			// Dynamic pages
-            Assert.AreEqual(target.Locate("/athletes/totti").FullPath, Path.Combine(appPath, @"athletes\{athleteid}\index.xrc"));
+			Assert.AreEqual(target.Locate("/athletes/totti").File.FullPath, Path.Combine(appPath, @"athletes\{athleteid}\index.xrc"));
             Assert.AreEqual(target.Locate("/athletes/totti").UrlSegmentsParameters["athleteid"], "totti");
             Assert.AreEqual(target.Locate("/athletes/ToTTi").UrlSegmentsParameters["athleteid"], "totti");
-            Assert.AreEqual(target.Locate("/teams/torino").FullPath, Path.Combine(appPath, @"teams\{teamid}\index.xrc"));
+			Assert.AreEqual(target.Locate("/teams/torino").File.FullPath, Path.Combine(appPath, @"teams\{teamid}\index.xrc"));
 			Assert.AreEqual(target.Locate("/teams/torino").CanonicalVirtualUrl, "~/teams/torino/");
 			Assert.AreEqual(target.Locate("/teams/torino").VirtualPath, "~/sampleWebSite1/teams/{teamid}/");
 			Assert.AreEqual(target.Locate("/teams/verona").VirtualPath, "~/sampleWebSite1/teams/{teamid}/");
-			Assert.AreEqual(target.Locate("/teams/torino/matches").FullPath, Path.Combine(appPath, @"teams\{teamid}\matches.xrc"));
+			Assert.AreEqual(target.Locate("/teams/torino/matches").File.FullPath, Path.Combine(appPath, @"teams\{teamid}\matches.xrc"));
 			Assert.AreEqual(target.Locate("/TEAMS/TORINO/MATCHES").CanonicalVirtualUrl, "~/teams/torino/matches");
             Assert.AreEqual(target.Locate("/teams/torino/cravero").UrlSegmentsParameters["teamid"], "torino");
             Assert.AreEqual(target.Locate("/teams/torino/cravero").UrlSegmentsParameters["playerid"], "cravero");
             Assert.AreEqual(target.Locate("/teams/torino/matches.xrc").UrlSegmentsParameters["playerid"], "matches.xrc");
 
 			// Default page index and etensions
-            Assert.AreEqual(target.Locate("/athletes/totti/index").FullPath, Path.Combine(appPath, @"athletes\{athleteid}\index.xrc"));
+			Assert.AreEqual(target.Locate("/athletes/totti/index").File.FullPath, Path.Combine(appPath, @"athletes\{athleteid}\index.xrc"));
 
 			// folder config file
-			Assert.AreEqual(target.Locate("/athletes").Parent.GetConfigFile(), Path.Combine(appPath, @"athletes\xrcFolder.config"));
-			Assert.AreEqual(target.Locate("/teams").Parent.GetConfigFile(), null);
+			Assert.AreEqual(target.Locate("/athletes").File.Parent.GetConfigFile(), Path.Combine(appPath, @"athletes\xrc.config"));
+			Assert.AreEqual(target.Locate("/teams").File.Parent.GetConfigFile(), null);
 
 			// File not found == null
             Assert.IsNull(target.Locate("notvalid"));

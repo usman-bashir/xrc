@@ -22,7 +22,7 @@ namespace xrc.Pages.Providers.FileSystem
         [TestMethod]
         public void It_Should_be_possible_to_parse_example5_page_parameter()
         {
-			XrcFile file = GetFile(@"sampleWebSite2\example5.xrc");
+			XrcFileResource file = GetFile(@"sampleWebSite2\example5.xrc");
 
 			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(), 
                                         new Mocks.ModuleCatalogServiceMock(null), 
@@ -39,7 +39,7 @@ namespace xrc.Pages.Providers.FileSystem
         [TestMethod]
         public void It_Should_be_possible_to_parse_example2_page_multiple_parameters()
         {
-			XrcFile file = GetFile(@"sampleWebSite2\example2.xrc");
+			XrcFileResource file = GetFile(@"sampleWebSite2\example2.xrc");
 
 			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
@@ -59,7 +59,7 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
         public void It_Should_be_possible_to_parse_example1_page_using_script()
 		{
-			XrcFile file = GetFile(@"sampleWebSite2\example1.xrc");
+			XrcFileResource file = GetFile(@"sampleWebSite2\example1.xrc");
 
 			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
 										new Mocks.ModuleCatalogServiceMock(null),
@@ -76,7 +76,7 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_example6_action_without_method_default_to_GET()
 		{
-			XrcFile file = GetFile(@"sampleWebSite2\example6.xrc");
+			XrcFileResource file = GetFile(@"sampleWebSite2\example6.xrc");
 
 			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
 										new Mocks.ModuleCatalogServiceMock(null),
@@ -90,7 +90,7 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_example2_page_with_inline_xml_data()
 		{
-			XrcFile file = GetFile(@"sampleWebSite2\example2.xrc");
+			XrcFileResource file = GetFile(@"sampleWebSite2\example2.xrc");
 
 			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
@@ -110,7 +110,7 @@ namespace xrc.Pages.Providers.FileSystem
         [TestMethod]
         public void It_Should_be_possible_to_parse_example3_page_with_multiple_slots()
         {
-			XrcFile file = GetFile(@"sampleWebSite2\example3.xrc");
+			XrcFileResource file = GetFile(@"sampleWebSite2\example3.xrc");
 
 			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
@@ -127,7 +127,7 @@ namespace xrc.Pages.Providers.FileSystem
         [TestMethod]
         public void It_Should_be_possible_to_parse_example4_page_with_multiple_actions()
         {
-			XrcFile file = GetFile(@"sampleWebSite2\example4.xrc");
+			XrcFileResource file = GetFile(@"sampleWebSite2\example4.xrc");
 
 			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
@@ -143,7 +143,7 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_example7_folder_parameters()
 		{
-			XrcFile file = GetFile(@"sampleWebSite2\example7.xrc");
+			XrcFileResource file = GetFile(@"sampleWebSite2\example7.xrc");
 
 			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
 										new Mocks.ModuleCatalogServiceMock(null),
@@ -168,12 +168,13 @@ namespace xrc.Pages.Providers.FileSystem
             }
         }
 
-		private XrcFile GetFile(string relativeFilePath)
+		private XrcFileResource GetFile(string relativeFilePath)
 		{
 			string fullPath = TestHelper.GetFile(relativeFilePath);
 
 			var xrcFolder = new XrcFolder(System.IO.Path.GetDirectoryName(fullPath), null);
-			return new XrcFile(fullPath, xrcFolder, "~/test", "~/test", new Dictionary<string, string>());
+			var xrcFile = new XrcFile(fullPath, xrcFolder);
+			return new XrcFileResource(xrcFile, "~/test", "~/test", new Dictionary<string, string>());
 		}
 
         class TestObject

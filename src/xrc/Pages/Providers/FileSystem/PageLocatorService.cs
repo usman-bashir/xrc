@@ -30,12 +30,12 @@ namespace xrc.Pages.Providers.FileSystem
             private set;
         }
 
-        public XrcFile Locate(string relativeUri)
+        public XrcFileResource Locate(string relativeUri)
         {
             return Locate(new Uri(relativeUri, UriKind.Relative));
         }
 
-        public XrcFile Locate(Uri relativeUri)
+        public XrcFileResource Locate(Uri relativeUri)
         {
             if (relativeUri == null)
                 throw new ArgumentNullException("relativeUri");
@@ -45,7 +45,7 @@ namespace xrc.Pages.Providers.FileSystem
             var urlSegmentParameters = new Dictionary<string, string>();
             string[] segments = GetUriSegments(relativeUri);
             XrcFolder currentFolder = Root;
-            string requestFile = null;
+            XrcFile requestFile = null;
             StringBuilder canonicalUrl = new StringBuilder("~/");
 			StringBuilder virtualPath = new StringBuilder(VirtualPathUtility.AppendTrailingSlash(RootPathConfig.VirtualPath));
 
@@ -78,7 +78,7 @@ namespace xrc.Pages.Providers.FileSystem
 				}
                 else
                 {
-					if (!string.Equals(requestFile, currentFolder.GetIndexFile(), StringComparison.InvariantCultureIgnoreCase))
+					if (!requestFile.IsIndex)
 						canonicalUrl.Append(lastSegment);
 				}
             }
@@ -91,7 +91,7 @@ namespace xrc.Pages.Providers.FileSystem
                     return null; //Not found
             }
 
-			return new XrcFile(requestFile, currentFolder, canonicalUrl.ToString(), virtualPath.ToString(), urlSegmentParameters);
+			return new XrcFileResource(requestFile, canonicalUrl.ToString(), virtualPath.ToString(), urlSegmentParameters);
         }
 
         private string[] GetUriSegments(Uri relativeUri)

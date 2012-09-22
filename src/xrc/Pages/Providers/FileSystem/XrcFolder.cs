@@ -6,16 +6,11 @@ using System.IO;
 
 namespace xrc.Pages.Providers.FileSystem
 {
-	//TODO Valutare se spostare parte del codice di questa classe in PageLocatorService
+	//TODO Rivedere il codice di XrcFolder e XrcFile, probabilmente spostare parte del codice di questa classe in PageLocatorService
 
 	public class XrcFolder
 	{
-		private const string DEFAULT_FILE = "index";
-		private const string FOLDER_CONFIG_FILE = "xrcFolder.config";
-		private const string FILE_EXTENSION = ".xrc";
-        private const string FILE_PATTERN = "*" + FILE_EXTENSION;
-
-		private Dictionary<string, string> _files;
+		private Dictionary<string, XrcFile> _files;
 		private Dictionary<string, XrcFolder> _folders;
 		private string _configFile;
 
@@ -23,27 +18,14 @@ namespace xrc.Pages.Providers.FileSystem
 		{
 			Parent = parent;
 			FullPath = fullPath.ToLowerInvariant();
-			Name = new DirectoryInfo(fullPath).Name;
+			Name = XrcFileSystemHelper.GetDirectoryName(fullPath);
 
-			bool hasStart = Name.StartsWith("{");
-			bool hasEnd = Name.EndsWith("}");
-			if (hasStart && hasEnd)
-			{
-				IsParameter = true;
-				ParameterName = Name.Substring(1, Name.Length - 2);
-			}
-			else if (hasStart || hasEnd)
-				throw new ApplicationException(string.Format("Invalid directory name '{0}'.", fullPath));
-			else
-			{
-				IsParameter = false;
-				ParameterName = null;
-			}
+			ParameterName = XrcFileSystemHelper.GetDirectoryParameterName(Name);
 
 			SearchFolders();
 			SearchFiles();
 
-			string configFile = Path.Combine(fullPath, FOLDER_CONFIG_FILE);
+			string configFile = Path.Combine(fullPath, XrcFileSystemHelper.FOLDER_CONFIG_FILE);
 			if (File.Exists(configFile))
 				_configFile = configFile;
 		}
@@ -68,8 +50,7 @@ namespace xrc.Pages.Providers.FileSystem
 
 		public bool IsParameter
 		{
-			get;
-			private set;
+			get { return ParameterName != null; }
 		}
 
 		public string ParameterName
@@ -94,17 +75,17 @@ namespace xrc.Pages.Providers.FileSystem
                 return DynamicFolder;
         }
 
-        public string GetFile(string name)
+		public XrcFile GetFile(string name)
         {
-            string file;
+			XrcFile file;
             _files.TryGetValue(name, out file);
             return file;
         }
 
-        public string GetIndexFile()
+		public XrcFile GetIndexFile()
         {
-            string file;
-            _files.TryGetValue(DEFAULT_FILE, out file);
+			XrcFile file;
+			_files.TryGetValue(XrcFileSystemHelper.INDEX_FILE, out file);
             return file;
         }
 
@@ -115,9 +96,9 @@ namespace xrc.Pages.Providers.FileSystem
 
 		private void SearchFiles()
 		{
-            var files = Directory.GetFiles(FullPath, FILE_PATTERN).Select(p => p.ToLowerInvariant());
+			var files = Directory.GetFiles(FullPath, XrcFileSystemHelper.FILE_PATTERN).Select(p => new XrcFile(p, this));
 
-            _files = files.ToDictionary(p => Path.GetFileNameWithoutExtension(p), StringComparer.OrdinalIgnoreCase);
+            _files = files.ToDictionary(p => p.Name, StringComparer.OrdinalIgnoreCase);
 		}
 
 		private void SearchFolders()

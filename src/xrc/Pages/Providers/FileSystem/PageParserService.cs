@@ -44,29 +44,29 @@ namespace xrc.Pages.Providers.FileSystem
         }
 
         // TODO Qui si può parsificare il file una sola volta e metterlo in cache (con dipendenza al file?)
-		public PageParserResult Parse(XrcFile file)
+		public PageParserResult Parse(XrcFileResource fileResource)
         {
 			var parserResult = new PageParserResult();
 
-			ParseConfigFilesAndMergeResult(file, parserResult);
+			ParseConfigFilesAndMergeResult(fileResource, parserResult);
 
-			ParseFileAndMergeResult(file.FullPath, parserResult);
+			ParseFileAndMergeResult(fileResource.File.FullPath, parserResult);
 
 			return parserResult;
 		}
 
-		private void ParseConfigFilesAndMergeResult(XrcFile file, PageParserResult parserResult)
+		private void ParseConfigFilesAndMergeResult(XrcFileResource fileResource, PageParserResult parserResult)
 		{
-			string[] configFiles = GetFolderConfigFiles(file);
+			string[] configFiles = GetFolderConfigFiles(fileResource);
 			foreach (var f in configFiles)
 				ParseFileAndMergeResult(f, parserResult);
 		}
 
-		private string[] GetFolderConfigFiles(XrcFile file)
+		private string[] GetFolderConfigFiles(XrcFileResource fileResource)
 		{
 			var configFiles = new List<string>();
 
-			XrcFolder currentFolder = file.Parent;
+			XrcFolder currentFolder = fileResource.File.Parent;
 			while (currentFolder != null)
 			{
 				string f = currentFolder.GetConfigFile();

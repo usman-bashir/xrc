@@ -21,13 +21,14 @@ namespace xrc.Pages.Providers.FileSystem
         {
 			var parserResult = new PageParserResult();
 			var pageParser = new Mock<IPageParserService>();
-			pageParser.Setup(p => p.Parse(It.IsAny<XrcFile>())).Returns(parserResult);
+			pageParser.Setup(p => p.Parse(It.IsAny<XrcFileResource>())).Returns(parserResult);
 
 			var workingPath = new Mocks.RootPathConfigMock("~/sampleWebSite1", TestHelper.GetFile("sampleWebSite1"));
 			var xrcFolder = new XrcFolder(workingPath.PhysicalPath, null);
-			var xrcFile = new XrcFile(TestHelper.GetFile("sampleWebSite1/about.xrc"), xrcFolder, "~/about", "~/", new Dictionary<string, string>());
+			var xrcFile = new XrcFile(TestHelper.GetFile("sampleWebSite1/about.xrc"), xrcFolder);
+			var xrcFileResource = new XrcFileResource(xrcFile, "~/about", "~/", new Dictionary<string, string>());
 			var pageLocator = new Mock<IPageLocatorService>();
-			pageLocator.Setup(p => p.Locate(It.IsAny<Uri>())).Returns(xrcFile);
+			pageLocator.Setup(p => p.Locate(It.IsAny<Uri>())).Returns(xrcFileResource);
 	
 			SiteConfiguration siteConfiguration = new SiteConfiguration("test", new Uri("http://test.com"));
 			var siteConfigurationProvider = new Mock<ISiteConfigurationProviderService>();
@@ -48,7 +49,7 @@ namespace xrc.Pages.Providers.FileSystem
 			Assert.AreEqual(siteConfiguration, page.SiteConfiguration);
 
 			pageLocator.Verify(p => p.Locate(new Uri("about", UriKind.Relative)));
-			pageParser.Verify(p => p.Parse(xrcFile));
+			pageParser.Verify(p => p.Parse(xrcFileResource));
 			siteConfigurationProvider.Verify(p => p.GetSiteFromUri(url));
 
 			Assert.AreEqual("~/file.cshtml", target.GetPageVirtualPath(page, "file.cshtml"));
@@ -59,13 +60,14 @@ namespace xrc.Pages.Providers.FileSystem
 		{
 			var parserResult = new PageParserResult();
 			var pageParser = new Mock<IPageParserService>();
-			pageParser.Setup(p => p.Parse(It.IsAny<XrcFile>())).Returns(parserResult);
+			pageParser.Setup(p => p.Parse(It.IsAny<XrcFileResource>())).Returns(parserResult);
 
 			var workingPath = new Mocks.RootPathConfigMock("~/sampleWebSite1", TestHelper.GetFile("sampleWebSite1"));
 			var xrcFolder = new XrcFolder(workingPath.PhysicalPath, null);
-			var xrcFile = new XrcFile(TestHelper.GetFile("sampleWebSite1/teams/index.xrc"), xrcFolder, "~/teams/", "~/teams/", new Dictionary<string, string>());
+			var xrcFile = new XrcFile(TestHelper.GetFile("sampleWebSite1/teams/index.xrc"), xrcFolder);
+			var xrcFileResource = new XrcFileResource(xrcFile, "~/teams/", "~/teams/", new Dictionary<string, string>());
 			var pageLocator = new Mock<IPageLocatorService>();
-			pageLocator.Setup(p => p.Locate(It.IsAny<Uri>())).Returns(xrcFile);
+			pageLocator.Setup(p => p.Locate(It.IsAny<Uri>())).Returns(xrcFileResource);
 
 			SiteConfiguration siteConfiguration = new SiteConfiguration("test", new Uri("http://test.com"));
 			var siteConfigurationProvider = new Mock<ISiteConfigurationProviderService>();
@@ -86,7 +88,7 @@ namespace xrc.Pages.Providers.FileSystem
 			Assert.AreEqual(siteConfiguration, page.SiteConfiguration);
 
 			pageLocator.Verify(p => p.Locate(new Uri("teams/", UriKind.Relative)));
-			pageParser.Verify(p => p.Parse(xrcFile));
+			pageParser.Verify(p => p.Parse(xrcFileResource));
 			siteConfigurationProvider.Verify(p => p.GetSiteFromUri(url));
 
 			Assert.AreEqual("~/teams/file.cshtml", target.GetPageVirtualPath(page, "file.cshtml"));
@@ -97,13 +99,14 @@ namespace xrc.Pages.Providers.FileSystem
 		{
 			var parserResult = new PageParserResult();
 			var pageParser = new Mock<IPageParserService>();
-			pageParser.Setup(p => p.Parse(It.IsAny<XrcFile>())).Returns(parserResult);
+			pageParser.Setup(p => p.Parse(It.IsAny<XrcFileResource>())).Returns(parserResult);
 
 			var workingPath = new Mocks.RootPathConfigMock("~/sampleWebSite1", TestHelper.GetFile("sampleWebSite1"));
 			var xrcFolder = new XrcFolder(workingPath.PhysicalPath, null);
-			var xrcFile = new XrcFile(TestHelper.GetFile("sampleWebSite1/teams/{teamid}/matches.xrc"), xrcFolder, "~/teams/torino/matches", "~/sampleWebSite1/teams/{teamid}/", new Dictionary<string, string>());
+			var xrcFile = new XrcFile(TestHelper.GetFile("sampleWebSite1/teams/{teamid}/matches.xrc"), xrcFolder);
+			var xrcFileResource = new XrcFileResource(xrcFile, "~/teams/torino/matches", "~/sampleWebSite1/teams/{teamid}/", new Dictionary<string, string>());
 			var pageLocator = new Mock<IPageLocatorService>();
-			pageLocator.Setup(p => p.Locate(It.IsAny<Uri>())).Returns(xrcFile);
+			pageLocator.Setup(p => p.Locate(It.IsAny<Uri>())).Returns(xrcFileResource);
 
 			SiteConfiguration siteConfiguration = new SiteConfiguration("test", new Uri("http://test.com"));
 			var siteConfigurationProvider = new Mock<ISiteConfigurationProviderService>();
@@ -124,7 +127,7 @@ namespace xrc.Pages.Providers.FileSystem
 			Assert.AreEqual(siteConfiguration, page.SiteConfiguration);
 
 			pageLocator.Verify(p => p.Locate(new Uri("teams/torino/matches", UriKind.Relative)));
-			pageParser.Verify(p => p.Parse(xrcFile));
+			pageParser.Verify(p => p.Parse(xrcFileResource));
 			siteConfigurationProvider.Verify(p => p.GetSiteFromUri(url));
 
 			Assert.AreEqual("~/sampleWebSite1/teams/{teamid}/file.cshtml", target.GetPageVirtualPath(page, "file.cshtml"));
@@ -136,7 +139,7 @@ namespace xrc.Pages.Providers.FileSystem
 			var pageParser = new Mock<IPageParserService>();
 			var pageLocator = new Mock<IPageLocatorService>();
 			var siteConfigurationProvider = new Mock<ISiteConfigurationProviderService>();
-			pageLocator.Setup(p => p.Locate(It.IsAny<Uri>())).Returns((XrcFile)null);
+			pageLocator.Setup(p => p.Locate(It.IsAny<Uri>())).Returns((XrcFileResource)null);
 			SiteConfiguration siteConfiguration = new SiteConfiguration("test", new Uri("http://test.com"));
 			siteConfigurationProvider.Setup(p => p.GetSiteFromUri(It.IsAny<Uri>())).Returns(siteConfiguration);
 
@@ -154,7 +157,7 @@ namespace xrc.Pages.Providers.FileSystem
 
 			pageLocator.Verify(p => p.Locate(It.IsAny<Uri>()));
 			siteConfigurationProvider.Verify(p => p.GetSiteFromUri(It.IsAny<Uri>()));
-			pageParser.Verify(p => p.Parse(It.IsAny<XrcFile>()), Times.Never());
+			pageParser.Verify(p => p.Parse(It.IsAny<XrcFileResource>()), Times.Never());
 		}
 	}
 }

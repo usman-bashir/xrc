@@ -7,6 +7,6 @@ namespace xrc.Pages.Providers.FileSystem
 {
     public interface IPageLocatorService
     {
-        XrcFile Locate(Uri relativeUri);
+        XrcFileResource Locate(Uri relativeUri);
     }
 }

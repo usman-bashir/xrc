@@ -8,26 +8,27 @@ namespace xrc.Pages.Providers.FileSystem
 {
     public class XrcFile
     {
-		public XrcFile(string xrcFile, XrcFolder parent, string canonicalVirtualUrl, string virtualPath, Dictionary<string, string> urlSegmentsParameters)
+		public XrcFile(string fullPath, XrcFolder parent)
         {
-			if (string.IsNullOrWhiteSpace(xrcFile))
-				throw new ArgumentNullException("xrcFile");
+			if (string.IsNullOrWhiteSpace(fullPath))
+				throw new ArgumentNullException("fullPath");
 			if (parent == null)
 				throw new ArgumentNullException("parent");
-			if (string.IsNullOrWhiteSpace(canonicalVirtualUrl))
-				throw new ArgumentNullException("canonicalVirtualUrl");
-			if (urlSegmentsParameters == null)
-				throw new ArgumentNullException("urlSegmentsParameters");
 
 			Parent = parent;
-			FullPath = xrcFile.ToLowerInvariant();
-			Name = Path.GetFileNameWithoutExtension(FullPath).ToLowerInvariant();
-            UrlSegmentsParameters = urlSegmentsParameters;
-			CanonicalVirtualUrl = canonicalVirtualUrl;
-			VirtualPath = virtualPath;
+			FullPath = fullPath.ToLowerInvariant();
+
+			Name = XrcFileSystemHelper.GetFileName(FullPath);
+			Extension = XrcFileSystemHelper.GetFileExtension(FullPath);
 		}
 
 		public string Name
+		{
+			get;
+			private set;
+		}
+
+		public string Extension
 		{
 			get;
 			private set;
@@ -45,39 +46,9 @@ namespace xrc.Pages.Providers.FileSystem
 			private set;
 		}
 
-        /// <summary>
-        /// Gets the canonical url for the specified file.
-        /// A canonical url is always lower case, doesn't include the index page but just append a slash at the end.
-        /// Example: ~/folder1/, ~/folder1/page1
-        /// 
-        /// </summary>
-        public string CanonicalVirtualUrl
-        {
-            get;
-            private set;
-        }
-
-		/// <summary>
-		/// Physical virtual Url of the current folder.
-		/// </summary>
-		public string VirtualPath
+		public bool IsIndex
 		{
-			get;
-			private set;
+			get { return string.Equals(Name, XrcFileSystemHelper.INDEX_FILE, StringComparison.InvariantCultureIgnoreCase); }
 		}
-
-        public Dictionary<string, string> UrlSegmentsParameters
-        {
-            get;
-            private set;
-        }
-
-        public string WorkingPath 
-        {
-            get
-            {
-                return Path.GetDirectoryName(FullPath);
-            }
-        }
     }
 }

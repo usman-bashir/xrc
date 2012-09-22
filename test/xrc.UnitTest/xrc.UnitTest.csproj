@@ -71,6 +71,7 @@
     <Compile Include="Mocks\RootPathConfigMock.cs" />
     <Compile Include="Modules\ModuleCatalogService_Test.cs" />
     <Compile Include="Modules\TestModule.cs" />
+    <Compile Include="Pages\Providers\FileSystem\XrcFileSystemHelper_Test.cs" />
     <Compile Include="Pages\Providers\FileSystem\FileSystemPageProviderService_Test.cs" />
     <Compile Include="Views\ViewCatalogService_Test.cs" />
     <Compile Include="Sites\SiteConfigurationProviderService_Test.cs" />
@@ -94,10 +95,10 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="sampleWebSite1\athletes\xrcFolder.config">
+    <None Include="sampleWebSite1\athletes\xrc.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="sampleWebSite2\xrcFolder.config">
+    <None Include="sampleWebSite2\xrc.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="sampleWebSite2\example7.xrc">

@@ -7,6 +7,6 @@ namespace xrc.Pages.Providers.FileSystem
 {
     public interface IPageParserService
     {
-		PageParserResult Parse(XrcFile file);
+		PageParserResult Parse(XrcFileResource fileResource);
     }
 }
