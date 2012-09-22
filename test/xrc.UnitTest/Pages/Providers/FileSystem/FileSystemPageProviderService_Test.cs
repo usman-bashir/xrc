@@ -23,9 +23,9 @@ namespace xrc.Pages.Providers.FileSystem
 			var pageParser = new Mock<IPageParserService>();
 			pageParser.Setup(p => p.Parse(It.IsAny<XrcFile>())).Returns(parserResult);
 
-			var workingPath = new Mocks.RootPathConfigMock("~/sampleWebSiteStructure", TestHelper.GetFile("sampleWebSiteStructure"));
+			var workingPath = new Mocks.RootPathConfigMock("~/sampleWebSite1", TestHelper.GetFile("sampleWebSite1"));
 			var xrcFolder = new XrcFolder(workingPath.PhysicalPath, null);
-			var xrcFile = new XrcFile(TestHelper.GetFile("sampleWebSiteStructure/about.xrc"), xrcFolder, "~/about", "~/", new Dictionary<string, string>());
+			var xrcFile = new XrcFile(TestHelper.GetFile("sampleWebSite1/about.xrc"), xrcFolder, "~/about", "~/", new Dictionary<string, string>());
 			var pageLocator = new Mock<IPageLocatorService>();
 			pageLocator.Setup(p => p.Locate(It.IsAny<Uri>())).Returns(xrcFile);
 	
@@ -61,9 +61,9 @@ namespace xrc.Pages.Providers.FileSystem
 			var pageParser = new Mock<IPageParserService>();
 			pageParser.Setup(p => p.Parse(It.IsAny<XrcFile>())).Returns(parserResult);
 
-			var workingPath = new Mocks.RootPathConfigMock("~/sampleWebSiteStructure", TestHelper.GetFile("sampleWebSiteStructure"));
+			var workingPath = new Mocks.RootPathConfigMock("~/sampleWebSite1", TestHelper.GetFile("sampleWebSite1"));
 			var xrcFolder = new XrcFolder(workingPath.PhysicalPath, null);
-			var xrcFile = new XrcFile(TestHelper.GetFile("sampleWebSiteStructure/teams/index.xrc"), xrcFolder, "~/teams/", "~/teams/", new Dictionary<string, string>());
+			var xrcFile = new XrcFile(TestHelper.GetFile("sampleWebSite1/teams/index.xrc"), xrcFolder, "~/teams/", "~/teams/", new Dictionary<string, string>());
 			var pageLocator = new Mock<IPageLocatorService>();
 			pageLocator.Setup(p => p.Locate(It.IsAny<Uri>())).Returns(xrcFile);
 
@@ -99,9 +99,9 @@ namespace xrc.Pages.Providers.FileSystem
 			var pageParser = new Mock<IPageParserService>();
 			pageParser.Setup(p => p.Parse(It.IsAny<XrcFile>())).Returns(parserResult);
 
-			var workingPath = new Mocks.RootPathConfigMock("~/sampleWebSiteStructure", TestHelper.GetFile("sampleWebSiteStructure"));
+			var workingPath = new Mocks.RootPathConfigMock("~/sampleWebSite1", TestHelper.GetFile("sampleWebSite1"));
 			var xrcFolder = new XrcFolder(workingPath.PhysicalPath, null);
-			var xrcFile = new XrcFile(TestHelper.GetFile("sampleWebSiteStructure/teams/{teamid}/matches.xrc"), xrcFolder, "~/teams/torino/matches", "~/sampleWebSiteStructure/teams/{teamid}/", new Dictionary<string, string>());
+			var xrcFile = new XrcFile(TestHelper.GetFile("sampleWebSite1/teams/{teamid}/matches.xrc"), xrcFolder, "~/teams/torino/matches", "~/sampleWebSite1/teams/{teamid}/", new Dictionary<string, string>());
 			var pageLocator = new Mock<IPageLocatorService>();
 			pageLocator.Setup(p => p.Locate(It.IsAny<Uri>())).Returns(xrcFile);
 
@@ -127,7 +127,7 @@ namespace xrc.Pages.Providers.FileSystem
 			pageParser.Verify(p => p.Parse(xrcFile));
 			siteConfigurationProvider.Verify(p => p.GetSiteFromUri(url));
 
-			Assert.AreEqual("~/sampleWebSiteStructure/teams/{teamid}/file.cshtml", target.GetPageVirtualPath(page, "file.cshtml"));
+			Assert.AreEqual("~/sampleWebSite1/teams/{teamid}/file.cshtml", target.GetPageVirtualPath(page, "file.cshtml"));
 		}
 
 		[TestMethod]

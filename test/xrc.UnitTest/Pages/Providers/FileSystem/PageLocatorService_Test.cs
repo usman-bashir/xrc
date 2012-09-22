@@ -64,21 +64,21 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
         public void It_should_be_possible_to_Locate_File()
 		{
-			var workingPath = new Mocks.RootPathConfigMock("~/sampleWebSiteStructure", TestHelper.GetFile("sampleWebSiteStructure"));
+			var workingPath = new Mocks.RootPathConfigMock("~/sampleWebSite1", TestHelper.GetFile("sampleWebSite1"));
 			PageLocatorService target = new PageLocatorService(workingPath);
             var appPath = workingPath.PhysicalPath.ToLowerInvariant();
 
 			// Base functionalities
             Assert.AreEqual(target.Locate("/").FullPath, Path.Combine(appPath, "index.xrc"));
             Assert.AreEqual(target.Locate("/").CanonicalVirtualUrl, "~/");
-			Assert.AreEqual(target.Locate("/").VirtualPath, "~/sampleWebSiteStructure/");
+			Assert.AreEqual(target.Locate("/").VirtualPath, "~/sampleWebSite1/");
 			Assert.AreEqual(target.Locate("/about").FullPath, Path.Combine(appPath, "about.xrc"));
 			Assert.AreEqual(target.Locate("/about").CanonicalVirtualUrl, "~/about");
-			Assert.AreEqual(target.Locate("/about").VirtualPath, "~/sampleWebSiteStructure/");
+			Assert.AreEqual(target.Locate("/about").VirtualPath, "~/sampleWebSite1/");
 			Assert.AreEqual(target.Locate("/index").CanonicalVirtualUrl, "~/");
             Assert.AreEqual(target.Locate("/athletes").FullPath, Path.Combine(appPath, @"athletes\index.xrc"));
 			Assert.AreEqual(target.Locate("/athletes").CanonicalVirtualUrl, "~/athletes/");
-			Assert.AreEqual(target.Locate("/athletes").VirtualPath, "~/sampleWebSiteStructure/athletes/");
+			Assert.AreEqual(target.Locate("/athletes").VirtualPath, "~/sampleWebSite1/athletes/");
 			Assert.AreEqual(target.Locate("/ATHLETES").CanonicalVirtualUrl, "~/athletes/");
 			Assert.AreEqual(target.Locate("/ATHLETES/indeX").CanonicalVirtualUrl, "~/athletes/");
             Assert.AreEqual(target.Locate("").FullPath, Path.Combine(appPath, "index.xrc"));
@@ -90,8 +90,8 @@ namespace xrc.Pages.Providers.FileSystem
             Assert.AreEqual(target.Locate("/athletes/ToTTi").UrlSegmentsParameters["athleteid"], "totti");
             Assert.AreEqual(target.Locate("/teams/torino").FullPath, Path.Combine(appPath, @"teams\{teamid}\index.xrc"));
 			Assert.AreEqual(target.Locate("/teams/torino").CanonicalVirtualUrl, "~/teams/torino/");
-			Assert.AreEqual(target.Locate("/teams/torino").VirtualPath, "~/sampleWebSiteStructure/teams/{teamid}/");
-			Assert.AreEqual(target.Locate("/teams/verona").VirtualPath, "~/sampleWebSiteStructure/teams/{teamid}/");
+			Assert.AreEqual(target.Locate("/teams/torino").VirtualPath, "~/sampleWebSite1/teams/{teamid}/");
+			Assert.AreEqual(target.Locate("/teams/verona").VirtualPath, "~/sampleWebSite1/teams/{teamid}/");
 			Assert.AreEqual(target.Locate("/teams/torino/matches").FullPath, Path.Combine(appPath, @"teams\{teamid}\matches.xrc"));
 			Assert.AreEqual(target.Locate("/TEAMS/TORINO/MATCHES").CanonicalVirtualUrl, "~/teams/torino/matches");
             Assert.AreEqual(target.Locate("/teams/torino/cravero").UrlSegmentsParameters["teamid"], "torino");

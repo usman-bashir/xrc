@@ -22,7 +22,7 @@ namespace xrc.Pages.Providers.FileSystem
         [TestMethod]
         public void It_Should_be_possible_to_parse_example5_page_parameter()
         {
-			XrcFile file = GetFile(@"Pages\example5.xrc");
+			XrcFile file = GetFile(@"sampleWebSite2\example5.xrc");
 
 			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(), 
                                         new Mocks.ModuleCatalogServiceMock(null), 
@@ -39,7 +39,7 @@ namespace xrc.Pages.Providers.FileSystem
         [TestMethod]
         public void It_Should_be_possible_to_parse_example2_page_multiple_parameters()
         {
-			XrcFile file = GetFile(@"Pages\example2.xrc");
+			XrcFile file = GetFile(@"sampleWebSite2\example2.xrc");
 
 			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
@@ -59,7 +59,7 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
         public void It_Should_be_possible_to_parse_example1_page_using_script()
 		{
-			XrcFile file = GetFile(@"Pages\example1.xrc");
+			XrcFile file = GetFile(@"sampleWebSite2\example1.xrc");
 
 			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
 										new Mocks.ModuleCatalogServiceMock(null),
@@ -76,7 +76,7 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_example6_action_without_method_default_to_GET()
 		{
-			XrcFile file = GetFile(@"Pages\example6.xrc");
+			XrcFile file = GetFile(@"sampleWebSite2\example6.xrc");
 
 			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
 										new Mocks.ModuleCatalogServiceMock(null),
@@ -90,7 +90,7 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_example2_page_with_inline_xml_data()
 		{
-			XrcFile file = GetFile(@"Pages\example2.xrc");
+			XrcFile file = GetFile(@"sampleWebSite2\example2.xrc");
 
 			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
@@ -110,7 +110,7 @@ namespace xrc.Pages.Providers.FileSystem
         [TestMethod]
         public void It_Should_be_possible_to_parse_example3_page_with_multiple_slots()
         {
-			XrcFile file = GetFile(@"Pages\example3.xrc");
+			XrcFile file = GetFile(@"sampleWebSite2\example3.xrc");
 
 			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
@@ -127,7 +127,7 @@ namespace xrc.Pages.Providers.FileSystem
         [TestMethod]
         public void It_Should_be_possible_to_parse_example4_page_with_multiple_actions()
         {
-			XrcFile file = GetFile(@"Pages\example4.xrc");
+			XrcFile file = GetFile(@"sampleWebSite2\example4.xrc");
 
 			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
@@ -143,7 +143,7 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_example7_folder_parameters()
 		{
-			XrcFile file = GetFile(@"Pages\example7.xrc");
+			XrcFile file = GetFile(@"sampleWebSite2\example7.xrc");
 
 			PageParserService target = new PageParserService(new Mocks.PageScriptServiceMock(),
 										new Mocks.ModuleCatalogServiceMock(null),

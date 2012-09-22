@@ -6,6 +6,8 @@ using System.IO;
 
 namespace xrc.Pages.Providers.FileSystem
 {
+	//TODO Valutare se spostare parte del codice di questa classe in PageLocatorService
+
 	public class XrcFolder
 	{
 		private const string DEFAULT_FILE = "index";
