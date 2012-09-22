@@ -94,6 +94,12 @@
     <Compile Include="Pages\Providers\FileSystem\XrcSchemaParserService_Test.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="sampleWebSite1\conventions\_page_without_layout.xrc.xhtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="sampleWebSite1\conventions\page_with_layout.xrc.xhtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="sampleWebSite2\example6.xrc">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -112,6 +118,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="sampleWebSite1\about.xrc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="sampleWebSite1\conventions\shared\_layout.xrc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="sampleWebSite1\shared\_layout.xrc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="sampleWebSite1\teams\{teamid}\_layout.xrc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="Views\Xslt\books.xml">

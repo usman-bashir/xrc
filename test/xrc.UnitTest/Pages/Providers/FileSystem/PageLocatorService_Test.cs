@@ -105,6 +105,10 @@ namespace xrc.Pages.Providers.FileSystem
 			Assert.AreEqual(target.Locate("/athletes").File.Parent.GetConfigFile(), Path.Combine(appPath, @"athletes\xrc.config"));
 			Assert.AreEqual(target.Locate("/teams").File.Parent.GetConfigFile(), null);
 
+			// default layout resolution
+			Assert.AreEqual(target.Locate("/about").File.Parent.SearchLayout().FullName, "~/shared/_layout");
+			Assert.AreEqual(target.Locate("/teams/torino").File.Parent.SearchLayout().FullName, "~/teams/{teamid}/_layout");
+
 			// File not found == null
             Assert.IsNull(target.Locate("notvalid"));
             Assert.IsNull(target.Locate("/notvalid"));

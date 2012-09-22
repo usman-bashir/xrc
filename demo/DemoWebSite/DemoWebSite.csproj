@@ -203,6 +203,10 @@
     <Content Include="xrc\olympics\xrc.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="xrc\docs\index.xrc.xhtml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\xrc.Windsor\xrc.Windsor.csproj">

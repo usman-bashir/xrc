@@ -19,6 +19,10 @@ namespace xrc.Pages.Providers.FileSystem
 			Parent = parent;
 			FullPath = fullPath.ToLowerInvariant();
 			Name = XrcFileSystemHelper.GetDirectoryName(fullPath);
+			if (parent != null)
+				FullName = UriExtensions.Combine(parent.FullName, Name);
+			else
+				FullName = "~";
 
 			ParameterName = XrcFileSystemHelper.GetDirectoryParameterName(Name);
 
@@ -43,6 +47,12 @@ namespace xrc.Pages.Providers.FileSystem
 		}
 
 		public string FullPath
+		{
+			get;
+			private set;
+		}
+
+		public string FullName
 		{
 			get;
 			private set;
@@ -89,6 +99,20 @@ namespace xrc.Pages.Providers.FileSystem
             return file;
         }
 
+		public XrcFile GetLayoutFile()
+		{
+			XrcFile file;
+			_files.TryGetValue(XrcFileSystemHelper.LAYOUT_FILE, out file);
+			return file;
+		}
+
+		public XrcFolder GetSharedFolder()
+		{
+			XrcFolder folder;
+			_folders.TryGetValue(XrcFileSystemHelper.SHARED_FOLDER, out folder);
+			return folder;
+		}
+
 		public string GetConfigFile()
 		{
 			return _configFile;
@@ -111,6 +135,31 @@ namespace xrc.Pages.Providers.FileSystem
 			DynamicFolder = folders.SingleOrDefault(p => p.IsParameter);
 
             _folders = folders.ToDictionary(p => p.Name, StringComparer.OrdinalIgnoreCase);
+		}
+
+		public XrcFile SearchLayout()
+		{
+			return SearchLayout(this);
+		}
+
+		private XrcFile SearchLayout(XrcFolder folder)
+		{
+			var layoutFile = folder.GetLayoutFile();
+			if (layoutFile != null)
+				return layoutFile;
+
+			var sharedFolder = folder.GetSharedFolder();
+			if (sharedFolder != null)
+			{
+				layoutFile = sharedFolder.GetLayoutFile();
+				if (layoutFile != null)
+					return layoutFile;
+			}
+
+			if (folder.Parent != null)
+				return SearchLayout(folder.Parent);
+
+			return null;
 		}
 	}
 }

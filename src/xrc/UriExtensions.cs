@@ -16,6 +16,11 @@ namespace xrc
 
         public static Uri Combine(this Uri baseUri, string uri)
         {
+			if (baseUri == null)
+				throw new ArgumentNullException("baseUri");
+			if (uri == null)
+				return baseUri;
+
             string bUri = baseUri.ToString();
 
             uri = uri.TrimStart('/');
@@ -27,6 +32,11 @@ namespace xrc
 
         public static string Combine(string baseUri, string uri)
         {
+			if (baseUri == null)
+				return uri;
+			if (uri == null)
+				return baseUri;
+
             string bUri = baseUri.ToString();
 
             uri = uri.TrimStart('/');

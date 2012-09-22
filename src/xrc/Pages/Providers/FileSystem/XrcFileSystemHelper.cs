@@ -12,6 +12,8 @@ namespace xrc.Pages.Providers.FileSystem
     public static class XrcFileSystemHelper
     {
 		public const string INDEX_FILE = "index";
+		public const string LAYOUT_FILE = "_layout";
+		public const string SHARED_FOLDER = "shared";
 		public const string FOLDER_CONFIG_FILE = "xrc.config";
 		public const string FILE_EXTENSION = ".xrc";
 		public const string FILE_PATTERN = "*.xrc*";

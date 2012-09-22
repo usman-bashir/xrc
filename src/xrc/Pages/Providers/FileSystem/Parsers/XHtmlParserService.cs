@@ -27,7 +27,7 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 		{
 			var result = new PageParserResult();
 
-			var action = new PageAction("GET");
+			var action = CreateActionByConvention(fileResource);
 
 			var moduleDefinitionList = new ModuleDefinitionList();
 			var pageParameters = new PageParameterList();

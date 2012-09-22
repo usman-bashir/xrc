@@ -21,6 +21,7 @@
 					<menu text="news" url="~/news/" />
 					<menu text="widgets" url="~/widgets" />
 					<menu text="contact" url="~/contact" />
+					<menu text="docs" url="~/docs" />
 					<menu text="about" url="~/about" />
 				</header>
 			</Data>

@@ -20,6 +20,7 @@ namespace xrc.Pages.Providers.FileSystem
 
 			Name = XrcFileSystemHelper.GetFileName(FullPath);
 			Extension = XrcFileSystemHelper.GetFileExtension(FullPath);
+			FullName = UriExtensions.Combine(parent.FullName, Name);
 		}
 
 		public string Name
@@ -40,6 +41,12 @@ namespace xrc.Pages.Providers.FileSystem
 			private set;
 		}
 
+		public string FullName
+		{
+			get;
+			private set;
+		}
+
 		public string FileName
 		{
 			get { return Path.GetFileName(FullPath); }
@@ -54,6 +61,11 @@ namespace xrc.Pages.Providers.FileSystem
 		public bool IsIndex
 		{
 			get { return string.Equals(Name, XrcFileSystemHelper.INDEX_FILE, StringComparison.InvariantCultureIgnoreCase); }
+		}
+
+		public bool IsSlot()
+		{
+			return Name.StartsWith("_");
 		}
     }
 }

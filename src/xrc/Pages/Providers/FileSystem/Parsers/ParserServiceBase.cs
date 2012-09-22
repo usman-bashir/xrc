@@ -67,6 +67,25 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 			return configFiles.ToArray();
 		}
 
+		protected PageAction CreateActionByConvention(XrcFileResource fileResource)
+		{
+			var action = new PageAction("GET");
+
+			if (!fileResource.File.IsSlot())
+				action.Parent = SearchParent(fileResource.File.Parent);
+
+			return action;
+		}
+
+		private string SearchParent(XrcFolder folder)
+		{
+			var layoutFile = folder.SearchLayout();
+			if (layoutFile != null)
+				return layoutFile.FullName;
+
+			return null;
+		}
+
 		protected abstract PageParserResult ParseFile(XrcFileResource fileResource);
 	}
 }

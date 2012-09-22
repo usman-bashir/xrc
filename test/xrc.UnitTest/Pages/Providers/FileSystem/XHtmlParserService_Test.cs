@@ -42,6 +42,42 @@ namespace xrc.Pages.Providers.FileSystem
 			Assert.AreEqual("Hello", xhtmlDoc.Root.Value);
 		}
 
+		[TestMethod]
+		public void It_Should_be_possible_to_parse_page_with_layout()
+		{
+			var file = GetFile(@"sampleWebSite1\conventions\page_with_layout.xrc.xhtml");
+
+			var schemaParser = new Mock<IXrcSchemaParserService>();
+			schemaParser.Setup(p => p.Parse(It.IsAny<string>())).Returns(new PageParserResult());
+			var viewCatalog = new Mocks.ViewCatalogServiceMock(new ComponentDefinition(typeof(XHtmlView).Name, typeof(XHtmlView)));
+
+			var target = new XHtmlParserService(schemaParser.Object, viewCatalog);
+
+			PageParserResult page = target.Parse(file);
+			var action = page.Actions["GET"];
+			var view = action.Views.Single();
+			Assert.AreEqual(typeof(XHtmlView), view.Component.Type);
+			Assert.AreEqual("~/shared/_layout", action.Parent);
+		}
+
+		[TestMethod]
+		public void It_Should_be_possible_to_parse_page_without_layout()
+		{
+			var file = GetFile(@"sampleWebSite1\conventions\_page_without_layout.xrc.xhtml");
+
+			var schemaParser = new Mock<IXrcSchemaParserService>();
+			schemaParser.Setup(p => p.Parse(It.IsAny<string>())).Returns(new PageParserResult());
+			var viewCatalog = new Mocks.ViewCatalogServiceMock(new ComponentDefinition(typeof(XHtmlView).Name, typeof(XHtmlView)));
+
+			var target = new XHtmlParserService(schemaParser.Object, viewCatalog);
+
+			PageParserResult page = target.Parse(file);
+			var action = page.Actions["GET"];
+			var view = action.Views.Single();
+			Assert.AreEqual(typeof(XHtmlView), view.Component.Type);
+			Assert.IsNull(action.Parent);
+		}
+
 		private XrcFileResource GetFile(string relativeFilePath)
 		{
 			string fullPath = TestHelper.GetFile(relativeFilePath);
