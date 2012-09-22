@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Castle.MicroKernel.Registration;
 using System.Reflection;
+using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 
 namespace xrc.IoC.Windsor
 {
@@ -19,6 +20,8 @@ namespace xrc.IoC.Windsor
         public void Install(Castle.Windsor.IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store)
         {
             Assembly assembly = typeof(xrc.IKernel).Assembly;
+
+			container.Kernel.Resolver.AddSubResolver(new ArrayResolver(container.Kernel));
 
 			container.Register(Component.For<xrc.Configuration.IRootPathConfig>().Instance(_xrcSection.RootPath));
 			container.Register(Component.For<xrc.Configuration.IModuleConfig>().Instance(_xrcSection).Named("IModuleConfig"));
