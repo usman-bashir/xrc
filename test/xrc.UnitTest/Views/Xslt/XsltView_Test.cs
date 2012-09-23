@@ -24,9 +24,8 @@ namespace xrc.Views
             XrcRequest request = new XrcRequest(new Uri("http://test/"));
             using (MemoryStream outStream = new MemoryStream())
             {
-                XrcResponse response = new XrcResponse(outStream);
-
-                target.Execute(new Context(request, response));
+                using (XrcResponse response = new XrcResponse(outStream))
+	                target.Execute(new Context(request, response));
 
                 outStream.Seek(0, SeekOrigin.Begin);
                 using (StreamReader reader = new StreamReader(outStream))
@@ -48,9 +47,8 @@ namespace xrc.Views
             XrcRequest request = new XrcRequest(new Uri("http://test/"));
             using (MemoryStream outStream = new MemoryStream())
             {
-                XrcResponse response = new XrcResponse(outStream);
-
-                target.Execute(new Context(request, response));
+                using (XrcResponse response = new XrcResponse(outStream))
+	                target.Execute(new Context(request, response));
 
                 outStream.Seek(0, SeekOrigin.Begin);
                 using (StreamReader reader = new StreamReader(outStream))
@@ -73,10 +71,12 @@ namespace xrc.Views
             XrcRequest request = new XrcRequest(new Uri("http://test/"));
             using (MemoryStream outStream = new MemoryStream())
             {
-                XrcResponse response = new XrcResponse(outStream);
-                Context context = new Context(request, response);
-                context.Parameters.Add(new ContextParameter("myParameter", typeof(string), "hello from parameter"));
-                target.Execute(context);
+				using (XrcResponse response = new XrcResponse(outStream))
+				{
+					Context context = new Context(request, response);
+					context.Parameters.Add(new ContextParameter("myParameter", typeof(string), "hello from parameter"));
+					target.Execute(context);
+				}
 
                 outStream.Seek(0, SeekOrigin.Begin);
                 using (StreamReader reader = new StreamReader(outStream))
@@ -99,9 +99,11 @@ namespace xrc.Views
             XrcRequest request = new XrcRequest(new Uri("http://test/"));
             using (MemoryStream outStream = new MemoryStream())
             {
-                XrcResponse response = new XrcResponse(outStream);
-                Context context = new Context(request, response);
-                target.Execute(context);
+				using (XrcResponse response = new XrcResponse(outStream))
+				{
+					Context context = new Context(request, response);
+					target.Execute(context);
+				}
 
                 outStream.Seek(0, SeekOrigin.Begin);
                 using (StreamReader reader = new StreamReader(outStream))

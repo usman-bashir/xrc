@@ -60,9 +60,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PackageVersion.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +72,11 @@
       <Name>xrc</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>GlobalAssemblyInfo.cs</Link>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -86,19 +88,18 @@
   <PropertyGroup>
     <PostBuildEvent>REM See .csproj content for post build actions</PostBuildEvent>
   </PropertyGroup>
-	
-	<!-- Call nuget pack for each nuspec file included in the project. -->
+  <!-- Call nuget pack for each nuspec file included in the project. -->
   <Target Name="AfterBuild">
-		<GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
       <Output TaskParameter="Assemblies" ItemName="NuGetAssemblyInfo" />
     </GetAssemblyIdentity>
-		<ItemGroup>
-			<NuspecFiles Include="$(ProjectDir)*.nuspec"/>
-		</ItemGroup>
-		<PropertyGroup>
-			<NugetExe>"$(SolutionDir).nuget\nuget.exe"</NugetExe>
-			<NugetVersion>%(NuGetAssemblyInfo.Version)</NugetVersion>
-		</PropertyGroup>
-		<Exec Command="$(NugetExe) pack %(NuspecFiles.FullPath) -OutputDirectory $(OutputPath) -BasePath $(OutputPath) -Version $(NugetVersion)" />
+    <ItemGroup>
+      <NuspecFiles Include="$(ProjectDir)*.nuspec" />
+    </ItemGroup>
+    <PropertyGroup>
+      <NugetExe>"$(SolutionDir).nuget\nuget.exe"</NugetExe>
+      <NugetVersion>%(NuGetAssemblyInfo.Version)</NugetVersion>
+    </PropertyGroup>
+    <Exec Command="$(NugetExe) pack &quot;%(NuspecFiles.FullPath)&quot; -OutputDirectory $(OutputPath) -BasePath $(OutputPath) -Version $(NugetVersion)" />
   </Target>
 </Project>

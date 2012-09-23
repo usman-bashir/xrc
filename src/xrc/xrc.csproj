@@ -39,6 +39,9 @@
     <Reference Include="Castle.Core">
       <HintPath>..\..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
     </Reference>
+    <Reference Include="MarkdownXrc">
+      <HintPath>..\..\packages\MarkdownXrc.1.0.0.0\lib\net40\MarkdownXrc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -55,6 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Components\ComponentCatalogService.cs" />
     <Compile Include="Components\ComponentDefinitionList.cs" />
     <Compile Include="Configuration\ComponentCollection.cs" />
@@ -76,6 +82,8 @@
     <Compile Include="Exceptions\MovedPermanentlyException.cs" />
     <Compile Include="Exceptions\ResourceNotFoundException.cs" />
     <Compile Include="Exceptions\XrcException.cs" />
+    <Compile Include="Markdown\IMarkdownService.cs" />
+    <Compile Include="Markdown\MarkdownService.cs" />
     <Compile Include="Modules\IFileModule.cs" />
     <Compile Include="Modules\ISlotModule.cs" />
     <Compile Include="Modules\IUrlModule.cs" />
@@ -86,6 +94,7 @@
     <Compile Include="Modules\IModuleFactory.cs" />
     <Compile Include="Kernel\IXrcService.cs" />
     <Compile Include="Kernel\XrcService.cs" />
+    <Compile Include="Pages\Providers\FileSystem\Parsers\MarkdownParserService.cs" />
     <Compile Include="Pages\Providers\FileSystem\Parsers\XsltParserService.cs" />
     <Compile Include="Pages\Providers\FileSystem\Parsers\RazorParserService.cs" />
     <Compile Include="Pages\Providers\FileSystem\Parsers\HtmlParserService.cs" />
@@ -107,6 +116,7 @@
     <Compile Include="Routing\XrcRoute.cs" />
     <Compile Include="Sites\SiteConfigurationMismatchException.cs" />
     <Compile Include="Sites\SiteConfigurationNotFoundException.cs" />
+    <Compile Include="Views\MarkdownView.cs" />
     <Compile Include="Views\HtmlView.cs" />
     <Compile Include="Views\IViewCatalogService.cs" />
     <Compile Include="Views\IViewFactory.cs" />

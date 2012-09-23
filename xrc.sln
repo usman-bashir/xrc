@@ -46,8 +46,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demo", "demo", "{4D8B9E4D-A643-45EB-872F-A06C1CE01674}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B8687CAB-0363-4E20-BB9D-1ED3A253F2AB}"
+	ProjectSection(SolutionItems) = preProject
+		src\GlobalAssemblyInfo.cs = src\GlobalAssemblyInfo.cs
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xrc.nuget", "src\xrc.nuget\xrc.nuget.csproj", "{2C565518-5478-410A-9334-B8301920676D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NugetPackager", "src\NugetPackager\NugetPackager.csproj", "{2C565518-5478-410A-9334-B8301920676D}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution

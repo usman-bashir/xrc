@@ -63,7 +63,7 @@ namespace xrc.Views
         {
             ViewCatalogService target = new ViewCatalogService(Configuration.XrcSection.GetSection());
 
-            Assert.AreEqual(8, target.GetAll().Count());
+            Assert.AreEqual(9, target.GetAll().Count());
         }
 
     }

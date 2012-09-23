@@ -25,10 +25,9 @@ Problemi
 
 
 TODO
- Rio 2016 example
  Docs (architecture, features, advantages)
- Integrate nuget with projects output
  Nuget GlobalAsax transform: WebActivator or Scott Hanselman article (https://bitbucket.org/davidebbo/webactivator/wiki/Home) 
+ Valutare se usare invece che MarkdownXrc/MarkdownSharp  MarkdownDeep (http://www.toptensoftware.com/markdowndeep/). Licenza?
  ModuleCatalogService e ViewCatalogService potrebbero leggere i dati di windsor?
  ComponentCatalogService implementare anche AssignableTo (BasedOn) property to filter type based on an interface
  Authentication
