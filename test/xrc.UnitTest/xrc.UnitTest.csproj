@@ -71,6 +71,9 @@
     <Compile Include="Mocks\RootPathConfigMock.cs" />
     <Compile Include="Modules\ModuleCatalogService_Test.cs" />
     <Compile Include="Modules\TestModule.cs" />
+    <Compile Include="Pages\Providers\FileSystem\XsltParserService_Test.cs" />
+    <Compile Include="Pages\Providers\FileSystem\RazorParserService_Test.cs" />
+    <Compile Include="Pages\Providers\FileSystem\HtmlParserService_Test.cs" />
     <Compile Include="Pages\Providers\FileSystem\XHtmlParserService_Test.cs" />
     <Compile Include="Pages\Providers\FileSystem\XrcParserService_Test.cs" />
     <Compile Include="Pages\Providers\FileSystem\PageParserResult_Test.cs" />
@@ -100,6 +103,15 @@
     <None Include="sampleWebSite1\conventions\page_with_layout.xrc.xhtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="sampleWebSite2\conventions_xslt.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sampleWebSite2\conventions_xslt.xrc.xslt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sampleWebSite2\conventions_html.xrc.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="sampleWebSite2\example6.xrc">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -107,7 +119,7 @@
     <None Include="sampleWebSite1\athletes\xrc.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="sampleWebSite2\example8.xrc.xhtml">
+    <None Include="sampleWebSite2\conventions_xhtml.xrc.xhtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="sampleWebSite2\xrc.config">
@@ -129,6 +141,9 @@
     <None Include="sampleWebSite1\teams\{teamid}\_layout.xrc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="sampleWebSite2\conventions_xsltonly.xrc.xslt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Views\Xslt\books.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

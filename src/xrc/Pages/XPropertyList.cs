@@ -41,5 +41,10 @@ namespace xrc.Pages
         {
             return _list.Values.GetEnumerator();
         }
+
+		public int Count
+		{
+			get { return _list.Count; }
+		}
     }
 }

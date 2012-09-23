@@ -86,6 +86,9 @@
     <Compile Include="Modules\IModuleFactory.cs" />
     <Compile Include="Kernel\IXrcService.cs" />
     <Compile Include="Kernel\XrcService.cs" />
+    <Compile Include="Pages\Providers\FileSystem\Parsers\XsltParserService.cs" />
+    <Compile Include="Pages\Providers\FileSystem\Parsers\RazorParserService.cs" />
+    <Compile Include="Pages\Providers\FileSystem\Parsers\HtmlParserService.cs" />
     <Compile Include="Pages\Providers\FileSystem\Parsers\XHtmlParserService.cs" />
     <Compile Include="Pages\Providers\FileSystem\Parsers\IXrcSchemaParserService.cs" />
     <Compile Include="Pages\Providers\FileSystem\Parsers\XrcSchemaParserService.cs" />
@@ -104,6 +107,7 @@
     <Compile Include="Routing\XrcRoute.cs" />
     <Compile Include="Sites\SiteConfigurationMismatchException.cs" />
     <Compile Include="Sites\SiteConfigurationNotFoundException.cs" />
+    <Compile Include="Views\HtmlView.cs" />
     <Compile Include="Views\IViewCatalogService.cs" />
     <Compile Include="Views\IViewFactory.cs" />
     <Compile Include="Kernel\RenderSlotEvent.cs" />

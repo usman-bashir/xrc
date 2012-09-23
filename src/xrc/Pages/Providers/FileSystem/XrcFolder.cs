@@ -122,7 +122,16 @@ namespace xrc.Pages.Providers.FileSystem
 		{
 			var files = Directory.GetFiles(FullPath, XrcFileSystemHelper.FILE_PATTERN).Select(p => new XrcFile(p, this));
 
-            _files = files.ToDictionary(p => p.Name, StringComparer.OrdinalIgnoreCase);
+			var dictionary = new Dictionary<string, XrcFile>(StringComparer.OrdinalIgnoreCase);
+			foreach (var f in files)
+			{
+				if (dictionary.ContainsKey(f.Name))
+					throw new XrcException(string.Format("A page with the same name is already specified for file '{0}'.", f.FullPath));
+
+				dictionary.Add(f.Name, f);
+			}
+
+			_files = dictionary;
 		}
 
 		private void SearchFolders()

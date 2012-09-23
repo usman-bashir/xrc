@@ -22,6 +22,7 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 		}
 
 		// TODO E' possibile semplificare e irrobustire questo codice?
+		// TODO Potrebero esserci problemi di cache e dipendenze? Da ottimizzare in qualche modo?
 
 		protected override PageParserResult ParseFile(XrcFileResource fileResource)
 		{
@@ -34,7 +35,10 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 
 			var viewComponentDefinition = _viewCatalog.Get(typeof(XHtmlView).Name);
 			var view = new ViewDefinition(viewComponentDefinition, null);
-			var viewProperty = viewComponentDefinition.Type.GetProperty("Content");
+			string propertyName = "Content";
+			var viewProperty = viewComponentDefinition.Type.GetProperty(propertyName);
+			if (viewProperty == null)
+				throw new XrcException(string.Format("Property '{0}' for type '{1}' not found.", propertyName, viewComponentDefinition.Type.FullName));
 
 			string fullPath = fileResource.File.FullPath;
 			var function = new Func<XDocument>(() => XDocument.Load(fullPath));

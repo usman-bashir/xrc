@@ -32,6 +32,9 @@ namespace xrc.Views
 			_pageProviderService = pageProviderService;
 		}
 
+		/// <summary>
+		/// Gets or sets a url relative from the current xrc file path or a virtual path using razor standard url. Es. ~/Views/Contact/Index.cshtml 
+		/// </summary>
 		public string ViewFile
 		{
 			get;

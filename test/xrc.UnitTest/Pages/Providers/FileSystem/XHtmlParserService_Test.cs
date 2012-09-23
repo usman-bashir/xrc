@@ -21,29 +21,31 @@ namespace xrc.Pages.Providers.FileSystem
         {
         }
 		[TestMethod]
-		public void It_Should_be_possible_to_parse_example8()
+		public void It_Should_be_possible_to_parse_xhtml()
 		{
-			var file = GetFile(@"sampleWebSite2\example8.xrc.xhtml");
+			var file = GetFile(@"sampleWebSite2\conventions_xhtml.xrc.xhtml");
+			var viewType = typeof(XHtmlView);
 
 			var schemaParser = new Mock<IXrcSchemaParserService>();
 			schemaParser.Setup(p => p.Parse(It.IsAny<string>())).Returns(new PageParserResult());
-			var viewCatalog = new Mocks.ViewCatalogServiceMock(new ComponentDefinition(typeof(XHtmlView).Name, typeof(XHtmlView)));
+			var viewCatalog = new Mocks.ViewCatalogServiceMock(new ComponentDefinition(viewType.Name, viewType));
 
 			var target = new XHtmlParserService(schemaParser.Object, viewCatalog);
 
 			PageParserResult page = target.Parse(file);
 			var view = page.Actions["GET"].Views.Single();
-			Assert.AreEqual(typeof(XHtmlView), view.Component.Type);
+			Assert.AreEqual(viewType, view.Component.Type);
 
 			Assert.AreEqual(typeof(XDocument), view.Properties["Content"].Value.Expression.ReturnType);
 			ScriptExpression expression = (ScriptExpression)view.Properties["Content"].Value.Expression;
 
-			var xhtmlDoc = (XDocument)expression.CompiledExpression.DynamicInvoke(null);
-			Assert.AreEqual("Hello", xhtmlDoc.Root.Value);
+			var content = (XDocument)expression.CompiledExpression.DynamicInvoke(null);
+			Assert.AreEqual("Hello", content.Root.Value);
+
 		}
 
 		[TestMethod]
-		public void It_Should_be_possible_to_parse_page_with_layout()
+		public void It_Should_be_possible_to_parse_xhtml_page_with_layout()
 		{
 			var file = GetFile(@"sampleWebSite1\conventions\page_with_layout.xrc.xhtml");
 
@@ -61,7 +63,7 @@ namespace xrc.Pages.Providers.FileSystem
 		}
 
 		[TestMethod]
-		public void It_Should_be_possible_to_parse_page_without_layout()
+		public void It_Should_be_possible_to_parse_xhtml_page_without_layout()
 		{
 			var file = GetFile(@"sampleWebSite1\conventions\_page_without_layout.xrc.xhtml");
 
