@@ -36,7 +36,7 @@ Features
 	- Markdown
 	- Json
 	- Xml
-- On the same page you can mix content for diffent language
+- On the same page you can mix content using different languages
 - Url segment parameters, query parameters or static parameters 
 - Easy setup and deploy
 - Azure ready
@@ -48,6 +48,9 @@ Features
 Installing and using XRC
 ------------------------
 
+
+License
+-------
 
 
 

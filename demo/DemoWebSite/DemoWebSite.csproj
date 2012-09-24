@@ -95,10 +95,10 @@
     <None Include="xrc\books\xrc.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="xrc\books\_loremIpsum.xrc.xhtml">
+    <Content Include="xrc\books\_loremIpsum.xrc.xhtml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
     <Content Include="xrc\books\index.xslt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -223,10 +223,10 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="xrc\docs\loremipsum_markdown.xrc.md" />
-    <None Include="xrc\docs\loremipsum_razor.xrc.cshtml">
+    <Content Include="xrc\docs\loremipsum_markdown.xrc.md" />
+    <Content Include="xrc\docs\loremipsum_razor.xrc.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\xrc.Windsor\xrc.Windsor.csproj">
