@@ -40,10 +40,8 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 			if (viewProperty == null)
 				throw new XrcException(string.Format("Property '{0}' for type '{1}' not found.", propertyName, viewComponentDefinition.Type.FullName));
 
-			string fullPath = fileResource.File.FullPath;
-			var function = new Func<XDocument>(() => XDocument.Load(fullPath));
-			var scriptExpression = new ScriptExpression("XHtmlParserService_Expression", new ScriptParameterList(), function);
-			var propertyValue = new XValue(viewProperty.PropertyType, scriptExpression);
+			XDocument content = XDocument.Load(fileResource.File.FullPath);
+			var propertyValue = new XValue(viewProperty.PropertyType, content);
 
 			view.Properties.Add(new XProperty(viewProperty, propertyValue));
 			action.Views.Add(view);

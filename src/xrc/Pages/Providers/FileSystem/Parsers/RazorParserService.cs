@@ -41,9 +41,7 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 				throw new XrcException(string.Format("Property '{0}' for type '{1}' not found.", propertyName, viewComponentDefinition.Type.FullName));
 
 			string fileName = fileResource.File.FileName;
-			var function = new Func<string>(() => fileName);
-			var scriptExpression = new ScriptExpression("RazorParserService_Expression", new ScriptParameterList(), function);
-			var propertyValue = new XValue(viewProperty.PropertyType, scriptExpression);
+			var propertyValue = new XValue(viewProperty.PropertyType, fileName);
 
 			view.Properties.Add(new XProperty(viewProperty, propertyValue));
 			action.Views.Add(view);

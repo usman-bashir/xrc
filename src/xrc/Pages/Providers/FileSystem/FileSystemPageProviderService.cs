@@ -24,6 +24,7 @@ namespace xrc.Pages.Providers.FileSystem
 		}
 
 		// TODO Valutare come e se fare cache del risultato di GetPage e IsDefined anche perchè condividono parte del codice.
+		// Probabilmente si può mettere in cache l'intera IPage con dipendenza a xrcFile.File.FullPath
 
 		public IPage GetPage(Uri url)
 		{

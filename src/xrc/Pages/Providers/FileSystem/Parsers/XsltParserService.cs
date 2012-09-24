@@ -38,14 +38,12 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 			var view = new ViewDefinition(viewComponentDefinition, null);
 
 			string xsltFullPath = fileResource.File.FullPath;
-			var xsltFunction = new Func<XDocument>(() => XDocument.Load(xsltFullPath));
-			AddProperty(viewComponentDefinition, view, "Xslt", xsltFunction);
+			AddProperty(viewComponentDefinition, view, "Xslt", XDocument.Load(xsltFullPath));
 
 			string dataFullPath = fileResource.File.FullPath.Replace(".xrc.xslt", ".xml");
 			if (File.Exists(dataFullPath))
 			{
-				var dataFunction = new Func<XDocument>(() => XDocument.Load(dataFullPath));
-				AddProperty(viewComponentDefinition, view, "Data", dataFunction);
+				AddProperty(viewComponentDefinition, view, "Data", XDocument.Load(dataFullPath));
 			}
 
 			action.Views.Add(view);
@@ -54,16 +52,15 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 			return result;
 		}
 
-		private static void AddProperty(ComponentDefinition viewComponentDefinition, ViewDefinition view, string propertyName, Func<XDocument> function)
+		private static void AddProperty(ComponentDefinition viewComponentDefinition, ViewDefinition view, string propertyName, object propertyValue)
 		{
 			var viewProperty = viewComponentDefinition.Type.GetProperty(propertyName);
 			if (viewProperty == null)
 				throw new XrcException(string.Format("Property '{0}' for type '{1}' not found.", propertyName, viewComponentDefinition.Type.FullName));
 
-			var scriptExpression = new ScriptExpression("XsltParserService_Expression", new ScriptParameterList(), function);
-			var propertyValue = new XValue(viewProperty.PropertyType, scriptExpression);
+			var propertyXValue = new XValue(viewProperty.PropertyType, propertyValue);
 
-			view.Properties.Add(new XProperty(viewProperty, propertyValue));
+			view.Properties.Add(new XProperty(viewProperty, propertyXValue));
 		}
 	}
 }
