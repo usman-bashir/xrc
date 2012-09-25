@@ -4,7 +4,7 @@
          xmlns:Twitter="xrc:TwitterModule">
 
 	<xrc:parameters>
-		<xrc:add key="title" value="Twitter" />
+		<xrc:add key="title" value="twitter" />
 		<xrc:add key="activeMenu" value="twitter" />
 		<xrc:add key="hashTag" value="microsoft" allowRequestOverride="true" />
 	</xrc:parameters>

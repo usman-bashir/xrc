@@ -3,7 +3,7 @@
          xmlns:File="xrc:FileModule">
 
 	<xrc:parameters>
-		<xrc:add key="title" value="News" />
+		<xrc:add key="title" value="news" />
 		<xrc:add key="activeMenu" value="news" />
 	</xrc:parameters>
 

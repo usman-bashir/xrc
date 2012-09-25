@@ -227,6 +227,9 @@
     <Content Include="xrc\docs\loremipsum_razor.xrc.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="xrc\docs\xrc.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\xrc.Windsor\xrc.Windsor.csproj">

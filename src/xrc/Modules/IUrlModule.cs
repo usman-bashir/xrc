@@ -5,10 +5,19 @@ namespace xrc.Modules
     public interface IUrlModule
     {
 		/// <summary>
-		/// Converts a virtual (relative) path to an application absolute path. Can be used for xrc page or content files like script, css, ...
+		/// Converts a virtual (relative) path to an absolute path. Can be used for xrc page or content files like script, css, ...
 		/// </summary>
 		string Content(string contentPath);
+		/// <summary>
+		/// Converts a virtual (relative) path to an absolute path. Can be used for xrc page or content files like script, css, ...
+		/// </summary>
 		string Content(string contentPathBase, string contentPath);
+
+		string Current();
+
+		string Initiator();
+
+		bool IsBaseOf(string baseUrl, string url);
 
         /// <summary>
         /// Generates a fully qualified URL to an action method by using the specified action name and controller name.

@@ -36,10 +36,7 @@ namespace xrc.Pages.Providers.FileSystem
 			var view = page.Actions["GET"].Views.Single();
 			Assert.AreEqual(viewType, view.Component.Type);
 
-			Assert.AreEqual(typeof(string), view.Properties["ViewFile"].Value.Expression.ReturnType);
-			ScriptExpression expression = (ScriptExpression)view.Properties["ViewFile"].Value.Expression;
-
-			var content = (string)expression.CompiledExpression.DynamicInvoke(null);
+			var content = (string)view.Properties["ViewFile"].Value.Value;
 			Assert.AreEqual(file.File.FileName, content);
 		}
 

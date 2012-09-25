@@ -252,27 +252,29 @@ namespace xrc
 
 			// Page.Parameters override any other values except Request if the allowRequestOverride is true.
 			// Page.Parameters type is used for conversion.
-			foreach (var item in context.Page.PageParameters)
+			foreach (var pageParam in context.Page.PageParameters)
 			{
 				string requestValue;
-				if (item.AllowRequestOverride && (requestValue = context.Request[item.Name]) != null)
+				// Read parameters from the request
+				if (pageParam.AllowRequestOverride && (requestValue = context.Request[pageParam.Name]) != null)
 				{
-					context.Parameters[item.Name] = new ContextParameter(item.Name, item.Value.ValueType,
-															ConvertEx.ChangeType(requestValue, item.Value.ValueType, System.Globalization.CultureInfo.InvariantCulture));
+					context.Parameters[pageParam.Name] = new ContextParameter(pageParam.Name, pageParam.Value.ValueType,
+															ConvertEx.ChangeType(requestValue, pageParam.Value.ValueType, System.Globalization.CultureInfo.InvariantCulture));
 				}
-				else if (item.Value.Expression == null && item.Value.Value == null)
+				// Read parameters already specified in the context (for example by the parent)
+				else if (pageParam.Value.Expression == null && pageParam.Value.Value == null)
 				{
 					ContextParameter currentValue;
-					if (context.Parameters.TryGetValue(item.Name, out currentValue))
-						context.Parameters[item.Name] = new ContextParameter(item.Name, item.Value.ValueType,
-																ConvertEx.ChangeType(currentValue.Value, item.Value.ValueType, System.Globalization.CultureInfo.InvariantCulture));
+					if (context.Parameters.TryGetValue(pageParam.Name, out currentValue))
+						context.Parameters[pageParam.Name] = new ContextParameter(pageParam.Name, pageParam.Value.ValueType,
+																ConvertEx.ChangeType(currentValue.Value, pageParam.Value.ValueType, System.Globalization.CultureInfo.InvariantCulture));
 					else
-						throw new ApplicationException(string.Format("Parameter '{0}' not defined.", item.Name));
+						throw new ApplicationException(string.Format("Parameter '{0}' not defined.", pageParam.Name));
 				}
-				else
+				else // Read parameters specified in the page
 				{
-					object value = _scriptService.Eval(item.Value, modules, context.Parameters);
-					context.Parameters[item.Name] = new ContextParameter(item.Name, item.Value.ValueType, value);
+					object value = _scriptService.Eval(pageParam.Value, modules, context.Parameters);
+					context.Parameters[pageParam.Name] = new ContextParameter(pageParam.Name, pageParam.Value.ValueType, value);
 				}
 			}
 		}

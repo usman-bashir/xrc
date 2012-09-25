@@ -47,5 +47,10 @@ namespace xrc.Pages
         {
             get { return _parameters.Count; }
         }
-    }
+
+		public bool TryGetValue(string parameter, out PageParameter pageParam)
+		{
+			return _parameters.TryGetValue(parameter, out pageParam);
+		}
+	}
 }

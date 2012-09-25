@@ -36,14 +36,10 @@ namespace xrc.Pages.Providers.FileSystem
 			var view = page.Actions["GET"].Views.Single();
 			Assert.AreEqual(viewType, view.Component.Type);
 
-			Assert.AreEqual(typeof(XDocument), view.Properties["Xslt"].Value.Expression.ReturnType);
-			ScriptExpression expression = (ScriptExpression)view.Properties["Xslt"].Value.Expression;
-			var content = (XDocument)expression.CompiledExpression.DynamicInvoke(null);
+			var content = (XDocument)view.Properties["Xslt"].Value.Value;
 			Assert.AreEqual("stylesheet", content.Root.Name.LocalName);
 
-			Assert.AreEqual(typeof(XDocument), view.Properties["Data"].Value.Expression.ReturnType);
-			expression = (ScriptExpression)view.Properties["Data"].Value.Expression;
-			content = (XDocument)expression.CompiledExpression.DynamicInvoke(null);
+			content = (XDocument)view.Properties["Data"].Value.Value;
 			Assert.AreEqual("bookstore", content.Root.Name.LocalName);
 		}
 
@@ -65,9 +61,7 @@ namespace xrc.Pages.Providers.FileSystem
 
 			Assert.AreEqual(1, view.Properties.Count);
 
-			Assert.AreEqual(typeof(XDocument), view.Properties["Xslt"].Value.Expression.ReturnType);
-			ScriptExpression expression = (ScriptExpression)view.Properties["Xslt"].Value.Expression;
-			var content = (XDocument)expression.CompiledExpression.DynamicInvoke(null);
+			var content = (XDocument)view.Properties["Xslt"].Value.Value;
 			Assert.AreEqual("stylesheet", content.Root.Name.LocalName);
 		}
 

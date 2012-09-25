@@ -23,5 +23,7 @@ namespace xrc
 		IContext CallerContext { get; set; }
 
 		void CheckResponse();
+
+		IContext GetInitiatorContext();
     }
 }

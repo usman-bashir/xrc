@@ -8,20 +8,17 @@ namespace xrc.Markdown
 {
 	public class MarkdownService : IMarkdownService
 	{
-		readonly MarkdownSharp.Markdown _markdown;
-
-		public MarkdownService()
-		{
-			_markdown = new MarkdownSharp.Markdown();
-			if (HttpRuntime.AppDomainAppVirtualPath != null)
-				_markdown.BaseUrl = HttpRuntime.AppDomainAppVirtualPath;
-			else
-				_markdown.BaseUrl = "";
-		}
-
 		public string Transform(string markdownText)
 		{
-			return _markdown.Transform(markdownText);
+			// TODO Valutare se usare un'altra libreria per performance migliori e perchè credo che questa non supporta il multithreading e  bisogna ricreare ogni volta l'istanza. Da verificare.
+
+			var markdown = new MarkdownSharp.Markdown();
+			if (HttpRuntime.AppDomainAppVirtualPath != null)
+				markdown.BaseUrl = HttpRuntime.AppDomainAppVirtualPath;
+			else
+				markdown.BaseUrl = "";
+
+			return markdown.Transform(markdownText);
 		}
 	}
 }

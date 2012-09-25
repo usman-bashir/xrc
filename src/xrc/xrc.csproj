@@ -39,8 +39,9 @@
     <Reference Include="Castle.Core">
       <HintPath>..\..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="MarkdownXrc">
-      <HintPath>..\..\packages\MarkdownXrc.1.0.0.0\lib\net40\MarkdownXrc.dll</HintPath>
+    <Reference Include="MarkdownXrc, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\MarkdownXrc.1.0.1.0\lib\net40\MarkdownXrc.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -84,6 +85,8 @@
     <Compile Include="Exceptions\XrcException.cs" />
     <Compile Include="Markdown\IMarkdownService.cs" />
     <Compile Include="Markdown\MarkdownService.cs" />
+    <Compile Include="Modules\PageModule.cs" />
+    <Compile Include="Modules\IPageModule.cs" />
     <Compile Include="Modules\IFileModule.cs" />
     <Compile Include="Modules\ISlotModule.cs" />
     <Compile Include="Modules\IUrlModule.cs" />

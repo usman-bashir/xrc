@@ -4,7 +4,7 @@
 
 	<xrc:parameters>
 		<!-- This parameter will be used as the page title in the shared/layout.xslt page -->
-		<xrc:add key="title" value="xrc home" />
+		<xrc:add key="title" value="home" />
 		<!-- This parameter will be passed on the shared/_header.xrc -->
 		<xrc:add key="activeMenu" value="home" />
 	</xrc:parameters>

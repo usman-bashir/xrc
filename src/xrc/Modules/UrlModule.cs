@@ -29,6 +29,22 @@ namespace xrc.Modules
 			return UriExtensions.Combine(Content(contentPathBase), contentPath);
 		}
 
+		public string Current()
+		{
+			return _context.Request.Url.ToString();
+		}
+
+		public string Initiator()
+		{
+			return _context.GetInitiatorContext().Request.Url.ToString();
+		}
+
+		public bool IsBaseOf(string baseUrl, string url)
+		{
+			Uri baseUrlUri = new Uri(baseUrl);
+			return baseUrlUri.IsBaseOfWithPath(new Uri(url));
+		}
+
         public string MvcAction(string actionName, string controllerName)
         {
             return _urlHelper.Action(actionName, controllerName);
@@ -53,5 +69,5 @@ namespace xrc.Modules
         {
             return _urlHelper.Action(actionName, controllerName, routeValues, protocol, hostName);
         }
-    }
+	}
 }

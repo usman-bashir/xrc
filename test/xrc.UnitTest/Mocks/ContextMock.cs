@@ -54,5 +54,11 @@ namespace xrc.Mocks
 		{
 			throw new NotImplementedException();
 		}
+
+
+		public IContext GetInitiatorContext()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

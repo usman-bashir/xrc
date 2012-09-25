@@ -14,15 +14,15 @@
 			<!-- This is an example of an inline xml, also the xslt can be inline but is not very easy to read -->
 			<Data xmlns="">
 				<header>
-					<menu text="home" url="~/" />
-					<menu text="books" url="~/books" />
-					<menu text="olympics" url="~/olympics/" />
-					<menu text="twitter" url="~/twitter/" />
-					<menu text="news" url="~/news/" />
-					<menu text="widgets" url="~/widgets" />
-					<menu text="contact" url="~/contact" />
-					<menu text="docs" url="~/docs" />
-					<menu text="about" url="~/about" />
+					<menu url="~/" />
+					<menu url="~/books" />
+					<menu url="~/olympics/" />
+					<menu url="~/twitter/" />
+					<menu url="~/news/" />
+					<menu url="~/widgets" />
+					<menu url="~/contact" />
+					<menu url="~/docs" />
+					<menu url="~/about" />
 				</header>
 			</Data>
 

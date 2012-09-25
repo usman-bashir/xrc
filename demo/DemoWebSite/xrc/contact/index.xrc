@@ -2,7 +2,7 @@
 <xrc:page xmlns:xrc="urn:xrc">
 
 	<xrc:parameters>
-		<xrc:add key="title" value="Contact" />
+		<xrc:add key="title" value="contact" />
 		<xrc:add key="activeMenu" value="contact" />
 	</xrc:parameters>
 
