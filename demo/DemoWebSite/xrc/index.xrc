@@ -9,7 +9,7 @@
 		<xrc:add key="activeMenu" value="home" />
 	</xrc:parameters>
 
-	<xrc:action parent="~/shared/_layout">
+	<xrc:action layout="~/shared/_layout">
 		<xrc:XHtmlView>
 			<Content>@File.XHtml("index.xhtml")</Content>
 		</xrc:XHtmlView>

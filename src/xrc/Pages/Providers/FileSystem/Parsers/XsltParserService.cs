@@ -29,7 +29,8 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 		{
 			var result = new PageParserResult();
 
-			var action = CreateActionByConvention(fileResource);
+			var action = new PageAction("GET");
+			action.Layout = GetDefaultLayoutByConvention(fileResource);
 
 			var moduleDefinitionList = new ModuleDefinitionList();
 			var pageParameters = new PageParameterList();

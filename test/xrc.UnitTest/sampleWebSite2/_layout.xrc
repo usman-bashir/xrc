@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:page xmlns:xrc="urn:xrc">
+
+	<xrc:action method="GET">
+		<xrc:TestView>
+		</xrc:TestView>
+	</xrc:action>
+
+</xrc:page>

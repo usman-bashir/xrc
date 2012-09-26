@@ -7,7 +7,8 @@
 		<xrc:add key="activeMenu" value="books" />
 	</xrc:parameters>
 
-	<xrc:action method="GET" parent="~/shared/_layout">
+	<!-- layout="~/shared/_layout" set as default -->
+	<xrc:action method="GET">
 		<xrc:XsltView>
 			<Xslt>@File.Xml("index.xslt")</Xslt>
 			<Data>@File.Xml("books.xml")</Data>

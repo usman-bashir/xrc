@@ -35,7 +35,7 @@ namespace xrc.Pages.Providers.FileSystem
 
             Assert.AreEqual("100", page.Parameters["timeout"].Value.ToString());
             Assert.AreEqual(typeof(int), page.Parameters["timeout"].Value.ValueType);
-        }
+		}
 
         [TestMethod]
         public void It_Should_be_possible_to_parse_example2_page_multiple_parameters()

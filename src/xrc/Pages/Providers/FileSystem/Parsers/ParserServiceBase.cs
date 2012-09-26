@@ -67,14 +67,12 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 			return configFiles.ToArray();
 		}
 
-		protected PageAction CreateActionByConvention(XrcFileResource fileResource)
+		protected string GetDefaultLayoutByConvention(XrcFileResource fileResource)
 		{
-			var action = new PageAction("GET");
-
 			if (!fileResource.File.IsSlot())
-				action.Parent = SearchParent(fileResource.File.Parent);
+				return SearchParent(fileResource.File.Parent);
 
-			return action;
+			return null;
 		}
 
 		private string SearchParent(XrcFolder folder)

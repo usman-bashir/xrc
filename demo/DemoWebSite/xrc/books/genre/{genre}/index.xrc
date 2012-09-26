@@ -5,10 +5,11 @@
 	<xrc:parameters>
 		<!-- this parameter is readed using the url segment value {genre} -->
 		<xrc:add key="genre" />
-		<xrc:add key="title" value='@string.Format("My books - {0}", genre)' />
+		<xrc:add key="title" value='@string.Format("books - {0}", genre)' />
 	</xrc:parameters>
 
-	<xrc:action method="GET" parent="~/shared/_layout">
+	<!-- layout="~/shared/_layout" set as default -->
+	<xrc:action method="GET">
 		<xrc:XsltView>
 			<Xslt>@File.Xml("books_genre.xslt")</Xslt>
 			<Data>@File.Xml("..\..\books.xml")</Data>

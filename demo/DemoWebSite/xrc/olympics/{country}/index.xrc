@@ -4,9 +4,10 @@
 
 	<xrc:parameters>
 		<xrc:add key="country" />
+		<xrc:add key="title" value='@string.Format("olympics - {0}", country)' />
 	</xrc:parameters>
 
-	<xrc:action method="GET" parent="~/shared/_layoutRazor">
+	<xrc:action method="GET" layout="~/shared/_layoutRazor">
 		<xrc:RazorView>
 			<ViewFile>index.cshtml</ViewFile>
 			<Model>@Olympics.GetAthletes(country)</Model>

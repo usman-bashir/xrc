@@ -106,6 +106,9 @@
     <None Include="sampleWebSite1\conventions\page_with_layout.xrc.xhtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="sampleWebSite1\teams\_menu.xrc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="sampleWebSite2\conventions_xslt.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -148,6 +151,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="sampleWebSite2\conventions_markdown.xrc.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="sampleWebSite2\_slot1.xrc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="sampleWebSite2\_layout.xrc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="Views\Xslt\books.xml">

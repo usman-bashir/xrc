@@ -42,6 +42,54 @@ namespace xrc.Pages.Providers.FileSystem
 			Assert.AreEqual("page", page.Parameters["folderParameter2"].Value.ToString());
 		}
 
+		[TestMethod]
+		public void It_Should_be_possible_to_parse_example1_page_and_check_layout()
+		{
+			var file = GetFile(@"sampleWebSite2\example1.xrc");
+			var fileConfig = TestHelper.GetFile(@"sampleWebSite2\xrc.config");
+
+			var schemaParser = new Mock<IXrcSchemaParserService>();
+
+			var configParserResult = new PageParserResult();
+			configParserResult.Parameters.Add(new PageParameter("folderParameter1", new XValue("folder")));
+			configParserResult.Parameters.Add(new PageParameter("folderParameter2", new XValue("folder")));
+			schemaParser.Setup(p => p.Parse(fileConfig)).Returns(configParserResult);
+
+			var parserResult = new PageParserResult();
+			parserResult.Actions.Add(new PageAction("GET"));
+			schemaParser.Setup(p => p.Parse(file.File.FullPath)).Returns(parserResult);
+
+			var target = new XrcParserService(schemaParser.Object, schemaParser.Object);
+
+			PageParserResult page = target.Parse(file);
+			PageAction action = page.Actions["get"];
+			Assert.AreEqual("~/_layout", action.Layout);
+		}
+
+		[TestMethod]
+		public void It_Should_be_possible_to_parse_example1_slot_and_check_layout()
+		{
+			var file = GetFile(@"sampleWebSite2\_slot1.xrc");
+			var fileConfig = TestHelper.GetFile(@"sampleWebSite2\xrc.config");
+
+			var schemaParser = new Mock<IXrcSchemaParserService>();
+
+			var configParserResult = new PageParserResult();
+			configParserResult.Parameters.Add(new PageParameter("folderParameter1", new XValue("folder")));
+			configParserResult.Parameters.Add(new PageParameter("folderParameter2", new XValue("folder")));
+			schemaParser.Setup(p => p.Parse(fileConfig)).Returns(configParserResult);
+
+			var parserResult = new PageParserResult();
+			parserResult.Actions.Add(new PageAction("GET"));
+			schemaParser.Setup(p => p.Parse(file.File.FullPath)).Returns(parserResult);
+
+			var target = new XrcParserService(schemaParser.Object, schemaParser.Object);
+
+			PageParserResult page = target.Parse(file);
+			PageAction action = page.Actions["get"];
+			Assert.IsNull(action.Layout);
+		}
+
 		private XrcFileResource GetFile(string relativeFilePath)
 		{
 			string fullPath = TestHelper.GetFile(relativeFilePath);

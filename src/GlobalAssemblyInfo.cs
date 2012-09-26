@@ -3,6 +3,5 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyProduct("xrc")]
-[assembly: AssemblyCopyright("Copyright © Davide Icardi 2012")]
 
-[assembly: AssemblyVersion("0.1.8.0")]
+[assembly: AssemblyVersion("0.1.9.0")]

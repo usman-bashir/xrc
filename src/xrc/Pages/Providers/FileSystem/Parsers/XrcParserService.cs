@@ -16,7 +16,15 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 
 		protected override PageParserResult ParseFile(XrcFileResource fileResource)
 		{
-			return _xrcSchemaParser.Parse(fileResource.File.FullPath);
+			var result = _xrcSchemaParser.Parse(fileResource.File.FullPath);
+
+			foreach (var action in result.Actions)
+			{
+				if (action.Layout == null)
+					action.Layout = GetDefaultLayoutByConvention(fileResource);
+			}
+
+			return result;
 		}
 	}
 }

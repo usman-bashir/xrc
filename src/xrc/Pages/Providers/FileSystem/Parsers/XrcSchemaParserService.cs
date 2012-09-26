@@ -21,7 +21,7 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 		readonly static XName TYPE = "type";
 		readonly static XName KEY = "key";
 		readonly static XName VALUE = "value";
-		readonly static XName PARENT = "parent";
+		readonly static XName LAYOUT = "layout";
 		readonly static XName SLOT = "slot";
 		readonly static XName OUTPUTCACHE = XMLNS + "outputcache";
 		readonly static XName ALLOWREQUESTOVERRIDE = "allowRequestOverride";
@@ -76,8 +76,8 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 				if (method == null)
 					method = DEFAULT_METHOD;
 				var action = new PageAction(method);
-				if (actionElement.Attribute(PARENT) != null)
-					action.Parent = actionElement.AttributeAs<string>(PARENT);
+				if (actionElement.Attribute(LAYOUT) != null)
+					action.Layout = actionElement.AttributeAs<string>(LAYOUT);
 
 				foreach (var viewElement in actionElement.Elements())
 				{

@@ -6,7 +6,7 @@
 		<xrc:add key="value" allowRequestOverride="true" />
 	</xrc:parameters>
 
-	<xrc:action method="GET">
+	<xrc:action method="GET" layout="">
 		<xrc:JsonView>
 			<Content>@GoogleNews.Search(value)</Content>
 		</xrc:JsonView>

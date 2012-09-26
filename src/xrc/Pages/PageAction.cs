@@ -25,7 +25,7 @@ namespace xrc.Pages
         /// <summary>
         /// Define the parent layout file.
         /// </summary>
-        public string Parent
+        public string Layout
         {
             get;
             set;

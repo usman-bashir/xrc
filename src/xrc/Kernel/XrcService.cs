@@ -137,8 +137,8 @@ namespace xrc
 					return;
 				}
 
-				if (!string.IsNullOrWhiteSpace(action.Parent))
-					RenderParent(context, action, modules);
+				if (!string.IsNullOrWhiteSpace(action.Layout))
+					RenderLayout(context, action, modules);
 				else
 				{
 					foreach (var view in action.Views)
@@ -151,22 +151,22 @@ namespace xrc
 			}
 		}
 
-		private void RenderParent(IContext childContext, PageAction childAction, Dictionary<string, object> childModules)
+		private void RenderLayout(IContext childContext, PageAction childAction, Dictionary<string, object> childModules)
 		{
 			HttpResponseBase currentResponse = childContext.Response;
 
 			// If a parent is defined call first it using the current response 
 			// and defining a SlotCallback event that output the current slot inline.
-			// The event will be called from the parent action by using Cms.Slot().
-			// Parameters will be also copied from slot to parent.
+			// The event will be called from the layout action by using Cms.Slot().
+			// Parameters will be also copied from slot to layout.
 
-			Uri parentUrl = childContext.Page.ToAbsoluteUrl(childAction.Parent.ToLower());
-			Context parentContext = new Context(new XrcRequest(parentUrl, parentRequest: childContext.Request), currentResponse);
-			parentContext.CallerContext = childContext;
+			Uri layoutUrl = childContext.Page.ToAbsoluteUrl(childAction.Layout.ToLower());
+			Context layoutContext = new Context(new XrcRequest(layoutUrl, parentRequest: childContext.Request), currentResponse);
+			layoutContext.CallerContext = childContext;
 			foreach (var item in childContext.Parameters)
-				parentContext.Parameters.Add(new ContextParameter(item.Name, item.Type, item.Value));
+				layoutContext.Parameters.Add(new ContextParameter(item.Name, item.Type, item.Value));
 
-			parentContext.SlotCallback = (s, e) =>
+			layoutContext.SlotCallback = (s, e) =>
 			{
 				var childResult = new System.Web.Mvc.ContentResult();
 				using (MemoryStream stream = new MemoryStream())
@@ -199,15 +199,15 @@ namespace xrc
 
 			try
 			{
-				ProcessRequest(parentContext);
-				parentContext.CheckResponse();
+				ProcessRequest(layoutContext);
+				layoutContext.CheckResponse();
 			}
 			catch (Exception ex)
 			{
 				// Set a generic status code. We don't want to expose directly parent StatusCode like redirect 
 				//  otherwise the client is redirected to a wrong page (the parent page).
 				currentResponse.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
-				throw new PageException(parentUrl, ex);
+				throw new PageException(layoutUrl, ex);
 			}
 		}
 

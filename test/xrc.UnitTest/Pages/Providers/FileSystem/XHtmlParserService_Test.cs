@@ -56,7 +56,7 @@ namespace xrc.Pages.Providers.FileSystem
 			var action = page.Actions["GET"];
 			var view = action.Views.Single();
 			Assert.AreEqual(typeof(XHtmlView), view.Component.Type);
-			Assert.AreEqual("~/shared/_layout", action.Parent);
+			Assert.AreEqual("~/shared/_layout", action.Layout);
 		}
 
 		[TestMethod]
@@ -74,7 +74,7 @@ namespace xrc.Pages.Providers.FileSystem
 			var action = page.Actions["GET"];
 			var view = action.Views.Single();
 			Assert.AreEqual(typeof(XHtmlView), view.Component.Type);
-			Assert.IsNull(action.Parent);
+			Assert.IsNull(action.Layout);
 		}
 
 		private XrcFileResource GetFile(string relativeFilePath)

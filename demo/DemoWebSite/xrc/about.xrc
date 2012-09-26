@@ -7,7 +7,7 @@
 	</xrc:parameters>
 
 	<!-- Example using razor layout -->
-	<xrc:action method="GET" parent="~/shared/_layoutRazor">
+	<xrc:action method="GET" layout="~/shared/_layoutRazor">
 		<xrc:XHtmlView>
 			<!-- Example using an inline html content -->
 			<Content>

@@ -6,7 +6,7 @@
 		<xrc:add key="activeMenu" value="contact" />
 	</xrc:parameters>
 
-	<xrc:action method="GET" parent="~/shared/_layout">
+	<xrc:action method="GET" layout="~/shared/_layout">
 		<xrc:RazorView>
 			<ViewFile>index.cshtml</ViewFile>
 		</xrc:RazorView>
