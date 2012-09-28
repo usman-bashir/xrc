@@ -127,6 +127,16 @@
 		</xs:complexContent>
 	</xs:complexType>
 
+	<xs:element name="MarkdownView" substitutionGroup="xrc:viewElement" type="xrc:MarkdownViewElement" />
+	<xs:complexType name="MarkdownViewElement">
+		<xs:complexContent>
+			<xs:extension base="xrc:viewElementBase">
+				<xs:sequence>
+					<xs:element name="Content" minOccurs="0" maxOccurs="1" type="xrc:contentOrScript" form="unqualified" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
 	<xs:simpleType name="parameterTypeAttribute">
 		<xs:union>
