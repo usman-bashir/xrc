@@ -15,16 +15,22 @@ Proposte
  
 Problemi
  Dipendenze dati: valutare se non risolvere con altri tipi di cache o con una nuova cache dependency
+ Attualmente non è possibile avere un module che dipende da altri moduli che usano IContext. Valutare come registrare meglio la dipendenza IContext.
  I Module potrebbero essere anche singleton, dovrebbe essere chi li registra a decidere.
  XHtmlRendered dovrebbe renderizzare per i fragment solo il contenuto (senza xml declaration ...), pensare anche come gestire correttamente l'editor visual studio
- Disabilitare direct browse su cartella root
  Gestire tutti i link anche relativi alla pagina corrente (comprese parent e Url.Content), bisogna quindi sistemare l'url di request e fare in modo che in caso di path restituisca sempre slash finale.
- Fare il redirect anche quando l'url è not lower case o non formattato bene (ad esempio quando per un folder non viene specificato lo slash finale).
  Gestione errori comune.
  Unit test, verificare cosa manca
-
+ Aggiungere log
 
 TODO
+ Consider the ~ character as the root of the site non the root of xrc.
+ Implement parametrized file
+ Implement parametrized pattern, for example: {path%}.md  this file pattern will match all the url segments ending with .md
+ Verificare se File.Xml accetta virtual path, path assoluti e relativi.
+ Aggiungere StaticContentView (for image, ...)
+ Razor parameters "app" error. Check if set is present and if is declared on xrc assembly.
+ Implement MapPath on XrcRequest e anche tutti gli altri metodo, gestendo un fallback alla request di base.
  Docs (architecture, features, advantages)
  Nuget GlobalAsax transform: WebActivator or Scott Hanselman article (https://bitbucket.org/davidebbo/webactivator/wiki/Home) 
  Valutare se usare invece che MarkdownXrc/MarkdownSharp  MarkdownDeep (http://www.toptensoftware.com/markdowndeep/). Licenza?

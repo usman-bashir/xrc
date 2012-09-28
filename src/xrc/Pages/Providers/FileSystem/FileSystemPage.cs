@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using xrc.Modules;
+using System.Web;
 
 namespace xrc.Pages.Providers.FileSystem
 {
@@ -71,6 +72,14 @@ namespace xrc.Pages.Providers.FileSystem
 		public Uri ToAbsoluteUrl(string relativeUrl)
 		{
 			return SiteConfiguration.ToAbsoluteUrl(relativeUrl, _canonicalUrl);
+		}
+
+		public bool IsCanonicalUrl(Uri url)
+		{
+			// UrlDecode to support { and } characters that in some cases are encoded by web servers
+			string currentUrl = HttpUtility.UrlDecode(url.GetLeftPart(UriPartial.Path));
+
+			return string.Equals(_canonicalUrl.ToString(), currentUrl, StringComparison.Ordinal);
 		}
 	}
 }

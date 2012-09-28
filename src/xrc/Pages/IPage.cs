@@ -40,5 +40,7 @@ namespace xrc.Pages
 		/// Returns an absolute url for the specified relative url.
 		/// </summary>
 		Uri ToAbsoluteUrl(string relativeUrl);
+
+		bool IsCanonicalUrl(Uri url);
 	}
 }

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:page xmlns:xrc="urn:xrc"
+         xmlns:File="xrc:FileModule">
+
+	<xrc:action method="GET" layout="~/shared/_layout">
+		<xrc:RazorView>
+			<ViewFile>_layout.cshtml</ViewFile>
+		</xrc:RazorView>
+	</xrc:action>
+
+</xrc:page>

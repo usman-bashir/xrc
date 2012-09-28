@@ -119,7 +119,7 @@ namespace xrc
 			}
 
 			// TODO Why we need to redirect to canonical Url? Only for caching? I think there is another reason but I don't remeber...
-			if (context.Page.CanonicalUrl.ToString() != context.Request.Url.GetLeftPart(UriPartial.Path))
+			if (!context.Page.IsCanonicalUrl(context.Request.Url))
 			{
 				ProcessPermanentRedirect(context, context.Page.CanonicalUrl);
 				return;

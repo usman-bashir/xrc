@@ -8,7 +8,7 @@
 		<xrc:add key="title" value='@string.Format("books - {0}", genre)' />
 	</xrc:parameters>
 
-	<!-- layout="~/shared/_layout" set as default -->
+	<!-- layout="~/shared/_layout" set as default but overriden with current shared/_layout -->
 	<xrc:action method="GET">
 		<xrc:XsltView>
 			<Xslt>@File.Xml("books_genre.xslt")</Xslt>
