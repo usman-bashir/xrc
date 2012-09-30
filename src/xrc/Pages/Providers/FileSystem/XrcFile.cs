@@ -8,18 +8,19 @@ namespace xrc.Pages.Providers.FileSystem
 {
     public class XrcFile
     {
-		public XrcFile(string fullPath, XrcFolder parent)
+		public XrcFile(XrcFolder parent, string fileName)
         {
-			if (string.IsNullOrWhiteSpace(fullPath))
-				throw new ArgumentNullException("fullPath");
+			if (string.IsNullOrWhiteSpace(fileName))
+				throw new ArgumentNullException("fileName");
 			if (parent == null)
 				throw new ArgumentNullException("parent");
 
 			Parent = parent;
-			FullPath = fullPath.ToLowerInvariant();
-
-			Name = XrcFileSystemHelper.GetFileName(FullPath);
-			Extension = XrcFileSystemHelper.GetFileExtension(FullPath);
+			fileName = fileName.ToLowerInvariant();
+			FullPath = Path.Combine(parent.FullPath, fileName);
+			Name = XrcFileSystemHelper.GetFileLogicalName(fileName);
+			Extension = XrcFileSystemHelper.GetFileExtension(fileName);
+			VirtualPath = UriExtensions.Combine(parent.VirtualPath, fileName);
 			FullName = UriExtensions.Combine(parent.FullName, Name);
 		}
 
@@ -30,6 +31,12 @@ namespace xrc.Pages.Providers.FileSystem
 		}
 
 		public string Extension
+		{
+			get;
+			private set;
+		}
+
+		public string VirtualPath
 		{
 			get;
 			private set;

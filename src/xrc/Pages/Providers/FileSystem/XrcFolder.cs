@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Web;
+using xrc.Configuration;
 
 namespace xrc.Pages.Providers.FileSystem
 {
@@ -14,22 +16,44 @@ namespace xrc.Pages.Providers.FileSystem
 		private Dictionary<string, XrcFolder> _folders;
 		private string _configFile;
 
-		public XrcFolder(string fullPath, XrcFolder parent)
+		public XrcFolder(IRootPathConfig rootPathConfig)
 		{
-			Parent = parent;
-			FullPath = fullPath.ToLowerInvariant();
-			Name = XrcFileSystemHelper.GetDirectoryName(fullPath);
-			if (parent != null)
-				FullName = UriExtensions.Combine(parent.FullName, Name);
-			else
-				FullName = "~";
+			if (rootPathConfig == null)
+				throw new ArgumentNullException("rootPathConfig");
 
+			Name = XrcFileSystemHelper.GetDirectoryName(rootPathConfig.PhysicalPath).ToLowerInvariant();
+			Parent = null;
+			FullPath = rootPathConfig.PhysicalPath.ToLowerInvariant();
+			VirtualPath = VirtualPathUtility.AppendTrailingSlash(rootPathConfig.VirtualPath).ToLowerInvariant();
+			FullName = "~";
+
+			Init();
+		}
+
+		public XrcFolder(XrcFolder parent, string directoryName)
+		{
+			if (parent == null)
+				throw new ArgumentNullException("parent");
+			if (string.IsNullOrEmpty(directoryName))
+				throw new ArgumentNullException("directoryName");
+
+			Name = directoryName.ToLowerInvariant();
+			Parent = parent;
+			FullPath = Path.Combine(parent.FullPath, Name);
+			VirtualPath = VirtualPathUtility.AppendTrailingSlash(UriExtensions.Combine(parent.VirtualPath, Name));
+			FullName = UriExtensions.Combine(parent.FullName, Name);
+
+			Init();
+		}
+
+		private void Init()
+		{
 			ParameterName = XrcFileSystemHelper.GetDirectoryParameterName(Name);
 
 			SearchFolders();
 			SearchFiles();
 
-			string configFile = Path.Combine(fullPath, XrcFileSystemHelper.FOLDER_CONFIG_FILE);
+			string configFile = Path.Combine(FullPath, XrcFileSystemHelper.FOLDER_CONFIG_FILE);
 			if (File.Exists(configFile))
 				_configFile = configFile;
 		}
@@ -47,6 +71,12 @@ namespace xrc.Pages.Providers.FileSystem
 		}
 
 		public string FullPath
+		{
+			get;
+			private set;
+		}
+
+		public string VirtualPath
 		{
 			get;
 			private set;
@@ -120,7 +150,7 @@ namespace xrc.Pages.Providers.FileSystem
 
 		private void SearchFiles()
 		{
-			var files = Directory.GetFiles(FullPath, XrcFileSystemHelper.FILE_PATTERN).Select(p => new XrcFile(p, this));
+			var files = Directory.GetFiles(FullPath, XrcFileSystemHelper.FILE_PATTERN).Select(p => new XrcFile(this, Path.GetFileName(p)));
 
 			var dictionary = new Dictionary<string, XrcFile>(StringComparer.OrdinalIgnoreCase);
 			foreach (var f in files)
@@ -136,7 +166,10 @@ namespace xrc.Pages.Providers.FileSystem
 
 		private void SearchFolders()
 		{
-			var folders = Directory.GetDirectories(FullPath).Select(p => new XrcFolder(p, this));
+			var folders = Directory.GetDirectories(FullPath).Select(p =>
+					{
+						return new XrcFolder(this, XrcFileSystemHelper.GetDirectoryName(p));
+					});
 
 			if (folders.Where(p => p.IsParameter).Count() > 1)
 				throw new ApplicationException(string.Format("Invalid directory '{0}', cannot have more than one parametric directory.", FullPath));

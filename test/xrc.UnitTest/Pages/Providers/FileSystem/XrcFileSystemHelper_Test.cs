@@ -22,20 +22,21 @@ namespace xrc.Pages.Providers.FileSystem
         [TestMethod]
         public void It_Should_be_possible_to_get_file_name()
         {
-			Assert.AreEqual("test", XrcFileSystemHelper.GetFileName(@"c:\folder1\test.xrc"));
-			Assert.AreEqual("test", XrcFileSystemHelper.GetFileName(@"c:\folder1\test.xrc.xml"));
-			Assert.AreEqual("test", XrcFileSystemHelper.GetFileName(@"c:\folder1\test.xrc.xslt"));
-			Assert.AreEqual("test.html", XrcFileSystemHelper.GetFileName(@"c:\folder1\test.html.xrc.xslt"));
+			Assert.AreEqual("test", XrcFileSystemHelper.GetFileLogicalName(@"test.xrc"));
+			Assert.AreEqual("test", XrcFileSystemHelper.GetFileLogicalName(@"test.xrc.xml"));
+			Assert.AreEqual("test", XrcFileSystemHelper.GetFileLogicalName(@"test.xrc.xslt"));
+			Assert.AreEqual("test.html", XrcFileSystemHelper.GetFileLogicalName(@"test.html.xrc.xslt"));
 
-			Assert.AreEqual("test", XrcFileSystemHelper.GetFileName(@"c:\folder1\test.xrc.xs_lt"));
+			Assert.AreEqual("test", XrcFileSystemHelper.GetFileLogicalName(@"test.xrc.xs_lt"));
 		}
 
 		[TestMethod]
 		public void It_Should_be_possible_to_get_file_extension()
 		{
-			Assert.AreEqual(".xrc", XrcFileSystemHelper.GetFileExtension(@"c:\folder1\test.xrc"));
-			Assert.AreEqual(".xml", XrcFileSystemHelper.GetFileExtension(@"c:\folder1\test.xrc.xml"));
-			Assert.AreEqual(".xslt", XrcFileSystemHelper.GetFileExtension(@"c:\folder1\test.xrc.xslt"));
+			Assert.AreEqual(".xrc", XrcFileSystemHelper.GetFileExtension(@"test.xrc"));
+			Assert.AreEqual(".xml", XrcFileSystemHelper.GetFileExtension(@"test.xrc.xml"));
+			Assert.AreEqual(".xslt", XrcFileSystemHelper.GetFileExtension(@"test.xrc.xslt"));
+			Assert.AreEqual(".xslt", XrcFileSystemHelper.GetFileExtension(@"test.html.xrc.xslt"));
 			Assert.AreEqual(".xslt", XrcFileSystemHelper.GetFileExtension(@"c:\folder1\test.html.xrc.xslt"));
 		}
 

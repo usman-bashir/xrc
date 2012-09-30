@@ -9,6 +9,7 @@ using Moq;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using xrc.Pages.Providers.FileSystem.Parsers;
+using System.IO;
 
 namespace xrc.Pages.Providers.FileSystem
 {
@@ -23,17 +24,17 @@ namespace xrc.Pages.Providers.FileSystem
 		public void It_Should_be_possible_to_parse_example7_folder_parameters()
 		{
 			var file = GetFile(@"sampleWebSite2\example7.xrc");
-			var fileConfig = TestHelper.GetFile(@"sampleWebSite2\xrc.config");
+			var fileConfig = TestHelper.GetPath(@"sampleWebSite2\xrc.config");
 
 			var schemaParser = new Mock<IXrcSchemaParserService>();
 			var configParserResult = new PageParserResult();
 			configParserResult.Parameters.Add(new PageParameter("folderParameter1", new XValue("folder")));
 			configParserResult.Parameters.Add(new PageParameter("folderParameter2", new XValue("folder")));
-			schemaParser.Setup(p => p.Parse(fileConfig)).Returns(configParserResult);
+			schemaParser.Setup(p => p.Parse(fileConfig.ToLowerInvariant())).Returns(configParserResult);
 
 			var pageParserResult = new PageParserResult();
 			pageParserResult.Parameters.Add(new PageParameter("folderParameter2", new XValue("page")));
-			schemaParser.Setup(p => p.Parse(file.File.FullPath)).Returns(pageParserResult);
+			schemaParser.Setup(p => p.Parse(file.File.FullPath.ToLowerInvariant())).Returns(pageParserResult);
 
 			var target = new XrcParserService(schemaParser.Object, schemaParser.Object);
 
@@ -46,18 +47,18 @@ namespace xrc.Pages.Providers.FileSystem
 		public void It_Should_be_possible_to_parse_example1_page_and_check_layout()
 		{
 			var file = GetFile(@"sampleWebSite2\example1.xrc");
-			var fileConfig = TestHelper.GetFile(@"sampleWebSite2\xrc.config");
+			var fileConfig = TestHelper.GetPath(@"sampleWebSite2\xrc.config");
 
 			var schemaParser = new Mock<IXrcSchemaParserService>();
 
 			var configParserResult = new PageParserResult();
 			configParserResult.Parameters.Add(new PageParameter("folderParameter1", new XValue("folder")));
 			configParserResult.Parameters.Add(new PageParameter("folderParameter2", new XValue("folder")));
-			schemaParser.Setup(p => p.Parse(fileConfig)).Returns(configParserResult);
+			schemaParser.Setup(p => p.Parse(fileConfig.ToLowerInvariant())).Returns(configParserResult);
 
 			var parserResult = new PageParserResult();
 			parserResult.Actions.Add(new PageAction("GET"));
-			schemaParser.Setup(p => p.Parse(file.File.FullPath)).Returns(parserResult);
+			schemaParser.Setup(p => p.Parse(file.File.FullPath.ToLowerInvariant())).Returns(parserResult);
 
 			var target = new XrcParserService(schemaParser.Object, schemaParser.Object);
 
@@ -70,18 +71,18 @@ namespace xrc.Pages.Providers.FileSystem
 		public void It_Should_be_possible_to_parse_example1_slot_and_check_layout()
 		{
 			var file = GetFile(@"sampleWebSite2\_slot1.xrc");
-			var fileConfig = TestHelper.GetFile(@"sampleWebSite2\xrc.config");
+			var fileConfig = TestHelper.GetPath(@"sampleWebSite2\xrc.config");
 
 			var schemaParser = new Mock<IXrcSchemaParserService>();
 
 			var configParserResult = new PageParserResult();
 			configParserResult.Parameters.Add(new PageParameter("folderParameter1", new XValue("folder")));
 			configParserResult.Parameters.Add(new PageParameter("folderParameter2", new XValue("folder")));
-			schemaParser.Setup(p => p.Parse(fileConfig)).Returns(configParserResult);
+			schemaParser.Setup(p => p.Parse(fileConfig.ToLowerInvariant())).Returns(configParserResult);
 
 			var parserResult = new PageParserResult();
 			parserResult.Actions.Add(new PageAction("GET"));
-			schemaParser.Setup(p => p.Parse(file.File.FullPath)).Returns(parserResult);
+			schemaParser.Setup(p => p.Parse(file.File.FullPath.ToLowerInvariant())).Returns(parserResult);
 
 			var target = new XrcParserService(schemaParser.Object, schemaParser.Object);
 
@@ -92,11 +93,12 @@ namespace xrc.Pages.Providers.FileSystem
 
 		private XrcFileResource GetFile(string relativeFilePath)
 		{
-			string fullPath = TestHelper.GetFile(relativeFilePath);
+			string fullPath = TestHelper.GetPath(relativeFilePath);
 
-			var xrcFolder = new XrcFolder(System.IO.Path.GetDirectoryName(fullPath), null);
-			var xrcFile = new XrcFile(fullPath, xrcFolder);
-			return new XrcFileResource(xrcFile, "~/test", "~/test", new Dictionary<string, string>());
+			var rootConfig = new Mocks.RootPathConfigMock("~/test", Path.GetDirectoryName(fullPath));
+			var xrcFolder = new XrcFolder(rootConfig);
+			var xrcFile = new XrcFile(xrcFolder, Path.GetFileName(fullPath));
+			return new XrcFileResource(xrcFile, "~/test", new Dictionary<string, string>());
 		}
     }
 }

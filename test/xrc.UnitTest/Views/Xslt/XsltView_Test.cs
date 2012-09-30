@@ -17,8 +17,8 @@ namespace xrc.Views
         public void Transform_Simple()
         {
             XsltView target = new XsltView(new Mocks.ModuleFactoryMock(null), new Mocks.ModuleCatalogServiceMock(null));
-			target.Data = XDocument.Load(TestHelper.GetFile(@"Views\xslt\books.xml"));
-            target.Xslt = XDocument.Load(TestHelper.GetFile(@"Views\xslt\books_simple.xslt"));
+			target.Data = XDocument.Load(TestHelper.GetPath(@"Views\xslt\books.xml"));
+            target.Xslt = XDocument.Load(TestHelper.GetPath(@"Views\xslt\books_simple.xslt"));
 
             string output;
             XrcRequest request = new XrcRequest(new Uri("http://test/"));
@@ -41,7 +41,7 @@ namespace xrc.Views
         public void Transform_WithoutData()
         {
             XsltView target = new XsltView(new Mocks.ModuleFactoryMock(null), new Mocks.ModuleCatalogServiceMock(null));
-            target.Xslt = XDocument.Load(TestHelper.GetFile(@"Views\xslt\transform_withoutdata.xslt"));
+            target.Xslt = XDocument.Load(TestHelper.GetPath(@"Views\xslt\transform_withoutdata.xslt"));
 
             string output;
             XrcRequest request = new XrcRequest(new Uri("http://test/"));
@@ -64,8 +64,8 @@ namespace xrc.Views
         public void Transform_Parameter()
         {
             XsltView target = new XsltView(new Mocks.ModuleFactoryMock(null), new Mocks.ModuleCatalogServiceMock(null));
-            target.Data = XDocument.Load(TestHelper.GetFile(@"Views\xslt\books.xml"));
-            target.Xslt = XDocument.Load(TestHelper.GetFile(@"Views\xslt\parameter.xslt"));
+            target.Data = XDocument.Load(TestHelper.GetPath(@"Views\xslt\books.xml"));
+            target.Xslt = XDocument.Load(TestHelper.GetPath(@"Views\xslt\parameter.xslt"));
 
             string output;
             XrcRequest request = new XrcRequest(new Uri("http://test/"));
@@ -92,8 +92,8 @@ namespace xrc.Views
         public void Transform_Module_Extensions()
         {
 			XsltView target = new XsltView(new Mocks.ModuleFactoryMock(new MyExtensionModule()), new Mocks.ModuleCatalogServiceMock(MyExtensionModule.Definition));
-            target.Data = XDocument.Load(TestHelper.GetFile(@"Views\xslt\books.xml"));
-            target.Xslt = XDocument.Load(TestHelper.GetFile(@"Views\xslt\extension.xslt"));
+            target.Data = XDocument.Load(TestHelper.GetPath(@"Views\xslt\books.xml"));
+            target.Xslt = XDocument.Load(TestHelper.GetPath(@"Views\xslt\extension.xslt"));
 
             string output;
             XrcRequest request = new XrcRequest(new Uri("http://test/"));

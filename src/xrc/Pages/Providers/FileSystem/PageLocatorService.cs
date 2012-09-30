@@ -15,7 +15,7 @@ namespace xrc.Pages.Providers.FileSystem
 				throw new ApplicationException(string.Format("Path '{0}' doesn't exist.", rootPathConfig.PhysicalPath));
 
 			RootPathConfig = rootPathConfig;
-			Root = new XrcFolder(rootPathConfig.PhysicalPath, null);
+			Root = new XrcFolder(rootPathConfig);
 		}
 
 		public IRootPathConfig RootPathConfig
@@ -47,7 +47,6 @@ namespace xrc.Pages.Providers.FileSystem
             XrcFolder currentFolder = Root;
             XrcFile requestFile = null;
             StringBuilder canonicalUrl = new StringBuilder("~/");
-			StringBuilder virtualPath = new StringBuilder(VirtualPathUtility.AppendTrailingSlash(RootPathConfig.VirtualPath));
 
             if (segments.Length > 0)
             {
@@ -60,7 +59,6 @@ namespace xrc.Pages.Providers.FileSystem
                         urlSegmentParameters.Add(currentFolder.ParameterName, segments[i]);
 
                     canonicalUrl.AppendFormat("{0}/", segments[i]);
-					virtualPath.AppendFormat("{0}/", currentFolder.Name);
                 }
 
                 string lastSegment = segments.LastOrDefault();
@@ -74,7 +72,6 @@ namespace xrc.Pages.Providers.FileSystem
                         urlSegmentParameters.Add(currentFolder.ParameterName, lastSegment);
 
                     canonicalUrl.AppendFormat("{0}/", lastSegment);
-					virtualPath.AppendFormat("{0}/", currentFolder.Name);
 				}
                 else
                 {
@@ -91,7 +88,7 @@ namespace xrc.Pages.Providers.FileSystem
                     return null; //Not found
             }
 
-			return new XrcFileResource(requestFile, canonicalUrl.ToString(), virtualPath.ToString(), urlSegmentParameters);
+			return new XrcFileResource(requestFile, canonicalUrl.ToString(), urlSegmentParameters);
         }
 
         private string[] GetUriSegments(Uri relativeUri)

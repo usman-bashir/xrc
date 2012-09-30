@@ -16,7 +16,7 @@ namespace xrc
             return Path.GetDirectoryName((new Uri(codeBase)).LocalPath);
         }
 
-        public static string GetFile(string file)
+        public static string GetPath(string file)
         {
             return Path.Combine(GetWorkingPath(), file);
         }

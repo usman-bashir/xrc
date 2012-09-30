@@ -23,7 +23,7 @@ namespace xrc.Pages.Providers.FileSystem
         [TestMethod]
         public void It_Should_be_possible_to_parse_example5_page_parameter()
         {
-			var file = TestHelper.GetFile(@"sampleWebSite2\example5.xrc");
+			var file = TestHelper.GetPath(@"sampleWebSite2\example5.xrc");
 
 			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(), 
                                         new Mocks.ModuleCatalogServiceMock(null), 
@@ -40,7 +40,7 @@ namespace xrc.Pages.Providers.FileSystem
         [TestMethod]
         public void It_Should_be_possible_to_parse_example2_page_multiple_parameters()
         {
-			var file = TestHelper.GetFile(@"sampleWebSite2\example2.xrc");
+			var file = TestHelper.GetPath(@"sampleWebSite2\example2.xrc");
 
 			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
@@ -60,7 +60,7 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
         public void It_Should_be_possible_to_parse_example1_page_using_script()
 		{
-			var file = TestHelper.GetFile(@"sampleWebSite2\example1.xrc");
+			var file = TestHelper.GetPath(@"sampleWebSite2\example1.xrc");
 
 			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(),
 										new Mocks.ModuleCatalogServiceMock(null),
@@ -77,7 +77,7 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_example6_action_without_method_default_to_GET()
 		{
-			var file = TestHelper.GetFile(@"sampleWebSite2\example6.xrc");
+			var file = TestHelper.GetPath(@"sampleWebSite2\example6.xrc");
 
 			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(),
 										new Mocks.ModuleCatalogServiceMock(null),
@@ -91,7 +91,7 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_example2_page_with_inline_xml_data()
 		{
-			var file = TestHelper.GetFile(@"sampleWebSite2\example2.xrc");
+			var file = TestHelper.GetPath(@"sampleWebSite2\example2.xrc");
 
 			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
@@ -111,7 +111,7 @@ namespace xrc.Pages.Providers.FileSystem
         [TestMethod]
         public void It_Should_be_possible_to_parse_example3_page_with_multiple_slots()
         {
-			var file = TestHelper.GetFile(@"sampleWebSite2\example3.xrc");
+			var file = TestHelper.GetPath(@"sampleWebSite2\example3.xrc");
 
 			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),
@@ -128,7 +128,7 @@ namespace xrc.Pages.Providers.FileSystem
         [TestMethod]
         public void It_Should_be_possible_to_parse_example4_page_with_multiple_actions()
         {
-			var file = TestHelper.GetFile(@"sampleWebSite2\example4.xrc");
+			var file = TestHelper.GetPath(@"sampleWebSite2\example4.xrc");
 
 			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(),
                                         new Mocks.ModuleCatalogServiceMock(null),

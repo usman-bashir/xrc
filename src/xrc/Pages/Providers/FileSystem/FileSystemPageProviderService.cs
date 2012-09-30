@@ -60,7 +60,7 @@ namespace xrc.Pages.Providers.FileSystem
 			if (VirtualPathUtility.IsAbsolute(url))
 				return url;
 
-			return VirtualPathUtility.Combine(fsPage.FileResource.VirtualPath, url);
+			return VirtualPathUtility.Combine(fsPage.FileResource.File.Parent.VirtualPath, url);
 
 			//var viewPath = page.ToAbsoluteUrl(url);
 			//var appPath = page.ToAbsoluteUrl("~");

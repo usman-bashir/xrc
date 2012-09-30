@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using xrc.Pages.Providers.FileSystem.Parsers;
 using xrc.Modules;
+using System.IO;
 
 namespace xrc.Pages.Providers.FileSystem
 {
@@ -42,11 +43,12 @@ namespace xrc.Pages.Providers.FileSystem
 
 		private XrcFileResource GetFile(string relativeFilePath)
 		{
-			string fullPath = TestHelper.GetFile(relativeFilePath);
+			string fullPath = TestHelper.GetPath(relativeFilePath);
 
-			var xrcFolder = new XrcFolder(System.IO.Path.GetDirectoryName(fullPath), null);
-			var xrcFile = new XrcFile(fullPath, xrcFolder);
-			return new XrcFileResource(xrcFile, "~/test", "~/test", new Dictionary<string, string>());
+			var rootConfig = new Mocks.RootPathConfigMock("~/test", Path.GetDirectoryName(fullPath));
+			var xrcFolder = new XrcFolder(rootConfig);
+			var xrcFile = new XrcFile(xrcFolder, Path.GetFileName(fullPath));
+			return new XrcFileResource(xrcFile, "~/test", new Dictionary<string, string>());
 		}
     }
 }
