@@ -9,6 +9,7 @@ using xrc.Configuration;
 namespace xrc.Pages.Providers.FileSystem
 {
 	//TODO Rivedere il codice di XrcFolder e XrcFile, probabilmente spostare parte del codice di questa classe in PageLocatorService
+	// dovrei probabilmente rimuovere la dipendenza al FileSystem
 
 	public class XrcFolder
 	{
@@ -21,10 +22,11 @@ namespace xrc.Pages.Providers.FileSystem
 			if (rootPathConfig == null)
 				throw new ArgumentNullException("rootPathConfig");
 
-			Name = XrcFileSystemHelper.GetDirectoryName(rootPathConfig.PhysicalPath).ToLowerInvariant();
+			var directoryName = XrcFileSystemHelper.GetDirectoryName(rootPathConfig.PhysicalPath);
+			Name = XrcFileSystemHelper.GetDirectoryLogicalName(directoryName);
 			Parent = null;
 			FullPath = rootPathConfig.PhysicalPath.ToLowerInvariant();
-			VirtualPath = VirtualPathUtility.AppendTrailingSlash(rootPathConfig.VirtualPath).ToLowerInvariant();
+			VirtualPath = UriExtensions.AppendTrailingSlash(rootPathConfig.VirtualPath).ToLowerInvariant();
 			FullName = "~";
 
 			Init();
@@ -37,10 +39,10 @@ namespace xrc.Pages.Providers.FileSystem
 			if (string.IsNullOrEmpty(directoryName))
 				throw new ArgumentNullException("directoryName");
 
-			Name = directoryName.ToLowerInvariant();
+			Name = XrcFileSystemHelper.GetDirectoryLogicalName(directoryName);
 			Parent = parent;
 			FullPath = Path.Combine(parent.FullPath, Name);
-			VirtualPath = VirtualPathUtility.AppendTrailingSlash(UriExtensions.Combine(parent.VirtualPath, Name));
+			VirtualPath = UriExtensions.AppendTrailingSlash(UriExtensions.Combine(parent.VirtualPath, Name));
 			FullName = UriExtensions.Combine(parent.FullName, Name);
 
 			Init();

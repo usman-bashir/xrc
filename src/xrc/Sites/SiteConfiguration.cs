@@ -28,13 +28,13 @@ namespace xrc.Sites
                 throw new UriFormatException(string.Format("Uri '{0}' is not absolute.", secureUri));
 
             Key = key;
-            Uri = uri.ToLower().AppendSlash();
+            Uri = uri.ToLower().AppendTrailingSlash();
             Parameters = parameters;
 
             if (secureUri == null)
                 SecureUri = Uri.ToSecure();
             else
-                SecureUri = secureUri.ToLower().AppendSlash();
+				SecureUri = secureUri.ToLower().AppendTrailingSlash();
         }
 
         public string Key

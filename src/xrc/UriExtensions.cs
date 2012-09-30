@@ -90,15 +90,26 @@ namespace xrc
             return new Uri(uriv, UriKind.RelativeOrAbsolute);
         }
 
-        public static Uri AppendSlash(this Uri uri)
+		/// <summary>
+		/// Appends the literal slash mark (/) to the end of the virtual path, if one does not already exist.
+		/// </summary>
+		public static Uri AppendTrailingSlash(this Uri uri)
         {
-            string uriv = uri.ToString();
-            // Base uri must end with a slash otherwise are considered as files
-            if (!uriv.EndsWith("/"))
-                uriv += "/";
-
+			string uriv = AppendTrailingSlash(uri.ToString());
             return new Uri(uriv, UriKind.RelativeOrAbsolute);
         }
+
+		/// <summary>
+		/// Appends the literal slash mark (/) to the end of the virtual path, if one does not already exist.
+		/// </summary>
+		public static string AppendTrailingSlash(string uri)
+		{
+			// Base uri must end with a slash otherwise are considered as files
+			if (!uri.EndsWith("/"))
+				uri += "/";
+
+			return uri;
+		}
 
         public static Uri ToSecure(this Uri uri)
         {

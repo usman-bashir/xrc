@@ -29,7 +29,12 @@ namespace xrc.Pages.Providers.FileSystem
 				return fileName;
 			}
 
-			return match.Groups["name"].Value;
+			return match.Groups["name"].Value.ToLowerInvariant();
+		}
+
+		public static string GetDirectoryLogicalName(string directoryName)
+		{
+			return directoryName.ToLowerInvariant();
 		}
 
 		public static string GetFileExtension(string fileName)

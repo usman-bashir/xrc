@@ -113,6 +113,7 @@
     <Compile Include="Pages\Providers\FileSystem\FileSystemPageProviderService.cs" />
     <Compile Include="Pages\Providers\FileSystem\PageParserResult.cs" />
     <Compile Include="Pages\Providers\IPageProviderService.cs" />
+    <Compile Include="Pages\UriSegmentParameter.cs" />
     <Compile Include="Razor\XrcWebViewPageExtension.cs" />
     <Compile Include="Razor\ModuleInterceptor.cs" />
     <Compile Include="Razor\XrcWebViewPage.cs" />

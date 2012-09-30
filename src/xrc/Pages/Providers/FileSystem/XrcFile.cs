@@ -6,6 +6,9 @@ using System.IO;
 
 namespace xrc.Pages.Providers.FileSystem
 {
+	//TODO Rivedere il codice di XrcFolder e XrcFile, probabilmente spostare parte del codice di questa classe in PageLocatorService
+	// dovrei probabilmente rimuovere la dipendenza al FileSystem
+
     public class XrcFile
     {
 		public XrcFile(XrcFolder parent, string fileName)
