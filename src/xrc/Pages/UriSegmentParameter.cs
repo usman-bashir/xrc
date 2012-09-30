@@ -53,10 +53,18 @@ namespace xrc.Pages
 				value = value.ToLowerInvariant();
 				string segment = match.Groups["segment"].Value ?? string.Empty;
 				segment = segment.ToLowerInvariant();
-				return new UriSegmentMatchResult(true, ParameterName, value, segment);
+				string nextPart = match.Groups["nextPart"].Value;
+				if (nextPart != null)
+				{
+					if (nextPart.Length == 0)
+						nextPart = null;
+					else
+						nextPart = nextPart.ToLowerInvariant();
+				}
+				return new UriSegmentMatchResult(true, ParameterName, value, segment, nextPart);
 			}
 			else
-				return new UriSegmentMatchResult(false, null, null, null);
+				return new UriSegmentMatchResult(false, null, null, null, null);
 		}
 
 		void ParsePattern()
@@ -67,13 +75,14 @@ namespace xrc.Pages
 			string suffix;
 			string valuePattern;
 			string endPattern;
+
 			var match = PARAMETER_NAME_REGEX.Match(_pattern);
 			if (!match.Success)
 			{
 				valuePattern = Regex.Escape(_pattern);
 				prefix = string.Empty;
 				suffix = string.Empty;
-				endPattern = "(/|$)";
+				endPattern = "(/(?<nextPart>.*)|$)";
 			}
 			else
 			{
@@ -89,7 +98,7 @@ namespace xrc.Pages
 				else
 				{
 					valuePattern = "[^/]+?"; // match any character except / one or more time lazy
-					endPattern = "(/|$)";
+					endPattern = "(/(?<nextPart>.*)|$)";
 				}
 			}
 
@@ -111,14 +120,18 @@ namespace xrc.Pages
 		readonly bool _success;
 		readonly string _parameterName;
 		readonly string _parameterValue;
-		readonly string _segment;
+		readonly string _currentUrlPart;
+		readonly string _nextUrlPart;
 
-		public UriSegmentMatchResult(bool success, string parameterName, string parameterValue, string segment)
+		public UriSegmentMatchResult(bool success, string parameterName, 
+							string parameterValue, string currentUrlPart, 
+							string nextPart)
 		{
 			_success = success;
 			_parameterName = parameterName;
 			_parameterValue = parameterValue;
-			_segment = segment;
+			_currentUrlPart = currentUrlPart;
+			_nextUrlPart = nextPart;
 		}
 
 		public bool Success
@@ -133,9 +146,13 @@ namespace xrc.Pages
 		{
 			get { return _parameterValue; }
 		}
-		public string Segment
+		public string CurrentUrlPart
 		{
-			get { return _segment; }
+			get { return _currentUrlPart; }
+		}
+		public string NextUrlPart 
+		{
+			get { return _nextUrlPart; }
 		}
 	}
 }
