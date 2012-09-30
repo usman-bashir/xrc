@@ -40,15 +40,15 @@ namespace xrc.Pages.Providers.FileSystem
 			Assert.AreEqual(".xslt", XrcFileSystemHelper.GetFileExtension(@"c:\folder1\test.html.xrc.xslt"));
 		}
 
-		[TestMethod]
-		public void It_Should_be_possible_to_get_directory_parameter()
-		{
-			Assert.IsNull(XrcFileSystemHelper.GetDirectoryParameterName(@"folder1"));
-			Assert.IsNull(XrcFileSystemHelper.GetDirectoryParameterName(@"folder1}"));
-			Assert.IsNull(XrcFileSystemHelper.GetDirectoryParameterName(@"{folder1"));
-			Assert.IsNull(XrcFileSystemHelper.GetDirectoryParameterName(@"{}"));
-			Assert.AreEqual("test", XrcFileSystemHelper.GetDirectoryParameterName(@"{test}"));
-			Assert.AreEqual("test.test", XrcFileSystemHelper.GetDirectoryParameterName(@"{test.test}"));
-		}
+		//[TestMethod]
+		//public void It_Should_be_possible_to_get_directory_parameter()
+		//{
+		//    Assert.IsNull(XrcFileSystemHelper.GetDirectoryParameterName(@"folder1"));
+		//    Assert.IsNull(XrcFileSystemHelper.GetDirectoryParameterName(@"folder1}"));
+		//    Assert.IsNull(XrcFileSystemHelper.GetDirectoryParameterName(@"{folder1"));
+		//    Assert.IsNull(XrcFileSystemHelper.GetDirectoryParameterName(@"{}"));
+		//    Assert.AreEqual("test", XrcFileSystemHelper.GetDirectoryParameterName(@"{test}"));
+		//    Assert.AreEqual("test.test", XrcFileSystemHelper.GetDirectoryParameterName(@"{test.test}"));
+		//}
     }
 }

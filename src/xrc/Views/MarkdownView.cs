@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using System.Web.UI;
 using System.Xml;
 using xrc.Markdown;
+using System.Web;
 
 namespace xrc.Views
 {
@@ -24,13 +25,30 @@ namespace xrc.Views
             set;
         }
 
+		public string BaseUrl
+		{
+			get;
+			set;
+		}
+
 		public void Execute(IContext context)
         {
             context.Response.ContentType = "text/html";
 
+			string currentBaseUrl;
+			if (BaseUrl != null)
+				currentBaseUrl = BaseUrl;
+			else
+			{
+				if (HttpRuntime.AppDomainAppVirtualPath != null)
+					currentBaseUrl = HttpRuntime.AppDomainAppVirtualPath;
+				else
+					currentBaseUrl = null;
+			}
+
 			if (Content != null)
 			{
-				string html = _markdown.Transform(Content);
+				string html = _markdown.Transform(Content, currentBaseUrl);
 				context.Response.Write(html);
 			}
         }

@@ -90,7 +90,9 @@ namespace xrc
 		public void GetPath()
 		{
 			Assert.AreEqual("/index/page", new Uri("/index/page?p1=v1", UriKind.Relative).GetPath());
+			Assert.AreEqual("/index/page", new Uri("/index/page#anchor", UriKind.Relative).GetPath());
 			Assert.AreEqual("http://www.google.com/index/page", new Uri("http://www.google.com/index/page?p1=v1").GetPath());
+			Assert.AreEqual("http://www.google.com/index/page", new Uri("http://www.google.com/index/page#anchor").GetPath());
 		}
     }
 }

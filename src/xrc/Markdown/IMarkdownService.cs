@@ -3,6 +3,6 @@ namespace xrc.Markdown
 {
 	public interface IMarkdownService
 	{
-		string Transform(string markdownText);
+		string Transform(string markdownText, string baseUrl);
 	}
 }

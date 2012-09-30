@@ -16,6 +16,7 @@ namespace xrc.Pages.Providers.FileSystem
 		private Dictionary<string, XrcFile> _files;
 		private Dictionary<string, XrcFolder> _folders;
 		private string _configFile;
+		private UriSegmentParameter _parameter;
 
 		public XrcFolder(IRootPathConfig rootPathConfig)
 		{
@@ -50,7 +51,7 @@ namespace xrc.Pages.Providers.FileSystem
 
 		private void Init()
 		{
-			ParameterName = XrcFileSystemHelper.GetDirectoryParameterName(Name);
+			_parameter = new UriSegmentParameter(Name);
 
 			SearchFolders();
 			SearchFiles();
@@ -90,31 +91,24 @@ namespace xrc.Pages.Providers.FileSystem
 			private set;
 		}
 
-		public bool IsParameter
+		public UriSegmentParameter Parameter
 		{
-			get { return ParameterName != null; }
+			get { return _parameter; }
 		}
 
-		public string ParameterName
+		public XrcFolder GetFolder(string name)
 		{
-			get;
-			private set;
+			XrcFolder folder;
+			_folders.TryGetValue(name, out folder);
+			return folder;
 		}
 
-		public XrcFolder DynamicFolder
-		{
-			get;
-			private set;
-		}
-
-        public XrcFolder GetFolder(string name)
+        public IEnumerable<XrcFolder> Folders
         {
-            XrcFolder folder;
-            _folders.TryGetValue(name, out folder);
-            if (folder != null)
-                return folder;
-            else
-                return DynamicFolder;
+			get
+			{
+				return _folders.Values;
+			}
         }
 
 		public XrcFile GetFile(string name)
@@ -172,11 +166,6 @@ namespace xrc.Pages.Providers.FileSystem
 					{
 						return new XrcFolder(this, XrcFileSystemHelper.GetDirectoryName(p));
 					});
-
-			if (folders.Where(p => p.IsParameter).Count() > 1)
-				throw new ApplicationException(string.Format("Invalid directory '{0}', cannot have more than one parametric directory.", FullPath));
-
-			DynamicFolder = folders.SingleOrDefault(p => p.IsParameter);
 
             _folders = folders.ToDictionary(p => p.Name, StringComparer.OrdinalIgnoreCase);
 		}

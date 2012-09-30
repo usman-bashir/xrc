@@ -20,7 +20,7 @@ namespace xrc.Views
         {
 			string content = "ciao";
 			var markdownService = new Mock<IMarkdownService>();
-			markdownService.Setup(p => p.Transform(content)).Returns("new text");
+			markdownService.Setup(p => p.Transform(content, null)).Returns("new text");
 
 			var target = new MarkdownView(markdownService.Object);
 			target.Content = content;

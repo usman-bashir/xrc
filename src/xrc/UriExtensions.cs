@@ -125,7 +125,7 @@ namespace xrc
 			if (uri.IsAbsoluteUri)
 				return uri.GetLeftPart(UriPartial.Path);
 			else
-				return uri.ToString().Split('?')[0];
+				return uri.ToString().Split('?', '#')[0];
 		}
     }
 }

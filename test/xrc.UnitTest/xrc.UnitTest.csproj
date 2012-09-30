@@ -111,6 +111,18 @@
     <None Include="sampleWebSite1\teams\_menu.xrc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="sampleWebSite1\news\index.xrc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="sampleWebSite1\photos\photo{id}\index.xrc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="sampleWebSite1\photos\{id}sport\index.xrc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="sampleWebSite1\news\{id%25}\index.xrc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="sampleWebSite2\conventions_xslt.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

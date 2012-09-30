@@ -49,13 +49,13 @@ namespace xrc.Pages.Providers.FileSystem
 			return new DirectoryInfo(fullPath).Name;
 		}
 
-		public static string GetDirectoryParameterName(string directoryName)
-		{
-			var match = _xrcDirectoryParameterRegEx.Match(directoryName);
-			if (!match.Success)
-				return null;
+		//public static string GetDirectoryParameterName(string directoryName)
+		//{
+		//    var match = _xrcDirectoryParameterRegEx.Match(directoryName);
+		//    if (!match.Success)
+		//        return null;
 
-			return match.Groups["name"].Value;
-		}
+		//    return match.Groups["name"].Value;
+		//}
     }
 }

@@ -40,6 +40,11 @@ namespace xrc.Pages
 			get { return _parameterName; }
 		}
 
+		public bool IsParameter
+		{
+			get { return _parameterName != null; }
+		}
+
 		public UriSegmentMatchResult Match(string url)
 		{
 			if (string.IsNullOrEmpty(url))
@@ -142,6 +147,10 @@ namespace xrc.Pages
 		{
 			get { return _parameterName; }
 		}
+		public bool IsParameter
+		{
+			get { return _parameterName != null; }
+		}
 		public string ParameterValue
 		{
 			get { return _parameterValue; }
@@ -153,6 +162,10 @@ namespace xrc.Pages
 		public string NextUrlPart 
 		{
 			get { return _nextUrlPart; }
+		}
+		public bool HasNext
+		{
+			get { return _nextUrlPart != null; }
 		}
 	}
 }

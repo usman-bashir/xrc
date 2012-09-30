@@ -46,6 +46,7 @@ namespace xrc.Pages
 			var target = new UriSegmentParameter(pattern);
 			Assert.AreEqual(pattern, target.Pattern);
 			Assert.IsNull(target.ParameterName);
+			Assert.IsFalse(target.IsParameter);
 
 			UriSegmentMatchResult result;
 
@@ -55,6 +56,7 @@ namespace xrc.Pages
 			Assert.AreEqual("segment1", result.ParameterValue);
 			Assert.AreEqual("segment1", result.CurrentUrlPart);
 			Assert.IsNull(result.NextUrlPart);
+			Assert.IsFalse(result.IsParameter);
 
 			result = target.Match("segment1");
 			Assert.AreEqual(true, result.Success);
@@ -76,6 +78,7 @@ namespace xrc.Pages
 			Assert.AreEqual("segment1", result.ParameterValue); 
 			Assert.AreEqual("segment1", result.CurrentUrlPart);
 			Assert.AreEqual("test/index", result.NextUrlPart);
+			Assert.IsTrue(result.HasNext);
 
 			result = target.Match("segment1/test/index");
 			Assert.AreEqual(true, result.Success);
@@ -83,6 +86,7 @@ namespace xrc.Pages
 			Assert.AreEqual("segment1", result.ParameterValue);
 			Assert.AreEqual("segment1", result.CurrentUrlPart);
 			Assert.AreEqual("test/index", result.NextUrlPart);
+			Assert.IsTrue(result.HasNext);
 
 			result = target.Match("SEGMENT1/test/index");
 			Assert.AreEqual(true, result.Success);
@@ -97,6 +101,7 @@ namespace xrc.Pages
 			Assert.IsNull(result.ParameterValue);
 			Assert.IsNull(result.CurrentUrlPart);
 			Assert.IsNull(result.NextUrlPart);
+			Assert.IsFalse(result.HasNext);
 		}
 
 		[TestMethod]
@@ -106,6 +111,7 @@ namespace xrc.Pages
 			var target = new UriSegmentParameter(pattern);
 			Assert.AreEqual(pattern, target.Pattern);
 			Assert.AreEqual("param1", target.ParameterName);
+			Assert.IsTrue(target.IsParameter);
 
 			var result = target.Match("/italia/test/index");
 			Assert.AreEqual(true, result.Success);
@@ -113,6 +119,7 @@ namespace xrc.Pages
 			Assert.AreEqual("italia", result.ParameterValue);
 			Assert.AreEqual("italia", result.CurrentUrlPart);
 			Assert.AreEqual("test/index", result.NextUrlPart);
+			Assert.IsTrue(result.IsParameter);
 
 			result = target.Match("italia/test/index");
 			Assert.AreEqual(true, result.Success);
