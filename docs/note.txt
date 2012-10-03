@@ -24,9 +24,6 @@ Problemi
  Aggiungere log
 
 TODO
- Consider the ~ character as the root of the site non the root of xrc.
- Implement parametrized file
- Implement parametrized pattern, for example: {path%}.md  this file pattern will match all the url segments ending with .md
  Verificare se File.Xml accetta virtual path, path assoluti e relativi.
  Aggiungere StaticContentView (for image, ...)
  Razor parameters "app" error. Check if set is present and if is declared on xrc assembly.

@@ -26,7 +26,7 @@ Features
 
 - Integrated and compatible with any ASP.NET MVC web site
 - Multilevel layout pages can be written using Razor or Xslt
-- Partial slot
+- Partial
 - Multi site configuration (dev, test, staging, prod, ...)
 - Built-in view engines for:
 	- Html
@@ -40,7 +40,9 @@ Features
 - Url segment parameters, query parameters or static parameters 
 - Easy setup and deploy
 - Azure ready
-- IoC friendly with Windsor Castle support
+- Any .NET class can be used as data provider
+- Extensible infrastructure
+- IoC friendly with native Windsor Castle support
 - TODO Caching
 - TODO Authentication
 

@@ -36,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="xrc.Core.nuspec" />
-    <None Include="xrc.Site\content\net40\Global.asax.example.cs.pp">
+    <None Include="xrc.Site\content\net40\Global.asax.cs.example.pp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="xrc.Site\content\net40\Web.config.transform">
@@ -55,7 +55,7 @@
     <None Include="xrc.Windsor.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="xrc.Site\content\net40\xrc\index.xrc">
+    <None Include="xrc.Site\content\net40\xrc\index.xrc.example">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
