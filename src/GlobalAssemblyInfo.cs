@@ -4,4 +4,4 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyProduct("xrc")]
 
-[assembly: AssemblyVersion("0.1.10.0")]
+[assembly: AssemblyVersion("0.1.11.0")]
