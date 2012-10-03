@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
 
 namespace xrc.Pages
 {
@@ -11,9 +12,9 @@ namespace xrc.Pages
 		readonly string _pattern;
 
 		const string PREFIX_PATTERN = @"^(?<prefix>[\w\._\-\+]*)"; // match any prefix with letter, digits and .+-_ 
-		const string PARAMETER_PATTERN = @"\{(?<name>\w+)(?<catchAll>%)?\}";  // match any parameter name with letter, digits and optional ending with %
+		const string PARAMETER_PATTERN = @"\{(?<name>\w+)(?<catchAll>_CATCH-ALL)?\}";  // match any parameter name with letter, digits and optional ending with _CATCH-ALL
 		const string SUFFIX_PATTERN = @"(?<suffix>[\w\._\-\+]*)$"; // match any suffix with letter, digits and .+-_
-		static Regex PARAMETER_NAME_REGEX = new Regex(PREFIX_PATTERN + PARAMETER_PATTERN + SUFFIX_PATTERN, RegexOptions.Compiled);
+		static Regex PARAMETER_NAME_REGEX = new Regex(PREFIX_PATTERN + PARAMETER_PATTERN + SUFFIX_PATTERN, RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
 		string _parameterName;
 		string _parameterPattern;
@@ -55,16 +56,13 @@ namespace xrc.Pages
 			if (match.Success)
 			{
 				string value = match.Groups["value"].Value ?? string.Empty;
-				value = value.ToLowerInvariant();
+				value = HttpUtility.UrlDecode(value);
 				string segment = match.Groups["segment"].Value ?? string.Empty;
-				segment = segment.ToLowerInvariant();
 				string nextPart = match.Groups["nextPart"].Value;
 				if (nextPart != null)
 				{
 					if (nextPart.Length == 0)
 						nextPart = null;
-					else
-						nextPart = nextPart.ToLowerInvariant();
 				}
 				return new UriSegmentMatchResult(true, ParameterName, value, segment, nextPart);
 			}
@@ -97,8 +95,8 @@ namespace xrc.Pages
 				suffix = match.Groups["suffix"].Value;
 				if (match.Groups["catchAll"].Success)
 				{
-					valuePattern = ".+"; // match all
-					endPattern = "$";
+					valuePattern = ".+?"; // match any character lazy
+					endPattern = "(?<nextPart>/?$)";
 				}
 				else
 				{

@@ -76,10 +76,10 @@ namespace xrc.Pages.Providers.FileSystem
 
 		public bool IsCanonicalUrl(Uri url)
 		{
-			// UrlDecode to support { and } characters that in some cases are encoded by web servers
-			string currentUrl = HttpUtility.UrlDecode(url.GetLeftPart(UriPartial.Path));
+			// // UrlDecode to support { and } characters that in some cases are encoded by web servers
+			// string currentUrl = HttpUtility.UrlDecode(url.GetLeftPart(UriPartial.Path));
 
-			return string.Equals(_canonicalUrl.ToString(), currentUrl, StringComparison.Ordinal);
+			return string.Equals(_canonicalUrl.GetPath(), url.GetPath(), StringComparison.Ordinal);
 		}
 	}
 }

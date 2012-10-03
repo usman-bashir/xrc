@@ -71,12 +71,42 @@ namespace xrc.Pages.Providers.FileSystem
 
 			Assert.AreEqual(target.Locate("/photos/569.95sport").File.FullPath, Path.Combine(appPath, @"photos\{id}sport\index.xrc"));
 			Assert.AreEqual(target.Locate("/photos/569.95sport").UrlSegmentsParameters["id"], "569.95");
+		}
 
-			Assert.AreEqual(target.Locate("/news/sport/basket/2012").File.FullPath, Path.Combine(appPath, @"news\{id%}\index.xrc"));
+		[TestMethod]
+		public void It_should_be_possible_to_Locate_File_With_Parameters_Catch_All()
+		{
+			var workingPath = new Mocks.RootPathConfigMock("~/sampleWebSite1", TestHelper.GetPath("sampleWebSite1"));
+			PageLocatorService target = new PageLocatorService(workingPath);
+			var appPath = workingPath.PhysicalPath.ToLowerInvariant();
+
+			Assert.AreEqual(target.Locate("/news/sport/basket/2012").File.FullPath, Path.Combine(appPath, @"news\{id_catch-all}\index.xrc"));
 			Assert.AreEqual(target.Locate("/news/sport/basket/2012").UrlSegmentsParameters["id"], "sport/basket/2012");
+			Assert.AreEqual(target.Locate("/news/sport/basket/2012").CanonicalVirtualUrl, "~/news/sport/basket/2012/");
 
-			Assert.AreEqual(target.Locate("/news/4658135").File.FullPath, Path.Combine(appPath, @"news\{id%}\index.xrc"));
+			Assert.AreEqual(target.Locate("/news/4658135").File.FullPath, Path.Combine(appPath, @"news\{id_catch-all}\index.xrc"));
 			Assert.AreEqual(target.Locate("/news/4658135").UrlSegmentsParameters["id"], "4658135");
+			Assert.AreEqual(target.Locate("/news/4658135").CanonicalVirtualUrl, "~/news/4658135/");
+
+			Assert.AreEqual(target.Locate("/news/4658135/").File.FullPath, Path.Combine(appPath, @"news\{id_catch-all}\index.xrc"));
+			Assert.AreEqual(target.Locate("/news/4658135/").UrlSegmentsParameters["id"], "4658135");
+			Assert.AreEqual(target.Locate("/news/4658135/").CanonicalVirtualUrl, "~/news/4658135/");
+
+			Assert.AreEqual(target.Locate("/news/4658135/test/test/").File.FullPath, Path.Combine(appPath, @"news\{id_catch-all}\index.xrc"));
+			Assert.AreEqual(target.Locate("/news/4658135/test/test/").UrlSegmentsParameters["id"], "4658135/test/test");
+			Assert.AreEqual(target.Locate("/news/4658135/test/test/").CanonicalVirtualUrl, "~/news/4658135/test/test/");
+
+			Assert.AreEqual(target.Locate("/docs/4658135").File.FullPath, Path.Combine(appPath, @"docs\{page_catch-all}.xrc"));
+			Assert.AreEqual(target.Locate("/docs/4658135").UrlSegmentsParameters["page"], "4658135");
+			Assert.AreEqual(target.Locate("/docs/4658135").CanonicalVirtualUrl, "~/docs/4658135");
+
+			Assert.AreEqual(target.Locate("/docs/4658135/").File.FullPath, Path.Combine(appPath, @"docs\{page_catch-all}.xrc"));
+			Assert.AreEqual(target.Locate("/docs/4658135/").UrlSegmentsParameters["page"], "4658135");
+			Assert.AreEqual(target.Locate("/docs/4658135/").CanonicalVirtualUrl, "~/docs/4658135");
+
+			Assert.AreEqual(target.Locate("/docs/4658135/test/long/url/index.htm").File.FullPath, Path.Combine(appPath, @"docs\{page_catch-all}.xrc"));
+			Assert.AreEqual(target.Locate("/docs/4658135/test/long/url/index.htm").UrlSegmentsParameters["page"], "4658135/test/long/url/index.htm");
+			Assert.AreEqual(target.Locate("/docs/4658135/test/long/url/index.htm").CanonicalVirtualUrl, "~/docs/4658135/test/long/url/index.htm");
 		}
 
 		[TestMethod]

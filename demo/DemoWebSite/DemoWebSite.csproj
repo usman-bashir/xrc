@@ -234,6 +234,12 @@
     <Content Include="xrc\docs\xrc.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="xrc\docs\test2\{url_CATCH-ALL}\index.xrc.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="xrc\docs\test1\{url_CATCH-ALL}.xrc.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\xrc.Windsor\xrc.Windsor.csproj">

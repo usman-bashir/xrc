@@ -111,6 +111,14 @@ namespace xrc
 			return uri;
 		}
 
+		public static string RemoveTrailingSlash(string uri)
+		{
+			if (uri.EndsWith("/"))
+				uri = uri.TrimEnd('/');
+
+			return uri;
+		}
+
         public static Uri ToSecure(this Uri uri)
         {
             UriBuilder builder = new UriBuilder(uri);
@@ -119,13 +127,27 @@ namespace xrc
             return builder.Uri;
         }
 
+		/// <summary>
+		/// Similar to Url.GetLeftPart(UriPartial.Path) but support also relative uri
+		///  and doesn't encode the results		
+		/// </summary>
 		public static string GetPath(this Uri uri)
 		{
+			return GetPath(uri.ToString());
+		}
+
+		/// <summary>
+		/// Similar to Url.GetLeftPart(UriPartial.Path) but support also relative uri
+		///  and doesn't encode the results		
+		/// </summary>
+		public static string GetPath(string uri)
+		{
+			if (uri == null)
+				throw new ArgumentNullException("uri");
+
 			// Similar to Url.GetLeftPart(UriPartial.Path) but support also relative uri
-			if (uri.IsAbsoluteUri)
-				return uri.GetLeftPart(UriPartial.Path);
-			else
-				return uri.ToString().Split('?', '#')[0];
+			//  and doesn't encode the results
+			return uri.Split('?', '#')[0];
 		}
     }
 }

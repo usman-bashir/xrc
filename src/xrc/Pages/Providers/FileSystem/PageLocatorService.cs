@@ -7,6 +7,8 @@ using System.Web;
 
 namespace xrc.Pages.Providers.FileSystem
 {
+	// TODO Codice ancora da rivedere e sistemare (ad esempio per gestione while, canonical url, ...)
+
     public class PageLocatorService : IPageLocatorService
     {
 		public PageLocatorService(IRootPathConfig rootPathConfig)
@@ -42,110 +44,76 @@ namespace xrc.Pages.Providers.FileSystem
             if (relativeUri.IsAbsoluteUri)
                 throw new UriFormatException(string.Format("Uri '{0}' is not relative.", relativeUri));
 
-            var urlSegmentParameters = new Dictionary<string, string>();
-            XrcFolder currentFolder = Root;
-            XrcFile requestFile = null;
-            StringBuilder canonicalUrl = new StringBuilder("~/");
-
-			// TODO Codice da rivedere
-
-			UriSegmentMatchResult matchResult = null;
 			string currentUrl = relativeUri.GetPath().ToLowerInvariant();
-			do
+			var urlSegmentParameters = new Dictionary<string, string>();
+			XrcFolder currentFolder = Root;
+			XrcFile requestFile = null;
+			StringBuilder canonicalUrl = new StringBuilder("~/");
+
+			while (!(string.IsNullOrEmpty(currentUrl) || currentUrl == "/"))
 			{
-				currentUrl = currentUrl.TrimStart('/');
-				if (string.IsNullOrEmpty(currentUrl))
-					break;
-
-				requestFile = currentFolder.GetFile(currentUrl);
+				requestFile = SearchFile(urlSegmentParameters, currentFolder, canonicalUrl, ref currentUrl);
 				if (requestFile != null)
-				{
-					if (!requestFile.IsIndex)
-						canonicalUrl.Append(currentUrl);
-					break;
-				}
-
-				if (currentFolder.Folders.Count() == 0)
 					break;
 
-				foreach (var subFolder in currentFolder.Folders)
-				{
-					matchResult = subFolder.Parameter.Match(currentUrl);
-					if (matchResult.Success)
-					{
-						canonicalUrl.AppendFormat("{0}/", matchResult.CurrentUrlPart);
-						if (matchResult.IsParameter)
-							urlSegmentParameters.Add(matchResult.ParameterName, matchResult.ParameterValue);
-
-						currentFolder = subFolder;
-						break;
-					}
-				}
-
-				if (!matchResult.Success)
-					break;
-
-				currentUrl = matchResult.NextUrlPart;
-			} while (matchResult.HasNext);
+				XrcFolder matchFolder = SearchFolder(urlSegmentParameters, currentFolder, canonicalUrl, ref currentUrl);
+				if (matchFolder == null)
+					return null; //Not found
+				else
+					currentFolder = matchFolder;
+			}
 
 			// last segment found is not a file, so try to read the default (index) file
-			if (requestFile == null && string.IsNullOrEmpty(currentUrl))
-				requestFile = currentFolder.GetIndexFile();
+			if (requestFile == null)
+				requestFile = currentFolder.IndexFile;
 
 			if (requestFile == null)
 				return null; //Not found
 
 			return new XrcFileResource(requestFile, canonicalUrl.ToString(), urlSegmentParameters);
-
-
-			//if (segments.Length > 0)
-			//{
-			//    for (int i = 0; i < segments.Length - 1; i++)
-			//    {
-			//        currentFolder = currentFolder.GetFolder(segments[i]);
-			//        if (currentFolder == null)
-			//            return null; //Not found
-			//        if (currentFolder.IsParameter)
-			//            urlSegmentParameters.Add(currentFolder.ParameterName, segments[i]);
-
-			//        canonicalUrl.AppendFormat("{0}/", segments[i]);
-			//    }
-
-			//    string lastSegment = segments.LastOrDefault();
-			//    requestFile = currentFolder.GetFile(lastSegment);
-			//    if (requestFile == null)
-			//    {
-			//        currentFolder = currentFolder.GetFolder(lastSegment);
-			//        if (currentFolder == null)
-			//            return null; //Not found
-			//        if (currentFolder.IsParameter)
-			//            urlSegmentParameters.Add(currentFolder.ParameterName, lastSegment);
-
-			//        canonicalUrl.AppendFormat("{0}/", lastSegment);
-			//    }
-			//    else
-			//    {
-			//        if (!requestFile.IsIndex)
-			//            canonicalUrl.Append(lastSegment);
-			//    }
-			//}
-
-			////the last segment found is not a file, so try to read the default (index) file
-			//if (requestFile == null)
-			//{
-			//    requestFile = currentFolder.GetIndexFile();
-			//    if (requestFile == null)
-			//        return null; //Not found
-			//}
-
-			//return new XrcFileResource(requestFile, canonicalUrl.ToString(), urlSegmentParameters);
         }
 
-		//private string[] GetUriSegments(Uri relativeUri)
-		//{
-		//    string requestPath = relativeUri.GetPath().ToLowerInvariant();
+		private static XrcFile SearchFile(Dictionary<string, string> urlSegmentParameters, 
+										XrcFolder currentFolder, StringBuilder canonicalUrl,
+										ref string currentUrl)
+		{
+			foreach (var file in currentFolder.Files)
+			{
+				UriSegmentMatchResult matchResult = file.Parameter.Match(currentUrl);
+				if (matchResult.Success)
+				{
+					if (!file.IsIndex)
+						canonicalUrl.Append(UriExtensions.RemoveTrailingSlash(matchResult.CurrentUrlPart));
+					if (matchResult.IsParameter)
+						urlSegmentParameters.Add(matchResult.ParameterName, matchResult.ParameterValue);
 
-		//    return requestPath.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
-		//}
+					currentUrl = matchResult.NextUrlPart;
+					return file;
+				}
+			}
+
+			return null;
+		}
+
+		private static XrcFolder SearchFolder(Dictionary<string, string> urlSegmentParameters, 
+											XrcFolder currentFolder, StringBuilder canonicalUrl, 
+											ref string currentUrl)
+		{
+			foreach (var subFolder in currentFolder.Folders)
+			{
+				UriSegmentMatchResult matchResult = subFolder.Parameter.Match(currentUrl);
+				if (matchResult.Success)
+				{
+					canonicalUrl.Append(UriExtensions.AppendTrailingSlash(matchResult.CurrentUrlPart));
+					if (matchResult.IsParameter)
+						urlSegmentParameters.Add(matchResult.ParameterName, matchResult.ParameterValue);
+
+					currentUrl = matchResult.NextUrlPart;
+					return subFolder;
+				}
+			}
+
+			return null;
+		}
     }
 }

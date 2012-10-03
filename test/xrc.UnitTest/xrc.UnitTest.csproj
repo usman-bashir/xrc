@@ -120,7 +120,10 @@
     <None Include="sampleWebSite1\photos\{id}sport\index.xrc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="sampleWebSite1\news\{id%25}\index.xrc">
+    <None Include="sampleWebSite1\news\{id_CATCH-ALL}\index.xrc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="sampleWebSite1\docs\{page_CATCH-ALL}.xrc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="sampleWebSite2\conventions_xslt.xml">

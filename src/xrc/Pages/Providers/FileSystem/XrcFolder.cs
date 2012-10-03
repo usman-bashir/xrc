@@ -13,8 +13,8 @@ namespace xrc.Pages.Providers.FileSystem
 
 	public class XrcFolder
 	{
-		private Dictionary<string, XrcFile> _files;
-		private Dictionary<string, XrcFolder> _folders;
+		private List<XrcFile> _files;
+		private List<XrcFolder> _folders;
 		private string _configFile;
 		private UriSegmentParameter _parameter;
 
@@ -96,49 +96,57 @@ namespace xrc.Pages.Providers.FileSystem
 			get { return _parameter; }
 		}
 
-		public XrcFolder GetFolder(string name)
-		{
-			XrcFolder folder;
-			_folders.TryGetValue(name, out folder);
-			return folder;
-		}
-
         public IEnumerable<XrcFolder> Folders
         {
 			get
 			{
-				return _folders.Values;
+				return _folders;
 			}
         }
 
+		public IEnumerable<XrcFile> Files
+		{
+			get
+			{
+				return _files;
+			}
+		}
+
 		public XrcFile GetFile(string name)
-        {
-			XrcFile file;
-            _files.TryGetValue(name, out file);
-            return file;
-        }
-
-		public XrcFile GetIndexFile()
-        {
-			XrcFile file;
-			_files.TryGetValue(XrcFileSystemHelper.INDEX_FILE, out file);
-            return file;
-        }
-
-		public XrcFile GetLayoutFile()
 		{
-			XrcFile file;
-			_files.TryGetValue(XrcFileSystemHelper.LAYOUT_FILE, out file);
-			return file;
+			return _files.FirstOrDefault(p => string.Equals(p.Name, name, StringComparison.OrdinalIgnoreCase));
 		}
 
-		public XrcFolder GetSharedFolder()
+		public XrcFolder GetFolder(string name)
 		{
-			XrcFolder folder;
-			_folders.TryGetValue(XrcFileSystemHelper.SHARED_FOLDER, out folder);
-			return folder;
+			return _folders.FirstOrDefault(p => string.Equals(p.Name, name, StringComparison.OrdinalIgnoreCase));
 		}
 
+		public XrcFile IndexFile
+        {
+			get
+			{
+				return GetFile(XrcFileSystemHelper.INDEX_FILE);
+			}
+        }
+
+		public XrcFile LayoutFile
+		{
+			get
+			{
+				return GetFile(XrcFileSystemHelper.LAYOUT_FILE);
+			}
+		}
+
+		public XrcFolder SharedFolder
+		{
+			get
+			{
+				return GetFolder(XrcFileSystemHelper.SHARED_FOLDER);
+			}
+		}
+
+		// TODO Da rivedere questo metodo, forse restituire un XrcFile?
 		public string GetConfigFile()
 		{
 			return _configFile;
@@ -147,17 +155,7 @@ namespace xrc.Pages.Providers.FileSystem
 		private void SearchFiles()
 		{
 			var files = Directory.GetFiles(FullPath, XrcFileSystemHelper.FILE_PATTERN).Select(p => new XrcFile(this, Path.GetFileName(p)));
-
-			var dictionary = new Dictionary<string, XrcFile>(StringComparer.OrdinalIgnoreCase);
-			foreach (var f in files)
-			{
-				if (dictionary.ContainsKey(f.Name))
-					throw new XrcException(string.Format("A page with the same name is already specified for file '{0}'.", f.FullPath));
-
-				dictionary.Add(f.Name, f);
-			}
-
-			_files = dictionary;
+			_files = files.ToList();
 		}
 
 		private void SearchFolders()
@@ -167,7 +165,7 @@ namespace xrc.Pages.Providers.FileSystem
 						return new XrcFolder(this, XrcFileSystemHelper.GetDirectoryName(p));
 					});
 
-            _folders = folders.ToDictionary(p => p.Name, StringComparer.OrdinalIgnoreCase);
+            _folders = folders.ToList();
 		}
 
 		public XrcFile SearchLayout()
@@ -177,14 +175,14 @@ namespace xrc.Pages.Providers.FileSystem
 
 		private XrcFile SearchLayout(XrcFolder folder)
 		{
-			var layoutFile = folder.GetLayoutFile();
+			var layoutFile = folder.LayoutFile;
 			if (layoutFile != null)
 				return layoutFile;
 
-			var sharedFolder = folder.GetSharedFolder();
+			var sharedFolder = folder.SharedFolder;
 			if (sharedFolder != null)
 			{
-				layoutFile = sharedFolder.GetLayoutFile();
+				layoutFile = sharedFolder.LayoutFile;
 				if (layoutFile != null)
 					return layoutFile;
 			}

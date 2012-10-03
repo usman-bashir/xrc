@@ -88,12 +88,12 @@ namespace xrc.Pages
 			Assert.AreEqual("test/index", result.NextUrlPart);
 			Assert.IsTrue(result.HasNext);
 
-			result = target.Match("SEGMENT1/test/index");
+			result = target.Match("SEGMENT1/test/Index");
 			Assert.AreEqual(true, result.Success);
 			Assert.IsNull(result.ParameterName);
-			Assert.AreEqual("segment1", result.ParameterValue);
-			Assert.AreEqual("segment1", result.CurrentUrlPart);
-			Assert.AreEqual("test/index", result.NextUrlPart);
+			Assert.AreEqual("SEGMENT1", result.ParameterValue);
+			Assert.AreEqual("SEGMENT1", result.CurrentUrlPart);
+			Assert.AreEqual("test/Index", result.NextUrlPart);
 
 			result = target.Match("other/segment1/test/index");
 			Assert.AreEqual(false, result.Success);
@@ -131,22 +131,22 @@ namespace xrc.Pages
 			result = target.Match("ITALIA/test/index");
 			Assert.AreEqual(true, result.Success);
 			Assert.AreEqual("param1", result.ParameterName);
-			Assert.AreEqual("italia", result.ParameterValue);
-			Assert.AreEqual("italia", result.CurrentUrlPart);
+			Assert.AreEqual("ITALIA", result.ParameterValue);
+			Assert.AreEqual("ITALIA", result.CurrentUrlPart);
 			Assert.AreEqual("test/index", result.NextUrlPart);
 
 			result = target.Match("Francia/test/index");
 			Assert.AreEqual(true, result.Success);
 			Assert.AreEqual("param1", result.ParameterName);
-			Assert.AreEqual("francia", result.ParameterValue);
-			Assert.AreEqual("francia", result.CurrentUrlPart);
+			Assert.AreEqual("Francia", result.ParameterValue);
+			Assert.AreEqual("Francia", result.CurrentUrlPart);
 			Assert.AreEqual("test/index", result.NextUrlPart);
 
 			result = target.Match("Francia.html");
 			Assert.AreEqual(true, result.Success);
 			Assert.AreEqual("param1", result.ParameterName);
-			Assert.AreEqual("francia.html", result.ParameterValue);
-			Assert.AreEqual("francia.html", result.CurrentUrlPart);
+			Assert.AreEqual("Francia.html", result.ParameterValue);
+			Assert.AreEqual("Francia.html", result.CurrentUrlPart);
 			Assert.IsNull(result.NextUrlPart);
 		}
 
@@ -162,21 +162,21 @@ namespace xrc.Pages
 			Assert.AreEqual(true, result.Success);
 			Assert.AreEqual("param1", result.ParameterName);
 			Assert.AreEqual("italia", result.ParameterValue);
-			Assert.AreEqual("italia.test", result.CurrentUrlPart);
+			Assert.AreEqual("italia.TEST", result.CurrentUrlPart);
 			Assert.AreEqual("test/index", result.NextUrlPart);
 
 			result = target.Match("ITALIA.test/test/index.html");
 			Assert.AreEqual(true, result.Success);
 			Assert.AreEqual("param1", result.ParameterName);
-			Assert.AreEqual("italia", result.ParameterValue);
-			Assert.AreEqual("italia.test", result.CurrentUrlPart);
+			Assert.AreEqual("ITALIA", result.ParameterValue);
+			Assert.AreEqual("ITALIA.test", result.CurrentUrlPart);
 			Assert.AreEqual("test/index.html", result.NextUrlPart);
 
 			result = target.Match("Francia.html.test");
 			Assert.AreEqual(true, result.Success);
 			Assert.AreEqual("param1", result.ParameterName);
-			Assert.AreEqual("francia.html", result.ParameterValue);
-			Assert.AreEqual("francia.html.test", result.CurrentUrlPart);
+			Assert.AreEqual("Francia.html", result.ParameterValue);
+			Assert.AreEqual("Francia.html.test", result.CurrentUrlPart);
 			Assert.IsNull(result.NextUrlPart);
 
 			result = target.Match("italia/test/index");
@@ -227,7 +227,7 @@ namespace xrc.Pages
 		[TestMethod]
 		public void Parameter_Segment_With_CatchAll()
 		{
-			string pattern = "{param1%}";
+			string pattern = "{param1_CATCH-ALL}";
 			var target = new UriSegmentParameter(pattern);
 			Assert.AreEqual(pattern, target.Pattern);
 			Assert.AreEqual("param1", target.ParameterName);
@@ -253,18 +253,56 @@ namespace xrc.Pages
 			Assert.AreEqual("italia.html", result.CurrentUrlPart);
 			Assert.IsNull(result.NextUrlPart);
 
+			result = target.Match("/test/");
+			Assert.AreEqual(true, result.Success);
+			Assert.AreEqual("param1", result.ParameterName);
+			Assert.AreEqual("test", result.ParameterValue);
+			Assert.AreEqual("test", result.CurrentUrlPart);
+			Assert.AreEqual("/", result.NextUrlPart);
+
 			result = target.Match(".html");
 			Assert.AreEqual(true, result.Success);
 			Assert.AreEqual("param1", result.ParameterName);
 			Assert.AreEqual(".html", result.ParameterValue);
 			Assert.AreEqual(".html", result.CurrentUrlPart);
 			Assert.IsNull(result.NextUrlPart);
+
+			result = target.Match("/news/sport/basket/2012");
+			Assert.AreEqual(true, result.Success);
+			Assert.AreEqual("param1", result.ParameterName);
+			Assert.AreEqual("news/sport/basket/2012", result.ParameterValue);
+			Assert.AreEqual("news/sport/basket/2012", result.CurrentUrlPart);
+			Assert.IsNull(result.NextUrlPart);
+			
+		}
+
+		[TestMethod]
+		public void Parameter_Segment_With_CatchAll_LowerCase()
+		{
+			string pattern = "{param1_catch-all}";
+			var target = new UriSegmentParameter(pattern);
+			Assert.AreEqual(pattern, target.Pattern);
+			Assert.AreEqual("param1", target.ParameterName);
+
+			var result = target.Match("/italia/test/index.html");
+			Assert.AreEqual(true, result.Success);
+			Assert.AreEqual("param1", result.ParameterName);
+			Assert.AreEqual("italia/test/index.html", result.ParameterValue);
+			Assert.AreEqual("italia/test/index.html", result.CurrentUrlPart);
+			Assert.IsNull(result.NextUrlPart);
+
+			result = target.Match("italia/test/index.html");
+			Assert.AreEqual(true, result.Success);
+			Assert.AreEqual("param1", result.ParameterName);
+			Assert.AreEqual("italia/test/index.html", result.ParameterValue);
+			Assert.AreEqual("italia/test/index.html", result.CurrentUrlPart);
+			Assert.IsNull(result.NextUrlPart);
 		}
 
 		[TestMethod]
 		public void Parameter_Segment_With_CatchAll_and_Suffix()
 		{
-			string pattern = "{param1%}.html";
+			string pattern = "{param1_CATCH-ALL}.html";
 			var target = new UriSegmentParameter(pattern);
 			Assert.AreEqual(pattern, target.Pattern);
 			Assert.AreEqual("param1", target.ParameterName);
@@ -308,18 +346,54 @@ namespace xrc.Pages
 		}
 
 		[TestMethod]
-		public void Parameter_Special_Characters()
+		public void Parameter_Special_Characters_in_prefix_suffix()
 		{
 			string pattern = "_+-.{param1}_+-.";
 			var target = new UriSegmentParameter(pattern);
 			Assert.AreEqual(pattern, target.Pattern);
 			Assert.AreEqual("param1", target.ParameterName);
 
-			var result = target.Match("_+-.italia.html+francia_svezia-germania_+-./test/index.html");
+			var result = target.Match("_+-.italia.html_+-./test/index.html");
 			Assert.AreEqual(true, result.Success);
 			Assert.AreEqual("param1", result.ParameterName);
-			Assert.AreEqual("italia.html+francia_svezia-germania", result.ParameterValue);
-			Assert.AreEqual("_+-.italia.html+francia_svezia-germania_+-.", result.CurrentUrlPart);
+			Assert.AreEqual("italia.html", result.ParameterValue);
+			Assert.AreEqual("_+-.italia.html_+-.", result.CurrentUrlPart);
+		}
+
+		[TestMethod]
+		public void Parameter_Special_Characters_in_parameter_segment()
+		{
+			string pattern = "{param1}";
+			var target = new UriSegmentParameter(pattern);
+			Assert.AreEqual(pattern, target.Pattern);
+			Assert.AreEqual("param1", target.ParameterName);
+
+			var result = target.Match("italia+francia/test/index.html");
+			Assert.AreEqual(true, result.Success);
+			Assert.AreEqual("param1", result.ParameterName);
+			Assert.AreEqual("italia francia", result.ParameterValue);
+			Assert.AreEqual("italia+francia", result.CurrentUrlPart);
+
+			// All characters must be supported
+			result = target.Match("%23%24%25%26%3C%42%7B%7D/test/index.html");
+			Assert.AreEqual(true, result.Success);
+			Assert.AreEqual("param1", result.ParameterName);
+			Assert.AreEqual("#$%&<B{}", result.ParameterValue);
+			Assert.AreEqual("%23%24%25%26%3C%42%7B%7D", result.CurrentUrlPart);
+		}
+
+		[TestMethod]
+		public void Parameter_Special_Characters_in_fixed_segment()
+		{
+			string pattern = "_+-.TEST_+-.";
+			var target = new UriSegmentParameter(pattern);
+			Assert.AreEqual(pattern, target.Pattern);
+
+			var result = target.Match("_+-.TEST_+-./test/index.html");
+			Assert.AreEqual(true, result.Success);
+			Assert.IsNull(result.ParameterName);
+			Assert.AreEqual("_ -.TEST_ -.", result.ParameterValue);
+			Assert.AreEqual("_+-.TEST_+-.", result.CurrentUrlPart);
 		}
 	}
 }

@@ -81,6 +81,13 @@ namespace xrc
 		}
 
 		[TestMethod]
+		public void RemoveTrailingSlash_String()
+		{
+			Assert.AreEqual("http://www.google.com", UriExtensions.RemoveTrailingSlash("http://www.google.com"));
+			Assert.AreEqual("http://www.google.com", UriExtensions.RemoveTrailingSlash("http://www.google.com/"));
+		}
+
+		[TestMethod]
 		public void ToSecure()
 		{
 			Assert.AreEqual(new Uri("https://www.google.com/"), new Uri("http://www.google.com").ToSecure());
@@ -93,6 +100,9 @@ namespace xrc
 			Assert.AreEqual("/index/page", new Uri("/index/page#anchor", UriKind.Relative).GetPath());
 			Assert.AreEqual("http://www.google.com/index/page", new Uri("http://www.google.com/index/page?p1=v1").GetPath());
 			Assert.AreEqual("http://www.google.com/index/page", new Uri("http://www.google.com/index/page#anchor").GetPath());
+
+			// GetPath doesn't encode, this is a different behavior between Uri.GetLeftPart
+			Assert.AreEqual("/index/page{test}+", new Uri("/index/page{test}+", UriKind.Relative).GetPath());
 		}
     }
 }

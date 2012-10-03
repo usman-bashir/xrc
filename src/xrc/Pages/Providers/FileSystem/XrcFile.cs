@@ -11,6 +11,8 @@ namespace xrc.Pages.Providers.FileSystem
 
     public class XrcFile
     {
+		readonly UriSegmentParameter _parameter;
+
 		public XrcFile(XrcFolder parent, string fileName)
         {
 			if (string.IsNullOrWhiteSpace(fileName))
@@ -25,12 +27,18 @@ namespace xrc.Pages.Providers.FileSystem
 			Extension = XrcFileSystemHelper.GetFileExtension(fileName);
 			VirtualPath = UriExtensions.Combine(parent.VirtualPath, fileName);
 			FullName = UriExtensions.Combine(parent.FullName, Name);
+			_parameter = new UriSegmentParameter(Name);
 		}
 
 		public string Name
 		{
 			get;
 			private set;
+		}
+
+		public UriSegmentParameter Parameter
+		{
+			get { return _parameter; }
 		}
 
 		public string Extension
