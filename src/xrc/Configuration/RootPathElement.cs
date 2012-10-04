@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Configuration;
+using System.IO;
 
 namespace xrc.Configuration
 {
@@ -23,6 +24,11 @@ namespace xrc.Configuration
 		string IRootPathConfig.PhysicalPath
 		{
 			get { return System.Web.Hosting.HostingEnvironment.MapPath(VirtualPath); }
+		}
+
+		string IRootPathConfig.MapPath(string virtualPath)
+		{
+			return System.Web.Hosting.HostingEnvironment.MapPath(virtualPath);
 		}
 	}
 }

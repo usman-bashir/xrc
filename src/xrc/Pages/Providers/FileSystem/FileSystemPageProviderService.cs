@@ -42,11 +42,20 @@ namespace xrc.Pages.Providers.FileSystem
 
 		public Stream OpenPageResource(IPage page, string resourceLocation)
 		{
-			FileSystemPage fsPage = page as FileSystemPage;
-			if (fsPage == null)
-				throw new XrcException("Invalid page");
+			//FileSystemPage fsPage = page as FileSystemPage;
+			//if (fsPage == null)
+			//    throw new XrcException("Invalid page");
+			//
+			//string filePath = GetAbsoluteFile(fsPage, resourceLocation);
 
-			string filePath = GetAbsoluteFile(fsPage, resourceLocation);
+			string filePath;
+			if (Path.IsPathRooted(resourceLocation))
+				filePath = resourceLocation;
+			else
+			{
+				string virtualPath = GetPageVirtualPath(page, resourceLocation);
+				filePath = _workingPath.MapPath(virtualPath);
+			}
 
 			return File.OpenRead(filePath);
 		}
@@ -76,12 +85,12 @@ namespace xrc.Pages.Providers.FileSystem
 			return xrcFile != null;
 		}
 
-		private string GetAbsoluteFile(FileSystemPage page, string resourceLocation)
-		{
-			if (Path.IsPathRooted(resourceLocation))
-				return resourceLocation;
-			else
-				return Path.Combine(page.FileResource.WorkingPath, resourceLocation);
-		}
+		//private string GetAbsoluteFile(FileSystemPage page, string resourceLocation)
+		//{
+		//    if (Path.IsPathRooted(resourceLocation))
+		//        return resourceLocation;
+		//    else
+		//        return Path.Combine(page.FileResource.WorkingPath, resourceLocation);
+		//}
 	}
 }

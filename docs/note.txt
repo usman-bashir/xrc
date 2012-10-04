@@ -24,7 +24,7 @@ Problemi
  Aggiungere log
 
 TODO
- Verificare se File.Xml accetta virtual path, path assoluti e relativi.
+ Verificare se File.Xml accetta virtual path, path assoluti e relativi. (rivedere MapPath e GetPageVirtualPath)
  Aggiungere StaticContentView (for image, ...)
  Razor parameters "app" error. Check if set is present and if is declared on xrc assembly.
  Implement MapPath on XrcRequest e anche tutti gli altri metodo, gestendo un fallback alla request di base.

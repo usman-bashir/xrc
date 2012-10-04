@@ -12,7 +12,7 @@
 	<xrc:action method="GET">
 		<xrc:XsltView>
 			<Xslt>@File.Xml("books_genre.xslt")</Xslt>
-			<Data>@File.Xml("..\..\books.xml")</Data>
+			<Data>@File.Xml("../../books.xml")</Data>
 		</xrc:XsltView>
 	</xrc:action>
 

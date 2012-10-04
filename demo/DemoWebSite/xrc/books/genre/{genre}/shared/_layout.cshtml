@@ -1,11 +1,14 @@
 ﻿@inherits xrc.Razor.XrcWebViewPage
 
 @functions{
+	
+	public string Genre { get; set; }
+
 	public xrc.Modules.ISlotModule SlotModule { get; set; }
 }
 
 <div class="alert alert-info">
-	This is a specific layout file
+	This is a specific layout file (genre: @Genre).
 </div>
 
 @Html.Raw(SlotModule.IncludeChild())

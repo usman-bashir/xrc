@@ -244,16 +244,28 @@ namespace xrc
 			// Note: Automatically read only server parameters (Configuration, UrlSegments, Page),
 			// user parameters (cookie, query string, post, header, ...) are readed only on request
 
+			// Set the parameters only when not already present, so save the list of inherited parameters
+			string[] inheritdKeys = context.Parameters.Select(p => p.Name).ToArray();
+
 			foreach (var item in context.Page.SiteConfiguration.Parameters)
-				context.Parameters[item.Key] = new ContextParameter(item.Key, typeof(string), item.Value);
+			{
+				if (!inheritdKeys.Contains(item.Key, StringComparer.OrdinalIgnoreCase))
+					context.Parameters[item.Key] = new ContextParameter(item.Key, typeof(string), item.Value);
+			}
 
 			foreach (var item in context.Page.UrlSegmentsParameters)
-				context.Parameters[item.Key] = new ContextParameter(item.Key, typeof(string), item.Value);
+			{
+				if (!inheritdKeys.Contains(item.Key, StringComparer.OrdinalIgnoreCase))
+					context.Parameters[item.Key] = new ContextParameter(item.Key, typeof(string), item.Value);
+			}
 
 			// Page.Parameters override any other values except Request if the allowRequestOverride is true.
 			// Page.Parameters type is used for conversion.
 			foreach (var pageParam in context.Page.PageParameters)
 			{
+				if (inheritdKeys.Contains(pageParam.Name, StringComparer.OrdinalIgnoreCase))
+					continue;
+
 				string requestValue;
 				// Read parameters from the request
 				if (pageParam.AllowRequestOverride && (requestValue = context.Request[pageParam.Name]) != null)

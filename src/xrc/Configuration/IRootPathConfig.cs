@@ -16,5 +16,7 @@ namespace xrc.Configuration
         {
             get;
         }
+
+		string MapPath(string virtualPath);
     }
 }

@@ -35,5 +35,11 @@ namespace xrc.Mocks
 		{
 			get { return PhysicalPath; }
 		}
+
+
+		public string MapPath(string virtualPath)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
