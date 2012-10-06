@@ -35,6 +35,8 @@ TODO
  ComponentCatalogService implementare anche AssignableTo (BasedOn) property to filter type based on an interface
  Authentication
  Cache
+ Widgets support: load common widgets from assemblies (widgets can be simple specials views)
+ Support redirect page (using a particular view or a specific xrc command?)
  Sample explanation
  Documentation website using xrc (reading class reference from assembly and xml doc, xslt transformation of xml doc, custom docs, search, ...)
 

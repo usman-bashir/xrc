@@ -37,7 +37,7 @@ namespace xrc.Pages.Providers.FileSystem
 			var view = page.Actions["GET"].Views.Single();
 			Assert.AreEqual(viewType, view.Component.Type);
 
-			var content = (string)view.Properties["ViewFile"].Value.Value;
+			var content = (string)view.Properties["ViewUrl"].Value.Value;
 			Assert.AreEqual(file.File.FileName, content);
 		}
 

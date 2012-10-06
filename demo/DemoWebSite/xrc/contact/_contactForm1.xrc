@@ -8,7 +8,7 @@
 
 	<xrc:action>
 		<xrc:RazorView>
-			<ViewFile>_contactForm1.cshtml</ViewFile>
+			<ViewUrl>_contactForm1.cshtml</ViewUrl>
 			<Model>@Contact.GetDefault()</Model>
 		</xrc:RazorView>
 	</xrc:action>

@@ -6,7 +6,7 @@
 
 	<xrc:action method="GET">
 		<xrc:RazorView>
-			<ViewFile>_layoutRazor.cshtml</ViewFile>
+			<ViewUrl>_layoutRazor.cshtml</ViewUrl>
 		</xrc:RazorView>
 	</xrc:action>
 

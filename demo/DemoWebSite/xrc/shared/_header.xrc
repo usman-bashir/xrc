@@ -22,6 +22,7 @@
 					<menu url="~/widgets" />
 					<menu url="~/contact" />
 					<menu url="~/docs" />
+					<menu url="~/viewtest" />
 					<menu url="~/about" />
 				</header>
 			</Data>

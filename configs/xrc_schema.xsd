@@ -56,7 +56,7 @@
 		<xs:complexContent>
 			<xs:extension base="xrc:viewElementBase">
 				<xs:sequence>
-					<xs:element name="ViewFile" minOccurs="1" maxOccurs="1" type="xs:string" form="unqualified" />
+					<xs:element name="ViewUrl" minOccurs="1" maxOccurs="1" type="xs:string" form="unqualified" />
 					<xs:element name="Model" minOccurs="0" maxOccurs="1" type="xs:string" form="unqualified" />
 				</xs:sequence>
 			</xs:extension>

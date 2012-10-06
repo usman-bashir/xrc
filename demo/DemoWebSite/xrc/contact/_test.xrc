@@ -7,7 +7,7 @@
 
 	<xrc:action>
 		<xrc:RazorView>
-			<ViewFile>_test.cshtml</ViewFile>
+			<ViewUrl>_test.cshtml</ViewUrl>
 		</xrc:RazorView>
 	</xrc:action>
 

@@ -201,6 +201,27 @@
     <Content Include="xrc\shared\_layout3cols.xrc">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="xrc\viewtest\_slotContent.xrc">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="xrc\viewtest\_slot.xrc">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="xrc\viewtest\_markdownFile.xrc">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="xrc\viewtest\_markdown.xrc">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="xrc\viewtest\_html.xrc">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="xrc\viewtest\_xhtml.xrc">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="xrc\viewtest\index.xrc">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="xrc\widgets\index.xrc">
       <SubType>Designer</SubType>
     </Content>
@@ -240,6 +261,8 @@
     <Content Include="xrc\docs\test1\{url_CATCH-ALL}.xrc.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="xrc\viewtest\index.cshtml" />
+    <Content Include="xrc\viewtest\_markdownFile.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\xrc.Windsor\xrc.Windsor.csproj">

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:page xmlns:xrc="urn:xrc"
+		  xmlns:File="xrc:FileModule">
+
+	<xrc:action>
+		<xrc:MarkdownView>
+			<Content>@File.Text("_markdownFile.md")</Content>
+		</xrc:MarkdownView>
+	</xrc:action>
+
+</xrc:page>

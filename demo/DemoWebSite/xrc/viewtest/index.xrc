@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:page xmlns:xrc="urn:xrc"
+         xmlns:File="xrc:FileModule">
+
+	<xrc:parameters>
+		<!-- This parameter will be used as the page title in the shared/layout.xslt page -->
+		<xrc:add key="title" value="views test" />
+		<!-- This parameter will be passed on the shared/_header.xrc -->
+		<xrc:add key="activeMenu" value="views test" />
+	</xrc:parameters>
+
+	<xrc:action>
+		<xrc:RazorView>
+			<ViewUrl>index.cshtml</ViewUrl>
+		</xrc:RazorView>
+	</xrc:action>
+</xrc:page>

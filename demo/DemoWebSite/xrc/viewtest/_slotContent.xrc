@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:page xmlns:xrc="urn:xrc">
+
+	<xrc:action>
+		<xrc:XHtmlView>
+			<Content>
+				<div>
+					<h3>Slot</h3>
+					<p>This is the slot view</p>
+				</div>
+			</Content>
+		</xrc:XHtmlView>
+	</xrc:action>
+
+</xrc:page>

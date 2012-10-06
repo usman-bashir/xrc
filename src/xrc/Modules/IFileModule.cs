@@ -5,5 +5,7 @@ namespace xrc.Modules
     {
         System.Xml.Linq.XDocument XHtml(string file);
         System.Xml.Linq.XDocument Xml(string file);
-    }
+		string Html(string file);
+		string Text(string file);
+	}
 }

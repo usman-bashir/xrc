@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:page xmlns:xrc="urn:xrc">
+
+	<xrc:action>
+		<xrc:XHtmlView>
+			<Content>
+				<div>
+					<h3>XHtml</h3>
+					This is a xhtml content
+				</div>
+			</Content>
+		</xrc:XHtmlView>
+	</xrc:action>
+
+</xrc:page>

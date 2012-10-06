@@ -3,7 +3,7 @@
 
 	<xrc:action method="GET" layout="~/shared/_layoutRazor">
 		<xrc:RazorView>
-			<ViewFile>index.cshtml</ViewFile>
+			<ViewUrl>index.cshtml</ViewUrl>
 		</xrc:RazorView>
 	</xrc:action>
 

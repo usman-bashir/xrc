@@ -8,7 +8,7 @@
 
 	<xrc:action method="GET" layout="~/shared/_layout">
 		<xrc:RazorView>
-			<ViewFile>index.cshtml</ViewFile>
+			<ViewUrl>index.cshtml</ViewUrl>
 		</xrc:RazorView>
 	</xrc:action>
 

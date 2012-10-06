@@ -4,7 +4,7 @@
 
 	<xrc:action>
 		<xrc:RazorView>
-			<ViewFile>_countries.cshtml</ViewFile>
+			<ViewUrl>_countries.cshtml</ViewUrl>
 			<Model>@Olympics.GetCountries()</Model>
 		</xrc:RazorView>
 	</xrc:action>

@@ -2,9 +2,9 @@
 <xrc:page xmlns:xrc="urn:xrc">
 
 	<xrc:action>
-		<xrc:RazorView>
-			<ViewUrl>_contactForm2.cshtml</ViewUrl>
-		</xrc:RazorView>
+		<xrc:SlotView>
+			<SlotUrl>_slotContent</SlotUrl>
+		</xrc:SlotView>
 	</xrc:action>
 
 </xrc:page>

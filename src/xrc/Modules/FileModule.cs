@@ -36,5 +36,22 @@ namespace xrc.Modules
 		{
 			return Xml(file);
 		}
+
+
+		public string Html(string file)
+		{
+			return Text(file);
+		}
+
+		public string Text(string file)
+		{
+			using (StreamReader stream = new StreamReader(_pageProvider.OpenPageResource(_context.Page, file), true))
+			{
+				string text = stream.ReadToEnd();
+				stream.Close();
+
+				return text;
+			}
+		}
 	}
 }

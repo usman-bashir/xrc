@@ -7,7 +7,7 @@
 
 	<xrc:action>
 		<xrc:RazorView>
-			<ViewFile>_sendSuccess.cshtml</ViewFile>
+			<ViewUrl>_sendSuccess.cshtml</ViewUrl>
 			<Model>@newContact</Model>
 		</xrc:RazorView>
 	</xrc:action>

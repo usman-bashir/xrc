@@ -2,9 +2,13 @@
 <xrc:page xmlns:xrc="urn:xrc">
 
 	<xrc:action>
-		<xrc:RazorView>
-			<ViewUrl>_contactForm2.cshtml</ViewUrl>
-		</xrc:RazorView>
+		<xrc:MarkdownView>
+			<Content>
+### Markdown
+				
+Hello from markdown
+			</Content>
+		</xrc:MarkdownView>
 	</xrc:action>
 
 </xrc:page>

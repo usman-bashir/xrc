@@ -35,7 +35,7 @@ namespace xrc.Views
 		/// <summary>
 		/// Gets or sets a url relative from the current xrc file path or a virtual path using razor standard url. Es. ~/Views/Contact/Index.cshtml 
 		/// </summary>
-		public string ViewFile
+		public string ViewUrl
 		{
 			get;
 			set;
@@ -49,7 +49,7 @@ namespace xrc.Views
 
         public void Execute(IContext context)
         {
-			if (string.IsNullOrWhiteSpace(ViewFile))
+			if (string.IsNullOrWhiteSpace(ViewUrl))
 				throw new ArgumentNullException("View");
 
             ViewContext viewContext = new ViewContext();
@@ -68,7 +68,7 @@ namespace xrc.Views
             var result = ViewEngines.Engines.FindPartialView(viewContext, GetViewFullName(context));
 
 			if (result.View == null)
-				throw new ApplicationException(string.Format("Razor view '{0}' not found.", ViewFile));
+				throw new ApplicationException(string.Format("Razor view '{0}' not found.", ViewUrl));
 
             var viewEngine = result.ViewEngine;
             var view = result.View;
@@ -99,7 +99,7 @@ namespace xrc.Views
         /// </summary>
         string GetViewFullName(IContext context)
         {
-			return _pageProviderService.GetPageVirtualPath(context.Page, ViewFile);
+			return _pageProviderService.GetPageVirtualPath(context.Page, ViewUrl);
         }
 	}
 }

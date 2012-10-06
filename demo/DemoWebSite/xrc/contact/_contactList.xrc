@@ -4,7 +4,7 @@
 
 	<xrc:action>
 		<xrc:RazorView>
-			<ViewFile>_contactList.cshtml</ViewFile>
+			<ViewUrl>_contactList.cshtml</ViewUrl>
 			<Model>@Contact.GetContacts()</Model>
 		</xrc:RazorView>
 	</xrc:action>

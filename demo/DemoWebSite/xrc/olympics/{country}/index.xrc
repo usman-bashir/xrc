@@ -9,7 +9,7 @@
 
 	<xrc:action method="GET" layout="~/shared/_layoutRazor">
 		<xrc:RazorView>
-			<ViewFile>index.cshtml</ViewFile>
+			<ViewUrl>index.cshtml</ViewUrl>
 			<Model>@Olympics.GetAthletes(country)</Model>
 		</xrc:RazorView>
 	</xrc:action>

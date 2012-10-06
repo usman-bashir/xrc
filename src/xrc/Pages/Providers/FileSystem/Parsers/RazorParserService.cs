@@ -36,7 +36,7 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 
 			var viewComponentDefinition = _viewCatalog.Get(typeof(RazorView).Name);
 			var view = new ViewDefinition(viewComponentDefinition, null);
-			string propertyName = "ViewFile";
+			string propertyName = "ViewUrl";
 			var viewProperty = viewComponentDefinition.Type.GetProperty(propertyName);
 			if (viewProperty == null)
 				throw new XrcException(string.Format("Property '{0}' for type '{1}' not found.", propertyName, viewComponentDefinition.Type.FullName));

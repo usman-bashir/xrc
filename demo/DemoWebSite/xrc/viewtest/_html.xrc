@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:page xmlns:xrc="urn:xrc">
+
+	<xrc:action>
+		<xrc:HtmlView>
+			<Content>
+				<![CDATA[
+				<h3>Html</h3>
+				<div>
+					This is the an html content
+				</div>
+				]]>
+			</Content>
+		</xrc:HtmlView>
+	</xrc:action>
+
+</xrc:page>
