@@ -7,6 +7,7 @@ using xrc.Modules;
 using xrc.Views;
 using System.Xml.Linq;
 using System.Reflection;
+using System.IO;
 
 namespace xrc.Pages.Providers.FileSystem.Parsers
 {
@@ -58,7 +59,7 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 				if (paramsElement != null)
 					ParseParameters(paramsElement, result);
 
-				ParseActions(xdoc, result);
+				ParseActions(Path.GetDirectoryName(fullpath), xdoc, result);
 			}
 			catch (Exception ex)
 			{
@@ -68,7 +69,7 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 			return result;
 		}
 
-		private void ParseActions(XDocument xdoc, PageParserResult parserResult)
+		private void ParseActions(string directory, XDocument xdoc, PageParserResult parserResult)
 		{
 			foreach (var actionElement in xdoc.Root.Elements(ACTION))
 			{
@@ -83,7 +84,7 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 				{
 					if (viewElement.Name != OUTPUTCACHE)
 					{
-						var view = ParseView(viewElement, parserResult);
+						var view = ParseView(directory, viewElement, parserResult);
 						action.Views.Add(view);
 					}
 				}
@@ -128,7 +129,7 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 			}
 		}
 
-		private ViewDefinition ParseView(XElement xElement, PageParserResult parserResult)
+		private ViewDefinition ParseView(string directory, XElement xElement, PageParserResult parserResult)
 		{
 			string typeName = xElement.Name.LocalName;
 			ComponentDefinition component = _viewCatalog.Get(typeName);
@@ -146,7 +147,7 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 			// TODO Escludere le property con un namespace? O usare un namespace particolare per le property?
 			foreach (var element in xElement.Elements())
 			{
-				var property = ParseProperty(element, component.Type, parserResult);
+				var property = ParseProperty(directory, element, component.Type, parserResult);
 
 				view.Properties.Add(property);
 			}
@@ -154,32 +155,15 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 			return view;
 		}
 
-		private XProperty ParseProperty(XElement element, Type ownerType, PageParserResult parserResult)
+		private XProperty ParseProperty(string directory, XElement element, Type ownerType, PageParserResult parserResult)
 		{
 			string propertyName = element.Name.LocalName;
 			var property = ownerType.GetProperty(propertyName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
 			if (property == null)
 			{
-				//const string FILE_INCLUDE_SUFFIX = "File";
-				//if (propertyName.EndsWith(FILE_INCLUDE_SUFFIX, StringComparison.OrdinalIgnoreCase))
-				//{
-				//    string propertyNameBase = propertyName.Substring(0, propertyName.Length - FILE_INCLUDE_SUFFIX.Length);
-				//    var propertyBase = ownerType.GetProperty(propertyNameBase, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-				//    if (propertyBase != null)
-				//    {
-				//        string filePath = element.Value;
-				//        if (propertyBase.PropertyType == typeof(XDocument))
-				//        {
-				//            var xValue = new XValue(propertyBase.PropertyType, XDocument.Load(filePath));
-				//            return new XProperty(propertyBase, xValue);
-				//        }
-				//        else if (propertyBase.PropertyType == typeof(string))
-				//        {
-				//            var xValue = new XValue(propertyBase.PropertyType, XDocument.Parse(filePath));
-				//            return new XProperty(propertyBase, xValue);
-				//        }
-				//    }
-				//}
+				XProperty propertyFile = ParsePropertyFile(directory, ownerType, propertyName, element.Value);
+				if (propertyFile != null)
+					return propertyFile;
 
 				throw new ApplicationException(string.Format("Property '{0}' not found on type '{0}.", propertyName, ownerType));
 			}
@@ -208,7 +192,34 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 				return new XProperty(property, xValue);
 			}
 			else
-				throw new ApplicationException(string.Format("Invalid element '{0}', valuenot defined.", element.Name));
+				throw new ApplicationException(string.Format("Invalid element '{0}', value not defined.", element.Name));
+		}
+
+		private static XProperty ParsePropertyFile(string directory, Type ownerType, string propertyName, string value)
+		{
+			const string FILE_INCLUDE_SUFFIX = "File";
+			if (propertyName.EndsWith(FILE_INCLUDE_SUFFIX, StringComparison.OrdinalIgnoreCase))
+			{
+				string propertyNameBase = propertyName.Substring(0, propertyName.Length - FILE_INCLUDE_SUFFIX.Length);
+				var propertyBase = ownerType.GetProperty(propertyNameBase, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+				if (propertyBase != null)
+				{
+					// TODO Quando si metterà in cache il file xrc con dipendenza al file stesso ricordarsi di considerare anche questi file (letti inline per le property).
+
+					string filePath = Path.Combine(directory, value);
+					if (propertyBase.PropertyType == typeof(XDocument))
+					{
+						var xValue = new XValue(propertyBase.PropertyType, XDocument.Load(filePath));
+						return new XProperty(propertyBase, xValue);
+					}
+					else if (propertyBase.PropertyType == typeof(string))
+					{
+						var xValue = new XValue(propertyBase.PropertyType, File.ReadAllText(filePath));
+						return new XProperty(propertyBase, xValue);
+					}
+				}
+			}
+			return null;
 		}
 	}
 }

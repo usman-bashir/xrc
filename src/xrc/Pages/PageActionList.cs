@@ -33,7 +33,11 @@ namespace xrc.Pages
                 if (method == null)
                     return null;
 
-                return _list[method];
+				PageAction action;
+				if (!_list.TryGetValue(method, out action))
+					throw new XrcException(string.Format("Action with method '{0}' not found.", method));
+
+                return action;
             }
 			set
 			{

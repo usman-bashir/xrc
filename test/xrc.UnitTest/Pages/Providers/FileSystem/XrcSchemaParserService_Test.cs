@@ -108,6 +108,44 @@ namespace xrc.Pages.Providers.FileSystem
                 Assert.AreEqual("Book 1", xpath.Current.Value);
         }
 
+		[TestMethod]
+		public void It_Should_be_possible_to_parse_fileInclude_page_xml()
+		{
+			var file = TestHelper.GetPath(@"sampleWebSite2\fileIncludeXml.xrc");
+
+			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(),
+										new Mocks.ModuleCatalogServiceMock(null),
+										new Mocks.ViewCatalogServiceMock(TestView.Definition));
+
+			PageParserResult page = target.Parse(file);
+			PageAction action = page.Actions["GET"];
+			var view = action.Views.Single();
+			Assert.AreEqual(typeof(TestView), view.Component.Type);
+			XDocument xmlData = (XDocument)view.Properties["XDocProperty"].Value.Value;
+
+			var xpath = xmlData.CreateNavigator().Select("book[1]/title");
+			while (xpath.MoveNext())
+				Assert.AreEqual("Book 1", xpath.Current.Value);
+		}
+
+		[TestMethod]
+		public void It_Should_be_possible_to_parse_fileInclude_page_text()
+		{
+			var file = TestHelper.GetPath(@"sampleWebSite2\fileIncludeText.xrc");
+
+			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(),
+										new Mocks.ModuleCatalogServiceMock(null),
+										new Mocks.ViewCatalogServiceMock(TestView.Definition));
+
+			PageParserResult page = target.Parse(file);
+			PageAction action = page.Actions["GET"];
+			var view = action.Views.Single();
+			Assert.AreEqual(typeof(TestView), view.Component.Type);
+			string strValue = (string)view.Properties["TextProperty"].Value.Value;
+
+			Assert.AreEqual("File content", strValue);
+		}
+
         [TestMethod]
         public void It_Should_be_possible_to_parse_example3_page_with_multiple_slots()
         {
@@ -148,6 +186,7 @@ namespace xrc.Pages.Providers.FileSystem
             public TestObject scriptProperty { get; set; }
             public XDocument XDocProperty { get; set; }
             public string PrimitiveProperty { get; set; }
+			public string TextProperty { get; set; }
 
             public void Execute(IContext context)
             {

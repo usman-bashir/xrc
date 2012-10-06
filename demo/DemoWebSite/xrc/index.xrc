@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<xrc:page xmlns:xrc="urn:xrc"
-         xmlns:File="xrc:FileModule">
+<xrc:page xmlns:xrc="urn:xrc">
 
 	<xrc:parameters>
 		<!-- This parameter will be used as the page title in the shared/layout.xslt page -->
@@ -11,7 +10,7 @@
 
 	<xrc:action layout="~/shared/_layout">
 		<xrc:XHtmlView>
-			<Content>@File.XHtml("index.xhtml")</Content>
+			<ContentFile>index.xhtml</ContentFile>
 		</xrc:XHtmlView>
 
 		<!-- TODO: How to configure outputcache -->

@@ -176,6 +176,20 @@
     <None Include="sampleWebSite2\_layout.xrc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="sampleWebSite2\fileIncludeXml.xrc">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="sampleWebSite2\fileIncludeText.xrc">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="sampleWebSite2\fileInclude.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sampleWebSite2\fileInclude.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Views\Xslt\books.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
