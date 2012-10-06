@@ -156,9 +156,33 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 
 		private XProperty ParseProperty(XElement element, Type ownerType, PageParserResult parserResult)
 		{
-			var property = ownerType.GetProperty(element.Name.LocalName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+			string propertyName = element.Name.LocalName;
+			var property = ownerType.GetProperty(propertyName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
 			if (property == null)
-				throw new ApplicationException(string.Format("Property '{0}' not found on type '{0}.", element.Name.LocalName, ownerType));
+			{
+				//const string FILE_INCLUDE_SUFFIX = "File";
+				//if (propertyName.EndsWith(FILE_INCLUDE_SUFFIX, StringComparison.OrdinalIgnoreCase))
+				//{
+				//    string propertyNameBase = propertyName.Substring(0, propertyName.Length - FILE_INCLUDE_SUFFIX.Length);
+				//    var propertyBase = ownerType.GetProperty(propertyNameBase, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+				//    if (propertyBase != null)
+				//    {
+				//        string filePath = element.Value;
+				//        if (propertyBase.PropertyType == typeof(XDocument))
+				//        {
+				//            var xValue = new XValue(propertyBase.PropertyType, XDocument.Load(filePath));
+				//            return new XProperty(propertyBase, xValue);
+				//        }
+				//        else if (propertyBase.PropertyType == typeof(string))
+				//        {
+				//            var xValue = new XValue(propertyBase.PropertyType, XDocument.Parse(filePath));
+				//            return new XProperty(propertyBase, xValue);
+				//        }
+				//    }
+				//}
+
+				throw new ApplicationException(string.Format("Property '{0}' not found on type '{0}.", propertyName, ownerType));
+			}
 
 			if (element.HasElements)
 			{

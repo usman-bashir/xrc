@@ -11,12 +11,9 @@ namespace xrc.Pages.Providers
 
 		IPage GetPage(Uri url);
 
-		System.IO.Stream OpenPageResource(IPage page, string resourceLocation);
-
 		/// <summary>
-		/// Returns the application virtual path for the specified url using the page as the context.
-		/// The path returned is a full application path, with also the xrc folder root.
+		/// Open the specified resource. resourceLocation parameter can be a fully qualified resource or a virtual path.
 		/// </summary>
-		string GetPageVirtualPath(IPage page, string url);
+		System.IO.Stream OpenResource(string resourceLocation);
 	}
 }

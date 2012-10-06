@@ -19,6 +19,14 @@ namespace xrc
 						UriExtensions.Combine(new Uri("http://www.google.com/folder"), new Uri("index", UriKind.Relative)));
 			Assert.AreEqual(new Uri("http://www.google.com/folder/index"),
 						UriExtensions.Combine(new Uri("http://www.google.com/folder/"), new Uri("/index", UriKind.Relative)));
+			Assert.AreEqual(new Uri("http://www.google.com/folder/index"),
+						UriExtensions.Combine(new Uri("http://www.google.com/folder/sub1/sub2/"), new Uri("../../index", UriKind.Relative)));
+			Assert.AreEqual(new Uri("http://www.google.com/folder/index"),
+						UriExtensions.Combine(new Uri("http://www.google.com/folder/sub1/sub2"), new Uri("../../index", UriKind.Relative)));
+			Assert.AreEqual(new Uri("/folder/index", UriKind.Relative),
+						UriExtensions.Combine(new Uri("/folder", UriKind.Relative), new Uri("index", UriKind.Relative)));
+			Assert.AreEqual(new Uri("/folder/index", UriKind.Relative),
+						UriExtensions.Combine(new Uri("/folder/sub1/sub2", UriKind.Relative), new Uri("../../index", UriKind.Relative)));
 		}
 
 		[TestMethod]
@@ -30,6 +38,12 @@ namespace xrc
 						UriExtensions.Combine(new Uri("http://www.google.com/folder"), "index"));
 			Assert.AreEqual(new Uri("http://www.google.com/folder/index"),
 						UriExtensions.Combine(new Uri("http://www.google.com/folder/"), "/index"));
+			Assert.AreEqual(new Uri("http://www.google.com/folder/index"),
+						UriExtensions.Combine(new Uri("http://www.google.com/folder/sub1/sub2/"), "../../index"));
+			Assert.AreEqual(new Uri("http://www.google.com/folder/index"),
+						UriExtensions.Combine(new Uri("http://www.google.com/folder/sub1/sub2"), "../../index"));
+			Assert.AreEqual(new Uri("/folder/index", UriKind.Relative),
+						UriExtensions.Combine(new Uri("/folder/sub1/sub2", UriKind.Relative), "../../index"));
 		}
 
 		[TestMethod]
@@ -41,6 +55,12 @@ namespace xrc
 						UriExtensions.Combine("http://www.google.com/folder", "index"));
 			Assert.AreEqual("http://www.google.com/folder/index",
 						UriExtensions.Combine("http://www.google.com/folder/", "/index"));
+			Assert.AreEqual("http://www.google.com/folder/index",
+						UriExtensions.Combine("http://www.google.com/folder/sub1/sub2/", "../../index"));
+			Assert.AreEqual("http://www.google.com/folder/index",
+						UriExtensions.Combine("http://www.google.com/folder/sub1/sub2", "../../index"));
+			Assert.AreEqual("/folder/index",
+						UriExtensions.Combine("/folder/sub1/sub2", "../../index"));
 		}
 
 		[TestMethod]
@@ -78,6 +98,8 @@ namespace xrc
 		{
 			Assert.AreEqual("http://www.google.com/", UriExtensions.AppendTrailingSlash("http://www.google.com"));
 			Assert.AreEqual("http://www.google.com/", UriExtensions.AppendTrailingSlash("http://www.google.com/"));
+			Assert.AreEqual("test/", UriExtensions.AppendTrailingSlash("test"));
+			Assert.AreEqual("test/", UriExtensions.AppendTrailingSlash("test/"));
 		}
 
 		[TestMethod]
@@ -85,6 +107,13 @@ namespace xrc
 		{
 			Assert.AreEqual("http://www.google.com", UriExtensions.RemoveTrailingSlash("http://www.google.com"));
 			Assert.AreEqual("http://www.google.com", UriExtensions.RemoveTrailingSlash("http://www.google.com/"));
+		}
+
+		[TestMethod]
+		public void RemoveHeadSlash_String()
+		{
+			Assert.AreEqual("test", UriExtensions.RemoveHeadSlash("/test"));
+			Assert.AreEqual("test", UriExtensions.RemoveHeadSlash("test"));
 		}
 
 		[TestMethod]
@@ -103,6 +132,17 @@ namespace xrc
 
 			// GetPath doesn't encode, this is a different behavior between Uri.GetLeftPart
 			Assert.AreEqual("/index/page{test}+", new Uri("/index/page{test}+", UriKind.Relative).GetPath());
+		}
+
+		[TestMethod]
+		public void BuildVirtualPath()
+		{
+			Assert.AreEqual("~/base/test", UriExtensions.BuildVirtualPath("~/base/", "test"));
+			Assert.AreEqual("~/base/test/", UriExtensions.BuildVirtualPath("~/base/", "test/"));
+			Assert.AreEqual("/test", UriExtensions.BuildVirtualPath("~/base/", "/test"));
+			Assert.AreEqual("~/base/test", UriExtensions.BuildVirtualPath("~/base/index", "test"));
+			Assert.AreEqual("~/base/test", UriExtensions.BuildVirtualPath("~/base/f1/f2/index", "../../test"));
+			Assert.AreEqual("~/test", UriExtensions.BuildVirtualPath("~/base/", "~/test"));
 		}
     }
 }

@@ -20,11 +20,16 @@ namespace xrc.Modules
 			_pageProvider = pageProvider;
         }
 
+		public string VirtualPath(string file)
+		{
+			return UriExtensions.BuildVirtualPath(_context.Page.VirtualPath, file);
+		}
+
         public XDocument Xml(string file)
         {
 			XDocument doc;
 
-			using (Stream stream = _pageProvider.OpenPageResource(_context.Page, file))
+			using (Stream stream = _pageProvider.OpenResource(VirtualPath(file)))
 			{
 				doc = XDocument.Load(stream);
 			}
@@ -45,7 +50,7 @@ namespace xrc.Modules
 
 		public string Text(string file)
 		{
-			using (StreamReader stream = new StreamReader(_pageProvider.OpenPageResource(_context.Page, file), true))
+			using (StreamReader stream = new StreamReader(_pageProvider.OpenResource(VirtualPath(file)), true))
 			{
 				string text = stream.ReadToEnd();
 				stream.Close();

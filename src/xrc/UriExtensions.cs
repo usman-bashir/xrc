@@ -22,29 +22,22 @@ namespace xrc
 			if (uri == null)
 				return baseUri;
 
-            string bUri = baseUri.ToString();
-
-            uri = uri.TrimStart('/');
-            if (!bUri.EndsWith("/"))
-                bUri += "/";
-
-            return new Uri(bUri + uri);
+			if (!baseUri.IsAbsoluteUri)
+			{
+				// For relative uri I must create a fake absolute uri because relative uri doesn't support url navigation (..).
+				Uri fakeBaseUri = new Uri(new Uri("http://baseuri.fake/"), baseUri);
+				Uri combinedUri = Combine(fakeBaseUri, uri);
+				string originalStartingUrl = baseUri.ToString()[0] == '/' ? "/" : "";
+				string fixedUri = combinedUri.ToString().Replace("http://baseuri.fake/", originalStartingUrl);
+				return new Uri(fixedUri, UriKind.Relative);
+			}
+			else
+				return new Uri(baseUri.AppendTrailingSlash(), UriExtensions.RemoveHeadSlash(uri));
         }
 
         public static string Combine(string baseUri, string uri)
         {
-			if (baseUri == null)
-				return uri;
-			if (uri == null)
-				return baseUri;
-
-            string bUri = baseUri.ToString();
-
-            uri = uri.TrimStart('/');
-            if (!bUri.EndsWith("/"))
-                bUri += "/";
-
-            return bUri + uri;
+			return Combine(new Uri(baseUri, UriKind.RelativeOrAbsolute), uri).ToString();
         }
 
         public static bool IsBaseOfWithPath(this Uri baseUri, Uri uri)
@@ -90,6 +83,17 @@ namespace xrc
             return new Uri(uriv, UriKind.RelativeOrAbsolute);
         }
 
+		public static Uri RemoveHeadSlash(this Uri uri)
+		{
+			string uriv = RemoveHeadSlash(uri.ToString());
+			return new Uri(uriv, UriKind.RelativeOrAbsolute);
+		}
+
+		public static string RemoveHeadSlash(string uri)
+		{
+			return uri.TrimStart('/');
+		}
+
 		/// <summary>
 		/// Appends the literal slash mark (/) to the end of the virtual path, if one does not already exist.
 		/// </summary>
@@ -111,12 +115,15 @@ namespace xrc
 			return uri;
 		}
 
+		public static Uri RemoveTrailingSlash(this Uri uri)
+		{
+			string uriv = RemoveTrailingSlash(uri.ToString());
+			return new Uri(uriv, UriKind.RelativeOrAbsolute);
+		}
+
 		public static string RemoveTrailingSlash(string uri)
 		{
-			if (uri.EndsWith("/"))
-				uri = uri.TrimEnd('/');
-
-			return uri;
+			return uri.TrimEnd('/');
 		}
 
         public static Uri ToSecure(this Uri uri)
@@ -148,6 +155,14 @@ namespace xrc
 			// Similar to Url.GetLeftPart(UriPartial.Path) but support also relative uri
 			//  and doesn't encode the results
 			return uri.Split('?', '#')[0];
+		}
+
+		public static string BuildVirtualPath(string contextVirtualPath, string virtualPath)
+		{
+			if (VirtualPathUtility.IsAbsolute(virtualPath))
+				return virtualPath;
+
+			return VirtualPathUtility.Combine(contextVirtualPath, virtualPath);
 		}
     }
 }

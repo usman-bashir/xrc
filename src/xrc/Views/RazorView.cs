@@ -99,7 +99,7 @@ namespace xrc.Views
         /// </summary>
         string GetViewFullName(IContext context)
         {
-			return _pageProviderService.GetPageVirtualPath(context.Page, ViewUrl);
+			return UriExtensions.BuildVirtualPath(context.Page.VirtualPath, ViewUrl);
         }
 	}
 }

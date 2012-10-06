@@ -51,8 +51,6 @@ namespace xrc.Pages.Providers.FileSystem
 			pageLocator.Verify(p => p.Locate(new Uri("about", UriKind.Relative)));
 			pageParser.Verify(p => p.Parse(xrcFileResource));
 			siteConfigurationProvider.Verify(p => p.GetSiteFromUri(url));
-
-			Assert.AreEqual("~/samplewebsite1/file.cshtml", target.GetPageVirtualPath(page, "file.cshtml"));
 		}
 
 		[TestMethod]
@@ -90,8 +88,6 @@ namespace xrc.Pages.Providers.FileSystem
 			pageLocator.Verify(p => p.Locate(new Uri("teams/", UriKind.Relative)));
 			pageParser.Verify(p => p.Parse(xrcFileResource));
 			siteConfigurationProvider.Verify(p => p.GetSiteFromUri(url));
-
-			Assert.AreEqual("~/samplewebsite1/teams/file.cshtml", target.GetPageVirtualPath(page, "file.cshtml"));
 		}
 
 		[TestMethod]
@@ -129,8 +125,6 @@ namespace xrc.Pages.Providers.FileSystem
 			pageLocator.Verify(p => p.Locate(new Uri("teams/torino/matches", UriKind.Relative)));
 			pageParser.Verify(p => p.Parse(xrcFileResource));
 			siteConfigurationProvider.Verify(p => p.GetSiteFromUri(url));
-
-			Assert.AreEqual("~/samplewebsite1/teams/{teamid}/file.cshtml", target.GetPageVirtualPath(page, "file.cshtml"));
 		}
 
 		[TestMethod]

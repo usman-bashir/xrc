@@ -81,5 +81,10 @@ namespace xrc.Pages.Providers.FileSystem
 
 			return string.Equals(_canonicalUrl.GetPath(), url.GetPath(), StringComparison.Ordinal);
 		}
+
+		public string VirtualPath
+		{
+			get { return File.VirtualPath; }
+		}
 	}
 }

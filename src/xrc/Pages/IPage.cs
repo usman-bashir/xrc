@@ -42,5 +42,12 @@ namespace xrc.Pages
 		Uri ToAbsoluteUrl(string relativeUrl);
 
 		bool IsCanonicalUrl(Uri url);
+
+		/// <summary>
+		/// Gets the application virtual path for the specified page.
+		/// The path returned is a full ASP.NET application path.
+		/// </summary>
+		string VirtualPath { get; }
+
 	}
 }
