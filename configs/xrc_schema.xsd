@@ -56,7 +56,7 @@
 		<xs:complexContent>
 			<xs:extension base="xrc:viewElementBase">
 				<xs:sequence>
-					<xs:element name="ViewUrl" minOccurs="1" maxOccurs="1" type="xs:string" form="unqualified" />
+					<xs:element name="ViewUrl" minOccurs="1" maxOccurs="1" type="xrc:FileUri" form="unqualified" />
 					<xs:element name="Model" minOccurs="0" maxOccurs="1" type="xs:string" form="unqualified" />
 				</xs:sequence>
 			</xs:extension>
@@ -68,8 +68,10 @@
 		<xs:complexContent>
 			<xs:extension base="xrc:viewElementBase">
 				<xs:sequence>
-					<xs:element name="Xslt" minOccurs="1" maxOccurs="1" type="xrc:contentOrScript" form="unqualified" />
+					<xs:element name="Xslt" minOccurs="0" maxOccurs="1" type="xrc:contentOrScript" form="unqualified" />
+					<xs:element name="XsltFile" minOccurs="0" maxOccurs="1" type="xrc:FileUri" form="unqualified" />
 					<xs:element name="Data" minOccurs="0" maxOccurs="1" type="xrc:contentOrScript" form="unqualified" />
+					<xs:element name="DataFile" minOccurs="0" maxOccurs="1" type="xrc:FileUri" form="unqualified" />
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -81,25 +83,26 @@
 			<xs:extension base="xrc:viewElementBase">
 				<xs:sequence>
 					<xs:element name="Content" minOccurs="0" maxOccurs="1" type="xs:string" form="unqualified" />
+					<xs:element name="ContentFile" minOccurs="0" maxOccurs="1" type="xrc:FileUri" form="unqualified" />
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:element name="NodeJsView" substitutionGroup="xrc:viewElement" type="xrc:NodeJsViewElement" />
+	<!--<xs:element name="NodeJsView" substitutionGroup="xrc:viewElement" type="xrc:NodeJsViewElement" />
 	<xs:complexType name="NodeJsViewElement">
 		<xs:complexContent>
 			<xs:extension base="xrc:viewElementBase">
 			</xs:extension>
 		</xs:complexContent>
-	</xs:complexType>
+	</xs:complexType>-->
 
 	<xs:element name="SlotView" substitutionGroup="xrc:viewElement" type="xrc:SlotViewElement" />
 	<xs:complexType name="SlotViewElement">
 		<xs:complexContent>
 			<xs:extension base="xrc:viewElementBase">
 				<xs:sequence>
-					<xs:element name="SlotUrl" minOccurs="1" maxOccurs="1" type="xs:string" form="unqualified" />
+					<xs:element name="SlotUrl" minOccurs="1" maxOccurs="1" type="xs:anyURI" form="unqualified" />
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -111,6 +114,7 @@
 			<xs:extension base="xrc:viewElementBase">
 				<xs:sequence>
 					<xs:element name="Content" minOccurs="0" maxOccurs="1" type="xrc:contentOrScript" form="unqualified" />
+					<xs:element name="ContentFile" minOccurs="0" maxOccurs="1" type="xrc:FileUri" form="unqualified" />
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -122,6 +126,7 @@
 			<xs:extension base="xrc:viewElementBase">
 				<xs:sequence>
 					<xs:element name="Content" minOccurs="0" maxOccurs="1" type="xrc:contentOrScript" form="unqualified" />
+					<xs:element name="ContentFile" minOccurs="0" maxOccurs="1" type="xrc:FileUri" form="unqualified" />
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -132,8 +137,9 @@
 		<xs:complexContent>
 			<xs:extension base="xrc:viewElementBase">
 				<xs:sequence>
-					<xs:element name="Content" minOccurs="1" maxOccurs="1" type="xs:string" form="unqualified" />
-					<xs:element name="BaseUrl" minOccurs="0" maxOccurs="1" type="xs:string" form="unqualified" />
+					<xs:element name="Content" minOccurs="0" maxOccurs="1" type="xs:string" form="unqualified" />
+					<xs:element name="ContentFile" minOccurs="0" maxOccurs="1" type="xrc:FileUri" form="unqualified" />
+					<xs:element name="BaseUrl" minOccurs="0" maxOccurs="1" type="xs:anyURI" form="unqualified" />
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -144,7 +150,8 @@
 		<xs:complexContent>
 			<xs:extension base="xrc:viewElementBase">
 				<xs:sequence>
-					<xs:element name="Content" minOccurs="1" maxOccurs="1" type="xs:string" form="unqualified" />
+					<xs:element name="Content" minOccurs="0" maxOccurs="1" type="xs:string" form="unqualified" />
+					<xs:element name="ContentFile" minOccurs="0" maxOccurs="1" type="xrc:FileUri" form="unqualified" />
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -194,5 +201,9 @@
 			<xs:any minOccurs="0" maxOccurs="unbounded" processContents="skip" namespace="##any" />
 		</xs:sequence>
 	</xs:complexType>
+
+	<xs:simpleType name="FileUri">
+		<xs:restriction base="xs:anyURI" />
+	</xs:simpleType>
 	
 </xs:schema>

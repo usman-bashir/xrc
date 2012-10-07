@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:Page="xrc:PageModule" attributeFormDefault="unqualified" elementFormDefault="qualified" 
+		   targetNamespace="xrc:PageModule" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+</xs:schema>

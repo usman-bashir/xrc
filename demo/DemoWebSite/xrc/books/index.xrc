@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<xrc:page xmlns:xrc="urn:xrc"
-         xmlns:File="xrc:FileModule">
+<xrc:page xmlns:xrc="urn:xrc">
 
 	<xrc:parameters>
 		<xrc:add key="title" value="books" />
@@ -10,8 +9,8 @@
 	<!-- layout="~/shared/_layout" set as default -->
 	<xrc:action method="GET">
 		<xrc:XsltView>
-			<Xslt>@File.Xml("index.xslt")</Xslt>
-			<Data>@File.Xml("books.xml")</Data>
+			<XsltFile>index.xslt</XsltFile>
+			<DataFile>books.xml</DataFile>
 		</xrc:XsltView>
 	</xrc:action>
 

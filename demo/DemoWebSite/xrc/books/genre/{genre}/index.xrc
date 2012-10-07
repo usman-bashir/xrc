@@ -11,8 +11,10 @@
 	<!-- layout="~/shared/_layout" set as default but overriden with current shared/_layout -->
 	<xrc:action method="GET">
 		<xrc:XsltView>
+			<!-- In this case I load the file using a function -->
 			<Xslt>@File.Xml("books_genre.xslt")</Xslt>
-			<Data>@File.Xml("../../books.xml")</Data>
+			<!-- In this case I load the file directly -->
+			<DataFile>../../books.xml</DataFile>
 		</xrc:XsltView>
 	</xrc:action>
 
