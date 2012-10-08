@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using xrc.Views;
 
-namespace xrc.IoC.Windsor
+namespace xrc.Views
 {
-    public class ViewFactory : IViewFactory
+    public class WindsorViewFactory : IViewFactory
     {
         private Castle.MicroKernel.IKernel _windsorKernel;
 
-        public ViewFactory(Castle.MicroKernel.IKernel windsorKernel)
+		public WindsorViewFactory(Castle.MicroKernel.IKernel windsorKernel)
         {
             _windsorKernel = windsorKernel;
         }

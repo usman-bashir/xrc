@@ -24,9 +24,10 @@ namespace xrc.IoC.Windsor
 			container.Kernel.Resolver.AddSubResolver(new ArrayResolver(container.Kernel));
 
 			container.Register(Component.For<xrc.Configuration.IRootPathConfig>().Instance(_xrcSection.RootPath));
-			container.Register(Component.For<xrc.Configuration.IModuleConfig>().Instance(_xrcSection).Named("IModuleConfig"));
-			container.Register(Component.For<xrc.Configuration.IViewConfig>().Instance(_xrcSection).Named("IViewConfig"));
 			container.Register(Component.For<xrc.Configuration.ISitesConfig>().Instance(_xrcSection).Named("ISitesConfig"));
+
+			container.Register(Component.For<Views.IViewCatalogService>().ImplementedBy<Views.WindsorViewCatalogService>());
+			container.Register(Component.For<Modules.IModuleCatalogService>().ImplementedBy<Modules.WindsorModuleCatalogService>());
 
             container.Register(Component.For<IKernel>()
                                 .ImplementedBy<Kernel>()
@@ -44,12 +45,12 @@ namespace xrc.IoC.Windsor
 
             container.Register(Classes.FromAssembly(assembly)
                                 .BasedOn<xrc.Views.IView>()
-                                .WithServiceSelf()
+								.WithServiceSelf() // currently views doesn't have an interface 
                                 .LifestyleTransient());
+
             container.Register(Classes.FromAssembly(assembly)
                                 .Where(p => p.Name.EndsWith("Module"))
-                                .WithServiceSelf()
-                                .WithServiceFirstInterface()
+								.WithServiceAllInterfaces()
                                 .LifestyleTransient());
         }
     }

@@ -67,8 +67,6 @@
     <Compile Include="Configuration\ComponentCollection.cs" />
     <Compile Include="Configuration\ComponentElement.cs" />
     <Compile Include="Configuration\ISitesConfig.cs" />
-    <Compile Include="Configuration\IViewConfig.cs" />
-    <Compile Include="Configuration\IModuleConfig.cs" />
     <Compile Include="Configuration\IRootPathConfig.cs" />
     <Compile Include="Configuration\RootPathElement.cs" />
     <Compile Include="Context\Context.cs" />
@@ -90,7 +88,6 @@
     <Compile Include="Modules\IFileModule.cs" />
     <Compile Include="Modules\ISlotModule.cs" />
     <Compile Include="Modules\IUrlModule.cs" />
-    <Compile Include="Modules\ModuleCatalogService.cs" />
     <Compile Include="Modules\IModuleCatalogService.cs" />
     <Compile Include="Modules\ModuleDefinitionList.cs" />
     <Compile Include="Modules\ModuleDefinition.cs" />
@@ -140,7 +137,6 @@
     <Compile Include="Configuration\SiteCollection.cs" />
     <Compile Include="Configuration\SiteElement.cs" />
     <Compile Include="HttpHandler\XrcHttpHandler.cs" />
-    <Compile Include="Views\ViewCatalogService.cs" />
     <Compile Include="Views\SlotView.cs" />
     <Compile Include="Views\XmlView.cs" />
     <Compile Include="Reflection.cs" />

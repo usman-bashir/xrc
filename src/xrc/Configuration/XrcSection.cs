@@ -6,7 +6,7 @@ using System.Configuration;
 
 namespace xrc.Configuration
 {
-	public class XrcSection : ConfigurationSection, IModuleConfig, IViewConfig, ISitesConfig
+	public class XrcSection : ConfigurationSection, ISitesConfig
     {
         public static XrcSection GetSection()
         {

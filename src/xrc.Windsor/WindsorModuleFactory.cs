@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using xrc.Modules;
 
-namespace xrc.IoC.Windsor
+namespace xrc.Modules
 {
-    public class ModuleFactory : IModuleFactory
+    public class WindsorModuleFactory : IModuleFactory
     {
         private Castle.MicroKernel.IKernel _windsorKernel;
 
-        public ModuleFactory(Castle.MicroKernel.IKernel windsorKernel)
+		public WindsorModuleFactory(Castle.MicroKernel.IKernel windsorKernel)
         {
             _windsorKernel = windsorKernel;
         }
