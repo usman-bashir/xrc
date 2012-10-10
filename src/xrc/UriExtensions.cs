@@ -61,7 +61,7 @@ namespace xrc
         public static Uri MakeRelativeUriEx(this Uri uri, Uri baseUri)
         {
             // Note: Uri.MakeRelativeUri doesn't work on this case:
-            // new Uri("http://contoso.com/vpath").MakeRelativeUriEx(new Uri("http://contoso.com/vpath/"))
+            // new Uri("http://contoso.com/vpath").MakeRelativeUri(new Uri("http://contoso.com/vpath/"))
             // returns ../vpath but I expect it returns ''
 
             if (!baseUri.IsBaseOfWithPath(uri))
