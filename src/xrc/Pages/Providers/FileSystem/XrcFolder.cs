@@ -16,7 +16,7 @@ namespace xrc.Pages.Providers.FileSystem
 		private List<XrcFile> _files;
 		private List<XrcFolder> _folders;
 		private string _configFile;
-		private UriSegmentParameter _parameter;
+		private ParametricUriSegment _parameter;
 
 		public XrcFolder(IRootPathConfig rootPathConfig)
 		{
@@ -51,7 +51,7 @@ namespace xrc.Pages.Providers.FileSystem
 
 		private void Init()
 		{
-			_parameter = new UriSegmentParameter(Name);
+			_parameter = new ParametricUriSegment(Name);
 
 			SearchFolders();
 			SearchFiles();
@@ -91,7 +91,7 @@ namespace xrc.Pages.Providers.FileSystem
 			private set;
 		}
 
-		public UriSegmentParameter Parameter
+		public ParametricUriSegment Parameter
 		{
 			get { return _parameter; }
 		}

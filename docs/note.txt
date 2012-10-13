@@ -1,4 +1,8 @@
 TODO
+ Durante l'identificazione delle pagine scegliere la page o il folder con FixedCharacters maggiore.
+ Aggiungere Condition nella view (in modo da scegliere la view a seconda di una condizione scriptabile, es. pageUrl.EndsWith(".dll"))
+ Permettere di non inserire le siteConfiguration, magari facendo in modo di accettare * nell'url.
+ Implementare un Widget per la documentazione di assembly (tramite custom View?)
  Aggiungere StaticContentView (for image, ...)
  Razor parameters "app" error. Check if set is present and if is declared on xrc assembly.
  Implement su XrcRequest tutti i metodi gestendo un fallback alla request di base.

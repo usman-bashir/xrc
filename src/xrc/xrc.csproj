@@ -94,6 +94,7 @@
     <Compile Include="Modules\IModuleFactory.cs" />
     <Compile Include="Kernel\IXrcService.cs" />
     <Compile Include="Kernel\XrcService.cs" />
+    <Compile Include="Pages\ParametricUriSegmentResult.cs" />
     <Compile Include="Pages\Providers\FileSystem\Parsers\MarkdownParserService.cs" />
     <Compile Include="Pages\Providers\FileSystem\Parsers\XsltParserService.cs" />
     <Compile Include="Pages\Providers\FileSystem\Parsers\RazorParserService.cs" />
@@ -110,7 +111,7 @@
     <Compile Include="Pages\Providers\FileSystem\FileSystemPageProviderService.cs" />
     <Compile Include="Pages\Providers\FileSystem\PageParserResult.cs" />
     <Compile Include="Pages\Providers\IPageProviderService.cs" />
-    <Compile Include="Pages\UriSegmentParameter.cs" />
+    <Compile Include="Pages\ParametricUriSegment.cs" />
     <Compile Include="Razor\XrcWebViewPageExtension.cs" />
     <Compile Include="Razor\ModuleInterceptor.cs" />
     <Compile Include="Razor\XrcWebViewPage.cs" />

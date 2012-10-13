@@ -79,7 +79,7 @@ namespace xrc.Pages.Providers.FileSystem
 		{
 			foreach (var file in currentFolder.Files)
 			{
-				UriSegmentMatchResult matchResult = file.Parameter.Match(currentUrl);
+				ParametricUriSegmentResult matchResult = file.Parameter.Match(currentUrl);
 				if (matchResult.Success)
 				{
 					if (!file.IsIndex)
@@ -101,7 +101,7 @@ namespace xrc.Pages.Providers.FileSystem
 		{
 			foreach (var subFolder in currentFolder.Folders)
 			{
-				UriSegmentMatchResult matchResult = subFolder.Parameter.Match(currentUrl);
+				ParametricUriSegmentResult matchResult = subFolder.Parameter.Match(currentUrl);
 				if (matchResult.Success)
 				{
 					canonicalUrl.Append(UriExtensions.AppendTrailingSlash(matchResult.CurrentUrlPart));

@@ -11,7 +11,7 @@ namespace xrc.Pages.Providers.FileSystem
 
     public class XrcFile
     {
-		readonly UriSegmentParameter _parameter;
+		readonly ParametricUriSegment _parameter;
 
 		public XrcFile(XrcFolder parent, string fileName)
         {
@@ -27,7 +27,7 @@ namespace xrc.Pages.Providers.FileSystem
 			Extension = XrcFileSystemHelper.GetFileExtension(fileName);
 			VirtualPath = UriExtensions.Combine(parent.VirtualPath, fileName);
 			FullName = UriExtensions.Combine(parent.FullName, Name);
-			_parameter = new UriSegmentParameter(Name);
+			_parameter = new ParametricUriSegment(Name);
 		}
 
 		public string Name
@@ -36,7 +36,7 @@ namespace xrc.Pages.Providers.FileSystem
 			private set;
 		}
 
-		public UriSegmentParameter Parameter
+		public ParametricUriSegment Parameter
 		{
 			get { return _parameter; }
 		}

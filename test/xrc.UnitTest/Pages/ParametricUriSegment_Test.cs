@@ -7,27 +7,27 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace xrc.Pages
 {
 	[TestClass]
-	public class UriSegmentParameter_Test
+	public class ParametricUriSegment_Test
 	{
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void NullPattern()
 		{
-			new UriSegmentParameter(null);
+			new ParametricUriSegment(null);
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void EmptyPattern()
 		{
-			new UriSegmentParameter(null);
+			new ParametricUriSegment(null);
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void NullUrl()
 		{
-			var target = new UriSegmentParameter("test");
+			var target = new ParametricUriSegment("test");
 			target.Match(null);
 		}
 
@@ -35,7 +35,7 @@ namespace xrc.Pages
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void EmptyUrl()
 		{
-			var target = new UriSegmentParameter("test");
+			var target = new ParametricUriSegment("test");
 			target.Match(string.Empty);
 		}
 
@@ -43,12 +43,13 @@ namespace xrc.Pages
 		public void Fixed_Segment()
 		{
 			string pattern = "segment1";
-			var target = new UriSegmentParameter(pattern);
-			Assert.AreEqual(pattern, target.Pattern);
+			var target = new ParametricUriSegment(pattern);
+			Assert.AreEqual(pattern, target.Expression);
 			Assert.IsNull(target.ParameterName);
-			Assert.IsFalse(target.IsParameter);
+			Assert.IsFalse(target.IsParametric);
+			Assert.AreEqual(8, target.FixedCharacters);
 
-			UriSegmentMatchResult result;
+			ParametricUriSegmentResult result;
 
 			result = target.Match("/segment1");
 			Assert.AreEqual(true, result.Success);
@@ -108,10 +109,11 @@ namespace xrc.Pages
 		public void Parameter_Segment()
 		{
 			string pattern = "{param1}";
-			var target = new UriSegmentParameter(pattern);
-			Assert.AreEqual(pattern, target.Pattern);
+			var target = new ParametricUriSegment(pattern);
+			Assert.AreEqual(pattern, target.Expression);
 			Assert.AreEqual("param1", target.ParameterName);
-			Assert.IsTrue(target.IsParameter);
+			Assert.IsTrue(target.IsParametric);
+			Assert.AreEqual(0, target.FixedCharacters);
 
 			var result = target.Match("/italia/test/index");
 			Assert.AreEqual(true, result.Success);
@@ -154,9 +156,10 @@ namespace xrc.Pages
 		public void Parameter_Segment_With_SuffixPart()
 		{
 			string pattern = "{param1}.test";
-			var target = new UriSegmentParameter(pattern);
-			Assert.AreEqual(pattern, target.Pattern);
+			var target = new ParametricUriSegment(pattern);
+			Assert.AreEqual(pattern, target.Expression);
 			Assert.AreEqual("param1", target.ParameterName);
+			Assert.AreEqual(5, target.FixedCharacters);
 
 			var result = target.Match("/italia.TEST/test/index");
 			Assert.AreEqual(true, result.Success);
@@ -205,9 +208,10 @@ namespace xrc.Pages
 		public void Parameter_Segment_With_PrefixPart()
 		{
 			string pattern = "test{param1}";
-			var target = new UriSegmentParameter(pattern);
-			Assert.AreEqual(pattern, target.Pattern);
+			var target = new ParametricUriSegment(pattern);
+			Assert.AreEqual(pattern, target.Expression);
 			Assert.AreEqual("param1", target.ParameterName);
+			Assert.AreEqual(4, target.FixedCharacters);
 
 			var result = target.Match("/test.italia/test/index");
 			Assert.AreEqual(true, result.Success);
@@ -228,9 +232,10 @@ namespace xrc.Pages
 		public void Parameter_Segment_With_CatchAll()
 		{
 			string pattern = "{param1_CATCH-ALL}";
-			var target = new UriSegmentParameter(pattern);
-			Assert.AreEqual(pattern, target.Pattern);
+			var target = new ParametricUriSegment(pattern);
+			Assert.AreEqual(pattern, target.Expression);
 			Assert.AreEqual("param1", target.ParameterName);
+			Assert.AreEqual(0, target.FixedCharacters);
 
 			var result = target.Match("/italia/test/index.html");
 			Assert.AreEqual(true, result.Success);
@@ -280,8 +285,8 @@ namespace xrc.Pages
 		public void Parameter_Segment_With_CatchAll_LowerCase()
 		{
 			string pattern = "{param1_catch-all}";
-			var target = new UriSegmentParameter(pattern);
-			Assert.AreEqual(pattern, target.Pattern);
+			var target = new ParametricUriSegment(pattern);
+			Assert.AreEqual(pattern, target.Expression);
 			Assert.AreEqual("param1", target.ParameterName);
 
 			var result = target.Match("/italia/test/index.html");
@@ -303,9 +308,10 @@ namespace xrc.Pages
 		public void Parameter_Segment_With_CatchAll_and_Suffix()
 		{
 			string pattern = "{param1_CATCH-ALL}.html";
-			var target = new UriSegmentParameter(pattern);
-			Assert.AreEqual(pattern, target.Pattern);
+			var target = new ParametricUriSegment(pattern);
+			Assert.AreEqual(pattern, target.Expression);
 			Assert.AreEqual("param1", target.ParameterName);
+			Assert.AreEqual(5, target.FixedCharacters);
 
 			var result = target.Match("/italia/test/index.html");
 			Assert.AreEqual(true, result.Success);
@@ -349,9 +355,10 @@ namespace xrc.Pages
 		public void Parameter_Special_Characters_in_prefix_suffix()
 		{
 			string pattern = "_+-.{param1}_+-.";
-			var target = new UriSegmentParameter(pattern);
-			Assert.AreEqual(pattern, target.Pattern);
+			var target = new ParametricUriSegment(pattern);
+			Assert.AreEqual(pattern, target.Expression);
 			Assert.AreEqual("param1", target.ParameterName);
+			Assert.AreEqual(8, target.FixedCharacters);
 
 			var result = target.Match("_+-.italia.html_+-./test/index.html");
 			Assert.AreEqual(true, result.Success);
@@ -364,8 +371,8 @@ namespace xrc.Pages
 		public void Parameter_Special_Characters_in_parameter_segment()
 		{
 			string pattern = "{param1}";
-			var target = new UriSegmentParameter(pattern);
-			Assert.AreEqual(pattern, target.Pattern);
+			var target = new ParametricUriSegment(pattern);
+			Assert.AreEqual(pattern, target.Expression);
 			Assert.AreEqual("param1", target.ParameterName);
 
 			var result = target.Match("italia+francia/test/index.html");
@@ -386,8 +393,9 @@ namespace xrc.Pages
 		public void Parameter_Special_Characters_in_fixed_segment()
 		{
 			string pattern = "_+-.TEST_+-.";
-			var target = new UriSegmentParameter(pattern);
-			Assert.AreEqual(pattern, target.Pattern);
+			var target = new ParametricUriSegment(pattern);
+			Assert.AreEqual(pattern, target.Expression);
+			Assert.AreEqual(pattern.Length, target.FixedCharacters);
 
 			var result = target.Match("_+-.TEST_+-./test/index.html");
 			Assert.AreEqual(true, result.Success);

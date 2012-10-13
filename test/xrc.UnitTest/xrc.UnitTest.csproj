@@ -80,7 +80,7 @@
     <Compile Include="Pages\Providers\FileSystem\PageParserResult_Test.cs" />
     <Compile Include="Pages\Providers\FileSystem\XrcFileSystemHelper_Test.cs" />
     <Compile Include="Pages\Providers\FileSystem\FileSystemPageProviderService_Test.cs" />
-    <Compile Include="Pages\UriSegmentParameter_Test.cs" />
+    <Compile Include="Pages\ParametricUriSegment_Test.cs" />
     <Compile Include="UriExtensions_Test.cs" />
     <Compile Include="Sites\SiteConfigurationProviderService_Test.cs" />
     <Compile Include="Sites\SiteConfiguration_Test.cs" />
