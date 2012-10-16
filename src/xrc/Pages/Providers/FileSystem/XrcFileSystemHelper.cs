@@ -16,7 +16,8 @@ namespace xrc.Pages.Providers.FileSystem
 		public const string SHARED_FOLDER = "shared";
 		public const string FOLDER_CONFIG_FILE = "xrc.config";
 		public const string FILE_EXTENSION = ".xrc";
-		public const string FILE_PATTERN = "*.xrc*";
+		public const string FILE_PATTERN_STANDARD = "*.xrc";
+		public const string FILE_PATTERN_EXTENDED = "*.xrc.*";
 		private static Regex _xrcFileRegEx = new Regex(@"^(?<name>.+)\.xrc(\.\w*)?$", RegexOptions.Compiled);
 		private static Regex _xrcDirectoryParameterRegEx = new Regex(@"^\{(?<name>.+)\}$", RegexOptions.Compiled);
 
@@ -35,6 +36,11 @@ namespace xrc.Pages.Providers.FileSystem
 		public static string GetDirectoryLogicalName(string directoryName)
 		{
 			return directoryName.ToLowerInvariant();
+		}
+
+		public static string GetConfigLogicalName(string configName)
+		{
+			return configName.ToLowerInvariant();
 		}
 
 		public static string GetFileExtension(string fileName)
@@ -57,5 +63,5 @@ namespace xrc.Pages.Providers.FileSystem
 
 		//    return match.Groups["name"].Value;
 		//}
-    }
+	}
 }

@@ -95,6 +95,7 @@
     <Compile Include="Kernel\IXrcService.cs" />
     <Compile Include="Kernel\XrcService.cs" />
     <Compile Include="Pages\ParametricUriSegmentResult.cs" />
+    <Compile Include="Pages\Providers\FileSystem\XrcItem.cs" />
     <Compile Include="Pages\Providers\FileSystem\Parsers\MarkdownParserService.cs" />
     <Compile Include="Pages\Providers\FileSystem\Parsers\XsltParserService.cs" />
     <Compile Include="Pages\Providers\FileSystem\Parsers\RazorParserService.cs" />

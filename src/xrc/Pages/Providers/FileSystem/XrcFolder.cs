@@ -154,8 +154,9 @@ namespace xrc.Pages.Providers.FileSystem
 
 		private void SearchFiles()
 		{
-			var files = Directory.GetFiles(FullPath, XrcFileSystemHelper.FILE_PATTERN).Select(p => new XrcFile(this, Path.GetFileName(p)));
-			_files = files.ToList();
+			var filesStd = Directory.GetFiles(FullPath, XrcFileSystemHelper.FILE_PATTERN_STANDARD).Select(p => new XrcFile(this, Path.GetFileName(p)));
+			var filesExt = Directory.GetFiles(FullPath, XrcFileSystemHelper.FILE_PATTERN_EXTENDED).Select(p => new XrcFile(this, Path.GetFileName(p)));
+			_files = filesStd.Union(filesExt).ToList();
 		}
 
 		private void SearchFolders()
