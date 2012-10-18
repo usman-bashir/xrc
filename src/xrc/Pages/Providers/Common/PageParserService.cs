@@ -10,9 +10,9 @@ using System.Globalization;
 using xrc.Views;
 using xrc.Modules;
 using xrc.Pages.Script;
-using xrc.Pages.Providers.FileSystem.Parsers;
+using xrc.Pages.Providers.Common.Parsers;
 
-namespace xrc.Pages.Providers.FileSystem
+namespace xrc.Pages.Providers.Common
 {
     public class PageParserService : IPageParserService
     {
@@ -25,13 +25,13 @@ namespace xrc.Pages.Providers.FileSystem
 
         // TODO Parsificare il file una sola volta e metterlo in cache (con dipendenza al file?)
 
-		public PageParserResult Parse(XrcFileResource fileResource)
+		public PageParserResult Parse(XrcItem item)
         {
-			var parser = _parsers.FirstOrDefault(p => p.CanParse(fileResource.File));
+			var parser = _parsers.FirstOrDefault(p => p.CanParse(item));
 			if (parser == null)
-				throw new XrcException(string.Format("Cannot find a parser for file '{0}'.", fileResource.File.FullPath));
+				throw new XrcException(string.Format("Cannot find a parser for file '{0}'.", item.VirtualPath));
 
-			return parser.Parse(fileResource);
+			return parser.Parse(item);
 		}
     }
 }

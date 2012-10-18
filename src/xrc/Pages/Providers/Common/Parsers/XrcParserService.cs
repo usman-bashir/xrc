@@ -3,25 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace xrc.Pages.Providers.FileSystem.Parsers
+namespace xrc.Pages.Providers.Common.Parsers
 {
 	public class XrcParserService : ParserServiceBase
 	{
-		private IXrcSchemaParserService _xrcSchemaParser;
+		readonly IXrcSchemaParserService _xrcSchemaParser;
+
 		public XrcParserService(IXrcSchemaParserService configParser, IXrcSchemaParserService xrcSchemaParser)
 			: base(configParser, ".xrc")
 		{
 			_xrcSchemaParser = xrcSchemaParser;
 		}
 
-		protected override PageParserResult ParseFile(XrcFileResource fileResource)
+		protected override PageParserResult ParseFile(XrcItem item)
 		{
-			var result = _xrcSchemaParser.Parse(fileResource.File.FullPath);
+			var result = _xrcSchemaParser.Parse(item);
 
 			foreach (var action in result.Actions)
 			{
 				if (action.Layout == null)
-					action.Layout = GetDefaultLayoutByConvention(fileResource);
+					action.Layout = GetDefaultLayoutByConvention(item);
 			}
 
 			return result;

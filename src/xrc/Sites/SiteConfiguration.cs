@@ -63,6 +63,22 @@ namespace xrc.Sites
             private set;
         }
 
+		public Uri AbsoluteUrlToRelative(Uri absoluteUrl)
+		{
+			throw new NotImplementedException();
+		}
+		public string RelativeUrlToVirtual(Uri relativeUrl)
+		{
+			throw new NotImplementedException();
+		}
+		public Uri VirtualUrlToRelative(string virtualUrl)
+		{
+			throw new NotImplementedException();
+		}
+
+#warning Metodi absoleti da rimuovere
+
+
         public Uri ToRelativeUrl(Uri absoluteUrl)
         {
             if (!absoluteUrl.IsAbsoluteUri)

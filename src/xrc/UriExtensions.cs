@@ -8,6 +8,9 @@ namespace xrc
 {
 	// TODO Valutare se creare una classe Uri2 con tutte le funzionalità di Uri + UriExtensions 
 
+	/// <summary>
+	/// A Uri extension utility class. Can work with absolute, relative or virtual url.
+	/// </summary>
     public static class UriExtensions
     {
         public static Uri Combine(this Uri baseUri, Uri uri)

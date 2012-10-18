@@ -6,10 +6,8 @@ using xrc.Configuration;
 using System.Web;
 using System.IO;
 
-namespace xrc.Pages.Providers.FileSystem
+namespace xrc.Pages.Providers.Common
 {
-	// TODO Codice ancora da rivedere e sistemare (ad esempio per gestione while, canonical url, ...)
-
     public class PageLocatorService : IPageLocatorService
     {
 		public PageLocatorService(IRootPathConfig rootPathConfig)
@@ -33,12 +31,7 @@ namespace xrc.Pages.Providers.FileSystem
             private set;
         }
 
-        public XrcFileResource Locate(string relativeUri)
-        {
-            return Locate(new Uri(relativeUri, UriKind.Relative));
-        }
-
-        public XrcFileResource Locate(Uri relativeUri)
+		public PageLocatorResult Locate(Uri relativeUri)
         {
             if (relativeUri == null)
                 throw new ArgumentNullException("relativeUri");
@@ -115,29 +108,6 @@ namespace xrc.Pages.Providers.FileSystem
 			}
 
 			return null;
-		}
-
-
-		private void FillItems(XrcItem item)
-		{
-			if (item.ItemType != XrcItemType.Directory)
-				return;
-
-			var directories = Directory.GetDirectories(item.FullPath).Select(p => new XrcItem(item, p, XrcItemType.Directory));
-			foreach (var f in directories)
-				item.Items.Add(f);
-
-			var standardFiles = Directory.GetFiles(item.FullPath, XrcFileSystemHelper.FILE_PATTERN_STANDARD).Select(p => new XrcItem(item, p, XrcItemType.Xrc));
-			foreach (var f in standardFiles)
-				item.Items.Add(f);
-
-			var extendedFiles = Directory.GetFiles(item.FullPath, XrcFileSystemHelper.FILE_PATTERN_EXTENDED).Select(p => new XrcItem(item, p, XrcItemType.Xrc));
-			foreach (var f in extendedFiles)
-				item.Items.Add(f);
-
-			var configFiles = Directory.GetFiles(item.FullPath, XrcFileSystemHelper.FOLDER_CONFIG_FILE).Select(p => new XrcItem(item, p, XrcItemType.Config));
-			foreach (var f in configFiles)
-				item.Items.Add(f);
 		}
     }
 }

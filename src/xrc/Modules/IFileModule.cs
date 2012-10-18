@@ -8,5 +8,6 @@ namespace xrc.Modules
         System.Xml.Linq.XDocument Xml(string file);
 		string Html(string file);
 		string Text(string file);
+		byte[] Bytes(string file);
 	}
 }

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace xrc.Pages.Providers.FileSystem
+namespace xrc.Pages.Providers.Common
 {
     public interface IPageLocatorService
     {
-        XrcFileResource Locate(Uri relativeUri);
+        PageLocatorResult Locate(Uri relativeUri);
     }
 }

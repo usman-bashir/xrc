@@ -9,28 +9,31 @@ using xrc.Script;
 using System.Xml.Linq;
 using System.IO;
 
-namespace xrc.Pages.Providers.FileSystem.Parsers
+namespace xrc.Pages.Providers.Common.Parsers
 {
 	public class HtmlParserService : ParserServiceBase
 	{
 		readonly IViewCatalogService _viewCatalog;
+		readonly IPageProviderService _pageProvider;
 
 		public HtmlParserService(IXrcSchemaParserService configParser,
-								IViewCatalogService viewCatalog)
-			: base(configParser, ".html")
+								IViewCatalogService viewCatalog,
+								IPageProviderService pageProvider)
+			: base(configParser, ".xrc.html")
 		{
 			_viewCatalog = viewCatalog;
+			_pageProvider = pageProvider;
 		}
 
 		// TODO E' possibile semplificare e irrobustire questo codice?
 		// TODO Potrebero esserci problemi di cache e dipendenze? Da ottimizzare in qualche modo?
 
-		protected override PageParserResult ParseFile(XrcFileResource fileResource)
+		protected override PageParserResult ParseFile(XrcItem file)
 		{
 			var result = new PageParserResult();
 
 			var action = new PageAction("GET");
-			action.Layout = GetDefaultLayoutByConvention(fileResource);
+			action.Layout = GetDefaultLayoutByConvention(file);
 
 			var moduleDefinitionList = new ModuleDefinitionList();
 			var pageParameters = new PageParameterList();
@@ -42,7 +45,7 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 			if (viewProperty == null)
 				throw new XrcException(string.Format("Property '{0}' for type '{1}' not found.", propertyName, viewComponentDefinition.Type.FullName));
 
-			string content = File.ReadAllText(fileResource.File.FullPath);
+			string content = _pageProvider.ResourceToHtml(file.VirtualPath);
 			var propertyValue = new XValue(viewProperty.PropertyType, content);
 
 			view.Properties.Add(new XProperty(viewProperty, propertyValue));

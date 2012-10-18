@@ -22,41 +22,32 @@ namespace xrc.Modules
 
 		public string VirtualPath(string file)
 		{
-			return UriExtensions.BuildVirtualPath(_context.Page.VirtualPath, file);
+			return UriExtensions.BuildVirtualPath(_context.Page.PhysicalVirtualPath, file);
 		}
 
         public XDocument Xml(string file)
         {
-			XDocument doc;
-
-			using (Stream stream = _pageProvider.OpenResource(VirtualPath(file)))
-			{
-				doc = XDocument.Load(stream);
-			}
-
-			return doc;
+			return _pageProvider.ResourceToXml(VirtualPath(file));
         }
 
 		public XDocument XHtml(string file)
 		{
-			return Xml(file);
+			return _pageProvider.ResourceToXHtml(VirtualPath(file));
 		}
-
 
 		public string Html(string file)
 		{
-			return Text(file);
+			return _pageProvider.ResourceToHtml(VirtualPath(file));
 		}
 
 		public string Text(string file)
 		{
-			using (StreamReader stream = new StreamReader(_pageProvider.OpenResource(VirtualPath(file)), true))
-			{
-				string text = stream.ReadToEnd();
-				stream.Close();
+			return _pageProvider.ResourceToText(VirtualPath(file));
+		}
 
-				return text;
-			}
+		public byte[] Bytes(string file)
+		{
+			return _pageProvider.ResourceToBytes(VirtualPath(file));
 		}
 	}
 }

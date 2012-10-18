@@ -24,7 +24,12 @@ namespace xrc.Pages
             get;
         }
 
-		Uri CanonicalUrl
+		string LogicalVirtualPath
+		{
+			get;
+		}
+
+		string PhysicalVirtualPath
 		{
 			get;
 		}
@@ -36,18 +41,14 @@ namespace xrc.Pages
 
 		ISiteConfiguration SiteConfiguration { get; }
 
-		/// <summary>
-		/// Returns an absolute url for the specified relative url.
-		/// </summary>
-		Uri ToAbsoluteUrl(string relativeUrl);
+		string ContentVirtualUrl(string relativeUrl, ContentUrlMode mode);
 
 		bool IsCanonicalUrl(Uri url);
+	}
 
-		/// <summary>
-		/// Gets the application virtual path for the specified page.
-		/// The path returned is a full ASP.NET application path.
-		/// </summary>
-		string VirtualPath { get; }
-
+	public enum ContentUrlMode
+	{
+		Logical,
+		Physical
 	}
 }

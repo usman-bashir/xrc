@@ -9,28 +9,31 @@ using xrc.Script;
 using System.Xml.Linq;
 using System.IO;
 
-namespace xrc.Pages.Providers.FileSystem.Parsers
+namespace xrc.Pages.Providers.Common.Parsers
 {
 	public class XsltParserService : ParserServiceBase
 	{
 		readonly IViewCatalogService _viewCatalog;
+		readonly IPageProviderService _pageProvider;
 
 		public XsltParserService(IXrcSchemaParserService configParser,
-								IViewCatalogService viewCatalog)
-			: base(configParser, ".xslt")
+								IViewCatalogService viewCatalog,
+								IPageProviderService pageProvider)
+			: base(configParser, ".xrc.xslt")
 		{
 			_viewCatalog = viewCatalog;
+			_pageProvider = pageProvider;
 		}
 
 		// TODO E' possibile semplificare e irrobustire questo codice?
 		// TODO Potrebero esserci problemi di cache e dipendenze? Da ottimizzare in qualche modo?
 
-		protected override PageParserResult ParseFile(XrcFileResource fileResource)
+		protected override PageParserResult ParseFile(XrcItem file)
 		{
 			var result = new PageParserResult();
 
 			var action = new PageAction("GET");
-			action.Layout = GetDefaultLayoutByConvention(fileResource);
+			action.Layout = GetDefaultLayoutByConvention(file);
 
 			var moduleDefinitionList = new ModuleDefinitionList();
 			var pageParameters = new PageParameterList();
@@ -38,13 +41,13 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 			var viewComponentDefinition = _viewCatalog.Get(typeof(XsltView).Name);
 			var view = new ViewDefinition(viewComponentDefinition, null);
 
-			string xsltFullPath = fileResource.File.FullPath;
-			AddProperty(viewComponentDefinition, view, "Xslt", XDocument.Load(xsltFullPath));
+			XDocument xsltContent = _pageProvider.ResourceToXml(file.VirtualPath);
+			AddProperty(viewComponentDefinition, view, "Xslt", xsltContent);
 
-			string dataFullPath = fileResource.File.FullPath.Replace(".xrc.xslt", ".xml");
-			if (File.Exists(dataFullPath))
+			string dataVirtualPath = file.VirtualPath.Replace(".xrc.xslt", ".xml");
+			if (_pageProvider.ResourceExists(dataVirtualPath))
 			{
-				AddProperty(viewComponentDefinition, view, "Data", XDocument.Load(dataFullPath));
+				AddProperty(viewComponentDefinition, view, "Data", _pageProvider.ResourceToXml(dataVirtualPath));
 			}
 
 			action.Views.Add(view);

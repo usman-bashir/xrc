@@ -9,7 +9,7 @@ using System.Xml.Linq;
 using System.Reflection;
 using System.IO;
 
-namespace xrc.Pages.Providers.FileSystem.Parsers
+namespace xrc.Pages.Providers.Common.Parsers
 {
 	public class XrcSchemaParserService : IXrcSchemaParserService
 	{
@@ -30,24 +30,34 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 
         const string MODULE_PREFIX = "xrc";
 
+		readonly IPageProviderService _pageProvider;
         readonly IPageScriptService _scriptService;
         readonly IModuleCatalogService _moduleCatalog;
         readonly IViewCatalogService _viewCatalog;
 
-		public XrcSchemaParserService(IPageScriptService scriptService, IModuleCatalogService moduleCatalog, IViewCatalogService viewCatalog)
+		public XrcSchemaParserService(IPageProviderService pageProvider,
+									IPageScriptService scriptService, 
+									IModuleCatalogService moduleCatalog, 
+									IViewCatalogService viewCatalog)
 		{
+			_pageProvider = pageProvider;
 			_scriptService = scriptService;
 			_moduleCatalog = moduleCatalog;
 			_viewCatalog = viewCatalog;
 		}
 
-		public PageParserResult Parse(string fullpath)
+		public PageParserResult Parse(XrcItem item)
 		{
 			var result = new PageParserResult();
 			try
 			{
 				// TODO Valutare se usare Xpath per la lettura
-				XDocument xdoc = XDocument.Load(fullpath);
+				
+				XDocument xdoc;
+				using (var stream = _pageProvider.OpenResource(item.VirtualPath))
+				{
+					xdoc = XDocument.Load(stream);
+				}
 
 				var rootElement = xdoc.Element(PAGE);
 				if (rootElement == null)
@@ -59,17 +69,17 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 				if (paramsElement != null)
 					ParseParameters(paramsElement, result);
 
-				ParseActions(Path.GetDirectoryName(fullpath), xdoc, result);
+				ParseActions(item, xdoc, result);
 			}
 			catch (Exception ex)
 			{
-				throw new XrcException(string.Format("Failed to parse '{0}'.", fullpath), ex);
+				throw new XrcException(string.Format("Failed to parse '{0}'.", item.VirtualPath), ex);
 			}
 
 			return result;
 		}
 
-		private void ParseActions(string directory, XDocument xdoc, PageParserResult parserResult)
+		private void ParseActions(XrcItem item, XDocument xdoc, PageParserResult parserResult)
 		{
 			foreach (var actionElement in xdoc.Root.Elements(ACTION))
 			{
@@ -84,7 +94,7 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 				{
 					if (viewElement.Name != OUTPUTCACHE)
 					{
-						var view = ParseView(directory, viewElement, parserResult);
+						var view = ParseView(item, viewElement, parserResult);
 						action.Views.Add(view);
 					}
 				}
@@ -129,7 +139,7 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 			}
 		}
 
-		private ViewDefinition ParseView(string directory, XElement xElement, PageParserResult parserResult)
+		private ViewDefinition ParseView(XrcItem item, XElement xElement, PageParserResult parserResult)
 		{
 			string typeName = xElement.Name.LocalName;
 			ComponentDefinition component = _viewCatalog.Get(typeName);
@@ -147,7 +157,7 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 			// TODO Escludere le property con un namespace? O usare un namespace particolare per le property?
 			foreach (var element in xElement.Elements())
 			{
-				var property = ParseProperty(directory, element, component.Type, parserResult);
+				var property = ParseProperty(item, element, component.Type, parserResult);
 
 				view.Properties.Add(property);
 			}
@@ -155,13 +165,13 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 			return view;
 		}
 
-		private XProperty ParseProperty(string directory, XElement element, Type ownerType, PageParserResult parserResult)
+		private XProperty ParseProperty(XrcItem item, XElement element, Type ownerType, PageParserResult parserResult)
 		{
 			string propertyName = element.Name.LocalName;
 			var property = ownerType.GetProperty(propertyName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
 			if (property == null)
 			{
-				XProperty propertyFile = ParsePropertyFile(directory, ownerType, propertyName, element.Value);
+				XProperty propertyFile = ParsePropertyFile(item, ownerType, propertyName, element.Value);
 				if (propertyFile != null)
 					return propertyFile;
 
@@ -195,7 +205,7 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 				throw new ApplicationException(string.Format("Invalid element '{0}', value not defined.", element.Name));
 		}
 
-		private static XProperty ParsePropertyFile(string directory, Type ownerType, string propertyName, string value)
+		private XProperty ParsePropertyFile(XrcItem item, Type ownerType, string propertyName, string value)
 		{
 			const string FILE_INCLUDE_SUFFIX = "File";
 			if (propertyName.EndsWith(FILE_INCLUDE_SUFFIX, StringComparison.OrdinalIgnoreCase))
@@ -204,17 +214,22 @@ namespace xrc.Pages.Providers.FileSystem.Parsers
 				var propertyBase = ownerType.GetProperty(propertyNameBase, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
 				if (propertyBase != null)
 				{
-					// TODO Quando si metterà in cache il file xrc con dipendenza al file stesso ricordarsi di considerare anche questi file (letti inline per le property).
+					// TODO Quando e se si metterà in cache il file xrc con dipendenza al file stesso ricordarsi di considerare anche questi file (letti inline per le property).
 
-					string filePath = Path.Combine(directory, value);
+					string fileVirtualPath = UriExtensions.BuildVirtualPath(item.VirtualPath, value);
 					if (propertyBase.PropertyType == typeof(XDocument))
 					{
-						var xValue = new XValue(propertyBase.PropertyType, XDocument.Load(filePath));
+						var xValue = new XValue(propertyBase.PropertyType, _pageProvider.ResourceToXml(fileVirtualPath));
 						return new XProperty(propertyBase, xValue);
 					}
 					else if (propertyBase.PropertyType == typeof(string))
 					{
-						var xValue = new XValue(propertyBase.PropertyType, File.ReadAllText(filePath));
+						var xValue = new XValue(propertyBase.PropertyType, _pageProvider.ResourceToText(fileVirtualPath));
+						return new XProperty(propertyBase, xValue);
+					}
+					else if (propertyBase.PropertyType == typeof(byte[]))
+					{
+						var xValue = new XValue(propertyBase.PropertyType, _pageProvider.ResourceToBytes(fileVirtualPath));
 						return new XProperty(propertyBase, xValue);
 					}
 				}
