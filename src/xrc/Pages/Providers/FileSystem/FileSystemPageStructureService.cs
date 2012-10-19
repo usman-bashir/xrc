@@ -5,7 +5,6 @@ using System.Text;
 using xrc.Pages.Providers.Common;
 using xrc.Configuration;
 using System.IO;
-using xrc.Pages.Providers.Common;
 
 namespace xrc.Pages.Providers.FileSystem
 {
@@ -24,7 +23,7 @@ namespace xrc.Pages.Providers.FileSystem
 		{
 			// TODO Mettere in cache questo valore (dipendenza a file?) o gestirlo a livello di classe (FileSystemWatcher?)
 
-			var root = new XrcItem(null, XrcItemType.Directory, _rootPath.PhysicalPath, GetDirectoryName());
+			var root = XrcItem.NewRoot(_rootPath.PhysicalPath);
 			FillItems(root);
 
 			return root;
@@ -36,18 +35,18 @@ namespace xrc.Pages.Providers.FileSystem
 				return;
 
 			var directories = Directory.GetDirectories(item.Id)
-										.Select(p => new XrcItem(item, XrcItemType.Directory, p, Path.GetFileName(p)));
+										.Select(p => XrcItem.NewDirectory(item, p, Path.GetFileName(p)));
 			item.Items.AddRange(directories);
 
 			foreach (var parser in _parsers)
 			{
 				var parserFiles = Directory.GetFiles(item.Id, string.Format("*.{0}", parser.Extension))
-												.Select(p => new XrcItem(item, XrcItemType.XrcFile, p, Path.GetFileName(p)));
+												.Select(p => XrcItem.NewXrcFile(item, p, Path.GetFileName(p)));
 				item.Items.AddRange(parserFiles);
 			}
 
 			var configFiles = Directory.GetFiles(item.Id, XrcItem.XRC_DIRECTORY_CONFIG_FILE)
-											.Select(p => new XrcItem(item, XrcItemType.ConfigFile, p, Path.GetFileName(p)));
+											.Select(p => XrcItem.NewConfigFile(item, p, Path.GetFileName(p)));
 			item.Items.AddRange(configFiles);
 
 			foreach (var subItem in item.Items)

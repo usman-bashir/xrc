@@ -9,6 +9,11 @@ namespace xrc.Pages
 {
     public interface IPage
     {
+		string Id
+		{
+			get;
+		}
+
         PageActionList Actions
         {
             get;
@@ -41,7 +46,8 @@ namespace xrc.Pages
 
 		ISiteConfiguration SiteConfiguration { get; }
 
-		string ContentVirtualUrl(string relativeUrl, ContentUrlMode mode);
+		string ToVirtualUrl(string relativeUrl, ContentUrlMode mode);
+		Uri ToAbsoluteUrl(string relativeUrl, ContentUrlMode mode);
 
 		bool IsCanonicalUrl(Uri url);
 	}

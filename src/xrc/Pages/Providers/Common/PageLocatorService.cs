@@ -10,26 +10,12 @@ namespace xrc.Pages.Providers.Common
 {
     public class PageLocatorService : IPageLocatorService
     {
-		public PageLocatorService(IRootPathConfig rootPathConfig)
+		readonly IPageStructureService _pageStructure;
+
+		public PageLocatorService(IPageStructureService pageStructure)
         {
-			if (!System.IO.Directory.Exists(rootPathConfig.PhysicalPath))
-				throw new ApplicationException(string.Format("Path '{0}' doesn't exist.", rootPathConfig.PhysicalPath));
-
-			RootPathConfig = rootPathConfig;
-			Root = new XrcFolder(rootPathConfig);
+			_pageStructure = pageStructure;
 		}
-
-		public IRootPathConfig RootPathConfig
-		{
-			get;
-			private set;
-		}
-
-		public XrcFolder Root
-        {
-            get;
-            private set;
-        }
 
 		public PageLocatorResult Locate(Uri relativeUri)
         {
@@ -40,70 +26,46 @@ namespace xrc.Pages.Providers.Common
 
 			string currentUrl = relativeUri.GetPath().ToLowerInvariant();
 			var urlSegmentParameters = new Dictionary<string, string>();
-			XrcFolder currentFolder = Root;
-			XrcFile requestFile = null;
-			StringBuilder canonicalUrl = new StringBuilder("~/");
+
+			XrcItem currentItem = _pageStructure.GetRoot();
+			XrcItem matchItem = null;
+			StringBuilder actualVirtualUrl = new StringBuilder("~/");
 
 			while (!(string.IsNullOrEmpty(currentUrl) || currentUrl == "/"))
 			{
-				requestFile = SearchFile(urlSegmentParameters, currentFolder, canonicalUrl, ref currentUrl);
-				if (requestFile != null)
-					break;
-
-				XrcFolder matchFolder = SearchFolder(urlSegmentParameters, currentFolder, canonicalUrl, ref currentUrl);
-				if (matchFolder == null)
+				matchItem = SearchItem(urlSegmentParameters, currentItem, actualVirtualUrl, ref currentUrl);
+				if (matchItem == null)
 					return null; //Not found
 				else
-					currentFolder = matchFolder;
+					currentItem = matchItem;
 			}
 
 			// last segment found is not a file, so try to read the default (index) file
-			if (requestFile == null)
-				requestFile = currentFolder.IndexFile;
+			if (matchItem == null)
+				matchItem = currentItem.IndexFile;
 
-			if (requestFile == null)
+			if (matchItem == null)
 				return null; //Not found
 
-			return new XrcFileResource(requestFile, canonicalUrl.ToString(), urlSegmentParameters);
+			return new PageLocatorResult(matchItem, urlSegmentParameters, actualVirtualUrl.ToString());
         }
 
-		private static XrcFile SearchFile(Dictionary<string, string> urlSegmentParameters, 
-										XrcFolder currentFolder, StringBuilder canonicalUrl,
+		private static XrcItem SearchItem(Dictionary<string, string> urlSegmentParameters, 
+										XrcItem currentItem, StringBuilder canonicalUrl,
 										ref string currentUrl)
 		{
-			foreach (var file in currentFolder.Files)
+			foreach (var subItem in currentItem.Items)
 			{
-				ParametricUriSegmentResult matchResult = file.Parameter.Match(currentUrl);
+				ParametricUriSegmentResult matchResult = subItem.Match(currentUrl);
 				if (matchResult.Success)
 				{
-					if (!file.IsIndex)
+					if (!subItem.IsIndex)
 						canonicalUrl.Append(UriExtensions.RemoveTrailingSlash(matchResult.CurrentUrlPart));
 					if (matchResult.IsParameter)
 						urlSegmentParameters.Add(matchResult.ParameterName, matchResult.ParameterValue);
 
 					currentUrl = matchResult.NextUrlPart;
-					return file;
-				}
-			}
-
-			return null;
-		}
-
-		private static XrcFolder SearchFolder(Dictionary<string, string> urlSegmentParameters, 
-											XrcFolder currentFolder, StringBuilder canonicalUrl, 
-											ref string currentUrl)
-		{
-			foreach (var subFolder in currentFolder.Folders)
-			{
-				ParametricUriSegmentResult matchResult = subFolder.Parameter.Match(currentUrl);
-				if (matchResult.Success)
-				{
-					canonicalUrl.Append(UriExtensions.AppendTrailingSlash(matchResult.CurrentUrlPart));
-					if (matchResult.IsParameter)
-						urlSegmentParameters.Add(matchResult.ParameterName, matchResult.ParameterValue);
-
-					currentUrl = matchResult.NextUrlPart;
-					return subFolder;
+					return subItem;
 				}
 			}
 

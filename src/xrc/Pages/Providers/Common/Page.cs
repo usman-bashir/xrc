@@ -9,6 +9,7 @@ namespace xrc.Pages.Providers.Common
 {
 	public class Page : IPage
 	{
+		readonly string _Id;
 		readonly PageActionList _actions;
 		readonly PageParameterList _parameters;
 		readonly ModuleDefinitionList _modules;
@@ -29,6 +30,12 @@ namespace xrc.Pages.Providers.Common
 			_urlSegmentsParameters = locatorResult.UrlSegmentsParameters;
 			_virtualPath = locatorResult.VirtualPath;
 			_physicalVirtualPath = item.VirtualPath;
+			_Id = item.Id;
+		}
+
+		public string Id
+		{
+			get { return _Id; }
 		}
 
 		public PageActionList Actions
@@ -72,7 +79,7 @@ namespace xrc.Pages.Providers.Common
 			get { return _urlSegmentsParameters; }
 		}
 
-		public string ContentVirtualUrl(string relativeUrl, ContentUrlMode mode)
+		public string ToVirtualUrl(string relativeUrl, ContentUrlMode mode)
 		{
 			switch (mode)
 			{
@@ -83,6 +90,11 @@ namespace xrc.Pages.Providers.Common
 				default:
 					throw new XrcException(string.Format("Mode '{0}' not valid.", mode));
 			}
+		}
+		public Uri ToAbsoluteUrl(string relativeUrl, ContentUrlMode mode)
+		{
+			string virtualUrl = ToVirtualUrl(relativeUrl, mode);
+			return SiteConfiguration.VirtualUrlToAbsolute(virtualUrl);
 		}
 
 		public bool IsCanonicalUrl(Uri url)

@@ -4,14 +4,11 @@ namespace xrc.Modules
 {
     public interface IUrlModule
     {
-		/// <summary>
-		/// Converts a virtual (relative) path to an absolute path. Can be used for xrc page or content files like script, css, ...
-		/// </summary>
 		string Content(string contentPath);
-		/// <summary>
-		/// Converts a virtual (relative) path to an absolute path. Can be used for xrc page or content files like script, css, ...
-		/// </summary>
 		string Content(string contentPathBase, string contentPath);
+
+		string Page(string contentPath);
+		string Page(string contentPathBase, string contentPath);
 
 		string Current();
 

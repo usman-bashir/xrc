@@ -8,9 +8,10 @@ using xrc.Script;
 using Moq;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using xrc.Pages.Providers.FileSystem.Parsers;
 using xrc.Modules;
 using System.IO;
+using xrc.Pages.Providers.Common.Parsers;
+using xrc.Pages.Providers.Common;
 
 namespace xrc.Pages.Providers.FileSystem
 {
@@ -24,31 +25,29 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_html()
 		{
-			var file = GetFile(@"sampleWebSite2\conventions_html.xrc.html");
 			var viewType = typeof(HtmlView);
 
+			var expectedContent = "<h1>test</h1>";
+
 			var schemaParser = new Mock<IXrcSchemaParserService>();
-			schemaParser.Setup(p => p.Parse(It.IsAny<string>())).Returns(new PageParserResult());
 			var viewCatalog = new Mocks.ViewCatalogServiceMock(new ComponentDefinition(viewType.Name, viewType));
+			var pageProvider = new Mock<IPageProviderService>();
+			pageProvider.Setup(p => p.ResourceToText("~/item.xrc.html")).Returns(expectedContent);
 
-			var target = new HtmlParserService(schemaParser.Object, viewCatalog);
+			var target = new HtmlParserService(schemaParser.Object, viewCatalog, pageProvider.Object);
 
-			PageParserResult page = target.Parse(file);
+			PageParserResult page = target.Parse(GetItem("item.xrc.html"));
 			var view = page.Actions["GET"].Views.Single();
 			Assert.AreEqual(viewType, view.Component.Type);
 
 			var content = (string)view.Properties["Content"].Value.Value;
-			Assert.AreEqual("Hello", content);
+			Assert.AreEqual(expectedContent, content);
 		}
 
-		private XrcFileResource GetFile(string relativeFilePath)
+		private XrcItem GetItem(string fileName)
 		{
-			string fullPath = TestHelper.GetPath(relativeFilePath);
-
-			var rootConfig = new Mocks.RootPathConfigMock("~/test", Path.GetDirectoryName(fullPath));
-			var xrcFolder = new XrcFolder(rootConfig);
-			var xrcFile = new XrcFile(xrcFolder, Path.GetFileName(fullPath));
-			return new XrcFileResource(xrcFile, "~/test", new Dictionary<string, string>());
+			var xrcRoot = XrcItem.NewRoot("root");
+			return XrcItem.NewXrcFile(xrcRoot, "id", fileName);
 		}
-    }
+	}
 }

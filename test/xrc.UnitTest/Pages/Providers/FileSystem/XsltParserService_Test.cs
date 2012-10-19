@@ -8,72 +8,72 @@ using xrc.Script;
 using Moq;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using xrc.Pages.Providers.FileSystem.Parsers;
 using xrc.Modules;
 using System.IO;
+using xrc.Pages.Providers.Common.Parsers;
+using xrc.Pages.Providers.Common;
 
 namespace xrc.Pages.Providers.FileSystem
 {
 	[TestClass]
 	public class XsltParserService_Test
     {
-        [TestInitialize]
-        public void Init()
-        {
-        }
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_xslt_with_xml()
 		{
-			var file = GetFile(@"sampleWebSite2\conventions_xslt.xrc.xslt");
 			var viewType = typeof(XsltView);
 
+			var expectedContent = new XDocument(new XElement("test"));
+			var expectedXml = new XDocument(new XElement("test"));
+
 			var schemaParser = new Mock<IXrcSchemaParserService>();
-			schemaParser.Setup(p => p.Parse(It.IsAny<string>())).Returns(new PageParserResult());
 			var viewCatalog = new Mocks.ViewCatalogServiceMock(new ComponentDefinition(viewType.Name, viewType));
+			var pageProvider = new Mock<IPageProviderService>();
+			pageProvider.Setup(p => p.ResourceToXml("~/item.xrc.xslt")).Returns(expectedContent);
+			pageProvider.Setup(p => p.ResourceToXml("~/item.xml")).Returns(expectedXml);
+			pageProvider.Setup(p => p.ResourceExists("~/item.xml")).Returns(true);
 
-			var target = new XsltParserService(schemaParser.Object, viewCatalog);
+			var target = new XsltParserService(schemaParser.Object, viewCatalog, pageProvider.Object);
 
-			PageParserResult page = target.Parse(file);
+			PageParserResult page = target.Parse(GetItem("item.xrc.xslt"));
 			var view = page.Actions["GET"].Views.Single();
 			Assert.AreEqual(viewType, view.Component.Type);
 
 			var content = (XDocument)view.Properties["Xslt"].Value.Value;
-			Assert.AreEqual("stylesheet", content.Root.Name.LocalName);
+			Assert.AreEqual(expectedContent, content);
 
 			content = (XDocument)view.Properties["Data"].Value.Value;
-			Assert.AreEqual("bookstore", content.Root.Name.LocalName);
+			Assert.AreEqual(expectedXml, content);
 		}
 
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_xslt_without_xml()
 		{
-			var file = GetFile(@"sampleWebSite2\conventions_xsltonly.xrc.xslt");
 			var viewType = typeof(XsltView);
 
+			var expectedContent = new XDocument(new XElement("test"));
+
 			var schemaParser = new Mock<IXrcSchemaParserService>();
-			schemaParser.Setup(p => p.Parse(It.IsAny<string>())).Returns(new PageParserResult());
 			var viewCatalog = new Mocks.ViewCatalogServiceMock(new ComponentDefinition(viewType.Name, viewType));
+			var pageProvider = new Mock<IPageProviderService>();
 
-			var target = new XsltParserService(schemaParser.Object, viewCatalog);
+			pageProvider.Setup(p => p.ResourceToXml("~/conventions_xslt.xrc.xslt")).Returns(expectedContent);
+			pageProvider.Setup(p => p.ResourceExists("~/conventions_xslt.xml")).Returns(false);
 
-			PageParserResult page = target.Parse(file);
+			var target = new XsltParserService(schemaParser.Object, viewCatalog, pageProvider.Object);
+
+			PageParserResult page = target.Parse(GetItem("conventions_xslt.xrc.xslt"));
 			var view = page.Actions["GET"].Views.Single();
 			Assert.AreEqual(viewType, view.Component.Type);
 
-			Assert.AreEqual(1, view.Properties.Count);
-
 			var content = (XDocument)view.Properties["Xslt"].Value.Value;
-			Assert.AreEqual("stylesheet", content.Root.Name.LocalName);
+			Assert.AreEqual(expectedContent, content);
 		}
 
-		private XrcFileResource GetFile(string relativeFilePath)
+		private XrcItem GetItem(string fileName)
 		{
-			string fullPath = TestHelper.GetPath(relativeFilePath);
-
-			var rootConfig = new Mocks.RootPathConfigMock("~/test", Path.GetDirectoryName(fullPath));
-			var xrcFolder = new XrcFolder(rootConfig);
-			var xrcFile = new XrcFile(xrcFolder, Path.GetFileName(fullPath));
-			return new XrcFileResource(xrcFile, "~/test", new Dictionary<string, string>());
+			var xrcRoot = XrcItem.NewRoot("root");
+			return XrcItem.NewXrcFile(xrcRoot, "id", fileName);
 		}
     }
 }

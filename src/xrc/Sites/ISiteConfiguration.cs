@@ -15,6 +15,7 @@ namespace xrc.Sites
 		Uri AbsoluteUrlToRelative(Uri absoluteUrl);
 		string RelativeUrlToVirtual(Uri relativeUrl);
 		Uri VirtualUrlToRelative(string virtualUrl);
+		Uri VirtualUrlToAbsolute(string virtualUrl);
 
 		// da rimuovere
         Uri ToRelativeUrl(Uri absoluteUrl);

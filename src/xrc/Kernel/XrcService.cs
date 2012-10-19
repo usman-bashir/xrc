@@ -121,7 +121,8 @@ namespace xrc
 			// TODO Why we need to redirect to canonical Url? Only for caching? I think there is another reason but I don't remeber...
 			if (!context.Page.IsCanonicalUrl(context.Request.Url))
 			{
-				ProcessPermanentRedirect(context, context.Page.CanonicalUrl);
+				Uri redirectUrl = context.Page.SiteConfiguration.VirtualUrlToRelative(context.Page.LogicalVirtualPath);
+				ProcessPermanentRedirect(context, redirectUrl);
 				return;
 			}
 
@@ -160,7 +161,7 @@ namespace xrc
 			// The event will be called from the layout action by using Cms.Slot().
 			// Parameters will be also copied from slot to layout.
 
-			Uri layoutUrl = childContext.Page.ToAbsoluteUrl(childAction.Layout.ToLower());
+			Uri layoutUrl = childContext.Page.ToAbsoluteUrl(childAction.Layout.ToLower(), ContentUrlMode.Logical);
 			Context layoutContext = new Context(new XrcRequest(layoutUrl, parentRequest: childContext.Request), currentResponse);
 			layoutContext.CallerContext = childContext;
 			foreach (var item in childContext.Parameters)

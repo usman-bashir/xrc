@@ -8,18 +8,12 @@ using xrc.Script;
 using Moq;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using xrc.Pages.Providers.FileSystem.Parsers;
 
 namespace xrc.Pages.Providers.FileSystem
 {
 	[TestClass]
     public class XrcSchemaParserService_Test
     {
-        [TestInitialize]
-        public void Init()
-        {
-        }
-
         [TestMethod]
         public void It_Should_be_possible_to_parse_example5_page_parameter()
         {

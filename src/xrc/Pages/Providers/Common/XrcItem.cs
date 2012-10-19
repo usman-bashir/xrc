@@ -5,7 +5,9 @@ using System.Text;
 
 namespace xrc.Pages.Providers.Common
 {
-    public class XrcItem
+	// TODO Valutare se fare più classi
+
+	public sealed class XrcItem
     {
 		readonly XrcItem _parent;
 		readonly XrcItemType _itemType;
@@ -18,45 +20,57 @@ namespace xrc.Pages.Providers.Common
 		readonly List<XrcItem> _items = new List<XrcItem>();
 		readonly ParametricUriSegment _parametricSegment;
 
-		public XrcItem(XrcItem parent, XrcItemType itemType, string id, string fileName)
+		private XrcItem(XrcItem parent, XrcItemType itemType, string id, string fileName,
+						string name, string virtualPath, ParametricUriSegment parametricSegment,
+						string fileExtension)
 		{
 			_parent = parent;
 			_id = id;
 			_fileName = fileName;
 			_itemType = itemType;
+			_name = name;
+			_virtualPath = virtualPath;
+			_parametricSegment = parametricSegment;
+			_fileExtension = fileExtension;
+		}
 
-			if (_itemType == XrcItemType.Directory)
-			{
-				_name = GetDirectoryLogicalName(_fileName);
-				if (parent != null)
-					_virtualPath = UriExtensions.Combine(parent.VirtualPath, _name);
-				else
-					_virtualPath = "~/";
-				_virtualPath = UriExtensions.AppendTrailingSlash(_virtualPath);
+		public static XrcItem NewRoot(string id)
+		{
+			return new XrcItem(null, XrcItemType.Directory, id, null, "~", "~/", null, null);
+		}
+		public static XrcItem NewDirectory(XrcItem parent, string id, string directoryName)
+		{
+			if (parent == null)
+				throw new ArgumentNullException("parent");
 
-				_parametricSegment = new ParametricUriSegment(_name);
-			}
-			else if (_itemType == XrcItemType.XrcFile)
-			{
-				if (parent == null)
-					throw new ArgumentNullException("parent");
+			string name = GetDirectoryLogicalName(directoryName);
+			string virtualPath = UriExtensions.AppendTrailingSlash(UriExtensions.Combine(parent.VirtualPath, name));
+			var parametricSegment = new ParametricUriSegment(name);
 
-				_name = GetFileLogicalName(_fileName);
-				_virtualPath = UriExtensions.Combine(parent.VirtualPath, _name);
-				_fileExtension = GetFileExtension(_fileName);
-				_parametricSegment = new ParametricUriSegment(_name);
-			}
-			else if (_itemType == XrcItemType.ConfigFile)
-			{
-				if (parent == null)
-					throw new ArgumentNullException("parent");
+			return new XrcItem(parent, XrcItemType.Directory, id, directoryName, name, virtualPath, parametricSegment, null);
+		}
+		public static XrcItem NewXrcFile(XrcItem parent, string id, string fileName)
+		{
+			if (parent == null)
+				throw new ArgumentNullException("parent");
 
-				_name = GetConfigLogicalName(_fileName);
-				_virtualPath = UriExtensions.Combine(parent.VirtualPath, _name);
-				_fileExtension = GetFileExtension(_fileName);
-			}
-			else
-				throw new XrcException(string.Format("XrcItemType '{0}' not supported.", _itemType));
+			string name = GetFileLogicalName(fileName);
+			string virtualPath = UriExtensions.Combine(parent.VirtualPath, name);
+			string fileExtension = GetFileExtension(fileName);
+			var parametricSegment = new ParametricUriSegment(name);
+
+			return new XrcItem(parent, XrcItemType.XrcFile, id, fileName, name, virtualPath, parametricSegment, fileExtension);
+		}
+		public static XrcItem NewConfigFile(XrcItem parent, string id, string fileName)
+		{
+			if (parent == null)
+				throw new ArgumentNullException("parent");
+
+			string name = GetConfigLogicalName(fileName);
+			string virtualPath = UriExtensions.Combine(parent.VirtualPath, name);
+			string fileExtension = GetFileExtension(fileName);
+
+			return new XrcItem(parent, XrcItemType.ConfigFile, id, fileName, name, virtualPath, null, fileExtension);
 		}
 
 		public string FileName
@@ -128,11 +142,19 @@ namespace xrc.Pages.Providers.Common
 			}
 		}
 
+		public bool IsRoot
+		{
+			get
+			{
+				return _parent == null;
+			}
+		}
+
 		public bool IsIndex
 		{
 			get 
-			{ 
-				return string.Equals(_name, XrcFileSystemHelper.INDEX_FILE, StringComparison.InvariantCultureIgnoreCase)
+			{
+				return string.Equals(_name, XRC_INDEX_FILE, StringComparison.InvariantCultureIgnoreCase)
 					&& _itemType == XrcItemType.XrcFile; 
 			}
 		}

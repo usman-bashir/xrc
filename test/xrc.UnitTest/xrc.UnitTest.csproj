@@ -67,6 +67,7 @@
     <Compile Include="Configuration\XrcSection_Test.cs" />
     <Compile Include="Markdown\MarkdownService_Test.cs" />
     <Compile Include="Mocks\ContextMock.cs" />
+    <Compile Include="Mocks\PageProviderServiceMock.cs" />
     <Compile Include="Mocks\SitesConfigMock.cs" />
     <Compile Include="Mocks\MashupScriptServiceMock.cs" />
     <Compile Include="Mocks\RootPathConfigMock.cs" />

@@ -19,10 +19,10 @@ namespace DemoWebSite
 
         public string GetGitLink()
         {
-			FileSystemPage fsPage = (FileSystemPage)GetOriginalContext(_context).Page;
+			// I assume that the Id contains the full path
+			var fullPath = GetOriginalContext(_context).Page.Id;
 
-			string file = fsPage.File.FullPath.ToLower()
-								.Replace(HttpContext.Current.Request.MapPath("~").ToLower(), "")
+			string file = fullPath.Replace(HttpContext.Current.Request.MapPath("~").ToLower(), "")
 								.Replace("\\", "/");
 			return xrc.UriExtensions.Combine("https://github.com/davideicardi/xrc/blob/master/demo/DemoWebSite/", file);
         }

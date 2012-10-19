@@ -15,13 +15,23 @@ namespace xrc.Modules
         public UrlModule(IContext context)
         {
             _context = context;
-            // TODO Valutare se usare UrlHelper o riscirvere i metodi (Action, ...)
+            // TODO Valutare se usare UrlHelper o riscrivere i metodi (Action, ...)
             _urlHelper = new System.Web.Mvc.UrlHelper(new XrcRequestContext(context));
         }
 
+		public string Page(string contentPath)
+		{
+			return _context.Page.ToVirtualUrl(contentPath, Pages.ContentUrlMode.Logical);
+		}
+
+		public string Page(string contentPathBase, string contentPath)
+		{
+			return UriExtensions.Combine(Content(contentPathBase), contentPath);
+		}
+
 		public string Content(string contentPath)
 		{
-			return _context.Page.ToAbsoluteUrl(contentPath).ToString();
+			return _context.Page.ToVirtualUrl(contentPath, Pages.ContentUrlMode.Physical);
 		}
 
 		public string Content(string contentPathBase, string contentPath)

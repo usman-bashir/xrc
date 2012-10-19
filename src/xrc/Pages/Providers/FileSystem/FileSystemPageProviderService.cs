@@ -41,7 +41,7 @@ namespace xrc.Pages.Providers.FileSystem
 			if (locatorResult == null)
 				return null;
 
-			PageParserResult parserResult = _pageParser.Parse(xrcFile);
+			PageParserResult parserResult = _pageParser.Parse(locatorResult.Item);
 
 			return new Page(locatorResult.Item, parserResult, locatorResult, siteConfiguration);
 		}

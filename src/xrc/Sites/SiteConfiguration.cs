@@ -75,6 +75,10 @@ namespace xrc.Sites
 		{
 			throw new NotImplementedException();
 		}
+		public Uri VirtualUrlToAbsolute(string virtualUrl)
+		{
+			throw new NotImplementedException();
+		}
 
 #warning Metodi absoleti da rimuovere
 
