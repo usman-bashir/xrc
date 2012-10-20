@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
 
 namespace xrc
 {
     public interface IKernel
     {
-		bool Match(IContext context);
+		bool Match(HttpContextBase httpContext);
 
-		void ProcessRequest(IContext context);
+		void ProcessRequest(HttpContextBase httpContext);
 
 		void Init();
     }

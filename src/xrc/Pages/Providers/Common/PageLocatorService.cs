@@ -17,19 +17,12 @@ namespace xrc.Pages.Providers.Common
 			_pageStructure = pageStructure;
 		}
 
-		public PageLocatorResult Locate(string relativeUrl)
-		{
-			return Locate(new Uri(relativeUrl, UriKind.Relative));
-		}
-
-		public PageLocatorResult Locate(Uri relativeUrl)
+		public PageLocatorResult Locate(XrcUrl url)
         {
-			if (relativeUrl == null)
-                throw new ArgumentNullException("relativeUri");
-			if (relativeUrl.IsAbsoluteUri)
-				throw new UriFormatException(string.Format("Uri '{0}' is not relative.", relativeUrl));
+			if (url == null)
+				throw new ArgumentNullException("url");
 
-			string currentUrl = relativeUrl.GetPath().ToLowerInvariant();
+			string currentUrl = url.Path;
 			var urlSegmentParameters = new Dictionary<string, string>();
 
 			XrcItem currentItem = _pageStructure.GetRoot();

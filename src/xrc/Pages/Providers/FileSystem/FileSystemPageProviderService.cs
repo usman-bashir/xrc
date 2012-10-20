@@ -14,15 +14,13 @@ namespace xrc.Pages.Providers.FileSystem
 	{
 		readonly IPageLocatorService _pageLocator;
 		readonly IPageParserService _pageParser;
-		readonly ISiteConfigurationProviderService _siteConfigurationProvider;
 		readonly Configuration.IRootPathConfig _workingPath;
 
-		public FileSystemPageProviderService(Configuration.IRootPathConfig workingPath, IPageLocatorService pageLocator, IPageParserService pageParser, ISiteConfigurationProviderService siteConfigurationProvider)
+		public FileSystemPageProviderService(Configuration.IRootPathConfig workingPath, IPageLocatorService pageLocator, IPageParserService pageParser)
 		{
 			_workingPath = workingPath;
 			_pageLocator = pageLocator;
 			_pageParser = pageParser;
-			_siteConfigurationProvider = siteConfigurationProvider;
 		}
 
 		// TODO Valutare come e se fare cache del risultato di GetPage e IsDefined anche perchè condividono parte del codice.
@@ -34,18 +32,16 @@ namespace xrc.Pages.Providers.FileSystem
 			return File.Exists(file);
 		}
 
-		public bool PageExists(Uri url)
+		public bool PageExists(XrcUrl url)
 		{
-			ISiteConfiguration siteConfiguration = _siteConfigurationProvider.GetSiteFromUri(url);
-			PageLocatorResult locatorResult = _pageLocator.Locate(siteConfiguration.ToRelativeUrl(url));
+			PageLocatorResult locatorResult = _pageLocator.Locate(url);
 
 			return locatorResult != null;
 		}
 
-		public IPage GetPage(Uri url)
+		public IPage GetPage(XrcUrl url, Sites.ISiteConfiguration siteConfiguration)
 		{
-			ISiteConfiguration siteConfiguration = _siteConfigurationProvider.GetSiteFromUri(url);
-			PageLocatorResult locatorResult = _pageLocator.Locate(siteConfiguration.ToRelativeUrl(url));
+			PageLocatorResult locatorResult = _pageLocator.Locate(url);
 			if (locatorResult == null)
 				return null;
 

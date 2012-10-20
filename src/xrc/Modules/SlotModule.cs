@@ -42,9 +42,9 @@ namespace xrc.Modules
 
         public string Include(string url, object parameters)
         {
-			Uri absUrl = _context.Page.GetContentAbsoluteUrl(url);
+			XrcUrl xrcUrl = new XrcUrl(_context.Page.GetContentVirtualUrl(url));
 
-			return _xrcService.Page(absUrl, parameters, callerContext: _context).Content;
+			return _xrcService.Page(xrcUrl, _context.Page.SiteConfiguration, parameters, callerContext: _context).Content;
         }
     }
 }

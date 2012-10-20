@@ -8,9 +8,9 @@ namespace xrc.Pages.Providers
 {
 	public interface IPageProviderService
 	{
-		bool PageExists(Uri url);
+		bool PageExists(XrcUrl url);
 
-		IPage GetPage(Uri url);
+		IPage GetPage(XrcUrl url, Sites.ISiteConfiguration siteConfiguration);
 
 		/// <summary>
 		/// Open the specified resource. resourceLocation parameter can be a fully qualified resource or a virtual path.

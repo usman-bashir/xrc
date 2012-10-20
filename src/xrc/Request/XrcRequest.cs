@@ -17,13 +17,13 @@ namespace xrc
 		private NameValueCollection _headers = new NameValueCollection();
         private NameValueCollection _serverVariables = new NameValueCollection();
 		private NameValueCollection _queryString;
-		private Uri _url;
+		private XrcUrl _url;
 		private Encoding _contentEncoding;
 		private string _httpMethod;
 
         private HttpRequestBase _parentRequest;
 
-		public XrcRequest(Uri request, Encoding encoding = null, string httpMethod = "GET", HttpRequestBase parentRequest = null)
+		public XrcRequest(XrcUrl request, Encoding encoding = null, string httpMethod = "GET", HttpRequestBase parentRequest = null)
 		{
 			if (request == null)
 				throw new ArgumentNullException("request");
@@ -138,9 +138,20 @@ namespace xrc
 		//    set;
 		//}
 
-		public override Uri Url
+		public XrcUrl XrcUrl
 		{
 			get { return _url; }
+		}
+
+		public override Uri Url
+		{
+			get 
+			{
+				if (_parentRequest != null)
+					return _parentRequest.Url;
+				else
+					return null; 
+			}
 		}
 
 		//public override Uri UrlReferrer

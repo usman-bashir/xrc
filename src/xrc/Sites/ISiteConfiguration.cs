@@ -11,14 +11,5 @@ namespace xrc.Sites
         Uri Uri { get; }
         Uri SecureUri { get; }
         IDictionary<string, string> Parameters { get; }
-
-		Uri AbsoluteUrlToRelative(Uri absoluteUrl);
-		string RelativeUrlToVirtual(Uri relativeUrl);
-		Uri VirtualUrlToRelative(string virtualUrl);
-		Uri VirtualUrlToAbsolute(string virtualUrl);
-
-		// da rimuovere
-        Uri ToRelativeUrl(Uri absoluteUrl);
-		Uri ToAbsoluteUrl(string virtualUrl, Uri contextUrl);
 	}
 }

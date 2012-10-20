@@ -8,13 +8,10 @@ namespace xrc.Routing
 {
 	public class XrcRouteHandler : IRouteHandler
 	{
+		readonly XrcHttpHandler _xrcHttpHandler = new XrcHttpHandler();
 		public System.Web.IHttpHandler GetHttpHandler(RequestContext requestContext)
 		{
-			IContext context = (IContext)requestContext.RouteData.DataTokens["context"];
-			if (context == null)
-				throw new XrcException("Context not set");
-
-			return new XrcHttpHandler(context);
+			return _xrcHttpHandler;
 		}
 	}
 }

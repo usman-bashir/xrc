@@ -21,19 +21,22 @@ namespace xrc
 		readonly IViewFactory _viewFactory;
 		readonly IModuleFactory _moduleFactory;
 		readonly IPageScriptService _scriptService;
+		readonly Configuration.IRootPathConfig _rootPath;
 
 		public XrcService(IPageProviderService pageProvider,
 					IViewFactory viewFactory,
 					IModuleFactory moduleFactory,
-					IPageScriptService scriptService)
+					IPageScriptService scriptService,
+					Configuration.IRootPathConfig rootPath)
         {
+			_rootPath = rootPath;
 			_pageProvider = pageProvider;
 			_viewFactory = viewFactory;
 			_moduleFactory = moduleFactory;
 			_scriptService = scriptService;
         }
 
-        public System.Web.Mvc.ContentResult Page(Uri url, object parameters = null, IContext callerContext = null)
+		public System.Web.Mvc.ContentResult Page(XrcUrl url, Sites.ISiteConfiguration siteConfiguration, object parameters = null, IContext callerContext = null)
         {
 			try
 			{
@@ -44,7 +47,7 @@ namespace xrc
 
 				using (MemoryStream stream = new MemoryStream())
 				{
-					XrcRequest request = new XrcRequest(url.ToLower(), parentRequest: parentRequest);
+					XrcRequest request = new XrcRequest(url, parentRequest: parentRequest);
 
 					using (XrcResponse response = new XrcResponse(stream, parentResponse: parentResponse))
 					{
@@ -52,7 +55,7 @@ namespace xrc
 						context.CallerContext = callerContext;
 						AddParameters(context, parameters);
 
-						ProcessRequest(context);
+						ProcessRequest(context, siteConfiguration);
 
 						context.CheckResponse();
 
@@ -104,14 +107,14 @@ namespace xrc
             //    throw new XrcException(string.Format("Parameters type '{0}' not supported.", parameters.GetType()));
         }
 
-		public bool Match(IContext context)
+		public bool Match(XrcUrl url)
 		{
-			return _pageProvider.PageExists(context.Request.Url);
+			return _pageProvider.PageExists(url);
 		}
 
-		public void ProcessRequest(IContext context)
+		public void ProcessRequest(IContext context, Sites.ISiteConfiguration siteConfiguration)
 		{
-			context.Page = _pageProvider.GetPage(context.Request.Url);
+			context.Page = _pageProvider.GetPage(context.Request.XrcUrl, siteConfiguration);
 			if (context.Page == null)
 			{
 				ProcessRequestNotFound(context);
@@ -121,7 +124,7 @@ namespace xrc
 			// Why to redirect to canonical Url to have always the same url (for caching) and for better url architecture
 			if (!IsCanonicalUrl(context.Page, context.Request.Url))
 			{
-				UriBuilder redirectUrl = new UriBuilder(context.Page.SiteConfiguration.VirtualUrlToRelative(context.Page.VirtualPath));
+				UriBuilder redirectUrl = new UriBuilder(_rootPath.VirtualUrlToRelative(context.Page.VirtualPath));
 				redirectUrl.Query = context.Request.Url.Query;
 				ProcessPermanentRedirect(context, redirectUrl.Uri);
 				return;
@@ -155,7 +158,7 @@ namespace xrc
 
 		private bool IsCanonicalUrl(IPage page, Uri requestUri)
 		{
-			var canonicalPath = page.SiteConfiguration.VirtualUrlToRelative(page.VirtualPath).GetPath();
+			var canonicalPath = _rootPath.VirtualUrlToRelative(page.VirtualPath).GetPath();
 			var requestedPath = requestUri.GetPath();
 
 			return string.Equals(canonicalPath, requestedPath, StringComparison.Ordinal);
@@ -209,7 +212,7 @@ namespace xrc
 
 			try
 			{
-				ProcessRequest(layoutContext);
+				ProcessRequest(layoutContext, childContext.Page.SiteConfiguration);
 				layoutContext.CheckResponse();
 			}
 			catch (Exception ex)

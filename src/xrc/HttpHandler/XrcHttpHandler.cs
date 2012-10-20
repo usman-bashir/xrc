@@ -10,16 +10,9 @@ namespace xrc
 
     public class XrcHttpHandler : IHttpHandler 
     {
-		private IContext _context;
-
-		public XrcHttpHandler(IContext context)
-		{
-			_context = context;
-		}
-
         public bool IsReusable
         {
-            get { return false; }
+            get { return true; }
         }
 
         public void ProcessRequest(HttpContext httpContext)
@@ -27,13 +20,8 @@ namespace xrc
 			if (Kernel.Current == null)
                 throw new ApplicationException("Kernel not initialized.");
 
-			// TODO Should I need to check if httpContext request match _context request?
-
-			//Context context = new Context(new HttpRequestWrapper(httpContext.Request),
-			//                            new HttpResponseWrapper(httpContext.Response));
-
 			// TODO How to remove this static call??
-			Kernel.Current.ProcessRequest(_context);
+			Kernel.Current.ProcessRequest(new HttpContextWrapper(httpContext));
         }
     }
 }

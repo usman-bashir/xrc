@@ -15,11 +15,8 @@ namespace xrc.Routing
 			if (Kernel.Current == null)
 				throw new ApplicationException("Kernel not initialized.");
 
-            Context context = new Context(httpContext.Request,
-                                        httpContext.Response);
-
 			// TODO How to remove this static call??
-			if (Kernel.Current.Match(context))
+			if (Kernel.Current.Match(httpContext))
 			{
 				var routeData = new RouteData(this, _routeHandler);
 				routeData.DataTokens["context"] = context;

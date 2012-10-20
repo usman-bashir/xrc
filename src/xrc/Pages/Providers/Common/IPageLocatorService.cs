@@ -7,6 +7,6 @@ namespace xrc.Pages.Providers.Common
 {
     public interface IPageLocatorService
     {
-		PageLocatorResult Locate(Uri relativeUrl);
+		PageLocatorResult Locate(XrcUrl url);
     }
 }

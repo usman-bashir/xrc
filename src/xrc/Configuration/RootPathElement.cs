@@ -30,5 +30,15 @@ namespace xrc.Configuration
 		{
 			return System.Web.Hosting.HostingEnvironment.MapPath(virtualPath);
 		}
+
+		public string RelativeUrlToVirtual(Uri relativeUrl)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Uri VirtualUrlToRelative(string virtualUrl)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

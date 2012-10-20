@@ -28,7 +28,9 @@ namespace xrc.Modules
 
 		public Pages.IPage Get(string url)
 		{
-			return _pageProvider.GetPage(new Uri(url));
+			XrcUrl xrcUrl = new XrcUrl(_context.Page.GetContentVirtualUrl(url));
+
+			return _pageProvider.GetPage(xrcUrl, _context.Page.SiteConfiguration);
 		}
 
 		public Pages.IPage GetInitiator()

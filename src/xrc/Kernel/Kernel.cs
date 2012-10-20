@@ -43,13 +43,19 @@ namespace xrc
 			Kernel.Init(this);
 		}
 
-		public bool Match(IContext context)
+		public bool Match(HttpContextBase httpContext)
 		{
+			Context context = new Context(httpContext.Request,
+										httpContext.Response);
+
 			return _xrcService.Match(context);
 		}
 
-		public void ProcessRequest(IContext context)
+		public void ProcessRequest(HttpContextBase httpContext)
 		{
+			Context context = new Context(httpContext.Request,
+										httpContext.Response);
+
 			_xrcService.ProcessRequest(context);
 		}
 	}

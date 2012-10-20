@@ -184,6 +184,7 @@
     <Compile Include="Views\RazorView.cs" />
     <Compile Include="Views\IView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Kernel\XrcUrl.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
