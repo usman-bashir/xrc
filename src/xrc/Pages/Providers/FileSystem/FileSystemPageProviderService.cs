@@ -34,6 +34,14 @@ namespace xrc.Pages.Providers.FileSystem
 			return File.Exists(file);
 		}
 
+		public bool PageExists(Uri url)
+		{
+			ISiteConfiguration siteConfiguration = _siteConfigurationProvider.GetSiteFromUri(url);
+			PageLocatorResult locatorResult = _pageLocator.Locate(siteConfiguration.ToRelativeUrl(url));
+
+			return locatorResult != null;
+		}
+
 		public IPage GetPage(Uri url)
 		{
 			ISiteConfiguration siteConfiguration = _siteConfigurationProvider.GetSiteFromUri(url);
@@ -51,14 +59,6 @@ namespace xrc.Pages.Providers.FileSystem
 			string filePath = MapPath(resourceLocation);
 
 			return File.OpenRead(filePath);
-		}
-
-		public bool IsDefined(Uri url)
-		{
-			ISiteConfiguration siteConfiguration = _siteConfigurationProvider.GetSiteFromUri(url);
-			PageLocatorResult locatorResult = _pageLocator.Locate(siteConfiguration.ToRelativeUrl(url));
-
-			return locatorResult != null;
 		}
 
 		public XDocument ResourceToXml(string resourceLocation)

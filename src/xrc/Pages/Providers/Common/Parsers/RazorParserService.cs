@@ -44,7 +44,7 @@ namespace xrc.Pages.Providers.Common.Parsers
 			if (viewProperty == null)
 				throw new XrcException(string.Format("Property '{0}' for type '{1}' not found.", propertyName, viewComponentDefinition.Type.FullName));
 
-			string fileName = file.FileName;
+			string fileName = file.ResourceName;
 			var propertyValue = new XValue(viewProperty.PropertyType, fileName);
 
 			view.Properties.Add(new XProperty(viewProperty, propertyValue));

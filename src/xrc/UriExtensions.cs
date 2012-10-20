@@ -138,8 +138,7 @@ namespace xrc
         }
 
 		/// <summary>
-		/// Similar to Url.GetLeftPart(UriPartial.Path) but support also relative uri
-		///  and doesn't encode the results		
+		/// Similar to Url.GetComponents(UriComponents.Path, UriFormat.Unescaped) but support also relative uri
 		/// </summary>
 		public static string GetPath(this Uri uri)
 		{

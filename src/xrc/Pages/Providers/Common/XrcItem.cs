@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace xrc.Pages.Providers.Common
 {
@@ -11,60 +12,54 @@ namespace xrc.Pages.Providers.Common
     {
 		XrcItem _parent;
 		readonly XrcItemType _itemType;
-		readonly string _id;
-		readonly string _fileName;
+		readonly string _resourceName;
 
 		readonly string _name;
-		readonly string _fileExtension;
 		readonly XrcItemList _items;
 		readonly ParametricUriSegment _parametricSegment;
 
-		private XrcItem(XrcItemType itemType, string id, string fileName,
+		private XrcItem(XrcItemType itemType, string resourceName,
 						string name, ParametricUriSegment parametricSegment,
-						string fileExtension, XrcItem[] items)
+						XrcItem[] items)
 		{
-			_id = id;
-			_fileName = fileName;
+			_resourceName = resourceName;
 			_itemType = itemType;
 			_name = name;
 			_parametricSegment = parametricSegment;
-			_fileExtension = fileExtension;
 
 			_items = new XrcItemList(this);
 			if (items != null)
 				Items.AddRange(items);
 		}
 
-		public static XrcItem NewRoot(string id, params XrcItem[] items)
+		public static XrcItem NewRoot(params XrcItem[] items)
 		{
-			return new XrcItem(XrcItemType.Directory, id, null, "~", null, null, items);
+			return new XrcItem(XrcItemType.Directory, null, "~", null, items);
 		}
-		public static XrcItem NewDirectory(string id, string directoryName, params XrcItem[] items)
+		public static XrcItem NewDirectory(string resourceName, params XrcItem[] items)
 		{
-			string name = GetDirectoryLogicalName(directoryName);
+			string name = GetDirectoryLogicalName(resourceName);
 			var parametricSegment = new ParametricUriSegment(name);
 
-			return new XrcItem(XrcItemType.Directory, id, directoryName, name, parametricSegment, null, items);
+			return new XrcItem(XrcItemType.Directory, resourceName, name, parametricSegment, items);
 		}
-		public static XrcItem NewXrcFile(string id, string fileName)
+		public static XrcItem NewXrcFile(string resourceName)
 		{
-			string name = GetFileLogicalName(fileName);
-			string fileExtension = GetFileExtension(fileName);
+			string name = GetFileLogicalName(resourceName);
 			var parametricSegment = new ParametricUriSegment(name);
 
-			return new XrcItem(XrcItemType.XrcFile, id, fileName, name, parametricSegment, fileExtension, null);
+			return new XrcItem(XrcItemType.XrcFile, resourceName, name, parametricSegment, null);
 		}
-		public static XrcItem NewConfigFile(string id, string fileName)
+		public static XrcItem NewConfigFile(string resourceName)
 		{
-			string name = GetConfigLogicalName(fileName);
-			string fileExtension = GetFileExtension(fileName);
+			string name = GetConfigLogicalName(resourceName);
 
-			return new XrcItem(XrcItemType.ConfigFile, id, fileName, name, null, fileExtension, null);
+			return new XrcItem(XrcItemType.ConfigFile, resourceName, name, null, null);
 		}
 
-		public string FileName
+		public string ResourceName
 		{
-			get { return _fileName; }
+			get { return _resourceName; }
 		}
 
 		public string Name
@@ -72,27 +67,22 @@ namespace xrc.Pages.Providers.Common
 			get { return _name; }
 		}
 
-		public string VirtualPath
+		public string ResourceLocation
 		{
-			get 
+			get
 			{
 				if (ItemType == XrcItemType.Directory)
 				{
 					if (IsRoot)
-						return UriExtensions.AppendTrailingSlash(Name);
+						return UriExtensions.AppendTrailingSlash(ResourceName);
 					else
-						return UriExtensions.AppendTrailingSlash(UriExtensions.Combine(Parent.VirtualPath, Name));
+						return UriExtensions.AppendTrailingSlash(UriExtensions.Combine(Parent.ResourceLocation, ResourceName));
 				}
-				else if (Parent != null)
-					return UriExtensions.Combine(Parent.VirtualPath, Name);
+				else if (IsRoot)
+					return UriExtensions.Combine("~/", ResourceName);
 				else
-					return UriExtensions.Combine("~/", Name);
+					return UriExtensions.Combine(Parent.ResourceLocation, ResourceName);
 			}
-		}
-
-		public string Id
-		{
-			get { return _id; }
 		}
 
 		public XrcItem Parent
@@ -205,28 +195,37 @@ namespace xrc.Pages.Providers.Common
 		public const string XRC_LAYOUT_FILE = "_layout";
 		public const string XRC_SHARED_DIRECTORY = "shared";
 		public const string XRC_DIRECTORY_CONFIG_FILE = "xrc.config";
-		//public const string XRC_FILE_EXTENSION = ".xrc";
-		//public const string XRC_FILE_PATTERN_STANDARD = "*.xrc";
-		//public const string XRC_FILE_PATTERN_EXTENDED = "*.xrc.*";
+		private static Regex _xrcFileRegEx = new Regex(@"^(?<name>.+)(?<ext>(\.xrc|\.xrc\.\w+))$", RegexOptions.Compiled);
 
 		public static string GetFileLogicalName(string fileName)
 		{
-			throw new NotImplementedException();
+			var match = _xrcFileRegEx.Match(fileName.ToLowerInvariant());
+			if (!match.Success)
+				throw new NotSupportedException(string.Format("Not valid filename '{0}'.", fileName));
+
+			return match.Groups["name"].Value;
 		}
 
 		public static string GetDirectoryLogicalName(string directoryName)
 		{
-			throw new NotImplementedException();
+			return directoryName.ToLowerInvariant();
 		}
 
 		public static string GetConfigLogicalName(string configName)
 		{
-			throw new NotImplementedException();
+			if (!string.Equals(XRC_DIRECTORY_CONFIG_FILE, configName, StringComparison.InvariantCultureIgnoreCase))
+				throw new NotSupportedException(string.Format("Not valid filename '{0}'.", configName));
+
+			return configName.ToLowerInvariant();
 		}
-		public static string GetFileExtension(string fileName)
-		{
-			throw new NotImplementedException();
-		}
+		//public static string GetFileExtension(string fileName)
+		//{
+		//    var match = _xrcFileRegEx.Match(fileName.ToLowerInvariant());
+		//    if (!match.Success)
+		//        throw new NotSupportedException(string.Format("Not valid filename '{0}'.", fileName));
+
+		//    return match.Groups["ext"].Value.ToLowerInvariant();
+		//}
 		#endregion
 	}
 

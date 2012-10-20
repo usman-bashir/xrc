@@ -45,7 +45,7 @@ namespace xrc.Pages.Providers.Common.Parsers
 			if (viewProperty == null)
 				throw new XrcException(string.Format("Property '{0}' for type '{1}' not found.", propertyName, viewComponentDefinition.Type.FullName));
 
-			string content = _pageProvider.ResourceToHtml(file.VirtualPath);
+			string content = _pageProvider.ResourceToHtml(file.ResourceLocation);
 			var propertyValue = new XValue(viewProperty.PropertyType, content);
 
 			view.Properties.Add(new XProperty(viewProperty, propertyValue));

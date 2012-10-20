@@ -9,11 +9,6 @@ namespace xrc.Pages
 {
     public interface IPage
     {
-		string Id
-		{
-			get;
-		}
-
         PageActionList Actions
         {
             get;
@@ -29,12 +24,12 @@ namespace xrc.Pages
             get;
         }
 
-		string LogicalVirtualPath
+		string VirtualPath
 		{
 			get;
 		}
 
-		string PhysicalVirtualPath
+		string ResourceLocation
 		{
 			get;
 		}
@@ -46,15 +41,10 @@ namespace xrc.Pages
 
 		ISiteConfiguration SiteConfiguration { get; }
 
-		string ToVirtualUrl(string relativeUrl, ContentUrlMode mode);
-		Uri ToAbsoluteUrl(string relativeUrl, ContentUrlMode mode);
+		string GetResourceLocation(string resourceName);
 
-		bool IsCanonicalUrl(Uri url);
-	}
-
-	public enum ContentUrlMode
-	{
-		Logical,
-		Physical
+		string GetContentVirtualUrl(string page);
+		Uri GetContentRelativeUrl(string page);
+		Uri GetContentAbsoluteUrl(string page);
 	}
 }

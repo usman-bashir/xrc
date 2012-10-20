@@ -7,9 +7,6 @@ namespace xrc.Modules
 		string Content(string contentPath);
 		string Content(string contentPathBase, string contentPath);
 
-		string Page(string contentPath);
-		string Page(string contentPathBase, string contentPath);
-
 		string Current();
 
 		string Initiator();

@@ -28,12 +28,12 @@ namespace xrc.Pages.Providers.Common.Parsers
 		// TODO E' possibile semplificare e irrobustire questo codice?
 		// TODO Potrebero esserci problemi di cache e dipendenze? Da ottimizzare in qualche modo?
 
-		protected override PageParserResult ParseFile(XrcItem file)
+		protected override PageParserResult ParseFile(XrcItem item)
 		{
 			var result = new PageParserResult();
 
 			var action = new PageAction("GET");
-			action.Layout = GetDefaultLayoutByConvention(file);
+			action.Layout = GetDefaultLayoutByConvention(item);
 
 			var moduleDefinitionList = new ModuleDefinitionList();
 			var pageParameters = new PageParameterList();
@@ -41,10 +41,10 @@ namespace xrc.Pages.Providers.Common.Parsers
 			var viewComponentDefinition = _viewCatalog.Get(typeof(XsltView).Name);
 			var view = new ViewDefinition(viewComponentDefinition, null);
 
-			XDocument xsltContent = _pageProvider.ResourceToXml(file.VirtualPath);
+			XDocument xsltContent = _pageProvider.ResourceToXml(item.ResourceLocation);
 			AddProperty(viewComponentDefinition, view, "Xslt", xsltContent);
 
-			string dataVirtualPath = file.VirtualPath.Replace(".xrc.xslt", ".xml");
+			string dataVirtualPath = item.ResourceLocation.Replace(".xrc.xslt", ".xml");
 			if (_pageProvider.ResourceExists(dataVirtualPath))
 			{
 				AddProperty(viewComponentDefinition, view, "Data", _pageProvider.ResourceToXml(dataVirtualPath));

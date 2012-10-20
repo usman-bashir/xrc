@@ -20,7 +20,7 @@ namespace DemoWebSite
         public string GetGitLink()
         {
 			// I assume that the Id contains the full path
-			var fullPath = GetOriginalContext(_context).Page.Id;
+			var fullPath = GetOriginalContext(_context).Page.ResourceLocation;
 
 			string file = fullPath.Replace(HttpContext.Current.Request.MapPath("~").ToLower(), "")
 								.Replace("\\", "/");

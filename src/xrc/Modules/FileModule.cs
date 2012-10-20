@@ -22,7 +22,7 @@ namespace xrc.Modules
 
 		public string VirtualPath(string file)
 		{
-			return UriExtensions.BuildVirtualPath(_context.Page.PhysicalVirtualPath, file);
+			return _context.Page.GetResourceLocation(file);
 		}
 
         public XDocument Xml(string file)

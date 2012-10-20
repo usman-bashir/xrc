@@ -99,7 +99,7 @@ namespace xrc.Views
         /// </summary>
         string GetViewFullName(IContext context)
         {
-			return context.Page.ToVirtualUrl(ViewUrl, Pages.ContentUrlMode.Physical);
+			return context.Page.GetResourceLocation(ViewUrl);
         }
 	}
 }

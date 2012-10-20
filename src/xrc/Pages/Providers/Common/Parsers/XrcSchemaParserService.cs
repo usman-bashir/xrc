@@ -52,12 +52,8 @@ namespace xrc.Pages.Providers.Common.Parsers
 			try
 			{
 				// TODO Valutare se usare Xpath per la lettura
-				
-				XDocument xdoc;
-				using (var stream = _pageProvider.OpenResource(item.VirtualPath))
-				{
-					xdoc = XDocument.Load(stream);
-				}
+
+				XDocument xdoc = _pageProvider.ResourceToXml(item.ResourceLocation);
 
 				var rootElement = xdoc.Element(PAGE);
 				if (rootElement == null)
@@ -73,7 +69,7 @@ namespace xrc.Pages.Providers.Common.Parsers
 			}
 			catch (Exception ex)
 			{
-				throw new XrcException(string.Format("Failed to parse '{0}'.", item.VirtualPath), ex);
+				throw new XrcException(string.Format("Failed to parse '{0}'.", item.ResourceLocation), ex);
 			}
 
 			return result;
@@ -216,20 +212,20 @@ namespace xrc.Pages.Providers.Common.Parsers
 				{
 					// TODO Quando e se si metterà in cache il file xrc con dipendenza al file stesso ricordarsi di considerare anche questi file (letti inline per le property).
 
-					string fileVirtualPath = UriExtensions.BuildVirtualPath(item.VirtualPath, value);
+					string resourceLocation = UriExtensions.BuildVirtualPath(item.ResourceLocation, value);
 					if (propertyBase.PropertyType == typeof(XDocument))
 					{
-						var xValue = new XValue(propertyBase.PropertyType, _pageProvider.ResourceToXml(fileVirtualPath));
+						var xValue = new XValue(propertyBase.PropertyType, _pageProvider.ResourceToXml(resourceLocation));
 						return new XProperty(propertyBase, xValue);
 					}
 					else if (propertyBase.PropertyType == typeof(string))
 					{
-						var xValue = new XValue(propertyBase.PropertyType, _pageProvider.ResourceToText(fileVirtualPath));
+						var xValue = new XValue(propertyBase.PropertyType, _pageProvider.ResourceToText(resourceLocation));
 						return new XProperty(propertyBase, xValue);
 					}
 					else if (propertyBase.PropertyType == typeof(byte[]))
 					{
-						var xValue = new XValue(propertyBase.PropertyType, _pageProvider.ResourceToBytes(fileVirtualPath));
+						var xValue = new XValue(propertyBase.PropertyType, _pageProvider.ResourceToBytes(resourceLocation));
 						return new XProperty(propertyBase, xValue);
 					}
 				}

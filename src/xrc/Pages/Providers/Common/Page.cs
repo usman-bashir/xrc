@@ -9,13 +9,12 @@ namespace xrc.Pages.Providers.Common
 {
 	public class Page : IPage
 	{
-		readonly string _Id;
 		readonly PageActionList _actions;
 		readonly PageParameterList _parameters;
 		readonly ModuleDefinitionList _modules;
 		readonly Sites.ISiteConfiguration _siteConfiguration;
 		readonly string _virtualPath;
-		readonly string _physicalVirtualPath;
+		readonly string _resourceLocation;
 		readonly Dictionary<string, string> _urlSegmentsParameters;
 
 		public Page(XrcItem item, 
@@ -29,13 +28,7 @@ namespace xrc.Pages.Providers.Common
 			_siteConfiguration = siteConfiguration;
 			_urlSegmentsParameters = locatorResult.UrlSegmentsParameters;
 			_virtualPath = locatorResult.VirtualPath;
-			_physicalVirtualPath = item.VirtualPath;
-			_Id = item.Id;
-		}
-
-		public string Id
-		{
-			get { return _Id; }
+			_resourceLocation = item.ResourceLocation;
 		}
 
 		public PageActionList Actions
@@ -58,51 +51,41 @@ namespace xrc.Pages.Providers.Common
 			get { return _siteConfiguration; }
 		}
 
-		/// <summary>
-		/// This is a virtual path with the parameters resolved. Example: ~/athletes/phelps/index
-		/// </summary>
-		public string LogicalVirtualPath
-		{
-			get { return _virtualPath; }
-		}
-
-		/// <summary>
-		/// This is a virtual path with the parameters not resolved. Example: ~/athletes/{name}/index
-		/// </summary>
-		public string PhysicalVirtualPath
-		{
-			get { return _physicalVirtualPath; }
-		}
-
 		public Dictionary<string, string> UrlSegmentsParameters
 		{
 			get { return _urlSegmentsParameters; }
 		}
 
-		public string ToVirtualUrl(string relativeUrl, ContentUrlMode mode)
+		public string VirtualPath
 		{
-			switch (mode)
-			{
-				case ContentUrlMode.Logical:
-					return UriExtensions.BuildVirtualPath(LogicalVirtualPath, relativeUrl);
-				case ContentUrlMode.Physical:
-					return UriExtensions.BuildVirtualPath(PhysicalVirtualPath, relativeUrl);
-				default:
-					throw new XrcException(string.Format("Mode '{0}' not valid.", mode));
-			}
+			get { return _virtualPath; }
 		}
-		public Uri ToAbsoluteUrl(string relativeUrl, ContentUrlMode mode)
+
+		public string ResourceLocation
 		{
-			string virtualUrl = ToVirtualUrl(relativeUrl, mode);
+			get { return _resourceLocation; }
+		}
+
+		public string GetResourceLocation(string resourceName)
+		{
+			return UriExtensions.BuildVirtualPath(ResourceLocation, resourceName);
+		}
+
+		public string GetContentVirtualUrl(string page)
+		{
+			return UriExtensions.BuildVirtualPath(VirtualPath, page);
+		}
+
+		public Uri GetContentRelativeUrl(string page)
+		{
+			string virtualUrl = GetContentVirtualUrl(page);
+			return SiteConfiguration.VirtualUrlToRelative(virtualUrl);
+		}
+
+		public Uri GetContentAbsoluteUrl(string page)
+		{
+			string virtualUrl = GetContentVirtualUrl(page);
 			return SiteConfiguration.VirtualUrlToAbsolute(virtualUrl);
-		}
-
-		public bool IsCanonicalUrl(Uri url)
-		{
-			Uri expectedUrl = _siteConfiguration.VirtualUrlToRelative(LogicalVirtualPath);
-			Uri actualUrl = _siteConfiguration.AbsoluteUrlToRelative(url);
-
-			return string.Equals(expectedUrl.ToString(), actualUrl.ToString(), StringComparison.Ordinal);
 		}
 	}
 }

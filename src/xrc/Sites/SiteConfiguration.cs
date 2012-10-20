@@ -65,7 +65,22 @@ namespace xrc.Sites
 
 		public Uri AbsoluteUrlToRelative(Uri absoluteUrl)
 		{
-			throw new NotImplementedException();
+			if (!absoluteUrl.IsAbsoluteUri)
+				throw new UriFormatException(string.Format("Url '{0}' is not absolute.", absoluteUrl));
+
+			absoluteUrl = absoluteUrl.ToLower();
+
+			Uri resultUri;
+			if (SecureUri.IsBaseOfWithPath(absoluteUrl))
+				resultUri = absoluteUrl.MakeRelativeUriEx(SecureUri);
+			else if (Uri.IsBaseOfWithPath(absoluteUrl))
+				resultUri = absoluteUrl.MakeRelativeUriEx(Uri);
+			else
+				throw new SiteConfigurationMismatchException(string.Format("Uri '{0}' is not valid for site '{1}'.", absoluteUrl, Key));
+
+			System.Diagnostics.Debug.Assert(!resultUri.IsAbsoluteUri);
+
+			return resultUri;
 		}
 		public string RelativeUrlToVirtual(Uri relativeUrl)
 		{
@@ -82,31 +97,8 @@ namespace xrc.Sites
 
 #warning Metodi absoleti da rimuovere
 
-
-        public Uri ToRelativeUrl(Uri absoluteUrl)
-        {
-            if (!absoluteUrl.IsAbsoluteUri)
-                throw new UriFormatException(string.Format("Url '{0}' is not absolute.", absoluteUrl));
-
-            absoluteUrl = absoluteUrl.ToLower();
-
-            Uri resultUri;
-            if (SecureUri.IsBaseOfWithPath(absoluteUrl))
-                resultUri = absoluteUrl.MakeRelativeUriEx(SecureUri);
-            else if (Uri.IsBaseOfWithPath(absoluteUrl))
-                resultUri = absoluteUrl.MakeRelativeUriEx(Uri);
-            else
-				throw new SiteConfigurationMismatchException(string.Format("Uri '{0}' is not valid for site '{1}'.", absoluteUrl, Key));
-
-			System.Diagnostics.Debug.Assert(!resultUri.IsAbsoluteUri);
-
-            return resultUri;
-        }
-
 		public Uri ToAbsoluteUrl(string virtualUrl, Uri contextUrl)
         {
-            // Similar code of UrlHelper.Content Method
-
 			if (contextUrl == null || !contextUrl.IsAbsoluteUri)
 				throw new UriFormatException(string.Format("Context url '{0}' is not valid. Expected an absolute url.", contextUrl));
 
@@ -123,8 +115,6 @@ namespace xrc.Sites
 			}
 			else
 				resultUri = new System.Uri(contextUrl, virtualUrl);
-
-			System.Diagnostics.Debug.Assert(resultUri.IsAbsoluteUri);
 
 			return resultUri;
         }

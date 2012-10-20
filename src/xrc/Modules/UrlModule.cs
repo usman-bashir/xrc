@@ -19,19 +19,9 @@ namespace xrc.Modules
             _urlHelper = new System.Web.Mvc.UrlHelper(new XrcRequestContext(context));
         }
 
-		public string Page(string contentPath)
-		{
-			return _context.Page.ToVirtualUrl(contentPath, Pages.ContentUrlMode.Logical);
-		}
-
-		public string Page(string contentPathBase, string contentPath)
-		{
-			return UriExtensions.Combine(Content(contentPathBase), contentPath);
-		}
-
 		public string Content(string contentPath)
 		{
-			return _context.Page.ToVirtualUrl(contentPath, Pages.ContentUrlMode.Physical);
+			return _context.Page.GetContentRelativeUrl(contentPath).ToString();
 		}
 
 		public string Content(string contentPathBase, string contentPath)

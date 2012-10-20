@@ -29,7 +29,7 @@ namespace xrc.Pages.Providers.Common
         {
 			var parser = _parsers.FirstOrDefault(p => p.CanParse(item));
 			if (parser == null)
-				throw new XrcException(string.Format("Cannot find a parser for file '{0}'.", item.VirtualPath));
+				throw new XrcException(string.Format("Cannot find a parser for '{0}'.", item.ResourceLocation));
 
 			return parser.Parse(item);
 		}

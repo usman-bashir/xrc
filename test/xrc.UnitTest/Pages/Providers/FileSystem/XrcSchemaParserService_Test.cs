@@ -19,8 +19,7 @@ namespace xrc.Pages.Providers.FileSystem
         [TestMethod]
         public void It_Should_be_possible_to_parse_page_parameters()
         {
-			PageParserResult page = TargetParse(@"
-<?xml version='1.0' encoding='utf-8' ?>
+			PageParserResult page = TargetParse(@"<?xml version='1.0' encoding='utf-8' ?>
 <xrc:page xmlns:xrc='urn:xrc'>
 	<xrc:parameters>
 		<xrc:add key='title' value='My page title' />
@@ -39,8 +38,7 @@ namespace xrc.Pages.Providers.FileSystem
         [TestMethod]
         public void It_Should_be_possible_to_parse_page_multiple_parameters()
         {
-			PageParserResult page = TargetParse(@"
-<?xml version='1.0' encoding='utf-8' ?>
+			PageParserResult page = TargetParse(@"<?xml version='1.0' encoding='utf-8' ?>
 <xrc:page xmlns:xrc='urn:xrc'>
 	<xrc:parameters>
 		<xrc:add key='p1' value='My page title' allowRequestOverride='false' />
@@ -64,8 +62,7 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
         public void It_Should_be_possible_to_parse_page_script()
 		{
-			PageParserResult page = TargetParse(@"
-<?xml version='1.0' encoding='utf-8' ?>
+			PageParserResult page = TargetParse(@"<?xml version='1.0' encoding='utf-8' ?>
 <xrc:page xmlns:xrc='urn:xrc'>
 	<xrc:action>
 		<xrc:TestView>
@@ -85,8 +82,7 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_action_without_method_default_to_GET()
 		{
-			PageParserResult page = TargetParse(@"
-<?xml version='1.0' encoding='utf-8' ?>
+			PageParserResult page = TargetParse(@"<?xml version='1.0' encoding='utf-8' ?>
 <xrc:page xmlns:xrc='urn:xrc'>
 	<xrc:action>
 	</xrc:action>
@@ -100,8 +96,7 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_action_with_explicit_get()
 		{
-			PageParserResult page = TargetParse(@"
-<?xml version='1.0' encoding='utf-8' ?>
+			PageParserResult page = TargetParse(@"<?xml version='1.0' encoding='utf-8' ?>
 <xrc:page xmlns:xrc='urn:xrc'>
 	<xrc:action method='GET'>
 	</xrc:action>
@@ -115,8 +110,7 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_actions_with_multiple_methods()
 		{
-			PageParserResult page = TargetParse(@"
-<?xml version='1.0' encoding='utf-8' ?>
+			PageParserResult page = TargetParse(@"<?xml version='1.0' encoding='utf-8' ?>
 <xrc:page xmlns:xrc='urn:xrc'>
 	<xrc:action method='GET'>
 	</xrc:action>
@@ -139,8 +133,7 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_page_with_TestView_and_inline_xml_data()
 		{
-			PageParserResult page = TargetParse(@"
-<?xml version='1.0' encoding='utf-8' ?>
+			PageParserResult page = TargetParse(@"<?xml version='1.0' encoding='utf-8' ?>
 <xrc:page xmlns:xrc='urn:xrc'>
 	<xrc:action>
 		<xrc:TestView>
@@ -163,8 +156,7 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_fileInclude_page_xml()
 		{
-			PageParserResult page = TargetParse(@"
-<?xml version='1.0' encoding='utf-8' ?>
+			PageParserResult page = TargetParse(@"<?xml version='1.0' encoding='utf-8' ?>
 <xrc:page xmlns:xrc='urn:xrc'>
 	<xrc:action>
 		<xrc:TestView>
@@ -186,8 +178,7 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_fileInclude_page_text()
 		{
-			PageParserResult page = TargetParse(@"
-<?xml version='1.0' encoding='utf-8' ?>
+			PageParserResult page = TargetParse(@"<?xml version='1.0' encoding='utf-8' ?>
 <xrc:page xmlns:xrc='urn:xrc'>
 	<xrc:action>
 		<xrc:TestView>
@@ -208,8 +199,7 @@ namespace xrc.Pages.Providers.FileSystem
         [TestMethod]
         public void It_Should_be_possible_to_parse_page_with_multiple_slots()
         {
-			PageParserResult page = TargetParse(@"
-<?xml version='1.0' encoding='utf-8' ?>
+			PageParserResult page = TargetParse(@"<?xml version='1.0' encoding='utf-8' ?>
 <xrc:page xmlns:xrc='urn:xrc'>
 	<xrc:action method='GET'>
 		<xrc:TestView slot='SLOT1' />
@@ -242,8 +232,8 @@ namespace xrc.Pages.Providers.FileSystem
 
 		private XrcItem GetItem(string fileName)
 		{
-			var item = XrcItem.NewXrcFile("id", fileName);
-			var xrcRoot = XrcItem.NewRoot("root", item);
+			var item = XrcItem.NewXrcFile(fileName);
+			var xrcRoot = XrcItem.NewRoot(item);
 
 			return item;
 		}
@@ -254,12 +244,12 @@ namespace xrc.Pages.Providers.FileSystem
 			var expectedContent = XDocument.Parse(xrcContent);
 
 			var pageProvider = new Mock<IPageProviderService>();
-			pageProvider.Setup(p => p.ResourceToXml(item.VirtualPath)).Returns(expectedContent);
-			pageProvider.Setup(p => p.ResourceToXml(UriExtensions.BuildVirtualPath(item.VirtualPath, "fileInclude.xml")))
+			pageProvider.Setup(p => p.ResourceToXml(item.ResourceLocation)).Returns(expectedContent);
+			pageProvider.Setup(p => p.ResourceToXml(UriExtensions.BuildVirtualPath(item.ResourceLocation, "fileInclude.xml")))
 							.Returns(XDocument.Parse(@"<bookstore><book><title>Book 1</title></book></bookstore>"));
-			pageProvider.Setup(p => p.ResourceToText(UriExtensions.BuildVirtualPath(item.VirtualPath, "fileInclude.txt")))
+			pageProvider.Setup(p => p.ResourceToText(UriExtensions.BuildVirtualPath(item.ResourceLocation, "fileInclude.txt")))
 							.Returns("File content");
-			pageProvider.Setup(p => p.ResourceToBytes(UriExtensions.BuildVirtualPath(item.VirtualPath, "fileInclude.ico")))
+			pageProvider.Setup(p => p.ResourceToBytes(UriExtensions.BuildVirtualPath(item.ResourceLocation, "fileInclude.ico")))
 							.Returns(new byte[]{ 0, 1, 2, 3 });
 
 			var target = new XrcSchemaParserService(pageProvider.Object,

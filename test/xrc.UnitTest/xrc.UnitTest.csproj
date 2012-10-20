@@ -79,7 +79,7 @@
     <Compile Include="Pages\Providers\FileSystem\XHtmlParserService_Test.cs" />
     <Compile Include="Pages\Providers\FileSystem\XrcParserService_Test.cs" />
     <Compile Include="Pages\Providers\FileSystem\PageParserResult_Test.cs" />
-    <Compile Include="Pages\Providers\FileSystem\XrcItem_Test.cs" />
+    <Compile Include="Pages\Providers\Common\XrcItem_Test.cs" />
     <Compile Include="Pages\Providers\FileSystem\FileSystemPageProviderService_Test.cs" />
     <Compile Include="Pages\ParametricUriSegment_Test.cs" />
     <Compile Include="UriExtensions_Test.cs" />

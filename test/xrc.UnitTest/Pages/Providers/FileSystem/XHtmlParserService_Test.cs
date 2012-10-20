@@ -46,10 +46,10 @@ namespace xrc.Pages.Providers.FileSystem
 		{
 			var viewType = typeof(XHtmlView);
 
-			var item = XrcItem.NewXrcFile("id", "item.xrc");
-			var layout = XrcItem.NewXrcFile("id", "_layout.xrc");
-			var shared = XrcItem.NewDirectory("sh", "shared", layout);
-			var xrcRoot = XrcItem.NewRoot("root", shared, item);
+			var item = XrcItem.NewXrcFile("item.xrc");
+			var layout = XrcItem.NewXrcFile("_layout.xrc");
+			var shared = XrcItem.NewDirectory("shared", layout);
+			var xrcRoot = XrcItem.NewRoot(shared, item);
 
 			var expectedContent = new XDocument(new XElement("test"));
 
@@ -73,8 +73,8 @@ namespace xrc.Pages.Providers.FileSystem
 
 		private XrcItem GetItem(string fileName)
 		{
-			var item = XrcItem.NewXrcFile("id", fileName);
-			var xrcRoot = XrcItem.NewRoot("root", item);
+			var item = XrcItem.NewXrcFile(fileName);
+			var xrcRoot = XrcItem.NewRoot(item);
 
 			return item;
 		}

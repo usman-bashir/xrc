@@ -10,7 +10,7 @@ namespace xrc.Mocks
 {
     class PageProviderServiceMock : IPageProviderService
     {
-		public bool IsDefined(Uri url)
+		public bool PageExists(Uri url)
 		{
 			throw new NotImplementedException();
 		}

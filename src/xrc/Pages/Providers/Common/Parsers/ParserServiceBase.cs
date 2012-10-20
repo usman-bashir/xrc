@@ -28,7 +28,7 @@ namespace xrc.Pages.Providers.Common.Parsers
 
 		public bool CanParse(XrcItem file)
 		{
-			return file.FileName.EndsWith(_extension, StringComparison.InvariantCultureIgnoreCase);
+			return file.ResourceName.EndsWith(_extension, StringComparison.InvariantCultureIgnoreCase);
 		}
 
 		public PageParserResult Parse(XrcItem item)
@@ -84,7 +84,8 @@ namespace xrc.Pages.Providers.Common.Parsers
 		{
 			var layoutFile = item.LayoutFile;
 			if (layoutFile != null)
-				return layoutFile.VirtualPath;
+#warning Probabilmente qui bisogna restituire ~/path/_layout e non ~/path/_layout.xrc
+				return layoutFile.ResourceLocation;
 
 			return null;
 		}

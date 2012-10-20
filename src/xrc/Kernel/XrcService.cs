@@ -106,7 +106,7 @@ namespace xrc
 
 		public bool Match(IContext context)
 		{
-			return _pageProvider.IsDefined(context.Request.Url);
+			return _pageProvider.PageExists(context.Request.Url);
 		}
 
 		public void ProcessRequest(IContext context)
@@ -118,11 +118,12 @@ namespace xrc
 				return;
 			}
 
-			// TODO Why we need to redirect to canonical Url? Only for caching? I think there is another reason but I don't remeber...
-			if (!context.Page.IsCanonicalUrl(context.Request.Url))
+			// Why to redirect to canonical Url to have always the same url (for caching) and for better url architecture
+			if (!IsCanonicalUrl(context.Page, context.Request.Url))
 			{
-				Uri redirectUrl = context.Page.SiteConfiguration.VirtualUrlToRelative(context.Page.LogicalVirtualPath);
-				ProcessPermanentRedirect(context, redirectUrl);
+				UriBuilder redirectUrl = new UriBuilder(context.Page.SiteConfiguration.VirtualUrlToRelative(context.Page.VirtualPath));
+				redirectUrl.Query = context.Request.Url.Query;
+				ProcessPermanentRedirect(context, redirectUrl.Uri);
 				return;
 			}
 
@@ -152,6 +153,14 @@ namespace xrc
 			}
 		}
 
+		private bool IsCanonicalUrl(IPage page, Uri requestUri)
+		{
+			var canonicalPath = page.SiteConfiguration.VirtualUrlToRelative(page.VirtualPath).GetPath();
+			var requestedPath = requestUri.GetPath();
+
+			return string.Equals(canonicalPath, requestedPath, StringComparison.Ordinal);
+		}
+
 		private void RenderLayout(IContext childContext, PageAction childAction, Dictionary<string, object> childModules)
 		{
 			HttpResponseBase currentResponse = childContext.Response;
@@ -161,7 +170,7 @@ namespace xrc
 			// The event will be called from the layout action by using Cms.Slot().
 			// Parameters will be also copied from slot to layout.
 
-			Uri layoutUrl = childContext.Page.ToAbsoluteUrl(childAction.Layout.ToLower(), ContentUrlMode.Logical);
+			Uri layoutUrl = childContext.Page.GetContentAbsoluteUrl(childAction.Layout.ToLower());
 			Context layoutContext = new Context(new XrcRequest(layoutUrl, parentRequest: childContext.Request), currentResponse);
 			layoutContext.CallerContext = childContext;
 			foreach (var item in childContext.Parameters)

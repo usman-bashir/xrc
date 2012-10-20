@@ -23,7 +23,7 @@ namespace xrc.Pages.Providers.FileSystem
 		{
 			// TODO Mettere in cache questo valore (dipendenza a file?) o gestirlo a livello di classe (FileSystemWatcher?)
 
-			var root = XrcItem.NewRoot(_rootPath.PhysicalPath);
+			var root = XrcItem.NewRoot();
 			FillItems(root);
 
 			return root;
@@ -34,19 +34,21 @@ namespace xrc.Pages.Providers.FileSystem
 			if (item.ItemType != XrcItemType.Directory)
 				return;
 
-			var directories = Directory.GetDirectories(item.Id)
-										.Select(p => XrcItem.NewDirectory(p, Path.GetFileName(p)));
+			string directoryPath = _rootPath.MapPath(item.ResourceLocation);
+
+			var directories = Directory.GetDirectories(directoryPath)
+										.Select(p => XrcItem.NewDirectory(Path.GetFileName(p)));
 			item.Items.AddRange(directories);
 
 			foreach (var parser in _parsers)
 			{
-				var parserFiles = Directory.GetFiles(item.Id, string.Format("*.{0}", parser.Extension))
-												.Select(p => XrcItem.NewXrcFile(p, Path.GetFileName(p)));
+				var parserFiles = Directory.GetFiles(directoryPath, string.Format("*.{0}", parser.Extension))
+												.Select(p => XrcItem.NewXrcFile(Path.GetFileName(p)));
 				item.Items.AddRange(parserFiles);
 			}
 
-			var configFiles = Directory.GetFiles(item.Id, XrcItem.XRC_DIRECTORY_CONFIG_FILE)
-											.Select(p => XrcItem.NewConfigFile(p, Path.GetFileName(p)));
+			var configFiles = Directory.GetFiles(directoryPath, XrcItem.XRC_DIRECTORY_CONFIG_FILE)
+											.Select(p => XrcItem.NewConfigFile(Path.GetFileName(p)));
 			item.Items.AddRange(configFiles);
 
 			foreach (var subItem in item.Items)

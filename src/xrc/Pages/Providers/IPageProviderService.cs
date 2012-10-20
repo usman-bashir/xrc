@@ -8,7 +8,7 @@ namespace xrc.Pages.Providers
 {
 	public interface IPageProviderService
 	{
-		bool IsDefined(Uri url);
+		bool PageExists(Uri url);
 
 		IPage GetPage(Uri url);
 
