@@ -46,8 +46,10 @@ namespace xrc.Pages.Providers.FileSystem
 
 		private XrcItem GetItem(string fileName)
 		{
-			var xrcRoot = XrcItem.NewRoot("root");
-			return XrcItem.NewXrcFile(xrcRoot, "id", fileName);
+			var item = XrcItem.NewXrcFile("id", fileName);
+			var xrcRoot = XrcItem.NewRoot("root", item);
+
+			return item;
 		}
     }
 }

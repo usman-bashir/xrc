@@ -44,12 +44,12 @@ namespace xrc.Pages.Providers.FileSystem
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_xhtml_page_with_layout()
 		{
-			var xrcRoot = XrcItem.NewRoot("root");
-			var item = XrcItem.NewXrcFile(xrcRoot, "id", "item.xrc");
-			var shared = XrcItem.NewDirectory(xrcRoot, "sh", "shared");
-			var layout = XrcItem.NewXrcFile(shared, "id", "_layout.xrc");
-			shared.Items.Add(layout);
-			xrcRoot.Items.Add(item);
+			var viewType = typeof(XHtmlView);
+
+			var item = XrcItem.NewXrcFile("id", "item.xrc");
+			var layout = XrcItem.NewXrcFile("id", "_layout.xrc");
+			var shared = XrcItem.NewDirectory("sh", "shared", layout);
+			var xrcRoot = XrcItem.NewRoot("root", shared, item);
 
 			var expectedContent = new XDocument(new XElement("test"));
 
@@ -61,7 +61,8 @@ namespace xrc.Pages.Providers.FileSystem
 			var target = new XHtmlParserService(schemaParser.Object, viewCatalog, pageProvider.Object);
 
 			var page = target.Parse(GetItem("item.xrc.xhtml"));
-			var view = page.Actions["GET"].Views.Single();
+			var action = page.Actions["GET"];
+			var view = action.Views.Single();
 			Assert.AreEqual(viewType, view.Component.Type);
 
 			var content = (XDocument)view.Properties["Content"].Value.Value;
@@ -72,8 +73,10 @@ namespace xrc.Pages.Providers.FileSystem
 
 		private XrcItem GetItem(string fileName)
 		{
-			var xrcRoot = XrcItem.NewRoot("root");
-			return XrcItem.NewXrcFile(xrcRoot, "id", fileName);
+			var item = XrcItem.NewXrcFile("id", fileName);
+			var xrcRoot = XrcItem.NewRoot("root", item);
+
+			return item;
 		}
     }
 }

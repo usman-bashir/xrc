@@ -35,18 +35,18 @@ namespace xrc.Pages.Providers.FileSystem
 				return;
 
 			var directories = Directory.GetDirectories(item.Id)
-										.Select(p => XrcItem.NewDirectory(item, p, Path.GetFileName(p)));
+										.Select(p => XrcItem.NewDirectory(p, Path.GetFileName(p)));
 			item.Items.AddRange(directories);
 
 			foreach (var parser in _parsers)
 			{
 				var parserFiles = Directory.GetFiles(item.Id, string.Format("*.{0}", parser.Extension))
-												.Select(p => XrcItem.NewXrcFile(item, p, Path.GetFileName(p)));
+												.Select(p => XrcItem.NewXrcFile(p, Path.GetFileName(p)));
 				item.Items.AddRange(parserFiles);
 			}
 
 			var configFiles = Directory.GetFiles(item.Id, XrcItem.XRC_DIRECTORY_CONFIG_FILE)
-											.Select(p => XrcItem.NewConfigFile(item, p, Path.GetFileName(p)));
+											.Select(p => XrcItem.NewConfigFile(p, Path.GetFileName(p)));
 			item.Items.AddRange(configFiles);
 
 			foreach (var subItem in item.Items)

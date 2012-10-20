@@ -8,6 +8,8 @@ using xrc.Script;
 using Moq;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using xrc.Pages.Providers.Common.Parsers;
+using xrc.Pages.Providers.Common;
 
 namespace xrc.Pages.Providers.FileSystem
 {
@@ -15,15 +17,18 @@ namespace xrc.Pages.Providers.FileSystem
     public class XrcSchemaParserService_Test
     {
         [TestMethod]
-        public void It_Should_be_possible_to_parse_example5_page_parameter()
+        public void It_Should_be_possible_to_parse_page_parameters()
         {
-			var file = TestHelper.GetPath(@"sampleWebSite2\example5.xrc");
+			PageParserResult page = TargetParse(@"
+<?xml version='1.0' encoding='utf-8' ?>
+<xrc:page xmlns:xrc='urn:xrc'>
+	<xrc:parameters>
+		<xrc:add key='title' value='My page title' />
+		<xrc:add key='timeout' value='100' type='System.Int32' />
+	</xrc:parameters>
+</xrc:page>
+");
 
-			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(), 
-                                        new Mocks.ModuleCatalogServiceMock(null), 
-                                        new Mocks.ViewCatalogServiceMock(TestView.Definition));
-
-            PageParserResult page = target.Parse(file);
             Assert.AreEqual("My page title", page.Parameters["title"].Value.ToString());
             Assert.AreEqual(typeof(string), page.Parameters["title"].Value.ValueType);
 
@@ -32,16 +37,21 @@ namespace xrc.Pages.Providers.FileSystem
 		}
 
         [TestMethod]
-        public void It_Should_be_possible_to_parse_example2_page_multiple_parameters()
+        public void It_Should_be_possible_to_parse_page_multiple_parameters()
         {
-			var file = TestHelper.GetPath(@"sampleWebSite2\example2.xrc");
+			PageParserResult page = TargetParse(@"
+<?xml version='1.0' encoding='utf-8' ?>
+<xrc:page xmlns:xrc='urn:xrc'>
+	<xrc:parameters>
+		<xrc:add key='p1' value='My page title' allowRequestOverride='false' />
+		<xrc:add key='p2' allowRequestOverride='true' />
+		<xrc:add key='p3' />
+		<xrc:add key='p4' />
+		<xrc:add key='p5' value='p5 value' />
+	</xrc:parameters>
+</xrc:page>");
 
-			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(),
-                                        new Mocks.ModuleCatalogServiceMock(null),
-                                        new Mocks.ViewCatalogServiceMock(TestView.Definition));
-
-			PageParserResult page = target.Parse(file);
-            Assert.AreEqual(5, page.Parameters.Count);
+			Assert.AreEqual(5, page.Parameters.Count);
             Assert.AreEqual(false, page.Parameters["p1"].AllowRequestOverride);
             Assert.AreEqual("My page title", page.Parameters["p1"].Value.Value);
             Assert.AreEqual(true, page.Parameters["p2"].AllowRequestOverride);
@@ -52,15 +62,19 @@ namespace xrc.Pages.Providers.FileSystem
         }
 
 		[TestMethod]
-        public void It_Should_be_possible_to_parse_example1_page_using_script()
+        public void It_Should_be_possible_to_parse_page_script()
 		{
-			var file = TestHelper.GetPath(@"sampleWebSite2\example1.xrc");
+			PageParserResult page = TargetParse(@"
+<?xml version='1.0' encoding='utf-8' ?>
+<xrc:page xmlns:xrc='urn:xrc'>
+	<xrc:action>
+		<xrc:TestView>
+			<scriptProperty>@DummyScript</scriptProperty>
+		</xrc:TestView>
+	</xrc:action>
+</xrc:page>
+");
 
-			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(),
-										new Mocks.ModuleCatalogServiceMock(null),
-										new Mocks.ViewCatalogServiceMock(TestView.Definition));
-
-			PageParserResult page = target.Parse(file);
 			PageAction action = page.Actions["get"];
 			var view = action.Views.Single();
 			Assert.AreEqual(1, view.Properties.Count());
@@ -69,69 +83,120 @@ namespace xrc.Pages.Providers.FileSystem
         }
 
 		[TestMethod]
-		public void It_Should_be_possible_to_parse_example6_action_without_method_default_to_GET()
+		public void It_Should_be_possible_to_parse_action_without_method_default_to_GET()
 		{
-			var file = TestHelper.GetPath(@"sampleWebSite2\example6.xrc");
+			PageParserResult page = TargetParse(@"
+<?xml version='1.0' encoding='utf-8' ?>
+<xrc:page xmlns:xrc='urn:xrc'>
+	<xrc:action>
+	</xrc:action>
+</xrc:page>
+");
 
-			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(),
-										new Mocks.ModuleCatalogServiceMock(null),
-										new Mocks.ViewCatalogServiceMock(TestView.Definition));
-
-			PageParserResult page = target.Parse(file);
 			Assert.AreEqual(1, page.Actions.Count);
-			Assert.AreEqual("get", page.Actions.First().Method);
+			Assert.AreEqual("get", page.Actions.Single().Method);
 		}
 
 		[TestMethod]
-		public void It_Should_be_possible_to_parse_example2_page_with_inline_xml_data()
+		public void It_Should_be_possible_to_parse_action_with_explicit_get()
 		{
-			var file = TestHelper.GetPath(@"sampleWebSite2\example2.xrc");
+			PageParserResult page = TargetParse(@"
+<?xml version='1.0' encoding='utf-8' ?>
+<xrc:page xmlns:xrc='urn:xrc'>
+	<xrc:action method='GET'>
+	</xrc:action>
+</xrc:page>
+");
 
-			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(),
-                                        new Mocks.ModuleCatalogServiceMock(null),
-                                        new Mocks.ViewCatalogServiceMock(TestView.Definition));
+			Assert.AreEqual(1, page.Actions.Count);
+			Assert.AreEqual("get", page.Actions.Single().Method);
+		}
 
-			PageParserResult page = target.Parse(file);
+		[TestMethod]
+		public void It_Should_be_possible_to_parse_actions_with_multiple_methods()
+		{
+			PageParserResult page = TargetParse(@"
+<?xml version='1.0' encoding='utf-8' ?>
+<xrc:page xmlns:xrc='urn:xrc'>
+	<xrc:action method='GET'>
+	</xrc:action>
+	<xrc:action method='put'>
+	</xrc:action>
+	<xrc:action method='POST'>
+	</xrc:action>
+	<xrc:action method='DELETE'>
+	</xrc:action>
+</xrc:page>
+");
+
+			Assert.AreEqual(1, page.Actions.Count);
+			Assert.IsNotNull(page.Actions["GET"]);
+			Assert.IsNotNull(page.Actions["PUT"]);
+			Assert.IsNotNull(page.Actions["POST"]);
+			Assert.IsNotNull(page.Actions["DELETE"]);
+		}
+
+		[TestMethod]
+		public void It_Should_be_possible_to_parse_page_with_TestView_and_inline_xml_data()
+		{
+			PageParserResult page = TargetParse(@"
+<?xml version='1.0' encoding='utf-8' ?>
+<xrc:page xmlns:xrc='urn:xrc'>
+	<xrc:action>
+		<xrc:TestView>
+			<XDocProperty xmlns=''>
+				<bookstore />
+			</XDocProperty>
+		</xrc:TestView>
+	</xrc:action>
+</xrc:page>
+");
+
             PageAction action = page.Actions["GET"];
             var view = action.Views.Single();
             Assert.AreEqual(typeof(TestView), view.Component.Type);
             XDocument xmlData = (XDocument)view.Properties["XDocProperty"].Value.Value;
 
-            var xpath = xmlData.CreateNavigator().Select("book[1]/title");
-            while (xpath.MoveNext())
-                Assert.AreEqual("Book 1", xpath.Current.Value);
+			Assert.AreEqual("bookstore", xmlData.Root.Name);
         }
 
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_fileInclude_page_xml()
 		{
-			var file = TestHelper.GetPath(@"sampleWebSite2\fileIncludeXml.xrc");
+			PageParserResult page = TargetParse(@"
+<?xml version='1.0' encoding='utf-8' ?>
+<xrc:page xmlns:xrc='urn:xrc'>
+	<xrc:action>
+		<xrc:TestView>
+			<XDocPropertyFile>fileInclude.xml</XDocPropertyFile>
+		</xrc:TestView>
+	</xrc:action>
+</xrc:page>
+");
 
-			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(),
-										new Mocks.ModuleCatalogServiceMock(null),
-										new Mocks.ViewCatalogServiceMock(TestView.Definition));
-
-			PageParserResult page = target.Parse(file);
 			PageAction action = page.Actions["GET"];
 			var view = action.Views.Single();
 			Assert.AreEqual(typeof(TestView), view.Component.Type);
 			XDocument xmlData = (XDocument)view.Properties["XDocProperty"].Value.Value;
 
-			var xpath = xmlData.CreateNavigator().Select("book[1]/title");
-			while (xpath.MoveNext())
-				Assert.AreEqual("Book 1", xpath.Current.Value);
+			var xpath = xmlData.CreateNavigator().SelectSingleNode("book[1]/title");
+			Assert.AreEqual("Book 1", xpath.Value);
 		}
 
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_fileInclude_page_text()
 		{
-			var file = TestHelper.GetPath(@"sampleWebSite2\fileIncludeText.xrc");
+			PageParserResult page = TargetParse(@"
+<?xml version='1.0' encoding='utf-8' ?>
+<xrc:page xmlns:xrc='urn:xrc'>
+	<xrc:action>
+		<xrc:TestView>
+			<TextPropertyFile>fileInclude.txt</TextPropertyFile>
+		</xrc:TestView>
+	</xrc:action>
+</xrc:page>
+");
 
-			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(),
-										new Mocks.ModuleCatalogServiceMock(null),
-										new Mocks.ViewCatalogServiceMock(TestView.Definition));
-
-			PageParserResult page = target.Parse(file);
 			PageAction action = page.Actions["GET"];
 			var view = action.Views.Single();
 			Assert.AreEqual(typeof(TestView), view.Component.Type);
@@ -141,15 +206,19 @@ namespace xrc.Pages.Providers.FileSystem
 		}
 
         [TestMethod]
-        public void It_Should_be_possible_to_parse_example3_page_with_multiple_slots()
+        public void It_Should_be_possible_to_parse_page_with_multiple_slots()
         {
-			var file = TestHelper.GetPath(@"sampleWebSite2\example3.xrc");
+			PageParserResult page = TargetParse(@"
+<?xml version='1.0' encoding='utf-8' ?>
+<xrc:page xmlns:xrc='urn:xrc'>
+	<xrc:action method='GET'>
+		<xrc:TestView slot='SLOT1' />
+		<xrc:TestView slot='slot2' />
+		<xrc:TestView slot='SLOT3' />
+	</xrc:action>
+</xrc:page>
+");
 
-			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(),
-                                        new Mocks.ModuleCatalogServiceMock(null),
-                                        new Mocks.ViewCatalogServiceMock(TestView.Definition));
-
-			PageParserResult page = target.Parse(file);
             PageAction action = page.Actions["GET"];
             Assert.AreEqual(3, action.Views.Count());
             Assert.AreEqual("slot1", action.Views["SLOT1"].Slot);
@@ -157,29 +226,11 @@ namespace xrc.Pages.Providers.FileSystem
             Assert.AreEqual("slot3", action.Views["slot3"].Slot);
         }
 
-        [TestMethod]
-        public void It_Should_be_possible_to_parse_example4_page_with_multiple_actions()
-        {
-			var file = TestHelper.GetPath(@"sampleWebSite2\example4.xrc");
-
-			var target = new XrcSchemaParserService(new Mocks.PageScriptServiceMock(),
-                                        new Mocks.ModuleCatalogServiceMock(null),
-                                        new Mocks.ViewCatalogServiceMock(TestView.Definition));
-
-			PageParserResult page = target.Parse(file);
-            Assert.AreEqual(3, page.Actions.Count);
-            Assert.AreEqual("get", page.Actions["GET"].Method);
-            Assert.AreEqual("delete", page.Actions["delete"].Method);
-            Assert.AreEqual("post", page.Actions["Post"].Method);
-        }
-
         class TestView : IView
         {
             public static ComponentDefinition Definition = new ComponentDefinition("TestView", typeof(TestView));
 
-            public TestObject scriptProperty { get; set; }
             public XDocument XDocProperty { get; set; }
-            public string PrimitiveProperty { get; set; }
 			public string TextProperty { get; set; }
 
             public void Execute(IContext context)
@@ -188,8 +239,35 @@ namespace xrc.Pages.Providers.FileSystem
             }
         }
 
-        class TestObject
-        {
-        }
-    }
+
+		private XrcItem GetItem(string fileName)
+		{
+			var item = XrcItem.NewXrcFile("id", fileName);
+			var xrcRoot = XrcItem.NewRoot("root", item);
+
+			return item;
+		}
+
+		PageParserResult TargetParse(string xrcContent)
+		{
+			var item = GetItem("item.xrc");
+			var expectedContent = XDocument.Parse(xrcContent);
+
+			var pageProvider = new Mock<IPageProviderService>();
+			pageProvider.Setup(p => p.ResourceToXml(item.VirtualPath)).Returns(expectedContent);
+			pageProvider.Setup(p => p.ResourceToXml(UriExtensions.BuildVirtualPath(item.VirtualPath, "fileInclude.xml")))
+							.Returns(XDocument.Parse(@"<bookstore><book><title>Book 1</title></book></bookstore>"));
+			pageProvider.Setup(p => p.ResourceToText(UriExtensions.BuildVirtualPath(item.VirtualPath, "fileInclude.txt")))
+							.Returns("File content");
+			pageProvider.Setup(p => p.ResourceToBytes(UriExtensions.BuildVirtualPath(item.VirtualPath, "fileInclude.ico")))
+							.Returns(new byte[]{ 0, 1, 2, 3 });
+
+			var target = new XrcSchemaParserService(pageProvider.Object,
+										new Mocks.PageScriptServiceMock(),
+										new Mocks.ModuleCatalogServiceMock(),
+										new Mocks.ViewCatalogServiceMock(TestView.Definition));
+
+			return target.Parse(item);
+		}
+	}
 }

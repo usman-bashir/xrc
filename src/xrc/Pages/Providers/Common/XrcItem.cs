@@ -9,68 +9,57 @@ namespace xrc.Pages.Providers.Common
 
 	public sealed class XrcItem
     {
-		readonly XrcItem _parent;
+		XrcItem _parent;
 		readonly XrcItemType _itemType;
 		readonly string _id;
 		readonly string _fileName;
 
 		readonly string _name;
-		readonly string _virtualPath;
 		readonly string _fileExtension;
-		readonly List<XrcItem> _items = new List<XrcItem>();
+		readonly XrcItemList _items;
 		readonly ParametricUriSegment _parametricSegment;
 
-		private XrcItem(XrcItem parent, XrcItemType itemType, string id, string fileName,
-						string name, string virtualPath, ParametricUriSegment parametricSegment,
-						string fileExtension)
+		private XrcItem(XrcItemType itemType, string id, string fileName,
+						string name, ParametricUriSegment parametricSegment,
+						string fileExtension, XrcItem[] items)
 		{
-			_parent = parent;
 			_id = id;
 			_fileName = fileName;
 			_itemType = itemType;
 			_name = name;
-			_virtualPath = virtualPath;
 			_parametricSegment = parametricSegment;
 			_fileExtension = fileExtension;
+
+			_items = new XrcItemList(this);
+			if (items != null)
+				Items.AddRange(items);
 		}
 
-		public static XrcItem NewRoot(string id)
+		public static XrcItem NewRoot(string id, params XrcItem[] items)
 		{
-			return new XrcItem(null, XrcItemType.Directory, id, null, "~", "~/", null, null);
+			return new XrcItem(XrcItemType.Directory, id, null, "~", null, null, items);
 		}
-		public static XrcItem NewDirectory(XrcItem parent, string id, string directoryName)
+		public static XrcItem NewDirectory(string id, string directoryName, params XrcItem[] items)
 		{
-			if (parent == null)
-				throw new ArgumentNullException("parent");
-
 			string name = GetDirectoryLogicalName(directoryName);
-			string virtualPath = UriExtensions.AppendTrailingSlash(UriExtensions.Combine(parent.VirtualPath, name));
 			var parametricSegment = new ParametricUriSegment(name);
 
-			return new XrcItem(parent, XrcItemType.Directory, id, directoryName, name, virtualPath, parametricSegment, null);
+			return new XrcItem(XrcItemType.Directory, id, directoryName, name, parametricSegment, null, items);
 		}
-		public static XrcItem NewXrcFile(XrcItem parent, string id, string fileName)
+		public static XrcItem NewXrcFile(string id, string fileName)
 		{
-			if (parent == null)
-				throw new ArgumentNullException("parent");
-
 			string name = GetFileLogicalName(fileName);
-			string virtualPath = UriExtensions.Combine(parent.VirtualPath, name);
 			string fileExtension = GetFileExtension(fileName);
 			var parametricSegment = new ParametricUriSegment(name);
 
-			return new XrcItem(parent, XrcItemType.XrcFile, id, fileName, name, virtualPath, parametricSegment, fileExtension);
+			return new XrcItem(XrcItemType.XrcFile, id, fileName, name, parametricSegment, fileExtension, null);
 		}
-		public static XrcItem NewConfigFile(XrcItem parent, string id, string fileName)
+		public static XrcItem NewConfigFile(string id, string fileName)
 		{
-			if (parent == null)
-				throw new ArgumentNullException("parent");
-
 			string name = GetConfigLogicalName(fileName);
-			string virtualPath = UriExtensions.Combine(parent.VirtualPath, name);
 			string fileExtension = GetFileExtension(fileName);
 
-			return new XrcItem(parent, XrcItemType.ConfigFile, id, fileName, name, virtualPath, null, fileExtension);
+			return new XrcItem(XrcItemType.ConfigFile, id, fileName, name, null, fileExtension, null);
 		}
 
 		public string FileName
@@ -85,7 +74,20 @@ namespace xrc.Pages.Providers.Common
 
 		public string VirtualPath
 		{
-			get { return _virtualPath; }
+			get 
+			{
+				if (ItemType == XrcItemType.Directory)
+				{
+					if (IsRoot)
+						return UriExtensions.AppendTrailingSlash(Name);
+					else
+						return UriExtensions.AppendTrailingSlash(UriExtensions.Combine(Parent.VirtualPath, Name));
+				}
+				else if (Parent != null)
+					return UriExtensions.Combine(Parent.VirtualPath, Name);
+				else
+					return UriExtensions.Combine("~/", Name);
+			}
 		}
 
 		public string Id
@@ -96,6 +98,7 @@ namespace xrc.Pages.Providers.Common
 		public XrcItem Parent
 		{
 			get { return _parent;}
+			internal set { _parent = value;}
 		}
 
 		public XrcItem IndexFile
@@ -173,7 +176,7 @@ namespace xrc.Pages.Providers.Common
 			get { return _itemType; }
 		}
 
-		public List<XrcItem> Items
+		public XrcItemList Items
 		{
 			get
 			{
@@ -194,7 +197,6 @@ namespace xrc.Pages.Providers.Common
 
 			return _parametricSegment.Match(url);
 		}
-
 
 		#region Static and constants
 		// TODO Valutare se spostare
@@ -227,4 +229,38 @@ namespace xrc.Pages.Providers.Common
 		}
 		#endregion
 	}
+
+	public class XrcItemList : IEnumerable<XrcItem>
+	{
+		readonly List<XrcItem> _list = new List<XrcItem>();
+		readonly XrcItem _parent;
+
+		public XrcItemList(XrcItem parent)
+		{
+			_parent = parent;
+		}
+
+		public void Add(XrcItem item)
+		{
+			item.Parent = _parent;
+			_list.Add(item);
+		}
+
+		public void AddRange(IEnumerable<XrcItem> items)
+		{
+			foreach (var i in items)
+				Add(i);
+		}
+
+		public IEnumerator<XrcItem> GetEnumerator()
+		{
+			return _list.GetEnumerator();
+		}
+
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+		{
+			return _list.GetEnumerator();
+		}
+	}
+
 }

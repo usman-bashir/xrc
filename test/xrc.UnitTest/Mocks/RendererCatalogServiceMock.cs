@@ -10,6 +10,11 @@ namespace xrc.Mocks
     {
         ComponentDefinition _component;
 
+
+		public ViewCatalogServiceMock()
+		{
+		}
+
         public ViewCatalogServiceMock(ComponentDefinition component)
         {
             _component = component;

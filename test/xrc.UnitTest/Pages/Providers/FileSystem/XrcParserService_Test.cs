@@ -22,13 +22,11 @@ namespace xrc.Pages.Providers.FileSystem
         {
         }
 		[TestMethod]
-		public void It_Should_be_possible_to_parse_example7_folder_parameters()
+		public void It_Should_be_possible_to_parse_folder_parameters()
 		{
-			var xrcRoot = XrcItem.NewRoot("root");
-			var item = XrcItem.NewXrcFile(xrcRoot, "id", "item.xrc");
-			var config = XrcItem.NewConfigFile(xrcRoot, "id", "xrc.config");
-			xrcRoot.Items.Add(item);
-			xrcRoot.Items.Add(config);
+			var item = XrcItem.NewXrcFile("id", "item.xrc");
+			var config = XrcItem.NewConfigFile("id", "xrc.config");
+			var xrcRoot = XrcItem.NewRoot("root", item, config);
 
 			var schemaParser = new Mock<IXrcSchemaParserService>();
 			var configParserResult = new PageParserResult();
@@ -48,12 +46,11 @@ namespace xrc.Pages.Providers.FileSystem
 		}
 
 		[TestMethod]
-		public void It_Should_be_possible_to_parse_example1_page_and_check_layout()
+		public void It_Should_be_possible_to_parse_page_and_check_layout()
 		{
-			var xrcRoot = XrcItem.NewRoot("root");
-			var item = XrcItem.NewXrcFile(xrcRoot, "id", "item.xrc");
-			var layout = XrcItem.NewXrcFile(xrcRoot, "id", "_layout.xrc");
-			xrcRoot.Items.Add(item);
+			var item = XrcItem.NewXrcFile("id", "item.xrc");
+			var layout = XrcItem.NewXrcFile("id", "_layout.xrc");
+			var xrcRoot = XrcItem.NewRoot("root", item, layout);
 
 			var schemaParser = new Mock<IXrcSchemaParserService>();
 
