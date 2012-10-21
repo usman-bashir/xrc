@@ -75,17 +75,5 @@ namespace xrc.Pages.Providers.Common
 		{
 			return UriExtensions.BuildVirtualPath(VirtualPath, page);
 		}
-
-		public Uri GetContentRelativeUrl(string page)
-		{
-			string virtualUrl = GetContentVirtualUrl(page);
-			return SiteConfiguration.VirtualUrlToRelative(virtualUrl);
-		}
-
-		public Uri GetContentAbsoluteUrl(string page)
-		{
-			string virtualUrl = GetContentVirtualUrl(page);
-			return SiteConfiguration.VirtualUrlToAbsolute(virtualUrl);
-		}
 	}
 }

@@ -8,13 +8,17 @@ namespace DemoWebSite.Controllers
 {
     public class ContactController : Controller
     {
-        private IContactModule _contactModule;
-        private xrc.IXrcService _xrc;
+        readonly IContactModule _contactModule;
+		readonly xrc.IXrcService _xrc;
+		readonly xrc.Sites.ISiteConfigurationProviderService _siteConfigurationProvider;
+
         public ContactController(IContactModule contactModule,
-                                xrc.IXrcService xrc)
+                                xrc.IXrcService xrc,
+								xrc.Sites.ISiteConfigurationProviderService siteConfigurationProvider)
         {
             _contactModule = contactModule;
             _xrc = xrc;
+			_siteConfigurationProvider = siteConfigurationProvider;
         }
 
         public ActionResult SendMVC(string firstName, string lastName, string message)
@@ -30,11 +34,12 @@ namespace DemoWebSite.Controllers
             Contact newContact = new Contact() { FirstName = firstName, LastName = lastName, Message = message };
             _contactModule.Add(newContact);
 
-            // TODO Valutare se utilizzare un metodo migliore per ottenere un url assoluto o altrimenti prevedere di passare anche un url relativo. Valutare anche il ToLower se necessario.
-            Uri absoluteUrl = new Uri(Request.Url, VirtualPathUtility.ToAbsolute("~/contact/_sendsuccess"));
-			absoluteUrl = xrc.UriExtensions.ToLower(absoluteUrl);
-
-			return _xrc.Page(absoluteUrl, new { newContact = newContact });
+			return _xrc.Page(new xrc.XrcUrl("~/contact/_sendsuccess"), GetSiteConfiguration(), new { newContact = newContact });
         }
+
+		xrc.Sites.ISiteConfiguration GetSiteConfiguration()
+		{
+			return _siteConfigurationProvider.GetSiteFromUri(Request.Url);
+		}
     }
 }

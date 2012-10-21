@@ -45,23 +45,21 @@ namespace xrc
 				var parentRequest = callerContext == null ? null : callerContext.Request;
 				var parentResponse = callerContext == null ? null : callerContext.Response;
 
-				using (MemoryStream stream = new MemoryStream())
+				using (var stream = new MemoryStream())
 				{
-					XrcRequest request = new XrcRequest(url, parentRequest: parentRequest);
+					var request = new XrcRequest(url, parentRequest: parentRequest);
+					var response = new XrcResponse(stream, parentResponse: parentResponse);
+					var context = new Context(request, response);
 
-					using (XrcResponse response = new XrcResponse(stream, parentResponse: parentResponse))
-					{
-						Context context = new Context(request, response);
-						context.CallerContext = callerContext;
-						AddParameters(context, parameters);
+					context.CallerContext = callerContext;
+					AddParameters(context, parameters);
 
-						ProcessRequest(context, siteConfiguration);
+					ProcessRequest(context, siteConfiguration);
 
-						context.CheckResponse();
+					context.CheckResponse();
 
-						contentResult.ContentEncoding = response.ContentEncoding;
-						contentResult.ContentType = response.ContentType;
-					}
+					contentResult.ContentEncoding = response.ContentEncoding;
+					contentResult.ContentType = response.ContentType;
 
 					stream.Flush();
 					stream.Seek(0, SeekOrigin.Begin);
@@ -76,7 +74,7 @@ namespace xrc
 			}
 			catch (Exception ex)
 			{
-				throw new PageException(url, ex);
+				throw new PageException(url.AppRelaviteUrl, ex);
 			}
         }
 
@@ -124,7 +122,7 @@ namespace xrc
 			// Why to redirect to canonical Url to have always the same url (for caching) and for better url architecture
 			if (!IsCanonicalUrl(context.Page, context.Request.Url))
 			{
-				UriBuilder redirectUrl = new UriBuilder(_rootPath.VirtualUrlToRelative(context.Page.VirtualPath));
+				UriBuilder redirectUrl = new UriBuilder(_rootPath.AppRelativeUrlToRelativeUrl(context.Page.VirtualPath));
 				redirectUrl.Query = context.Request.Url.Query;
 				ProcessPermanentRedirect(context, redirectUrl.Uri);
 				return;
@@ -158,7 +156,7 @@ namespace xrc
 
 		private bool IsCanonicalUrl(IPage page, Uri requestUri)
 		{
-			var canonicalPath = _rootPath.VirtualUrlToRelative(page.VirtualPath).GetPath();
+			var canonicalPath = _rootPath.AppRelativeUrlToRelativeUrl(page.VirtualPath).GetPath();
 			var requestedPath = requestUri.GetPath();
 
 			return string.Equals(canonicalPath, requestedPath, StringComparison.Ordinal);
@@ -166,15 +164,16 @@ namespace xrc
 
 		private void RenderLayout(IContext childContext, PageAction childAction, Dictionary<string, object> childModules)
 		{
-			HttpResponseBase currentResponse = childContext.Response;
+			XrcResponse currentResponse = childContext.Response;
 
 			// If a parent is defined call first it using the current response 
 			// and defining a SlotCallback event that output the current slot inline.
 			// The event will be called from the layout action by using Cms.Slot().
 			// Parameters will be also copied from slot to layout.
 
-			Uri layoutUrl = childContext.Page.GetContentAbsoluteUrl(childAction.Layout.ToLower());
-			Context layoutContext = new Context(new XrcRequest(layoutUrl, parentRequest: childContext.Request), currentResponse);
+			string layoutPage = childAction.Layout.ToLower();
+			string appRelativeLayoutPage = childContext.Page.GetContentVirtualUrl(layoutPage);
+			Context layoutContext = new Context(new XrcRequest(new XrcUrl(appRelativeLayoutPage), parentRequest: childContext.Request), currentResponse);
 			layoutContext.CallerContext = childContext;
 			foreach (var item in childContext.Parameters)
 				layoutContext.Parameters.Add(new ContextParameter(item.Name, item.Type, item.Value));
@@ -184,19 +183,17 @@ namespace xrc
 				var childResult = new System.Web.Mvc.ContentResult();
 				using (MemoryStream stream = new MemoryStream())
 				{
-					using (XrcResponse response = new XrcResponse(stream, parentResponse: currentResponse))
-					{
-						childContext.Response = response;
+					XrcResponse response = new XrcResponse(stream, parentResponse: currentResponse);
+					childContext.Response = response;
 
-						ViewDefinition viewDefinition = childAction.Views[e.Name];
-						if (viewDefinition != null)
-							ExecuteView(childContext, childAction, viewDefinition, childModules);
-						else
-							throw new ApplicationException(string.Format("Slot '{0}' not found.", e.Name));
+					ViewDefinition viewDefinition = childAction.Views[e.Name];
+					if (viewDefinition != null)
+						ExecuteView(childContext, childAction, viewDefinition, childModules);
+					else
+						throw new ApplicationException(string.Format("Slot '{0}' not found.", e.Name));
 
-						childResult.ContentEncoding = response.ContentEncoding;
-						childResult.ContentType = response.ContentType;
-					}
+					childResult.ContentEncoding = response.ContentEncoding;
+					childResult.ContentType = response.ContentType;
 
 					stream.Flush();
 					stream.Seek(0, SeekOrigin.Begin);
@@ -220,7 +217,7 @@ namespace xrc
 				// Set a generic status code. We don't want to expose directly parent StatusCode like redirect 
 				//  otherwise the client is redirected to a wrong page (the parent page).
 				currentResponse.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
-				throw new PageException(layoutUrl, ex);
+				throw new PageException(appRelativeLayoutPage, ex);
 			}
 		}
 

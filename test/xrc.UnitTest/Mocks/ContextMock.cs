@@ -8,13 +8,13 @@ namespace xrc.Mocks
 {
     public class ContextMock : IContext
     {
-        public System.Web.HttpRequestBase Request
+        public XrcRequest Request
         {
             get;
             set;
         }
 
-        public System.Web.HttpResponseBase Response
+        public XrcResponse Response
         {
             get;
             set;

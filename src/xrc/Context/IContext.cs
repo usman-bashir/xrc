@@ -8,8 +8,8 @@ namespace xrc
 	// TODO Rivedere la classe context...forse eliminare
     public interface IContext
     {
-        HttpRequestBase Request { get; set; }
-        HttpResponseBase Response { get; set; }
+        XrcRequest Request { get; set; }
+        XrcResponse Response { get; set; }
 
         Pages.IPage Page { get; set; }
 

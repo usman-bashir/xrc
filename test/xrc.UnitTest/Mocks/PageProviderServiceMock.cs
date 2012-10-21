@@ -15,11 +15,6 @@ namespace xrc.Mocks
 			throw new NotImplementedException();
 		}
 
-		public Pages.IPage GetPage(Uri url)
-		{
-			throw new NotImplementedException();
-		}
-
 		public System.IO.Stream OpenResource(string resourceLocation)
 		{
 			throw new NotImplementedException();
@@ -51,6 +46,16 @@ namespace xrc.Mocks
 		}
 
 		public bool ResourceExists(string resourceLocation)
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool PageExists(XrcUrl url)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Pages.IPage GetPage(XrcUrl url, Sites.ISiteConfiguration siteConfiguration)
 		{
 			throw new NotImplementedException();
 		}

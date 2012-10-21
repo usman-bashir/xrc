@@ -19,10 +19,12 @@ namespace xrc
     public class Kernel : IKernel
     {
 		readonly IXrcService _xrcService;
+		readonly ISiteConfigurationProviderService _siteConfigurationProvider;
 
-		public Kernel(IXrcService xrcService)
+		public Kernel(IXrcService xrcService, ISiteConfigurationProviderService siteConfigurationProvider)
         {
 			_xrcService = xrcService;
+			_siteConfigurationProvider = siteConfigurationProvider;
         }
 
         // TODO Check if it is possible to remove this static reference
@@ -45,18 +47,17 @@ namespace xrc
 
 		public bool Match(HttpContextBase httpContext)
 		{
-			Context context = new Context(httpContext.Request,
-										httpContext.Response);
+			var xrcUrl = new xrc.XrcUrl(httpContext.Request.AppRelativeCurrentExecutionFilePath);
 
-			return _xrcService.Match(context);
+			return _xrcService.Match(xrcUrl);
 		}
 
 		public void ProcessRequest(HttpContextBase httpContext)
 		{
-			Context context = new Context(httpContext.Request,
-										httpContext.Response);
+			var context = new Context(httpContext);
+			var siteConfiguration = _siteConfigurationProvider.GetSiteFromUri(httpContext.Request.Url);
 
-			_xrcService.ProcessRequest(context);
+			_xrcService.ProcessRequest(context, siteConfiguration);
 		}
 	}
 }

@@ -10,11 +10,17 @@ namespace xrc
 {
     public class Context : IContext
     {
-		private HttpRequestBase _request;
-		private HttpResponseBase _response;
+		private XrcRequest _request;
+		private XrcResponse _response;
         private ContextParameterList _parameters = new ContextParameterList();
 
-		public Context(HttpRequestBase request, HttpResponseBase response)
+		public Context(HttpContextBase httpContext)
+		{
+			_request = new XrcRequest(httpContext.Request);
+			_response = new XrcResponse(httpContext.Response);
+		}
+
+		public Context(XrcRequest request, XrcResponse response)
         {
             _request = request;
             _response = response;
@@ -26,13 +32,13 @@ namespace xrc
             set; 
         }
 
-		public HttpRequestBase Request
+		public XrcRequest Request
         {
             get { return _request; }
             set { _request = value; }
         }
 
-		public HttpResponseBase Response
+		public XrcResponse Response
         {
             get { return _response; }
             set { _response = value; }
@@ -64,7 +70,6 @@ namespace xrc
             else if (Response.StatusCode < 200 || Response.StatusCode >= 300)
 				throw new HttpException(Response.StatusCode, Response.StatusDescription ?? "Failed to process request.");
         }
-
 
 		public IContext GetInitiatorContext()
 		{

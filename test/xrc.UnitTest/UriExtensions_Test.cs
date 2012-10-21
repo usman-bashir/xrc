@@ -135,6 +135,24 @@ namespace xrc
 		}
 
 		[TestMethod]
+		public void GetQuery()
+		{
+			Assert.AreEqual(string.Empty, new Uri("/index/page", UriKind.Relative).GetQuery());
+			Assert.AreEqual(string.Empty, new Uri("http://www.google.com/index/page").GetQuery());
+			Assert.AreEqual(string.Empty, new Uri("/index/page?", UriKind.Relative).GetQuery());
+			Assert.AreEqual("#", new Uri("/index/page#", UriKind.Relative).GetQuery());
+			Assert.AreEqual("p1=v1", new Uri("/index/page?p1=v1", UriKind.Relative).GetQuery());
+			Assert.AreEqual("p1=v1#anchor", UriExtensions.GetQuery("index/page?p1=v1#anchor"));
+			Assert.AreEqual("#anchor", new Uri("/index/page#anchor", UriKind.Relative).GetQuery());
+			Assert.AreEqual("p1=v1", new Uri("http://www.google.com/index/page?p1=v1").GetQuery());
+			Assert.AreEqual("#anchor", new Uri("http://www.google.com/index/page#anchor").GetQuery());
+			Assert.AreEqual("p1=v1#anchor", new Uri("http://www.google.com/index/page?p1=v1#anchor").GetQuery());
+
+			// GetPath doesn't encode, this is a different behavior between Uri.GetLeftPart
+			Assert.AreEqual(string.Empty, new Uri("/index/page{test}+", UriKind.Relative).GetQuery());
+		}
+
+		[TestMethod]
 		public void BuildVirtualPath()
 		{
 			Assert.AreEqual("~/base/test", UriExtensions.BuildVirtualPath("~/base/", "test"));
@@ -143,6 +161,28 @@ namespace xrc
 			Assert.AreEqual("~/base/test", UriExtensions.BuildVirtualPath("~/base/index", "test"));
 			Assert.AreEqual("~/base/test", UriExtensions.BuildVirtualPath("~/base/f1/f2/index", "../../test"));
 			Assert.AreEqual("~/test", UriExtensions.BuildVirtualPath("~/base/", "~/test"));
+		}
+
+		[TestMethod]
+		public void AppRelativeUrlToRelativeUrl()
+		{
+			Assert.AreEqual("/base/test", UriExtensions.AppRelativeUrlToRelativeUrl("~/test", "/base"));
+			Assert.AreEqual("/base/test", UriExtensions.AppRelativeUrlToRelativeUrl("~/test", "base"));
+
+			Assert.AreEqual("/base/test", UriExtensions.AppRelativeUrlToRelativeUrl("test", "/base"));
+			Assert.AreEqual("/test", UriExtensions.AppRelativeUrlToRelativeUrl("/test", "/base"));
+		}
+
+		[TestMethod]
+		public void IsAppRelativeVirtualUrl()
+		{
+			Assert.AreEqual(true, UriExtensions.IsAppRelativeVirtualUrl("~/test"));
+			Assert.AreEqual(true, UriExtensions.IsAppRelativeVirtualUrl("~/test/index"));
+			Assert.AreEqual(true, UriExtensions.IsAppRelativeVirtualUrl("~/"));
+			Assert.AreEqual(true, UriExtensions.IsAppRelativeVirtualUrl("~"));
+			Assert.AreEqual(false, UriExtensions.IsAppRelativeVirtualUrl("/test/index"));
+			Assert.AreEqual(false, UriExtensions.IsAppRelativeVirtualUrl("test/index"));
+			Assert.AreEqual(false, UriExtensions.IsAppRelativeVirtualUrl("http://www.google.com/index/page?p1=v1#anchor"));
 		}
     }
 }

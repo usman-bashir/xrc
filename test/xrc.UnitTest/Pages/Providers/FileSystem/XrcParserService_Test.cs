@@ -65,6 +65,27 @@ namespace xrc.Pages.Providers.FileSystem
 			Assert.AreEqual("~/_layout", action.Layout);
 		}
 
+		[TestMethod]
+		public void It_Should_be_possible_to_parse_page_with_layout_and_path_parameter()
+		{
+			var item = XrcItem.NewXrcFile("item.xrc");
+			var layout = XrcItem.NewXrcFile("_layout.xrc");
+			var xrcPathParam = XrcItem.NewDirectory("{param}", item, layout);
+			var xrcRoot = XrcItem.NewRoot(xrcPathParam);
+
+			var schemaParser = new Mock<IXrcSchemaParserService>();
+
+			var parserResult = new PageParserResult();
+			parserResult.Actions.Add(new PageAction("GET"));
+			schemaParser.Setup(p => p.Parse(item)).Returns(parserResult);
+
+			var target = new XrcParserService(schemaParser.Object, schemaParser.Object);
+
+			PageParserResult page = target.Parse(item);
+			PageAction action = page.Actions["get"];
+			Assert.AreEqual("~/{param}/_layout", action.Layout);
+		}
+
 		//[TestMethod]
 		//public void It_Should_be_possible_to_parse_example1_slot_and_check_layout()
 		//{

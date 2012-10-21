@@ -30,17 +30,17 @@ namespace xrc.Pages.Providers.Common.Parsers
 
         const string MODULE_PREFIX = "xrc";
 
-		readonly IPageProviderService _pageProvider;
+		readonly IResourceProviderService _resourceProvider;
         readonly IPageScriptService _scriptService;
         readonly IModuleCatalogService _moduleCatalog;
         readonly IViewCatalogService _viewCatalog;
 
-		public XrcSchemaParserService(IPageProviderService pageProvider,
+		public XrcSchemaParserService(IResourceProviderService resourceProvider,
 									IPageScriptService scriptService, 
 									IModuleCatalogService moduleCatalog, 
 									IViewCatalogService viewCatalog)
 		{
-			_pageProvider = pageProvider;
+			_resourceProvider = resourceProvider;
 			_scriptService = scriptService;
 			_moduleCatalog = moduleCatalog;
 			_viewCatalog = viewCatalog;
@@ -53,7 +53,7 @@ namespace xrc.Pages.Providers.Common.Parsers
 			{
 				// TODO Valutare se usare Xpath per la lettura
 
-				XDocument xdoc = _pageProvider.ResourceToXml(item.ResourceLocation);
+				XDocument xdoc = _resourceProvider.ResourceToXml(item.ResourceLocation);
 
 				var rootElement = xdoc.Element(PAGE);
 				if (rootElement == null)
@@ -171,7 +171,7 @@ namespace xrc.Pages.Providers.Common.Parsers
 				if (propertyFile != null)
 					return propertyFile;
 
-				throw new ApplicationException(string.Format("Property '{0}' not found on type '{0}.", propertyName, ownerType));
+				throw new ApplicationException(string.Format("Property '{0}' not found on type '{1}.", propertyName, ownerType));
 			}
 
 			if (element.HasElements)
@@ -215,17 +215,17 @@ namespace xrc.Pages.Providers.Common.Parsers
 					string resourceLocation = UriExtensions.BuildVirtualPath(item.ResourceLocation, value);
 					if (propertyBase.PropertyType == typeof(XDocument))
 					{
-						var xValue = new XValue(propertyBase.PropertyType, _pageProvider.ResourceToXml(resourceLocation));
+						var xValue = new XValue(propertyBase.PropertyType, _resourceProvider.ResourceToXml(resourceLocation));
 						return new XProperty(propertyBase, xValue);
 					}
 					else if (propertyBase.PropertyType == typeof(string))
 					{
-						var xValue = new XValue(propertyBase.PropertyType, _pageProvider.ResourceToText(resourceLocation));
+						var xValue = new XValue(propertyBase.PropertyType, _resourceProvider.ResourceToText(resourceLocation));
 						return new XProperty(propertyBase, xValue);
 					}
 					else if (propertyBase.PropertyType == typeof(byte[]))
 					{
-						var xValue = new XValue(propertyBase.PropertyType, _pageProvider.ResourceToBytes(resourceLocation));
+						var xValue = new XValue(propertyBase.PropertyType, _resourceProvider.ResourceToBytes(resourceLocation));
 						return new XProperty(propertyBase, xValue);
 					}
 				}

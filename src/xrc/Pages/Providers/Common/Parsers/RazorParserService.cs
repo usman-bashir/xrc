@@ -13,15 +13,12 @@ namespace xrc.Pages.Providers.Common.Parsers
 	public class RazorParserService : ParserServiceBase
 	{
 		readonly IViewCatalogService _viewCatalog;
-		readonly IPageProviderService _pageProvider;
 
 		public RazorParserService(IXrcSchemaParserService configParser,
-								IViewCatalogService viewCatalog,
-								IPageProviderService pageProvider)
+								IViewCatalogService viewCatalog)
 			: base(configParser, ".xrc.cshtml")
 		{
 			_viewCatalog = viewCatalog;
-			_pageProvider = pageProvider;
 		}
 
 		// TODO E' possibile semplificare e irrobustire questo codice?

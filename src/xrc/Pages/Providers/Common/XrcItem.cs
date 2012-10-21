@@ -34,7 +34,7 @@ namespace xrc.Pages.Providers.Common
 
 		public static XrcItem NewRoot(params XrcItem[] items)
 		{
-			return new XrcItem(XrcItemType.Directory, null, "~", null, items);
+			return new XrcItem(XrcItemType.Directory, "~", "~", null, items);
 		}
 		public static XrcItem NewDirectory(string resourceName, params XrcItem[] items)
 		{
@@ -78,11 +78,40 @@ namespace xrc.Pages.Providers.Common
 					else
 						return UriExtensions.AppendTrailingSlash(UriExtensions.Combine(Parent.ResourceLocation, ResourceName));
 				}
-				else if (IsRoot)
-					return UriExtensions.Combine("~/", ResourceName);
 				else
 					return UriExtensions.Combine(Parent.ResourceLocation, ResourceName);
 			}
+		}
+
+		public XrcUrl GetUrl(Dictionary<string, string> segmentParameters = null)
+		{
+			string currentName;
+			if (segmentParameters != null && 
+				_parametricSegment != null && _parametricSegment.IsParametric)
+			{
+				string paramValue;
+				if (segmentParameters.TryGetValue(_parametricSegment.ParameterName, out paramValue))
+					currentName = paramValue;
+				else
+					currentName = Name;
+			}
+			else
+				currentName = Name;
+
+			XrcUrl url;
+			if (ItemType == XrcItemType.Directory)
+			{
+				if (IsRoot)
+					url = new XrcUrl(currentName);
+				else
+					url = Parent.GetUrl(segmentParameters).Append(currentName);
+
+				url = url.AppendTrailingSlash();
+			}
+			else
+				url = Parent.GetUrl(segmentParameters).Append(currentName);
+
+			return url;
 		}
 
 		public XrcItem Parent

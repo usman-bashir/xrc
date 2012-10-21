@@ -11,13 +11,13 @@ namespace xrc.Modules
 {
     public class FileModule : IFileModule
     {
-        IContext _context;
-		IPageProviderService _pageProvider;
+        readonly IContext _context;
+		readonly IResourceProviderService _resourceProvider;
 
-		public FileModule(IContext context, IPageProviderService pageProvider)
+		public FileModule(IContext context, IResourceProviderService resourceProvider)
         {
             _context = context;
-			_pageProvider = pageProvider;
+			_resourceProvider = resourceProvider;
         }
 
 		public string VirtualPath(string file)
@@ -27,27 +27,27 @@ namespace xrc.Modules
 
         public XDocument Xml(string file)
         {
-			return _pageProvider.ResourceToXml(VirtualPath(file));
+			return _resourceProvider.ResourceToXml(VirtualPath(file));
         }
 
 		public XDocument XHtml(string file)
 		{
-			return _pageProvider.ResourceToXHtml(VirtualPath(file));
+			return _resourceProvider.ResourceToXHtml(VirtualPath(file));
 		}
 
 		public string Html(string file)
 		{
-			return _pageProvider.ResourceToHtml(VirtualPath(file));
+			return _resourceProvider.ResourceToHtml(VirtualPath(file));
 		}
 
 		public string Text(string file)
 		{
-			return _pageProvider.ResourceToText(VirtualPath(file));
+			return _resourceProvider.ResourceToText(VirtualPath(file));
 		}
 
 		public byte[] Bytes(string file)
 		{
-			return _pageProvider.ResourceToBytes(VirtualPath(file));
+			return _resourceProvider.ResourceToBytes(VirtualPath(file));
 		}
 	}
 }

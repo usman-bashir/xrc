@@ -14,15 +14,15 @@ namespace xrc.Pages.Providers.Common.Parsers
 	public class XsltParserService : ParserServiceBase
 	{
 		readonly IViewCatalogService _viewCatalog;
-		readonly IPageProviderService _pageProvider;
+		readonly IResourceProviderService _resourceProvider;
 
 		public XsltParserService(IXrcSchemaParserService configParser,
 								IViewCatalogService viewCatalog,
-								IPageProviderService pageProvider)
+								IResourceProviderService resourceProvider)
 			: base(configParser, ".xrc.xslt")
 		{
 			_viewCatalog = viewCatalog;
-			_pageProvider = pageProvider;
+			_resourceProvider = resourceProvider;
 		}
 
 		// TODO E' possibile semplificare e irrobustire questo codice?
@@ -41,13 +41,13 @@ namespace xrc.Pages.Providers.Common.Parsers
 			var viewComponentDefinition = _viewCatalog.Get(typeof(XsltView).Name);
 			var view = new ViewDefinition(viewComponentDefinition, null);
 
-			XDocument xsltContent = _pageProvider.ResourceToXml(item.ResourceLocation);
+			XDocument xsltContent = _resourceProvider.ResourceToXml(item.ResourceLocation);
 			AddProperty(viewComponentDefinition, view, "Xslt", xsltContent);
 
 			string dataVirtualPath = item.ResourceLocation.Replace(".xrc.xslt", ".xml");
-			if (_pageProvider.ResourceExists(dataVirtualPath))
+			if (_resourceProvider.ResourceExists(dataVirtualPath))
 			{
-				AddProperty(viewComponentDefinition, view, "Data", _pageProvider.ResourceToXml(dataVirtualPath));
+				AddProperty(viewComponentDefinition, view, "Data", _resourceProvider.ResourceToXml(dataVirtualPath));
 			}
 
 			action.Views.Add(view);

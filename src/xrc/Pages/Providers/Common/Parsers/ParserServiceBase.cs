@@ -84,8 +84,7 @@ namespace xrc.Pages.Providers.Common.Parsers
 		{
 			var layoutFile = item.LayoutFile;
 			if (layoutFile != null)
-#warning Probabilmente qui bisogna restituire ~/path/_layout e non ~/path/_layout.xrc
-				return layoutFile.ResourceLocation;
+				return layoutFile.GetUrl().ToString();
 
 			return null;
 		}

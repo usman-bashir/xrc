@@ -41,5 +41,11 @@ namespace xrc.Mocks
 		{
 			throw new NotImplementedException();
 		}
+
+
+		public Uri AppRelativeUrlToRelativeUrl(string url)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

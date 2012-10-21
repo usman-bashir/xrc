@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Text.RegularExpressions;
 
 namespace xrc
 {
@@ -111,6 +112,9 @@ namespace xrc
 		/// </summary>
 		public static string AppendTrailingSlash(string uri)
 		{
+			if (uri == null)
+				return "/";
+
 			// Base uri must end with a slash otherwise are considered as files
 			if (!uri.EndsWith("/"))
 				uri += "/";
@@ -126,6 +130,9 @@ namespace xrc
 
 		public static string RemoveTrailingSlash(string uri)
 		{
+			if (uri == null)
+				return null;
+
 			return uri.TrimEnd('/');
 		}
 
@@ -142,21 +149,57 @@ namespace xrc
 		/// </summary>
 		public static string GetPath(this Uri uri)
 		{
-			return GetPath(uri.ToString());
+			if (uri == null)
+				throw new ArgumentNullException("uri");
+
+			if (uri.IsAbsoluteUri)
+				return Combine("/", uri.GetComponents(UriComponents.Path, UriFormat.Unescaped));
+			else
+				return uri.ToString().Split('?', '#')[0];
 		}
 
 		/// <summary>
-		/// Similar to Url.GetLeftPart(UriPartial.Path) but support also relative uri
-		///  and doesn't encode the results		
+		/// Similar to Url.GetComponents(UriComponents.Path) but support also relative uri
 		/// </summary>
 		public static string GetPath(string uri)
 		{
 			if (uri == null)
 				throw new ArgumentNullException("uri");
 
-			// Similar to Url.GetLeftPart(UriPartial.Path) but support also relative uri
-			//  and doesn't encode the results
-			return uri.Split('?', '#')[0];
+			return GetPath(new Uri(uri, UriKind.RelativeOrAbsolute));
+		}
+
+		/// <summary>
+		/// Similar to Url.GetComponents(UriComponents.Query, UriFormat.Unescaped) but support also relative uri
+		/// </summary>
+		public static string GetQuery(this Uri uri)
+		{
+			return GetQuery(uri.ToString());
+		}
+
+		static Regex QueryExtractRegEx = new Regex(@".*(?<query>\?.*)$", RegexOptions.Compiled);
+		static Regex QueryAnchorExtractRegEx = new Regex(@".*(?<query>#.*)$", RegexOptions.Compiled);
+		/// <summary>
+		/// Similar to Url.GetComponents(UriComponents.Query) but support also relative uri
+		/// </summary>
+		public static string GetQuery(string uri)
+		{
+			if (uri == null)
+				throw new ArgumentNullException("uri");
+
+			var match = QueryExtractRegEx.Match(uri);
+
+			if (match.Success)
+				return match.Groups["query"].Value.TrimStart('?');
+			else
+			{
+				match = QueryAnchorExtractRegEx.Match(uri);
+
+				if (match.Success)
+					return match.Groups["query"].Value.TrimStart('?');
+				else
+					return string.Empty;
+			}
 		}
 
 		public static string BuildVirtualPath(string contextVirtualPath, string virtualPath)
@@ -166,5 +209,20 @@ namespace xrc
 
 			return VirtualPathUtility.Combine(contextVirtualPath, virtualPath);
 		}
-    }
+
+		public static string AppRelativeUrlToRelativeUrl(string virtualPath, string applicationPath)
+		{
+			if (VirtualPathUtility.IsAppRelative(virtualPath))
+				return VirtualPathUtility.ToAbsolute(virtualPath, Combine("/", applicationPath));
+			else if (VirtualPathUtility.IsAbsolute(virtualPath))
+				return virtualPath;
+			else
+				return Combine(applicationPath, virtualPath);
+		}
+
+		public static bool IsAppRelativeVirtualUrl(string appRelativeUrl)
+		{
+			return VirtualPathUtility.IsAppRelative(appRelativeUrl);
+		}
+	}
 }

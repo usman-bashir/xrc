@@ -44,7 +44,5 @@ namespace xrc.Pages
 		string GetResourceLocation(string resourceName);
 
 		string GetContentVirtualUrl(string page);
-		Uri GetContentRelativeUrl(string page);
-		Uri GetContentAbsoluteUrl(string page);
 	}
 }

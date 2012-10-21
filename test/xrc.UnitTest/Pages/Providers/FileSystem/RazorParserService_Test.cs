@@ -26,9 +26,8 @@ namespace xrc.Pages.Providers.FileSystem
 
 			var schemaParser = new Mock<IXrcSchemaParserService>();
 			var viewCatalog = new Mocks.ViewCatalogServiceMock(new ComponentDefinition(viewType.Name, viewType));
-			var pageProvider = new Mock<IPageProviderService>();
 
-			var target = new RazorParserService(schemaParser.Object, viewCatalog, pageProvider.Object);
+			var target = new RazorParserService(schemaParser.Object, viewCatalog);
 
 			PageParserResult page = target.Parse(file);
 			var view = page.Actions["GET"].Views.Single();

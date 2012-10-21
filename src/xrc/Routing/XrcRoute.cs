@@ -8,7 +8,11 @@ namespace xrc.Routing
 {
 	public class XrcRoute : RouteBase
 	{
-		private XrcRouteHandler _routeHandler = new XrcRouteHandler();
+		readonly RouteData _routeData;
+		public XrcRoute()
+		{
+			_routeData = new RouteData(this, new XrcRouteHandler());
+		}
 
 		public override RouteData GetRouteData(System.Web.HttpContextBase httpContext)
 		{
@@ -17,17 +21,14 @@ namespace xrc.Routing
 
 			// TODO How to remove this static call??
 			if (Kernel.Current.Match(httpContext))
-			{
-				var routeData = new RouteData(this, _routeHandler);
-				routeData.DataTokens["context"] = context;
-				return routeData;
-			}
+				return _routeData;
 			else
 				return null;
 		}
 
 		public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
 		{
+			//TODO esplorare meglio questo metodo, forse potrebbe sostituire la gestione degli urlparameters
 			return null;
 		}
 	}

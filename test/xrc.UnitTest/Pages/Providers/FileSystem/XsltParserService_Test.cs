@@ -28,7 +28,7 @@ namespace xrc.Pages.Providers.FileSystem
 
 			var schemaParser = new Mock<IXrcSchemaParserService>();
 			var viewCatalog = new Mocks.ViewCatalogServiceMock(new ComponentDefinition(viewType.Name, viewType));
-			var pageProvider = new Mock<IPageProviderService>();
+			var pageProvider = new Mock<IResourceProviderService>();
 			pageProvider.Setup(p => p.ResourceToXml("~/item.xrc.xslt")).Returns(expectedContent);
 			pageProvider.Setup(p => p.ResourceToXml("~/item.xml")).Returns(expectedXml);
 			pageProvider.Setup(p => p.ResourceExists("~/item.xml")).Returns(true);
@@ -55,7 +55,7 @@ namespace xrc.Pages.Providers.FileSystem
 
 			var schemaParser = new Mock<IXrcSchemaParserService>();
 			var viewCatalog = new Mocks.ViewCatalogServiceMock(new ComponentDefinition(viewType.Name, viewType));
-			var pageProvider = new Mock<IPageProviderService>();
+			var pageProvider = new Mock<IResourceProviderService>();
 
 			pageProvider.Setup(p => p.ResourceToXml("~/conventions_xslt.xrc.xslt")).Returns(expectedContent);
 			pageProvider.Setup(p => p.ResourceExists("~/conventions_xslt.xml")).Returns(false);

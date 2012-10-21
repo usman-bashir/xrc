@@ -31,7 +31,7 @@ namespace xrc.Pages.Providers.FileSystem
 
 			var schemaParser = new Mock<IXrcSchemaParserService>();
 			var viewCatalog = new Mocks.ViewCatalogServiceMock(new ComponentDefinition(viewType.Name, viewType));
-			var pageProvider = new Mock<IPageProviderService>();
+			var pageProvider = new Mock<IResourceProviderService>();
 			pageProvider.Setup(p => p.ResourceToText("~/item.xrc.md")).Returns(expectedContent);
 
 			var target = new MarkdownParserService(schemaParser.Object, viewCatalog, pageProvider.Object);

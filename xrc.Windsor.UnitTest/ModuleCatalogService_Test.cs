@@ -27,7 +27,7 @@ namespace xrc.Modules
 
 			var target = new WindsorModuleCatalogService(container.Kernel);
 
-            Assert.AreEqual(19, target.GetAll().Count());
+            Assert.AreEqual(21, target.GetAll().Count());
 			Assert.AreEqual(typeof(UrlModule).Name, target.Get(typeof(UrlModule).Name).Name);
 			Assert.AreEqual(typeof(IUrlModule), target.Get(typeof(UrlModule).Name).Type);
 			Assert.AreEqual(typeof(XrcService).Name, target.Get(typeof(XrcService).Name).Name);

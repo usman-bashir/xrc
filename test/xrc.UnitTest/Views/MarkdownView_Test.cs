@@ -26,11 +26,12 @@ namespace xrc.Views
 			target.Content = content;
 
             string output;
-            XrcRequest request = new XrcRequest(new Uri("http://test/"));
+            XrcRequest request = new XrcRequest(new XrcUrl("~/"));
             using (MemoryStream outStream = new MemoryStream())
             {
-                using (XrcResponse response = new XrcResponse(outStream))
-	                target.Execute(new Context(request, response));
+				XrcResponse response = new XrcResponse(outStream);
+	            target.Execute(new Context(request, response));
+				response.Flush();
 
                 outStream.Seek(0, SeekOrigin.Begin);
                 using (StreamReader reader = new StreamReader(outStream))

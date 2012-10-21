@@ -21,7 +21,9 @@ namespace xrc.Configuration
 
 		string MapPath(string virtualPath);
 
-		string RelativeUrlToVirtual(Uri relativeUrl);
-		Uri VirtualUrlToRelative(string virtualUrl);
+		/// <summary>
+		/// Converts an application relative url (starting with ~) with a domain relative url. Example: ~/test/index became /site/test/index.
+		/// </summary>
+		Uri AppRelativeUrlToRelativeUrl(string url);
 	}
 }

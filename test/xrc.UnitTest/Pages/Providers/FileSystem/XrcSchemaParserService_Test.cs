@@ -123,7 +123,7 @@ namespace xrc.Pages.Providers.FileSystem
 </xrc:page>
 ");
 
-			Assert.AreEqual(1, page.Actions.Count);
+			Assert.AreEqual(4, page.Actions.Count);
 			Assert.IsNotNull(page.Actions["GET"]);
 			Assert.IsNotNull(page.Actions["PUT"]);
 			Assert.IsNotNull(page.Actions["POST"]);
@@ -171,7 +171,7 @@ namespace xrc.Pages.Providers.FileSystem
 			Assert.AreEqual(typeof(TestView), view.Component.Type);
 			XDocument xmlData = (XDocument)view.Properties["XDocProperty"].Value.Value;
 
-			var xpath = xmlData.CreateNavigator().SelectSingleNode("book[1]/title");
+			var xpath = xmlData.CreateNavigator().SelectSingleNode("//book/title");
 			Assert.AreEqual("Book 1", xpath.Value);
 		}
 
@@ -222,6 +222,7 @@ namespace xrc.Pages.Providers.FileSystem
 
             public XDocument XDocProperty { get; set; }
 			public string TextProperty { get; set; }
+			public string ScriptProperty { get; set; }
 
             public void Execute(IContext context)
             {
@@ -243,7 +244,7 @@ namespace xrc.Pages.Providers.FileSystem
 			var item = GetItem("item.xrc");
 			var expectedContent = XDocument.Parse(xrcContent);
 
-			var pageProvider = new Mock<IPageProviderService>();
+			var pageProvider = new Mock<IResourceProviderService>();
 			pageProvider.Setup(p => p.ResourceToXml(item.ResourceLocation)).Returns(expectedContent);
 			pageProvider.Setup(p => p.ResourceToXml(UriExtensions.BuildVirtualPath(item.ResourceLocation, "fileInclude.xml")))
 							.Returns(XDocument.Parse(@"<bookstore><book><title>Book 1</title></book></bookstore>"));

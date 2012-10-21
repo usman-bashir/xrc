@@ -10,33 +10,75 @@ using System.Collections.Specialized;
 namespace xrc
 {
 	// TODO Verificare meglio implementazione di queste classi e codice classi HttpResponseBase, HttpRequestBase
+	// verificare anche metodi End, Flush e Close se rilasciano correttamente tutte le risorse.
 
-	public class XrcResponse : HttpResponseBase, IDisposable
+	public class XrcResponse : HttpResponseBase
 	{
-		private HttpCookieCollection _cookies = new HttpCookieCollection();
-		private int _statusCode = (int)HttpStatusCode.OK;
-		private Encoding _contentEncoding;
-		private string _contentType;
-		private NameValueCollection _headers = new NameValueCollection();
-		private string _redirectLocation;
-		private string _statusDescription;
-		private TextWriter _output;
-		private Stream _outputStream;
+		readonly HttpCookieCollection _cookies;
+		readonly NameValueCollection _headers;
+		readonly TextWriter _output;
+		readonly Stream _outputStream;
+		readonly bool _isStreamOwner;
 
-        private HttpResponseBase _parentResponse;
+		readonly HttpResponseBase _innerResponse;
 
-		public XrcResponse(Stream stream, Encoding encoding = null, HttpResponseBase parentResponse = null)
+		int _statusCode;
+		Encoding _contentEncoding;
+		string _contentType;
+		string _redirectLocation;
+		string _statusDescription;
+
+		public XrcResponse(HttpResponseBase innerResponse)
+		{
+			if (innerResponse == null)
+				throw new ArgumentNullException("innerResponse");
+
+			_innerResponse = innerResponse;
+
+			_isStreamOwner = false;
+			_cookies = _innerResponse.Cookies;
+			_headers = _innerResponse.Headers;
+			_statusCode = _innerResponse.StatusCode;
+			_contentEncoding = _innerResponse.ContentEncoding;
+			_contentType = _innerResponse.ContentType;
+			_redirectLocation = _innerResponse.RedirectLocation;
+			_statusDescription = _innerResponse.StatusDescription;
+			_outputStream = _innerResponse.OutputStream;
+			_output = _innerResponse.Output;
+		}
+
+		public XrcResponse(Stream stream, HttpResponseBase parentResponse = null)
 		{
 			if (stream == null)
 				throw new ArgumentNullException("stream");
 
-			if (encoding == null)
-				encoding = parentResponse != null ? parentResponse.ContentEncoding : Encoding.UTF8;
+			_innerResponse = parentResponse;
 
-			_contentEncoding = encoding;
-			_outputStream = stream;
-			_output = new StreamWriter(stream, _contentEncoding);
-            _parentResponse = parentResponse;
+			_isStreamOwner = true;
+			if (_innerResponse == null)
+			{
+				_cookies = new HttpCookieCollection();
+				_headers = new NameValueCollection();
+				_statusCode = (int)HttpStatusCode.OK;
+				_contentEncoding = Encoding.UTF8;
+				_contentType = "text/html; charset=UTF-8";
+				_redirectLocation = null;
+				_statusDescription = null;
+				_outputStream = stream;
+				_output = new StreamWriter(stream, _contentEncoding);
+			}
+			else
+			{
+				_cookies = _innerResponse.Cookies;
+				_headers = _innerResponse.Headers;
+				_statusCode = _innerResponse.StatusCode;
+				_contentEncoding = _innerResponse.ContentEncoding;
+				_contentType = _innerResponse.ContentType;
+				_redirectLocation = _innerResponse.RedirectLocation;
+				_statusDescription = _innerResponse.StatusDescription;
+				_outputStream = stream;
+				_output = new StreamWriter(stream, _contentEncoding);
+			}
 		}
 
 		public override HttpCookieCollection Cookies
@@ -91,8 +133,8 @@ namespace xrc
 
         public override string ApplyAppPathModifier(string virtualPath)
         {
-            if (_parentResponse != null)
-                return _parentResponse.ApplyAppPathModifier(virtualPath);
+			if (_innerResponse != null)
+				return _innerResponse.ApplyAppPathModifier(virtualPath);
             else
                 // TODO Valutare se bisogna implementare qualche logica o è sempre sufficiente restituire la virtualPath
                 return virtualPath;
@@ -118,45 +160,37 @@ namespace xrc
 			_output.Write(buffer, index, count);
 		}
 
-		#region IDisposable
-		private bool disposed = false;
-
-		protected virtual void Dispose(bool disposing)
+		public override void Flush()
 		{
-			if (!disposed)
+			if (_isStreamOwner)
 			{
-				if (disposing)
-				{
-					if (_output != null)
-					{
-						_output.Flush();
-					}
-
-					// TODO Check it is right. Some classes like StreamReader seems that close the internal stream.
-					// Note:
-					// I should not dispose this stream because it is an input of this class.
-					// It is caller responsability to dispose it.
-
-					//if (_output != null)
-					//{
-					//    _output.Dispose();
-					//    _output = null;
-					//}
-					//if (_outputStream != null)
-					//{
-					//    _outputStream.Dispose();
-					//    _outputStream = null;
-					//}
-				}
-
-				disposed = true;
+				_output.Flush();
+			}
+			else
+			{
+				if (_innerResponse != null)
+					_innerResponse.Flush();
 			}
 		}
 
-		public void Dispose()
+		//public override void End()
+		//{
+		//    base.End();
+		//}
+
+		public override void Close()
 		{
-			Dispose(true);
+			Flush();
+
+			if (_isStreamOwner)
+			{
+				_output.Close();
+			}
+			else
+			{
+				if (_innerResponse != null)
+					_innerResponse.Close();
+			}
 		}
-		#endregion
 	}
 }

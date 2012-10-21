@@ -27,7 +27,7 @@ namespace xrc.Pages.Providers.FileSystem
 
 			var schemaParser = new Mock<IXrcSchemaParserService>();
 			var viewCatalog = new Mocks.ViewCatalogServiceMock(new ComponentDefinition(viewType.Name, viewType));
-			var pageProvider = new Mock<IPageProviderService>();
+			var pageProvider = new Mock<IResourceProviderService>();
 			pageProvider.Setup(p => p.ResourceToXml("~/item.xrc.xhtml")).Returns(expectedContent);
 
 			var target = new XHtmlParserService(schemaParser.Object, viewCatalog, pageProvider.Object);
@@ -46,7 +46,7 @@ namespace xrc.Pages.Providers.FileSystem
 		{
 			var viewType = typeof(XHtmlView);
 
-			var item = XrcItem.NewXrcFile("item.xrc");
+			var item = XrcItem.NewXrcFile("item.xrc.xhtml");
 			var layout = XrcItem.NewXrcFile("_layout.xrc");
 			var shared = XrcItem.NewDirectory("shared", layout);
 			var xrcRoot = XrcItem.NewRoot(shared, item);
@@ -55,12 +55,12 @@ namespace xrc.Pages.Providers.FileSystem
 
 			var schemaParser = new Mock<IXrcSchemaParserService>();
 			var viewCatalog = new Mocks.ViewCatalogServiceMock(new ComponentDefinition(viewType.Name, viewType));
-			var pageProvider = new Mock<IPageProviderService>();
+			var pageProvider = new Mock<IResourceProviderService>();
 			pageProvider.Setup(p => p.ResourceToXml("~/item.xrc.xhtml")).Returns(expectedContent);
 
 			var target = new XHtmlParserService(schemaParser.Object, viewCatalog, pageProvider.Object);
 
-			var page = target.Parse(GetItem("item.xrc.xhtml"));
+			var page = target.Parse(item);
 			var action = page.Actions["GET"];
 			var view = action.Views.Single();
 			Assert.AreEqual(viewType, view.Component.Type);

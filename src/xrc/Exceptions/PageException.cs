@@ -8,13 +8,13 @@ namespace xrc
     [Serializable]
     public class PageException : XrcException
     {
-        public PageException(Uri url, Exception innerException)
+        public PageException(string url, Exception innerException)
 			: base(string.Format("Failed to execute '{0}'. '{1}'", url, innerException.Message), innerException) 
         {
 			Url = url;
         }
 
-		public Uri Url
+		public string Url
         {
             get;
             private set;

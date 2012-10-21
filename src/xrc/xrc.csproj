@@ -109,6 +109,8 @@
     <Compile Include="Pages\Providers\Common\Parsers\ParserServiceBase.cs" />
     <Compile Include="Pages\Providers\Common\IParserService.cs" />
     <Compile Include="Pages\Providers\Common\Parsers\XrcParserService.cs" />
+    <Compile Include="Pages\Providers\FileSystem\FileSystemResourceProviderService.cs" />
+    <Compile Include="Pages\Providers\IResourceProviderService.cs" />
     <Compile Include="Pages\Providers\FileSystem\FileSystemPageStructureService.cs" />
     <Compile Include="Pages\Providers\FileSystem\XrcFile.cs" />
     <Compile Include="Pages\Providers\FileSystem\XrcFileSystemHelper.cs" />

@@ -14,15 +14,15 @@ namespace xrc.Pages.Providers.Common.Parsers
 	public class HtmlParserService : ParserServiceBase
 	{
 		readonly IViewCatalogService _viewCatalog;
-		readonly IPageProviderService _pageProvider;
+		readonly IResourceProviderService _resourceProvider;
 
 		public HtmlParserService(IXrcSchemaParserService configParser,
 								IViewCatalogService viewCatalog,
-								IPageProviderService pageProvider)
+								IResourceProviderService resourceProvider)
 			: base(configParser, ".xrc.html")
 		{
 			_viewCatalog = viewCatalog;
-			_pageProvider = pageProvider;
+			_resourceProvider = resourceProvider;
 		}
 
 		// TODO E' possibile semplificare e irrobustire questo codice?
@@ -45,7 +45,7 @@ namespace xrc.Pages.Providers.Common.Parsers
 			if (viewProperty == null)
 				throw new XrcException(string.Format("Property '{0}' for type '{1}' not found.", propertyName, viewComponentDefinition.Type.FullName));
 
-			string content = _pageProvider.ResourceToHtml(file.ResourceLocation);
+			string content = _resourceProvider.ResourceToHtml(file.ResourceLocation);
 			var propertyValue = new XValue(viewProperty.PropertyType, content);
 
 			view.Properties.Add(new XProperty(viewProperty, propertyValue));

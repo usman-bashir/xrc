@@ -12,30 +12,60 @@ namespace xrc
 
 	public class XrcRequest : HttpRequestBase
 	{
-		private HttpCookieCollection _cookies = new HttpCookieCollection();
-		private NameValueCollection _form = new NameValueCollection();
-		private NameValueCollection _headers = new NameValueCollection();
-        private NameValueCollection _serverVariables = new NameValueCollection();
-		private NameValueCollection _queryString;
-		private XrcUrl _url;
-		private Encoding _contentEncoding;
-		private string _httpMethod;
+		readonly HttpCookieCollection _cookies;
+		readonly NameValueCollection _form;
+		readonly NameValueCollection _headers;
+        readonly NameValueCollection _serverVariables;
+		readonly NameValueCollection _queryString;
+		readonly XrcUrl _url;
+		readonly Encoding _contentEncoding;
+		readonly string _httpMethod;
 
-        private HttpRequestBase _parentRequest;
+        readonly HttpRequestBase _innerRequest;
 
-		public XrcRequest(XrcUrl request, Encoding encoding = null, string httpMethod = "GET", HttpRequestBase parentRequest = null)
+		public XrcRequest(HttpRequestBase innerRequest)
 		{
-			if (request == null)
+			if (innerRequest == null)
+				throw new ArgumentNullException("innerRequest");
+
+			_httpMethod = innerRequest.HttpMethod;
+			_url = new xrc.XrcUrl(innerRequest.AppRelativeCurrentExecutionFilePath);
+			_queryString = innerRequest.QueryString;
+			_innerRequest = innerRequest;
+			_cookies = _innerRequest.Cookies;
+			_form = _innerRequest.Form;
+			_headers = _innerRequest.Headers;
+			_serverVariables = _innerRequest.ServerVariables;
+			_contentEncoding = _innerRequest.ContentEncoding;
+		}
+
+		public XrcRequest(XrcUrl requestUrl, string httpMethod = "GET", HttpRequestBase parentRequest = null)
+		{
+			if (requestUrl == null)
 				throw new ArgumentNullException("request");
 
-			if (encoding == null)
-				encoding = Encoding.UTF8;
-
 			_httpMethod = httpMethod;
-			_contentEncoding = encoding;
-			_url = request;
+			_url = requestUrl;
+            _innerRequest = parentRequest;
+
+			if (_innerRequest == null)
+			{
+				_cookies = new HttpCookieCollection();
+				_form = new NameValueCollection();
+				_headers = new NameValueCollection();
+				_serverVariables = new NameValueCollection();
+				_contentEncoding = Encoding.UTF8;
+			}
+			else
+			{
+				_cookies = _innerRequest.Cookies;
+				_form = _innerRequest.Form;
+				_headers = _innerRequest.Headers;
+				_serverVariables = _innerRequest.ServerVariables;
+				_contentEncoding = _innerRequest.ContentEncoding;
+			}
+
 			_queryString = HttpUtility.ParseQueryString(_url.Query, _contentEncoding);
-            _parentRequest = parentRequest;
 		}
 
 		//public override string[] AcceptTypes
@@ -85,12 +115,6 @@ namespace xrc
 		{
 			get
 			{
-				// Parameters precedence
-				// TODO Add Custom parameters
-				// QueryString
-				// Form
-				// TODO Add Segments parameters
-
 				return Form.AllKeys
 						.Union(QueryString.AllKeys)
 						.ToArray();
@@ -101,12 +125,6 @@ namespace xrc
 		{
 			get
 			{
-				// Parameters precedence
-				// TODO Add Custom parameters
-				// QueryString
-				// Form
-				// TODO Add Segments parameters
-
 				string val = _form[key];
 				if (val == null)
 					val = _queryString[key];
@@ -147,8 +165,8 @@ namespace xrc
 		{
 			get 
 			{
-				if (_parentRequest != null)
-					return _parentRequest.Url;
+				if (_innerRequest != null)
+					return _innerRequest.Url;
 				else
 					return null; 
 			}
@@ -182,10 +200,10 @@ namespace xrc
         {
             get
             {
-                if (_parentRequest == null)
+                if (_innerRequest == null)
                     return true;
                 else
-                    return _parentRequest.IsLocal;
+                    return _innerRequest.IsLocal;
             }
         }
 
@@ -193,10 +211,10 @@ namespace xrc
         {
             get
             {
-                if (_parentRequest == null)
+                if (_innerRequest == null)
                     return string.Empty;
                 else
-                    return _parentRequest.ApplicationPath;
+                    return _innerRequest.ApplicationPath;
             }
         }
 
