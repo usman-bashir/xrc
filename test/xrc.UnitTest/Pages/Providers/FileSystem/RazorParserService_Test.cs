@@ -40,7 +40,7 @@ namespace xrc.Pages.Providers.FileSystem
 		private XrcItem GetItem(string fileName)
 		{
 			var item = XrcItem.NewXrcFile(fileName);
-			var xrcRoot = XrcItem.NewRoot(item);
+			var xrcRoot = XrcItem.NewRoot("~", item);
 
 			return item;
 		}

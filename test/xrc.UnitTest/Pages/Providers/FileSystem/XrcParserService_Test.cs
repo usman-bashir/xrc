@@ -26,7 +26,7 @@ namespace xrc.Pages.Providers.FileSystem
 		{
 			var item = XrcItem.NewXrcFile("item.xrc");
 			var config = XrcItem.NewConfigFile();
-			var xrcRoot = XrcItem.NewRoot(item, config);
+			var xrcRoot = XrcItem.NewRoot("~", item, config);
 
 			var schemaParser = new Mock<IXrcSchemaParserService>();
 			var configParserResult = new PageParserResult();
@@ -50,7 +50,7 @@ namespace xrc.Pages.Providers.FileSystem
 		{
 			var item = XrcItem.NewXrcFile("item.xrc");
 			var layout = XrcItem.NewXrcFile("_layout.xrc");
-			var xrcRoot = XrcItem.NewRoot(item, layout);
+			var xrcRoot = XrcItem.NewRoot("~", item, layout);
 
 			var schemaParser = new Mock<IXrcSchemaParserService>();
 
@@ -71,7 +71,7 @@ namespace xrc.Pages.Providers.FileSystem
 			var item = XrcItem.NewXrcFile("item.xrc");
 			var layout = XrcItem.NewXrcFile("_layout.xrc");
 			var xrcPathParam = XrcItem.NewDirectory("{param}", item, layout);
-			var xrcRoot = XrcItem.NewRoot(xrcPathParam);
+			var xrcRoot = XrcItem.NewRoot("~", xrcPathParam);
 
 			var schemaParser = new Mock<IXrcSchemaParserService>();
 

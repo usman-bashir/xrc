@@ -49,7 +49,7 @@ namespace xrc.Pages.Providers.FileSystem
 			var item = XrcItem.NewXrcFile("item.xrc.xhtml");
 			var layout = XrcItem.NewXrcFile("_layout.xrc");
 			var shared = XrcItem.NewDirectory("shared", layout);
-			var xrcRoot = XrcItem.NewRoot(shared, item);
+			var xrcRoot = XrcItem.NewRoot("~", shared, item);
 
 			var expectedContent = new XDocument(new XElement("test"));
 
@@ -74,7 +74,7 @@ namespace xrc.Pages.Providers.FileSystem
 		private XrcItem GetItem(string fileName)
 		{
 			var item = XrcItem.NewXrcFile(fileName);
-			var xrcRoot = XrcItem.NewRoot(item);
+			var xrcRoot = XrcItem.NewRoot("~", item);
 
 			return item;
 		}

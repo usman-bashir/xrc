@@ -33,7 +33,9 @@ namespace xrc.Configuration
 
 		public Uri AppRelativeUrlToRelativeUrl(string url)
 		{
-			return new Uri(UriExtensions.AppRelativeUrlToRelativeUrl(url, VirtualPath), UriKind.RelativeOrAbsolute);
+			string relativeUrl = UriExtensions.Combine("/", VirtualPath.TrimStart('~'));
+
+			return new Uri(UriExtensions.AppRelativeUrlToRelativeUrl(url, relativeUrl), UriKind.RelativeOrAbsolute);
 		}
 	}
 }

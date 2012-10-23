@@ -14,7 +14,7 @@ namespace xrc.Pages.Providers.FileSystem
 	{
 		public XrcItem GetRoot()
 		{
-			return XrcItem.NewRoot(
+			return XrcItem.NewRoot("~/",
 					XrcItem.NewXrcFile("index.xrc"),
 					XrcItem.NewXrcFile("about.xrc"),
 					XrcItem.NewDirectory("news",
@@ -32,6 +32,17 @@ namespace xrc.Pages.Providers.FileSystem
 		}
 	}
 
+	class TestPageStructure_With_VirtualDir : IPageStructureService
+	{
+		public XrcItem GetRoot()
+		{
+			return XrcItem.NewRoot("~/xrcroot",
+					XrcItem.NewXrcFile("index.xrc"),
+					XrcItem.NewXrcFile("about.xrc")
+				);
+		}
+	}
+
 	[TestClass]
 	public class PageLocatorService_Test
 	{
@@ -41,11 +52,24 @@ namespace xrc.Pages.Providers.FileSystem
 			return target.Locate(new XrcUrl(url));
 		}
 
+		PageLocatorResult Locate_with_VirtualDir(string url)
+		{
+			PageLocatorService target = new PageLocatorService(new TestPageStructure_With_VirtualDir());
+			return target.Locate(new XrcUrl(url));
+		}
+
 		[TestMethod]
 		public void Locate_Base_Functionalities()
 		{
 			Assert.AreEqual("~/about", Locate("~/about").Url.ToString());
 			Assert.AreEqual("~/about.xrc", Locate("~/about").Item.ResourceLocation);
+		}
+
+		[TestMethod]
+		public void Locate_With_Virtual_Directory_Base_Functionalities()
+		{
+			Assert.AreEqual("~/about", Locate_with_VirtualDir("~/about").Url.ToString());
+			Assert.AreEqual("~/xrcroot/about.xrc", Locate_with_VirtualDir("~/about").Item.ResourceLocation);
 		}
 
 		[TestMethod]

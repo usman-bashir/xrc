@@ -155,9 +155,14 @@ namespace xrc
 
 		private Uri GetCanonicalUrl(IContext context)
 		{
-			UriBuilder redirectUrl = new UriBuilder(_rootPath.AppRelativeUrlToRelativeUrl(context.Page.Url.ToString()));
-			redirectUrl.Query = context.Request.Url.Query;
-			Uri canonicalUrl = redirectUrl.Uri;
+			Uri relativeUrl = _rootPath.AppRelativeUrlToRelativeUrl(context.Page.Url.ToString());
+
+			// TODO Devo usare un dominio fittizio perchè UriBuilder non supporta relative url. Verificare se c'è un metodo migliore.
+			UriBuilder canonicalUrlBuilder = new UriBuilder("http", "dummy", 80, 
+															relativeUrl.GetPath(),
+															context.Request.Url.Query);
+
+			Uri canonicalUrl = new Uri(canonicalUrlBuilder.Uri.GetPath(), UriKind.Relative);
 			return canonicalUrl;
 		}
 

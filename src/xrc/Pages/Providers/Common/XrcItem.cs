@@ -32,10 +32,10 @@ namespace xrc.Pages.Providers.Common
 				Items.AddRange(items);
 		}
 
-		public static XrcItem NewRoot(params XrcItem[] items)
+		public static XrcItem NewRoot(string rootResourceLocation, params XrcItem[] items)
 		{
-			const string resourceName = "~";
 			const string name = "~";
+			string resourceName = rootResourceLocation;
 			var parametricSegment = new ParametricUriSegment(name);
 
 			return new XrcItem(XrcItemType.Directory, resourceName, name, parametricSegment, items);

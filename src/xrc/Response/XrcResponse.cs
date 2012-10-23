@@ -15,7 +15,6 @@ namespace xrc
 	public class XrcResponse : HttpResponseBase
 	{
 		readonly HttpCookieCollection _cookies;
-		readonly NameValueCollection _headers;
 		readonly TextWriter _output;
 		readonly Stream _outputStream;
 		readonly bool _isStreamOwner;
@@ -37,7 +36,6 @@ namespace xrc
 
 			_isStreamOwner = false;
 			_cookies = _innerResponse.Cookies;
-			_headers = _innerResponse.Headers;
 			_statusCode = _innerResponse.StatusCode;
 			_contentEncoding = _innerResponse.ContentEncoding;
 			_contentType = _innerResponse.ContentType;
@@ -58,7 +56,6 @@ namespace xrc
 			if (_innerResponse == null)
 			{
 				_cookies = new HttpCookieCollection();
-				_headers = new NameValueCollection();
 				_statusCode = (int)HttpStatusCode.OK;
 				_contentEncoding = Encoding.UTF8;
 				_contentType = "text/html; charset=UTF-8";
@@ -70,7 +67,6 @@ namespace xrc
 			else
 			{
 				_cookies = _innerResponse.Cookies;
-				_headers = _innerResponse.Headers;
 				_statusCode = _innerResponse.StatusCode;
 				_contentEncoding = _innerResponse.ContentEncoding;
 				_contentType = _innerResponse.ContentType;
@@ -116,11 +112,6 @@ namespace xrc
 			set { _contentType = value; }
 		}
 
-		public override NameValueCollection Headers
-		{
-			get { return _headers; }
-		}
-
 		public override TextWriter Output
 		{
 			get { return _output; }
@@ -142,8 +133,19 @@ namespace xrc
 
         public override void RedirectPermanent(string url)
         {
-            throw new XrcException(string.Format("Response redirection required, redirect url is '{0}'.", url));
+			if (_innerResponse != null)
+				_innerResponse.RedirectPermanent(url);
+			else
+	            throw new XrcException(string.Format("Response redirection required, redirect url is '{0}'.", url));
         }
+
+		public override void RedirectPermanent(string url, bool endResponse)
+		{
+			if (_innerResponse != null)
+				_innerResponse.RedirectPermanent(url, true);
+			else
+				throw new XrcException(string.Format("Response redirection required, redirect url is '{0}'.", url));
+		}
 
 		public override void Write(string s)
 		{

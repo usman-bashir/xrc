@@ -23,7 +23,7 @@ namespace xrc.Pages.Providers.FileSystem
 		{
 			// TODO Mettere in cache questo valore (dipendenza a file?) o gestirlo a livello di classe (FileSystemWatcher?)
 
-			var root = XrcItem.NewRoot();
+			var root = XrcItem.NewRoot(_rootPath.VirtualPath);
 			FillItems(root);
 
 			return root;
@@ -42,7 +42,7 @@ namespace xrc.Pages.Providers.FileSystem
 
 			foreach (var parser in _parsers)
 			{
-				var parserFiles = Directory.GetFiles(directoryPath, string.Format("*.{0}", parser.Extension))
+				var parserFiles = Directory.GetFiles(directoryPath, string.Format("*{0}", parser.Extension))
 												.Select(p => XrcItem.NewXrcFile(Path.GetFileName(p)));
 				item.Items.AddRange(parserFiles);
 			}
