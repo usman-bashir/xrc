@@ -34,7 +34,11 @@ namespace xrc.Pages.Providers.Common
 
 		public static XrcItem NewRoot(params XrcItem[] items)
 		{
-			return new XrcItem(XrcItemType.Directory, "~", "~", null, items);
+			const string resourceName = "~";
+			const string name = "~";
+			var parametricSegment = new ParametricUriSegment(name);
+
+			return new XrcItem(XrcItemType.Directory, resourceName, name, parametricSegment, items);
 		}
 		public static XrcItem NewDirectory(string resourceName, params XrcItem[] items)
 		{
@@ -50,11 +54,9 @@ namespace xrc.Pages.Providers.Common
 
 			return new XrcItem(XrcItemType.XrcFile, resourceName, name, parametricSegment, null);
 		}
-		public static XrcItem NewConfigFile(string resourceName)
+		public static XrcItem NewConfigFile()
 		{
-			string name = GetConfigLogicalName(resourceName);
-
-			return new XrcItem(XrcItemType.ConfigFile, resourceName, name, null, null);
+			return new XrcItem(XrcItemType.ConfigFile, XRC_DIRECTORY_CONFIG_FILE, XRC_DIRECTORY_CONFIG_FILE, null, null);
 		}
 
 		public string ResourceName
@@ -85,18 +87,7 @@ namespace xrc.Pages.Providers.Common
 
 		public XrcUrl GetUrl(Dictionary<string, string> segmentParameters = null)
 		{
-			string currentName;
-			if (segmentParameters != null && 
-				_parametricSegment != null && _parametricSegment.IsParametric)
-			{
-				string paramValue;
-				if (segmentParameters.TryGetValue(_parametricSegment.ParameterName, out paramValue))
-					currentName = paramValue;
-				else
-					currentName = Name;
-			}
-			else
-				currentName = Name;
+			string currentName = GetNameFromParameters(segmentParameters);
 
 			XrcUrl url;
 			if (ItemType == XrcItemType.Directory)
@@ -108,10 +99,36 @@ namespace xrc.Pages.Providers.Common
 
 				url = url.AppendTrailingSlash();
 			}
+			else if (ItemType == XrcItemType.XrcFile)
+			{
+				XrcUrl parentUrl = Parent.GetUrl(segmentParameters);
+
+				if (IsIndex)
+					url = parentUrl;
+				else
+					url = parentUrl.Append(currentName);
+			}
 			else
-				url = Parent.GetUrl(segmentParameters).Append(currentName);
+				throw new XrcException(string.Format("GetUrl not supported on '{0}'.", ItemType));
 
 			return url;
+		}
+
+		private string GetNameFromParameters(Dictionary<string, string> segmentParameters)
+		{
+			string currentName;
+			if (segmentParameters != null &&
+				_parametricSegment != null && _parametricSegment.IsParametric)
+			{
+				string paramValue;
+				if (segmentParameters.TryGetValue(_parametricSegment.ParameterName, out paramValue))
+					currentName = paramValue;
+				else
+					currentName = Name;
+			}
+			else
+				currentName = Name;
+			return currentName;
 		}
 
 		public XrcItem Parent
@@ -240,13 +257,6 @@ namespace xrc.Pages.Providers.Common
 			return directoryName.ToLowerInvariant();
 		}
 
-		public static string GetConfigLogicalName(string configName)
-		{
-			if (!string.Equals(XRC_DIRECTORY_CONFIG_FILE, configName, StringComparison.InvariantCultureIgnoreCase))
-				throw new NotSupportedException(string.Format("Not valid filename '{0}'.", configName));
-
-			return configName.ToLowerInvariant();
-		}
 		//public static string GetFileExtension(string fileName)
 		//{
 		//    var match = _xrcFileRegEx.Match(fileName.ToLowerInvariant());

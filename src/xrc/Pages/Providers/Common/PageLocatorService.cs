@@ -22,49 +22,48 @@ namespace xrc.Pages.Providers.Common
 			if (url == null)
 				throw new ArgumentNullException("url");
 
-			string currentUrl = url.Path;
 			var urlSegmentParameters = new Dictionary<string, string>();
 
-			XrcItem currentItem = _pageStructure.GetRoot();
-			XrcItem matchItem = null;
-			StringBuilder actualVirtualUrl = new StringBuilder("~/");
-
-			while (!(string.IsNullOrEmpty(currentUrl) || currentUrl == "/"))
-			{
-				matchItem = SearchItem(urlSegmentParameters, currentItem, actualVirtualUrl, ref currentUrl);
-				if (matchItem == null)
-					return null; //Not found
-				else
-					currentItem = matchItem;
-			}
-
-			// last segment found is not a file, so try to read the default (index) file
-			if (matchItem == null)
-				matchItem = currentItem.IndexFile;
+			var matchItem = MatchItem(_pageStructure.GetRoot(), url.Path, urlSegmentParameters);
 
 			if (matchItem == null)
-				return null; //Not found
+				return null;
 
-			return new PageLocatorResult(matchItem, urlSegmentParameters, actualVirtualUrl.ToString());
+			return new PageLocatorResult(matchItem, urlSegmentParameters);
         }
 
-		private static XrcItem SearchItem(Dictionary<string, string> urlSegmentParameters, 
-										XrcItem currentItem, StringBuilder canonicalUrl,
-										ref string currentUrl)
+		XrcItem MatchItem(XrcItem item, string url, Dictionary<string, string> urlSegmentParameters)
 		{
-			foreach (var subItem in currentItem.Items)
+			var matchResult = item.Match(url);
+			if (matchResult.Success)
 			{
-				ParametricUriSegmentResult matchResult = subItem.Match(currentUrl);
-				if (matchResult.Success)
-				{
-					if (!subItem.IsIndex)
-						canonicalUrl.Append(UriExtensions.RemoveTrailingSlash(matchResult.CurrentUrlPart));
-					if (matchResult.IsParameter)
-						urlSegmentParameters.Add(matchResult.ParameterName, matchResult.ParameterValue);
+				if (matchResult.IsParameter)
+					urlSegmentParameters.Add(matchResult.ParameterName, matchResult.ParameterValue);
 
-					currentUrl = matchResult.NextUrlPart;
-					return subItem;
+				if (string.IsNullOrEmpty(matchResult.NextUrlPart))
+				{
+					// last segment found is not a file, so try to read the default (index) file
+					if (item.ItemType == XrcItemType.Directory)
+						return item.IndexFile;
+					else if (item.ItemType == XrcItemType.XrcFile)
+						return item;
+					else
+						throw new XrcException(string.Format("Item '{0}' is not supported.", item.ResourceLocation));
 				}
+				else
+					return MatchList(item.Items, matchResult.NextUrlPart, urlSegmentParameters);
+			}
+
+			return null;
+		}
+
+		XrcItem MatchList(XrcItemList list, string url, Dictionary<string, string> urlSegmentParameters)
+		{
+			foreach (var item in list.Where(p => p.ItemType != XrcItemType.ConfigFile))
+			{
+				var match = MatchItem(item, url, urlSegmentParameters);
+				if (match != null)
+					return match;
 			}
 
 			return null;

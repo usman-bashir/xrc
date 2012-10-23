@@ -24,7 +24,7 @@ namespace xrc.Pages
             get;
         }
 
-		string VirtualPath
+		XrcUrl Url
 		{
 			get;
 		}
@@ -43,6 +43,6 @@ namespace xrc.Pages
 
 		string GetResourceLocation(string resourceName);
 
-		string GetContentVirtualUrl(string page);
+		string GetContentUrl(string page);
 	}
 }

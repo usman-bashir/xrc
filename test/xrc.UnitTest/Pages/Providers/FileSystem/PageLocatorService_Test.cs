@@ -16,65 +16,92 @@ namespace xrc.Pages.Providers.FileSystem
 		{
 			return XrcItem.NewRoot(
 					XrcItem.NewXrcFile("index.xrc"),
-					XrcItem.NewXrcFile("about.xrc"));
+					XrcItem.NewXrcFile("about.xrc"),
+					XrcItem.NewDirectory("news",
+						XrcItem.NewXrcFile("index.xrc")
+					),
+					XrcItem.NewDirectory("athletes",
+						XrcItem.NewXrcFile("index.xrc"),
+						XrcItem.NewConfigFile(),
+						XrcItem.NewDirectory("{athleteid}",
+							XrcItem.NewXrcFile("index.xrc"),
+							XrcItem.NewXrcFile("bio.xrc")
+						)
+					)
+				);
 		}
 	}
 
 	[TestClass]
 	public class PageLocatorService_Test
 	{
-		[TestMethod]
-        public void It_should_be_possible_to_Locate_File_Base()
+		PageLocatorResult Locate(string url)
 		{
 			PageLocatorService target = new PageLocatorService(new TestPageStructure());
+			return target.Locate(new XrcUrl(url));
+		}
 
-#warning da completare
+		[TestMethod]
+		public void Locate_Base_Functionalities()
+		{
+			Assert.AreEqual("~/about", Locate("~/about").Url.ToString());
+			Assert.AreEqual("~/about.xrc", Locate("~/about").Item.ResourceLocation);
+		}
 
-			//// Base functionalities
-			//Assert.AreEqual("~/", target.Locate("/").VirtualPath);
-			//Assert.AreEqual("~/index.xrc", target.Locate("/").Item.VirtualPath);
+		[TestMethod]
+		public void Locate_Index_Page_without_specify_it()
+		{
+			Assert.AreEqual("~/", Locate("~/").Url.ToString());
+			Assert.AreEqual("~/index.xrc", Locate("~/").Item.ResourceLocation);
 
-			//Assert.AreEqual("~/about", target.Locate("/about").VirtualPath);
-			//Assert.AreEqual("~/about.xrc", target.Locate("/about").Item.VirtualPath);
+			Assert.AreEqual("~/news/index.xrc", Locate("~/news").Item.ResourceLocation);
+			Assert.AreEqual("~/news/index.xrc", Locate("~/news/").Item.ResourceLocation);
 
-			//Assert.AreEqual("~/about", target.Locate("/ABOUT").VirtualPath);
-			//Assert.AreEqual("~/about.xrc", target.Locate("/ABOUT").Item.VirtualPath);
+			Assert.AreEqual("~/news/index.xrc", Locate("~/news/?query#anchor").Item.ResourceLocation);
+		}
 
-			//Assert.AreEqual("~/about", target.Locate("/about#anchor").VirtualPath);
-			//Assert.AreEqual("~/about.xrc", target.Locate("/about#anchor").Item.VirtualPath);
+		[TestMethod]
+		public void Locate_Index_Page_specify_it()
+		{
+			Assert.AreEqual("~/", Locate("~/index").Url.ToString());
+		}
 
-			//Assert.AreEqual("~/about", target.Locate("/about?query=x").VirtualPath);
-			//Assert.AreEqual("~/about.xrc", target.Locate("/about?query=x").Item.VirtualPath);
+		[TestMethod]
+		public void Locate_Is_Case_Insensitive()
+		{
+			Assert.AreEqual("~/about.xrc", Locate("~/ABOUT").Item.ResourceLocation);
+		}
 
-			//Assert.AreEqual(target.Locate("/news/").File.FullPath, Path.Combine(appPath, @"news\index.xrc"));
-			//Assert.AreEqual(target.Locate("/news/?param=test").File.FullPath, Path.Combine(appPath, @"news\index.xrc"));
-			//Assert.AreEqual(target.Locate("/athletes").File.FullPath, Path.Combine(appPath, @"athletes\index.xrc"));
-			//Assert.AreEqual(target.Locate("/athletes").CanonicalVirtualUrl, "~/athletes/");
-			//Assert.AreEqual(target.Locate("/aTHletes").File.VirtualPath, "~/samplewebsite1/athletes/index.xrc");
-			//Assert.AreEqual(target.Locate("/aTHletes").File.Parent.VirtualPath, "~/samplewebsite1/athletes/");
-			//Assert.AreEqual(target.Locate("/ATHLETES").CanonicalVirtualUrl, "~/athletes/");
-			//Assert.AreEqual(target.Locate("/ATHLETES/indeX").CanonicalVirtualUrl, "~/athletes/");
-			//Assert.AreEqual(target.Locate("").File.FullPath, Path.Combine(appPath, "index.xrc"));
-			//Assert.AreEqual(target.Locate("athletes").File.FullPath, Path.Combine(appPath, @"athletes\index.xrc"));
-        }
+		[TestMethod]
+		public void Locate_Url_can_contains_query()
+		{
+			Assert.AreEqual("~/about.xrc", Locate("~/about?query=x").Item.ResourceLocation);
+		}
+
+		[TestMethod]
+		public void Locate_Url_can_contains_anchor()
+		{
+			Assert.AreEqual("~/about.xrc", Locate("~/about#anchor").Item.ResourceLocation);
+		}
+
+		[TestMethod]
+		public void Locate_Url_with_segment_parameters()
+		{
+			Assert.AreEqual("~/athletes/{athleteid}/index.xrc", Locate("~/athletes/totti").Item.ResourceLocation);
+			Assert.AreEqual("totti", Locate("~/athletes/totti").UrlSegmentsParameters["athleteid"]);
+			Assert.AreEqual("~/athletes/{athleteid}/bio.xrc", Locate("~/athletes/totti/bio").Item.ResourceLocation);
+		}
+
+		[TestMethod]
+		public void Locate_Url_with_segment_parameters_case_insensitive()
+		{
+			Assert.AreEqual("~/athletes/{athleteid}/index.xrc", Locate("~/athletes/TOTTI").Item.ResourceLocation);
+			Assert.AreEqual("totti", Locate("~/athletes/TOTTI").UrlSegmentsParameters["athleteid"]);
+		}
 
 		//[TestMethod]
 		//public void It_should_be_possible_to_Locate_File_With_Parameters()
 		//{
-		//    var workingPath = new Mocks.RootPathConfigMock("~/sampleWebSite1", TestHelper.GetPath("sampleWebSite1"));
-		//    PageLocatorService target = new PageLocatorService(workingPath);
-		//    var appPath = workingPath.PhysicalPath.ToLowerInvariant();
-
-		//    // Dynamic pages
-		//    Assert.AreEqual(target.Locate("/athletes/totti").File.FullPath, Path.Combine(appPath, @"athletes\{athleteid}\index.xrc"));
-		//    Assert.AreEqual(target.Locate("/athletes/totti").UrlSegmentsParameters["athleteid"], "totti");
-		//    Assert.AreEqual(target.Locate("/athletes/ToTTi").UrlSegmentsParameters["athleteid"], "totti");
-		//    Assert.AreEqual(target.Locate("/teams/torino").File.FullPath, Path.Combine(appPath, @"teams\{teamid}\index.xrc"));
-		//    Assert.AreEqual(target.Locate("/teams/torino").CanonicalVirtualUrl, "~/teams/torino/");
-		//    Assert.AreEqual(target.Locate("/teams/torino").File.VirtualPath, "~/samplewebsite1/teams/{teamid}/index.xrc");
-		//    Assert.AreEqual(target.Locate("/teams/torino").File.Parent.VirtualPath, "~/samplewebsite1/teams/{teamid}/");
-		//    Assert.AreEqual(target.Locate("/teams/veroNA").File.VirtualPath, "~/samplewebsite1/teams/{teamid}/index.xrc");
-		//    Assert.AreEqual(target.Locate("/teams/veroNA").File.Parent.VirtualPath, "~/samplewebsite1/teams/{teamid}/");
 		//    Assert.AreEqual(target.Locate("/teams/torino/matches").File.FullPath, Path.Combine(appPath, @"teams\{teamid}\matches.xrc"));
 		//    Assert.AreEqual(target.Locate("/TEAMS/TORINO/MATCHES").CanonicalVirtualUrl, "~/teams/torino/matches");
 		//    Assert.AreEqual(target.Locate("/teams/torino/cravero").UrlSegmentsParameters["teamid"], "torino");

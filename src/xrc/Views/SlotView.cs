@@ -28,7 +28,7 @@ namespace xrc.Views
             if (SlotUrl == null)
                 throw new ArgumentNullException("Slot");
 
-			XrcUrl xrcUrl = new XrcUrl(context.Page.GetContentVirtualUrl(SlotUrl));
+			XrcUrl xrcUrl = new XrcUrl(context.Page.GetContentUrl(SlotUrl));
 
 			ContentResult result = _xrcService.Page(xrcUrl, context.Page.SiteConfiguration, null, context);
 

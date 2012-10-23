@@ -28,7 +28,7 @@ namespace xrc.Modules
 
 		public Pages.IPage Get(string url)
 		{
-			XrcUrl xrcUrl = new XrcUrl(_context.Page.GetContentVirtualUrl(url));
+			XrcUrl xrcUrl = new XrcUrl(_context.Page.GetContentUrl(url));
 
 			return _pageProvider.GetPage(xrcUrl, _context.Page.SiteConfiguration);
 		}

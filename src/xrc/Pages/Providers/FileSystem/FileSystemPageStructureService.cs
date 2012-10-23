@@ -48,7 +48,7 @@ namespace xrc.Pages.Providers.FileSystem
 			}
 
 			var configFiles = Directory.GetFiles(directoryPath, XrcItem.XRC_DIRECTORY_CONFIG_FILE)
-											.Select(p => XrcItem.NewConfigFile(Path.GetFileName(p)));
+											.Select(p => XrcItem.NewConfigFile());
 			item.Items.AddRange(configFiles);
 
 			foreach (var subItem in item.Items)

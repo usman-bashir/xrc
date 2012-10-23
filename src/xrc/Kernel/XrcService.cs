@@ -122,9 +122,8 @@ namespace xrc
 			// Why to redirect to canonical Url to have always the same url (for caching) and for better url architecture
 			if (!IsCanonicalUrl(context.Page, context.Request.Url))
 			{
-				UriBuilder redirectUrl = new UriBuilder(_rootPath.AppRelativeUrlToRelativeUrl(context.Page.VirtualPath));
-				redirectUrl.Query = context.Request.Url.Query;
-				ProcessPermanentRedirect(context, redirectUrl.Uri);
+				Uri canonicalUrl = GetCanonicalUrl(context);
+				ProcessPermanentRedirect(context, canonicalUrl);
 				return;
 			}
 
@@ -154,9 +153,17 @@ namespace xrc
 			}
 		}
 
+		private Uri GetCanonicalUrl(IContext context)
+		{
+			UriBuilder redirectUrl = new UriBuilder(_rootPath.AppRelativeUrlToRelativeUrl(context.Page.Url.ToString()));
+			redirectUrl.Query = context.Request.Url.Query;
+			Uri canonicalUrl = redirectUrl.Uri;
+			return canonicalUrl;
+		}
+
 		private bool IsCanonicalUrl(IPage page, Uri requestUri)
 		{
-			var canonicalPath = _rootPath.AppRelativeUrlToRelativeUrl(page.VirtualPath).GetPath();
+			var canonicalPath = _rootPath.AppRelativeUrlToRelativeUrl(page.Url.ToString()).GetPath();
 			var requestedPath = requestUri.GetPath();
 
 			return string.Equals(canonicalPath, requestedPath, StringComparison.Ordinal);
@@ -172,7 +179,7 @@ namespace xrc
 			// Parameters will be also copied from slot to layout.
 
 			string layoutPage = childAction.Layout.ToLower();
-			string appRelativeLayoutPage = childContext.Page.GetContentVirtualUrl(layoutPage);
+			string appRelativeLayoutPage = childContext.Page.GetContentUrl(layoutPage);
 			Context layoutContext = new Context(new XrcRequest(new XrcUrl(appRelativeLayoutPage), parentRequest: childContext.Request), currentResponse);
 			layoutContext.CallerContext = childContext;
 			foreach (var item in childContext.Parameters)

@@ -25,7 +25,7 @@ namespace xrc.Pages.Providers.FileSystem
 		public void It_Should_be_possible_to_parse_folder_parameters()
 		{
 			var item = XrcItem.NewXrcFile("item.xrc");
-			var config = XrcItem.NewConfigFile("xrc.config");
+			var config = XrcItem.NewConfigFile();
 			var xrcRoot = XrcItem.NewRoot(item, config);
 
 			var schemaParser = new Mock<IXrcSchemaParserService>();

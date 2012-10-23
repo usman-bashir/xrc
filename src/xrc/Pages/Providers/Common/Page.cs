@@ -13,7 +13,7 @@ namespace xrc.Pages.Providers.Common
 		readonly PageParameterList _parameters;
 		readonly ModuleDefinitionList _modules;
 		readonly Sites.ISiteConfiguration _siteConfiguration;
-		readonly string _virtualPath;
+		readonly XrcUrl _url;
 		readonly string _resourceLocation;
 		readonly Dictionary<string, string> _urlSegmentsParameters;
 
@@ -27,7 +27,7 @@ namespace xrc.Pages.Providers.Common
 			_modules = parserResult.Modules;
 			_siteConfiguration = siteConfiguration;
 			_urlSegmentsParameters = locatorResult.UrlSegmentsParameters;
-			_virtualPath = locatorResult.VirtualPath;
+			_url = locatorResult.Url;
 			_resourceLocation = item.ResourceLocation;
 		}
 
@@ -56,9 +56,9 @@ namespace xrc.Pages.Providers.Common
 			get { return _urlSegmentsParameters; }
 		}
 
-		public string VirtualPath
+		public XrcUrl Url
 		{
-			get { return _virtualPath; }
+			get { return _url; }
 		}
 
 		public string ResourceLocation
@@ -71,9 +71,9 @@ namespace xrc.Pages.Providers.Common
 			return UriExtensions.BuildVirtualPath(ResourceLocation, resourceName);
 		}
 
-		public string GetContentVirtualUrl(string page)
+		public string GetContentUrl(string page)
 		{
-			return UriExtensions.BuildVirtualPath(VirtualPath, page);
+			return UriExtensions.BuildVirtualPath(_url.AppRelaviteUrl, page);
 		}
 	}
 }

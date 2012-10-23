@@ -60,14 +60,14 @@ namespace xrc.Pages.Providers.Common
 			Assert.AreEqual("{test.test}test", XrcItem.GetDirectoryLogicalName(@"{test.test}test"));
 		}
 
-		[TestMethod]
-		public void It_Should_be_possible_to_get_config_name()
-		{
-			Assert.AreEqual("xrc.config", XrcItem.GetConfigLogicalName(@"xrc.config"));
-			Assert.AreEqual("xrc.config", XrcItem.GetConfigLogicalName(@"xrc.config"));
+		//[TestMethod]
+		//public void It_Should_be_possible_to_get_config_name()
+		//{
+		//    Assert.AreEqual("xrc.config", XrcItem.GetConfigLogicalName(@"xrc.config"));
+		//    Assert.AreEqual("xrc.config", XrcItem.GetConfigLogicalName(@"xrc.config"));
 
-			TestHelper.Throws<NotSupportedException>(() => XrcItem.GetConfigLogicalName(@"test.XRC"));
-			TestHelper.Throws<NotSupportedException>(() => XrcItem.GetConfigLogicalName(@"test.config"));
-		}
+		//    TestHelper.Throws<NotSupportedException>(() => XrcItem.GetConfigLogicalName(@"test.XRC"));
+		//    TestHelper.Throws<NotSupportedException>(() => XrcItem.GetConfigLogicalName(@"test.config"));
+		//}
     }
 }
