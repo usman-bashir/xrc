@@ -10,12 +10,12 @@ namespace xrc.Pages.Providers.FileSystem
 {
 	public class FileSystemPageStructureService : IPageStructureService
     {
-		readonly IRootPathConfig _rootPath;
+		readonly IFileSystemConfig _config;
 		readonly IParserService[] _parsers;
 
-		public FileSystemPageStructureService(IRootPathConfig rootPath, IParserService[] parsers)
+		public FileSystemPageStructureService(IFileSystemConfig config, IParserService[] parsers)
 		{
-			_rootPath = rootPath;
+			_config = config;
 			_parsers = parsers;
 		}
 
@@ -23,7 +23,7 @@ namespace xrc.Pages.Providers.FileSystem
 		{
 			// TODO Mettere in cache questo valore (dipendenza a file?) o gestirlo a livello di classe (FileSystemWatcher?)
 
-			var root = XrcItem.NewRoot(_rootPath.VirtualPath);
+			var root = XrcItem.NewRoot(_config.XrcRootVirtualPath);
 			FillItems(root);
 
 			return root;
@@ -34,7 +34,7 @@ namespace xrc.Pages.Providers.FileSystem
 			if (item.ItemType != XrcItemType.Directory)
 				return;
 
-			string directoryPath = _rootPath.MapPath(item.ResourceLocation);
+			string directoryPath = _config.MapPath(item.ResourceLocation);
 
 			var directories = Directory.GetDirectories(directoryPath)
 										.Select(p => XrcItem.NewDirectory(Path.GetFileName(p)));
@@ -53,11 +53,6 @@ namespace xrc.Pages.Providers.FileSystem
 
 			foreach (var subItem in item.Items)
 				FillItems(subItem);
-		}
-
-		string GetDirectoryName()
-		{
-			return Path.GetFileName(_rootPath.PhysicalPath);
 		}
 	}
 }

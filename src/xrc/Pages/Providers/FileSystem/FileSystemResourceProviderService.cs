@@ -12,11 +12,11 @@ namespace xrc.Pages.Providers.FileSystem
 {
 	public class FileSystemResourceProviderService : IResourceProviderService
 	{
-		readonly Configuration.IRootPathConfig _workingPath;
+		readonly Configuration.IFileSystemConfig _config;
 
-		public FileSystemResourceProviderService(Configuration.IRootPathConfig workingPath)
+		public FileSystemResourceProviderService(Configuration.IFileSystemConfig config)
 		{
-			_workingPath = workingPath;
+			_config = config;
 		}
 
 		// TODO Valutare come e se fare cache del risultato di GetPage e IsDefined anche perchè condividono parte del codice.
@@ -82,7 +82,7 @@ namespace xrc.Pages.Providers.FileSystem
 			if (Path.IsPathRooted(resourceLocation))
 				filePath = resourceLocation;
 			else
-				filePath = _workingPath.MapPath(resourceLocation);
+				filePath = _config.MapPath(resourceLocation);
 			return filePath;
 		}
 	}

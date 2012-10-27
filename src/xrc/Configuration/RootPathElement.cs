@@ -7,7 +7,9 @@ using System.IO;
 
 namespace xrc.Configuration
 {
-	public class RootPathElement : ConfigurationElement, IRootPathConfig
+	// TODO Da implementare da classi diverse
+
+	public class RootPathElement : ConfigurationElement, IHostingConfig, IFileSystemConfig
 	{
 		[ConfigurationProperty("virtualPath", IsRequired = true)]
 		public string VirtualPath
@@ -16,26 +18,27 @@ namespace xrc.Configuration
 			set { this["virtualPath"] = value; }
 		}
 
-		string IRootPathConfig.VirtualPath
+		public Uri WebSiteVirtualDirectory
+		{
+			get { return new Uri(UriExtensions.Combine("/", System.Web.Hosting.HostingEnvironment.ApplicationVirtualPath), UriKind.Relative); }
+		}
+		public Uri AppRelativeUrlToRelativeUrl(string url)
+		{
+			return new Uri(UriExtensions.AppRelativeUrlToRelativeUrl(url, WebSiteVirtualDirectory.ToString()), UriKind.RelativeOrAbsolute);
+		}
+		public string RelativeUrlToAppRelativeUrl(Uri url)
+		{
+			return UriExtensions.RelativeUrlToAppRelativeUrl(url.ToString(), WebSiteVirtualDirectory);
+		}
+
+
+		public string XrcRootVirtualPath
 		{
 			get { return VirtualPath; }
 		}
-
-		string IRootPathConfig.PhysicalPath
-		{
-			get { return System.Web.Hosting.HostingEnvironment.MapPath(VirtualPath); }
-		}
-
-		string IRootPathConfig.MapPath(string virtualPath)
+		string IFileSystemConfig.MapPath(string virtualPath)
 		{
 			return System.Web.Hosting.HostingEnvironment.MapPath(virtualPath);
-		}
-
-		public Uri AppRelativeUrlToRelativeUrl(string url)
-		{
-			string relativeUrl = UriExtensions.Combine("/", VirtualPath.TrimStart('~'));
-
-			return new Uri(UriExtensions.AppRelativeUrlToRelativeUrl(url, relativeUrl), UriKind.RelativeOrAbsolute);
 		}
 	}
 }

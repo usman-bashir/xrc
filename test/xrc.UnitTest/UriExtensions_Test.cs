@@ -70,7 +70,13 @@ namespace xrc
 			Assert.AreEqual(true, new Uri("http://contoso.com").IsBaseOfWithPath(new Uri("http://contoso.com/path")));
 			Assert.AreEqual(false, new Uri("http://contoso.com/path/").IsBaseOfWithPath(new Uri("http://contoso.com/")));
 			Assert.AreEqual(true, new Uri("http://contoso.com/").IsBaseOfWithPath(new Uri("http://contoso.com/path/")));
-        }
+
+			Assert.AreEqual(true, new Uri("/base/", UriKind.Relative).IsBaseOfWithPath(new Uri("/base/path/", UriKind.Relative)));
+			Assert.AreEqual(true, new Uri("/base", UriKind.Relative).IsBaseOfWithPath(new Uri("/base/path/", UriKind.Relative)));
+			Assert.AreEqual(false, new Uri("/test/", UriKind.Relative).IsBaseOfWithPath(new Uri("/base/path/", UriKind.Relative)));
+			Assert.AreEqual(true, new Uri("/", UriKind.Relative).IsBaseOfWithPath(new Uri("/base/path/", UriKind.Relative)));
+			Assert.AreEqual(true, new Uri("", UriKind.Relative).IsBaseOfWithPath(new Uri("/base/path/", UriKind.Relative)));
+		}
 
 		[TestMethod]
 		public void MakeRelativeUriEx()
@@ -78,6 +84,13 @@ namespace xrc
 			Assert.AreEqual(new Uri("", UriKind.Relative), new Uri("http://contoso.com/vpath").MakeRelativeUriEx(new Uri("http://contoso.com/vpath/")));
 			Assert.AreEqual(new Uri("index", UriKind.Relative), new Uri("http://contoso.com/vpath/index").MakeRelativeUriEx(new Uri("http://contoso.com/vpath/")));
 			Assert.AreEqual(new Uri("index/page", UriKind.Relative), new Uri("http://contoso.com/vpath/index/page").MakeRelativeUriEx(new Uri("http://contoso.com/vpath/")));
+
+			Assert.AreEqual(new Uri("vpath", UriKind.Relative), new Uri("/base/vpath", UriKind.Relative).MakeRelativeUriEx(new Uri("/base/", UriKind.Relative)));
+			Assert.AreEqual(new Uri("vpath", UriKind.Relative), new Uri("/base/vpath", UriKind.Relative).MakeRelativeUriEx(new Uri("/base", UriKind.Relative)));
+			Assert.AreEqual(new Uri("vpath/", UriKind.Relative), new Uri("/base/vpath/", UriKind.Relative).MakeRelativeUriEx(new Uri("/base/", UriKind.Relative)));
+			Assert.AreEqual(new Uri("/test/vpath", UriKind.Relative), new Uri("/test/vpath", UriKind.Relative).MakeRelativeUriEx(new Uri("/base/", UriKind.Relative)));
+			Assert.AreEqual(new Uri("/base/vpath", UriKind.Relative), new Uri("/base/vpath", UriKind.Relative).MakeRelativeUriEx(new Uri("/", UriKind.Relative)));
+			Assert.AreEqual(new Uri("/base/vpath", UriKind.Relative), new Uri("/base/vpath", UriKind.Relative).MakeRelativeUriEx(new Uri("", UriKind.Relative)));
 		}
 
 		[TestMethod]
@@ -171,6 +184,14 @@ namespace xrc
 
 			Assert.AreEqual("/base/test", UriExtensions.AppRelativeUrlToRelativeUrl("test", "/base"));
 			Assert.AreEqual("/test", UriExtensions.AppRelativeUrlToRelativeUrl("/test", "/base"));
+		}
+
+		[TestMethod]
+		public void RelativeUrlToAppRelativeUrl()
+		{
+			Assert.AreEqual("~/test", UriExtensions.RelativeUrlToAppRelativeUrl("/base/test", new Uri("/base", UriKind.Relative)));
+			Assert.AreEqual("~/base/test", UriExtensions.RelativeUrlToAppRelativeUrl("/base/test", new Uri("", UriKind.Relative)));
+			Assert.AreEqual("~/base/test", UriExtensions.RelativeUrlToAppRelativeUrl("/base/test", new Uri("", UriKind.Relative)));
 		}
 
 		[TestMethod]

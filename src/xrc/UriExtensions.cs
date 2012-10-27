@@ -53,13 +53,22 @@ namespace xrc
             baseUri = baseUri.ToLower();
             uri = uri.ToLower();
 
-            if (baseUri.Scheme == uri.Scheme &&
-                baseUri.Host == uri.Host &&
-                baseUri.Port == uri.Port &&
-                uri.GetComponents(UriComponents.Path, UriFormat.UriEscaped).StartsWith(baseUri.GetComponents(UriComponents.Path, UriFormat.UriEscaped).Trim('/')))
-                return true;
-            else
-                return false;
+			if (baseUri.IsAbsoluteUri && uri.IsAbsoluteUri)
+			{
+				if (baseUri.Scheme == uri.Scheme &&
+					baseUri.Host == uri.Host &&
+					baseUri.Port == uri.Port &&
+					uri.GetComponents(UriComponents.Path, UriFormat.UriEscaped).StartsWith(baseUri.GetComponents(UriComponents.Path, UriFormat.UriEscaped).Trim('/')))
+					return true;
+				else
+					return false;
+			}
+			else if (!baseUri.IsAbsoluteUri && !uri.IsAbsoluteUri)
+			{
+				return uri.ToString().StartsWith(baseUri.ToString());
+			}
+			else
+				throw new XrcException("Uri not valid, cannot compare a relative uri with an absolute uri.");
         }
 
         public static Uri MakeRelativeUriEx(this Uri uri, Uri baseUri)
@@ -71,14 +80,28 @@ namespace xrc
             if (!baseUri.IsBaseOfWithPath(uri))
                 return uri;
 
-            string basePath = baseUri.GetComponents(UriComponents.PathAndQuery, UriFormat.UriEscaped).Trim('/').ToLower();
-            string uriPath = uri.GetComponents(UriComponents.PathAndQuery, UriFormat.UriEscaped).TrimStart('/').ToLower();
+			if (baseUri.IsAbsoluteUri && uri.IsAbsoluteUri)
+			{
+				string basePath = baseUri.GetComponents(UriComponents.PathAndQuery, UriFormat.UriEscaped).Trim('/').ToLower();
+				string uriPath = uri.GetComponents(UriComponents.PathAndQuery, UriFormat.UriEscaped).TrimStart('/').ToLower();
 
-            string uriv = uriPath;
-            if (basePath.Length != 0)
-                uriv = uriv.Replace(basePath, "").TrimStart('/');
-            uriv = uriv.TrimStart('/');
-            return new Uri(uriv, UriKind.RelativeOrAbsolute);
+				string uriv = uriPath;
+				if (basePath.Length != 0)
+					uriv = uriv.Replace(basePath, "").TrimStart('/');
+				uriv = uriv.TrimStart('/');
+				return new Uri(uriv, UriKind.RelativeOrAbsolute);
+			}
+			else if (!baseUri.IsAbsoluteUri && !uri.IsAbsoluteUri)
+			{
+				string baseUriValid = baseUri.AppendTrailingSlash().ToString();
+				string urlString = uri.ToString();
+				if (urlString.StartsWith(baseUriValid))
+					urlString = urlString.Substring(baseUriValid.Length);
+
+				return new Uri(urlString, UriKind.Relative);
+			}
+			else
+				throw new XrcException("Uri not valid, cannot compare a relative uri with an absolute uri.");
         }
 
         public static Uri ToLower(this Uri uri)
@@ -218,6 +241,14 @@ namespace xrc
 				return virtualPath;
 			else
 				return Combine(applicationPath, virtualPath);
+		}
+
+		public static string RelativeUrlToAppRelativeUrl(string url, Uri applicationPath)
+		{
+			if (VirtualPathUtility.IsAppRelative(url))
+				return url;
+			else
+				return UriExtensions.Combine("~/", UriExtensions.MakeRelativeUriEx(new Uri(url, UriKind.RelativeOrAbsolute), applicationPath).ToString());
 		}
 
 		public static bool IsAppRelativeVirtualUrl(string appRelativeUrl)

@@ -21,15 +21,15 @@ namespace xrc
 		readonly IViewFactory _viewFactory;
 		readonly IModuleFactory _moduleFactory;
 		readonly IPageScriptService _scriptService;
-		readonly Configuration.IRootPathConfig _rootPath;
+		readonly Configuration.IHostingConfig _config;
 
 		public XrcService(IPageProviderService pageProvider,
 					IViewFactory viewFactory,
 					IModuleFactory moduleFactory,
 					IPageScriptService scriptService,
-					Configuration.IRootPathConfig rootPath)
+					Configuration.IHostingConfig config)
         {
-			_rootPath = rootPath;
+			_config = config;
 			_pageProvider = pageProvider;
 			_viewFactory = viewFactory;
 			_moduleFactory = moduleFactory;
@@ -120,9 +120,9 @@ namespace xrc
 			}
 
 			// Why to redirect to canonical Url to have always the same url (for caching) and for better url architecture
-			if (!IsCanonicalUrl(context.Page, context.Request.Url))
+			if (!IsCanonicalUrl(context.Page, context.Request.XrcUrl))
 			{
-				Uri canonicalUrl = GetCanonicalUrl(context);
+				Uri canonicalUrl = GetCanonicalUrl(context.Request.XrcUrl);
 				ProcessPermanentRedirect(context, canonicalUrl);
 				return;
 			}
@@ -153,23 +153,23 @@ namespace xrc
 			}
 		}
 
-		private Uri GetCanonicalUrl(IContext context)
+		private Uri GetCanonicalUrl(XrcUrl requestUri)
 		{
-			Uri relativeUrl = _rootPath.AppRelativeUrlToRelativeUrl(context.Page.Url.ToString());
+			Uri relativeUrl = _config.AppRelativeUrlToRelativeUrl(requestUri.ToString());
 
 			// TODO Devo usare un dominio fittizio perchè UriBuilder non supporta relative url. Verificare se c'è un metodo migliore.
 			UriBuilder canonicalUrlBuilder = new UriBuilder("http", "dummy", 80, 
 															relativeUrl.GetPath(),
-															context.Request.Url.Query);
+															requestUri.Query);
 
 			Uri canonicalUrl = new Uri(canonicalUrlBuilder.Uri.GetPath(), UriKind.Relative);
 			return canonicalUrl;
 		}
 
-		private bool IsCanonicalUrl(IPage page, Uri requestUri)
+		private bool IsCanonicalUrl(IPage page, XrcUrl requestUri)
 		{
-			var canonicalPath = _rootPath.AppRelativeUrlToRelativeUrl(page.Url.ToString()).GetPath();
-			var requestedPath = requestUri.GetPath();
+			var canonicalPath = page.Url.Path;
+			var requestedPath = requestUri.Path;
 
 			return string.Equals(canonicalPath, requestedPath, StringComparison.Ordinal);
 		}
@@ -183,9 +183,8 @@ namespace xrc
 			// The event will be called from the layout action by using Cms.Slot().
 			// Parameters will be also copied from slot to layout.
 
-			string layoutPage = childAction.Layout.ToLower();
-			string appRelativeLayoutPage = childContext.Page.GetContentUrl(layoutPage);
-			Context layoutContext = new Context(new XrcRequest(new XrcUrl(appRelativeLayoutPage), parentRequest: childContext.Request), currentResponse);
+			XrcUrl layoutPage = childContext.Page.GetPageUrl(childAction.Layout.ToLower());
+			Context layoutContext = new Context(new XrcRequest(layoutPage, parentRequest: childContext.Request), currentResponse);
 			layoutContext.CallerContext = childContext;
 			foreach (var item in childContext.Parameters)
 				layoutContext.Parameters.Add(new ContextParameter(item.Name, item.Type, item.Value));
@@ -229,7 +228,7 @@ namespace xrc
 				// Set a generic status code. We don't want to expose directly parent StatusCode like redirect 
 				//  otherwise the client is redirected to a wrong page (the parent page).
 				currentResponse.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
-				throw new PageException(appRelativeLayoutPage, ex);
+				throw new PageException(layoutPage.ToString(), ex);
 			}
 		}
 

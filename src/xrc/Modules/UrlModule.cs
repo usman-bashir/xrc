@@ -11,11 +11,11 @@ namespace xrc.Modules
     {
         readonly IContext _context;
 		readonly System.Web.Mvc.UrlHelper _urlHelper;
-		readonly Configuration.IRootPathConfig _rootPath;
+		readonly Configuration.IHostingConfig _hostingConfiguration;
 
-		public UrlModule(IContext context, Configuration.IRootPathConfig rootPath)
+		public UrlModule(IContext context, Configuration.IHostingConfig hostingConfiguration)
         {
-			_rootPath = rootPath;
+			_hostingConfiguration = hostingConfiguration;
             _context = context;
             // TODO Valutare se usare UrlHelper o riscrivere i metodi (Action, ...)
             _urlHelper = new System.Web.Mvc.UrlHelper(new XrcRequestContext(context));
@@ -23,7 +23,7 @@ namespace xrc.Modules
 
 		public string Content(string contentPath)
 		{
-			return _rootPath.AppRelativeUrlToRelativeUrl(contentPath).ToString();
+			return _hostingConfiguration.AppRelativeUrlToRelativeUrl(contentPath).ToString();
 		}
 
 		public string Content(string contentPathBase, string contentPath)

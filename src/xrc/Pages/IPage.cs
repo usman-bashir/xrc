@@ -43,6 +43,6 @@ namespace xrc.Pages
 
 		string GetResourceLocation(string resourceName);
 
-		string GetContentUrl(string page);
+		XrcUrl GetPageUrl(string page);
 	}
 }

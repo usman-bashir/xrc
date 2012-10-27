@@ -12,6 +12,7 @@ namespace xrc.Pages.Providers.Common
 		readonly PageActionList _actions;
 		readonly PageParameterList _parameters;
 		readonly ModuleDefinitionList _modules;
+		readonly Configuration.IHostingConfig _hostingConfig;
 		readonly Sites.ISiteConfiguration _siteConfiguration;
 		readonly XrcUrl _url;
 		readonly string _resourceLocation;
@@ -20,7 +21,8 @@ namespace xrc.Pages.Providers.Common
 		public Page(XrcItem item, 
 					PageParserResult parserResult,
 					PageLocatorResult locatorResult,
-					Sites.ISiteConfiguration siteConfiguration)
+					Sites.ISiteConfiguration siteConfiguration,
+					Configuration.IHostingConfig hostingConfig)
 		{
 			_actions = parserResult.Actions;
 			_parameters = parserResult.Parameters;
@@ -29,6 +31,7 @@ namespace xrc.Pages.Providers.Common
 			_urlSegmentsParameters = locatorResult.UrlSegmentsParameters;
 			_url = locatorResult.Url;
 			_resourceLocation = item.ResourceLocation;
+			_hostingConfig = hostingConfig;
 		}
 
 		public PageActionList Actions
@@ -71,9 +74,14 @@ namespace xrc.Pages.Providers.Common
 			return UriExtensions.BuildVirtualPath(ResourceLocation, resourceName);
 		}
 
-		public string GetContentUrl(string page)
+		public XrcUrl GetPageUrl(string page)
 		{
-			return UriExtensions.BuildVirtualPath(_url.AppRelaviteUrl, page);
+			if (VirtualPathUtility.IsAppRelative(page))
+				return new XrcUrl(page);
+			else if (VirtualPathUtility.IsAbsolute(page))
+				return new XrcUrl(_hostingConfig.RelativeUrlToAppRelativeUrl(new Uri(page, UriKind.RelativeOrAbsolute)));
+			else
+				return new XrcUrl(UriExtensions.BuildVirtualPath(_url.AppRelaviteUrl, page));
 		}
 	}
 }

@@ -42,7 +42,7 @@ namespace xrc.Modules
 
         public string Include(string url, object parameters)
         {
-			XrcUrl xrcUrl = new XrcUrl(_context.Page.GetContentUrl(url));
+			XrcUrl xrcUrl = _context.Page.GetPageUrl(url);
 
 			return _xrcService.Page(xrcUrl, _context.Page.SiteConfiguration, parameters, callerContext: _context).Content;
         }

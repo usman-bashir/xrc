@@ -37,6 +37,7 @@
 			</head>
 			<body>
 
+				<!-- Using this syntax you can pass parameters to the Include method -->
 				<xsl:variable name="headerParameters">
 					<activeMenu>
 						<xsl:value-of select="$activeMenu"/>
