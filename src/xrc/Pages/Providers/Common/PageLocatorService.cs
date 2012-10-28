@@ -59,7 +59,10 @@ namespace xrc.Pages.Providers.Common
 
 		XrcItem MatchList(XrcItemList list, string url, Dictionary<string, string> urlSegmentParameters)
 		{
-			foreach (var item in list.Where(p => p.ItemType != XrcItemType.ConfigFile))
+			var validItems = list.Where(p => p.ItemType != XrcItemType.ConfigFile)
+								.OrderBy(p => p.Priority);
+
+			foreach (var item in validItems)
 			{
 				var match = MatchItem(item, url, urlSegmentParameters);
 				if (match != null)

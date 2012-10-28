@@ -24,7 +24,7 @@ namespace xrc.Pages
             get;
         }
 
-		XrcUrl Url
+		XrcUrl PageUrl
 		{
 			get;
 		}
@@ -42,6 +42,8 @@ namespace xrc.Pages
 		ISiteConfiguration SiteConfiguration { get; }
 
 		string GetResourceLocation(string resourceName);
+
+		string GetAppRelativeUrl(string resource);
 
 		XrcUrl GetPageUrl(string page);
 	}

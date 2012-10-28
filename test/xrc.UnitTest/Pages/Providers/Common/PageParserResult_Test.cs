@@ -9,9 +9,8 @@ using Moq;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using xrc.Modules;
-using xrc.Pages.Providers.Common;
 
-namespace xrc.Pages.Providers.FileSystem
+namespace xrc.Pages.Providers.Common
 {
 	[TestClass]
 	public class PageParserResult_Test

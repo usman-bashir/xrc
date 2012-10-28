@@ -8,10 +8,8 @@ using xrc.Script;
 using Moq;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using xrc.Pages.Providers.Common.Parsers;
-using xrc.Pages.Providers.Common;
 
-namespace xrc.Pages.Providers.FileSystem
+namespace xrc.Pages.Providers.Common.Parsers
 {
 	[TestClass]
     public class XrcSchemaParserService_Test

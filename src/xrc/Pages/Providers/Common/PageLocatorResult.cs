@@ -11,13 +11,11 @@ namespace xrc.Pages.Providers.Common
     {
 		readonly XrcItem _item;
 		readonly Dictionary<string, string> _urlSegmentsParameters;
-		readonly XrcUrl _url;
 
 		public PageLocatorResult(XrcItem item, Dictionary<string, string> urlSegmentsParameters)
 		{
 			_item = item;
 			_urlSegmentsParameters = urlSegmentsParameters;
-			_url = _item.GetUrl(urlSegmentsParameters);
 		}
 
 		public XrcItem Item
@@ -28,9 +26,5 @@ namespace xrc.Pages.Providers.Common
 		{
 			get { return _urlSegmentsParameters; }
 		}
-		public XrcUrl Url
-		{
-			get { return _url; }
-		} 
 	}
 }

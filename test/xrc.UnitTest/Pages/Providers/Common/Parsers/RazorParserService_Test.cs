@@ -10,10 +10,8 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using xrc.Modules;
 using System.IO;
-using xrc.Pages.Providers.Common;
-using xrc.Pages.Providers.Common.Parsers;
 
-namespace xrc.Pages.Providers.FileSystem
+namespace xrc.Pages.Providers.Common.Parsers
 {
 	[TestClass]
 	public class RazorParserService_Test

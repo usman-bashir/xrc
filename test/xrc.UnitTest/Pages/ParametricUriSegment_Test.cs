@@ -263,7 +263,7 @@ namespace xrc.Pages
 			Assert.AreEqual("param1", result.ParameterName);
 			Assert.AreEqual("test", result.ParameterValue);
 			Assert.AreEqual("test", result.CurrentUrlPart);
-			Assert.AreEqual("/", result.NextUrlPart);
+			Assert.IsNull(result.NextUrlPart);
 
 			result = target.Match(".html");
 			Assert.AreEqual(true, result.Success);
@@ -273,6 +273,13 @@ namespace xrc.Pages
 			Assert.IsNull(result.NextUrlPart);
 
 			result = target.Match("/news/sport/basket/2012");
+			Assert.AreEqual(true, result.Success);
+			Assert.AreEqual("param1", result.ParameterName);
+			Assert.AreEqual("news/sport/basket/2012", result.ParameterValue);
+			Assert.AreEqual("news/sport/basket/2012", result.CurrentUrlPart);
+			Assert.IsNull(result.NextUrlPart);
+
+			result = target.Match("/news/sport/basket/2012/");
 			Assert.AreEqual(true, result.Success);
 			Assert.AreEqual("param1", result.ParameterName);
 			Assert.AreEqual("news/sport/basket/2012", result.ParameterValue);

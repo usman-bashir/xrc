@@ -69,6 +69,28 @@ namespace xrc.Pages.Providers.Common
 			get { return _name; }
 		}
 
+		public int Priority
+		{
+			get
+			{
+				if (_parametricSegment == null)
+					return 1;
+				else
+					return 100 - _parametricSegment.FixedCharacters;
+			}
+		}
+
+		private string ParentResourceLocation
+		{
+			get
+			{
+				if (Parent == null)
+					return "/";
+				else
+					return Parent.ResourceLocation;
+			}
+		}
+
 		public string ResourceLocation
 		{
 			get
@@ -81,7 +103,7 @@ namespace xrc.Pages.Providers.Common
 						return UriExtensions.AppendTrailingSlash(UriExtensions.Combine(Parent.ResourceLocation, ResourceName));
 				}
 				else
-					return UriExtensions.Combine(Parent.ResourceLocation, ResourceName);
+					return UriExtensions.Combine(ParentResourceLocation, ResourceName);
 			}
 		}
 
@@ -234,6 +256,12 @@ namespace xrc.Pages.Providers.Common
 			return _parametricSegment.Match(url);
 		}
 
+		
+		public override string ToString()
+		{
+			return ResourceLocation;
+		}
+
 		#region Static and constants
 		// TODO Valutare se spostare
 
@@ -267,38 +295,4 @@ namespace xrc.Pages.Providers.Common
 		//}
 		#endregion
 	}
-
-	public class XrcItemList : IEnumerable<XrcItem>
-	{
-		readonly List<XrcItem> _list = new List<XrcItem>();
-		readonly XrcItem _parent;
-
-		public XrcItemList(XrcItem parent)
-		{
-			_parent = parent;
-		}
-
-		public void Add(XrcItem item)
-		{
-			item.Parent = _parent;
-			_list.Add(item);
-		}
-
-		public void AddRange(IEnumerable<XrcItem> items)
-		{
-			foreach (var i in items)
-				Add(i);
-		}
-
-		public IEnumerator<XrcItem> GetEnumerator()
-		{
-			return _list.GetEnumerator();
-		}
-
-		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-		{
-			return _list.GetEnumerator();
-		}
-	}
-
 }

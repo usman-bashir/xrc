@@ -71,13 +71,13 @@
     <Compile Include="Mocks\SitesConfigMock.cs" />
     <Compile Include="Mocks\MashupScriptServiceMock.cs" />
     <Compile Include="Modules\TestModule.cs" />
-    <Compile Include="Pages\Providers\FileSystem\MarkdownParserService_Test.cs" />
-    <Compile Include="Pages\Providers\FileSystem\XsltParserService_Test.cs" />
-    <Compile Include="Pages\Providers\FileSystem\RazorParserService_Test.cs" />
-    <Compile Include="Pages\Providers\FileSystem\HtmlParserService_Test.cs" />
-    <Compile Include="Pages\Providers\FileSystem\XHtmlParserService_Test.cs" />
-    <Compile Include="Pages\Providers\FileSystem\XrcParserService_Test.cs" />
-    <Compile Include="Pages\Providers\FileSystem\PageParserResult_Test.cs" />
+    <Compile Include="Pages\Providers\Common\Parsers\MarkdownParserService_Test.cs" />
+    <Compile Include="Pages\Providers\Common\Parsers\XsltParserService_Test.cs" />
+    <Compile Include="Pages\Providers\Common\Parsers\RazorParserService_Test.cs" />
+    <Compile Include="Pages\Providers\Common\Parsers\HtmlParserService_Test.cs" />
+    <Compile Include="Pages\Providers\Common\Parsers\XHtmlParserService_Test.cs" />
+    <Compile Include="Pages\Providers\Common\Parsers\XrcParserService_Test.cs" />
+    <Compile Include="Pages\Providers\Common\PageParserResult_Test.cs" />
     <Compile Include="Pages\Providers\Common\XrcItem_Test.cs" />
     <Compile Include="Pages\Providers\FileSystem\FileSystemPageProviderService_Test.cs" />
     <Compile Include="Pages\ParametricUriSegment_Test.cs" />
@@ -90,14 +90,14 @@
     <Compile Include="Mocks\ModuleCatalogServiceMock.cs" />
     <Compile Include="Mocks\ScriptExpressionMock.cs" />
     <Compile Include="Script\ScriptService_Test.cs" />
-    <Compile Include="Pages\Providers\FileSystem\PageLocatorService_Test.cs" />
+    <Compile Include="Pages\Providers\Common\PageLocatorService_Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\MarkdownView_Test.cs" />
     <Compile Include="Views\Xslt\XsltView_Test.cs" />
     <Compile Include="Mocks\ScriptServiceMock.cs" />
     <Compile Include="Pages\Script\PageScriptService_Test.cs" />
     <Compile Include="TestHelper.cs" />
-    <Compile Include="Pages\Providers\FileSystem\XrcSchemaParserService_Test.cs" />
+    <Compile Include="Pages\Providers\Common\Parsers\XrcSchemaParserService_Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="sampleWebSite1\conventions\_page_without_layout.xrc.xhtml">

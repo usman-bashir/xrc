@@ -61,7 +61,8 @@ namespace xrc
 					contentResult.ContentEncoding = response.ContentEncoding;
 					contentResult.ContentType = response.ContentType;
 
-					stream.Flush();
+					response.Flush();
+
 					stream.Seek(0, SeekOrigin.Begin);
 
 					using (StreamReader reader = new StreamReader(stream))
@@ -119,10 +120,11 @@ namespace xrc
 				return;
 			}
 
-			// Why to redirect to canonical Url to have always the same url (for caching) and for better url architecture
-			if (!IsCanonicalUrl(context.Page, context.Request.XrcUrl))
+			// Redirect to canonical Url to have always the same url (for caching) and for better url architecture, but only for GET verb
+			if (!IsCanonicalUrl(context.Page, context.Request.XrcUrl)
+				&& context.Request.HttpMethod == "GET")
 			{
-				Uri canonicalUrl = GetCanonicalUrl(context.Request.XrcUrl);
+				Uri canonicalUrl = GetCanonicalUrl(context);
 				ProcessPermanentRedirect(context, canonicalUrl);
 				return;
 			}
@@ -153,22 +155,24 @@ namespace xrc
 			}
 		}
 
-		private Uri GetCanonicalUrl(XrcUrl requestUri)
+		private Uri GetCanonicalUrl(IContext context)
 		{
-			Uri relativeUrl = _config.AppRelativeUrlToRelativeUrl(requestUri.ToString());
+			Uri relativeUrl = _config.AppRelativeUrlToRelativeUrl(context.Page.PageUrl.ToString());
 
 			// TODO Devo usare un dominio fittizio perchè UriBuilder non supporta relative url. Verificare se c'è un metodo migliore.
+			// Probabilmente l'url compreso di query string dovrebbe essere un parametro della Page
+
 			UriBuilder canonicalUrlBuilder = new UriBuilder("http", "dummy", 80, 
 															relativeUrl.GetPath(),
-															requestUri.Query);
+															context.Request.Url.Query);
 
-			Uri canonicalUrl = new Uri(canonicalUrlBuilder.Uri.GetPath(), UriKind.Relative);
+			Uri canonicalUrl = new Uri(canonicalUrlBuilder.Uri.PathAndQuery, UriKind.Relative);
 			return canonicalUrl;
 		}
 
 		private bool IsCanonicalUrl(IPage page, XrcUrl requestUri)
 		{
-			var canonicalPath = page.Url.Path;
+			var canonicalPath = page.PageUrl.Path;
 			var requestedPath = requestUri.Path;
 
 			return string.Equals(canonicalPath, requestedPath, StringComparison.Ordinal);
@@ -206,7 +210,8 @@ namespace xrc
 					childResult.ContentEncoding = response.ContentEncoding;
 					childResult.ContentType = response.ContentType;
 
-					stream.Flush();
+					response.Flush();
+
 					stream.Seek(0, SeekOrigin.Begin);
 
 					using (StreamReader reader = new StreamReader(stream))

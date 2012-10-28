@@ -69,5 +69,27 @@ namespace xrc.Pages.Providers.Common
 		//    TestHelper.Throws<NotSupportedException>(() => XrcItem.GetConfigLogicalName(@"test.XRC"));
 		//    TestHelper.Throws<NotSupportedException>(() => XrcItem.GetConfigLogicalName(@"test.config"));
 		//}
+
+		[TestMethod]
+		public void It_Should_be_possible_to_check_priority_of_two_item()
+		{
+			XrcItem a = XrcItem.NewXrcFile("a.xrc");
+			XrcItem b = XrcItem.NewXrcFile("b.xrc");
+			Assert.IsTrue(a.Priority == b.Priority);
+
+			a = XrcItem.NewXrcFile("test.xrc");
+			b = XrcItem.NewXrcFile("test.xrc");
+			Assert.IsTrue(a.Priority == b.Priority);
+
+			// when an item have a dynamic paramater is less priority than a fixed item
+			a = XrcItem.NewXrcFile("{p}.xrc");
+			b = XrcItem.NewXrcFile("b.xrc");
+			Assert.IsTrue(a.Priority > b.Priority);
+
+			// when an item have a dynamic parameter the priority s calculated using the number of fixed characters
+			a = XrcItem.NewXrcFile("lnooooongerprefix{p}.xrc");
+			b = XrcItem.NewXrcFile("shorterprefix{p}.xrc");
+			Assert.IsTrue(a.Priority < b.Priority);
+		}
     }
 }

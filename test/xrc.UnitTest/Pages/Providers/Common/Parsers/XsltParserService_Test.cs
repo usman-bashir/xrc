@@ -10,10 +10,8 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using xrc.Modules;
 using System.IO;
-using xrc.Pages.Providers.Common.Parsers;
-using xrc.Pages.Providers.Common;
 
-namespace xrc.Pages.Providers.FileSystem
+namespace xrc.Pages.Providers.Common.Parsers
 {
 	[TestClass]
 	public class XsltParserService_Test
@@ -57,12 +55,12 @@ namespace xrc.Pages.Providers.FileSystem
 			var viewCatalog = new Mocks.ViewCatalogServiceMock(new ComponentDefinition(viewType.Name, viewType));
 			var pageProvider = new Mock<IResourceProviderService>();
 
-			pageProvider.Setup(p => p.ResourceToXml("~/conventions_xslt.xrc.xslt")).Returns(expectedContent);
-			pageProvider.Setup(p => p.ResourceExists("~/conventions_xslt.xml")).Returns(false);
+			pageProvider.Setup(p => p.ResourceToXml("~/item.xrc.xslt")).Returns(expectedContent);
+			pageProvider.Setup(p => p.ResourceExists("~/item.xml")).Returns(false);
 
 			var target = new XsltParserService(schemaParser.Object, viewCatalog, pageProvider.Object);
 
-			PageParserResult page = target.Parse(GetItem("conventions_xslt.xrc.xslt"));
+			PageParserResult page = target.Parse(GetItem("item.xrc.xslt"));
 			var view = page.Actions["GET"].Views.Single();
 			Assert.AreEqual(viewType, view.Component.Type);
 

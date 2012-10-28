@@ -23,7 +23,8 @@ namespace xrc.Modules
 
 		public string Content(string contentPath)
 		{
-			return _hostingConfiguration.AppRelativeUrlToRelativeUrl(contentPath).ToString();
+			string appRelativeContent = _context.Page.GetAppRelativeUrl(contentPath);
+			return _hostingConfiguration.AppRelativeUrlToRelativeUrl(appRelativeContent).ToString();
 		}
 
 		public string Content(string contentPathBase, string contentPath)

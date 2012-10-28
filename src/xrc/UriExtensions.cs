@@ -50,6 +50,9 @@ namespace xrc
             // new Uri("http://contoso.com/path").IsBaseOf(new Uri("http://contoso.com"))
             // Which for me is wrong...so I check also the path
 
+			if (string.IsNullOrWhiteSpace(baseUri.ToString()))
+				return false;
+
             baseUri = baseUri.ToLower();
             uri = uri.ToLower();
 

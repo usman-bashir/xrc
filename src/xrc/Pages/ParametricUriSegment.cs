@@ -14,7 +14,7 @@ namespace xrc.Pages
 		const string SUFFIX_PATTERN = @"(?<suffix>[\w\._\-\+]*)$"; // match any suffix with letter, digits and .+-_
 		static Regex PARAMETER_NAME_REGEX = new Regex(PREFIX_PATTERN + PARAMETER_PATTERN + SUFFIX_PATTERN, RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-		const string NEXTPART_CATCH_END = "(?<nextPart>/?$)"; // match / or end
+		const string NEXTPART_CATCH_END = "(?<nextPart>)/?$"; // match / or end
 		const string NEXTPART_CATCH_NEXT = "(/(?<nextPart>.*)|$)"; // match from / to end
 		const string VALUE_CATCH_ALL = ".+?"; // match any character lazy;
 		const string VALUE_CATCH_SEGMENT = "[^/]+?"; // match any character except / one or more time lazy

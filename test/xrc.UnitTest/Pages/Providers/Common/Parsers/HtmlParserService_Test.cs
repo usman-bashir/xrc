@@ -10,13 +10,11 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using xrc.Modules;
 using System.IO;
-using xrc.Pages.Providers.Common.Parsers;
-using xrc.Pages.Providers.Common;
 
-namespace xrc.Pages.Providers.FileSystem
+namespace xrc.Pages.Providers.Common.Parsers
 {
 	[TestClass]
-	public class MarkdownParserService_Test
+	public class HtmlParserService_Test
     {
         [TestInitialize]
         public void Init()
@@ -27,16 +25,16 @@ namespace xrc.Pages.Providers.FileSystem
 		{
 			var viewType = typeof(HtmlView);
 
-			var expectedContent = "## Test";
+			var expectedContent = "<h1>test</h1>";
 
 			var schemaParser = new Mock<IXrcSchemaParserService>();
 			var viewCatalog = new Mocks.ViewCatalogServiceMock(new ComponentDefinition(viewType.Name, viewType));
 			var pageProvider = new Mock<IResourceProviderService>();
-			pageProvider.Setup(p => p.ResourceToText("~/item.xrc.md")).Returns(expectedContent);
+			pageProvider.Setup(p => p.ResourceToHtml("~/item.xrc.html")).Returns(expectedContent);
 
-			var target = new MarkdownParserService(schemaParser.Object, viewCatalog, pageProvider.Object);
+			var target = new HtmlParserService(schemaParser.Object, viewCatalog, pageProvider.Object);
 
-			PageParserResult page = target.Parse(GetItem("item.xrc.md"));
+			PageParserResult page = target.Parse(GetItem("item.xrc.html"));
 			var view = page.Actions["GET"].Views.Single();
 			Assert.AreEqual(viewType, view.Component.Type);
 
@@ -51,5 +49,5 @@ namespace xrc.Pages.Providers.FileSystem
 
 			return item;
 		}
-    }
+	}
 }
