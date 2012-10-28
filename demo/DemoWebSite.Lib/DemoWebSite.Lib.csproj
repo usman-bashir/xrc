@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Contact.cs" />
     <Compile Include="ContactModule.cs" />
+    <Compile Include="DemoWebSiteView.cs" />
     <Compile Include="OlympicsModule.cs" />
     <Compile Include="IContactModule.cs" />
     <Compile Include="IOlympicsModule.cs" />

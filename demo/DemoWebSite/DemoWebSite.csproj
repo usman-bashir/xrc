@@ -201,6 +201,9 @@
     <Content Include="xrc\shared\_layout3cols.xrc">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="xrc\viewtest\_demowebsite.xrc">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="xrc\viewtest\_slotContent.xrc">
       <SubType>Designer</SubType>
     </Content>

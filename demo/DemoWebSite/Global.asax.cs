@@ -36,6 +36,11 @@ namespace DemoWebSite
                                 .WithServiceSelf()
                                 .WithServiceDefaultInterfaces()
 								.LifestyleTransient());
+			// Register demo web site views
+			_container.Register(Classes.FromAssemblyContaining<DemoWebSiteView>()
+					.BasedOn<xrc.Views.IView>()
+					.WithServiceSelf() // currently views doesn't have an interface 
+					.LifestyleTransient());
 
             // Windsor MVC integration
             _container.Install(Castle.Windsor.Installer.FromAssembly.This());
