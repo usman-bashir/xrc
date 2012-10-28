@@ -33,6 +33,60 @@ namespace xrc.Pages.Providers.Common
 			TestHelper.Throws<NotSupportedException>(() => XrcItem.GetFileLogicalName(@"test.xrchk.xs_lt")); // not valid
 		}
 
+		[TestMethod]
+		public void It_Should_be_possible_to_get_layoutfile()
+		{
+			var structure = new TestPageStructure();
+			var root = structure.GetRoot();
+
+			var index = root.Items["index.xrc"];
+			Assert.AreEqual("~/_layout.xrc", index.LayoutFile.ResourceLocation);
+
+			var newsIndex = root.Items["news"].Items["index.xrc"];
+			Assert.AreEqual("~/_layout.xrc", newsIndex.LayoutFile.ResourceLocation);
+
+			var teamsTeamPlayerStats = root.Items["teams"].Items["{teamid}"].Items["{playerid}"].Items["stats.xrc"];
+			Assert.AreEqual("~/teams/{teamid}/{playerid}/_layout.xrc", teamsTeamPlayerStats.LayoutFile.ResourceLocation);
+		}
+
+		[TestMethod]
+		public void It_Should_be_possible_to_get_configfile()
+		{
+			var structure = new TestPageStructure();
+			var root = structure.GetRoot();
+
+			Assert.AreEqual("~/xrc.config", root.ConfigFile.ResourceLocation);
+
+			var news = root.Items["news"];
+			Assert.IsNull(news.ConfigFile);
+		}
+
+		[TestMethod]
+		public void It_Should_be_possible_to_check_IsIndex()
+		{
+			var structure = new TestPageStructure();
+			var root = structure.GetRoot();
+
+			var index = root.Items["index.xrc"];
+			Assert.AreEqual(true, index.IsIndex);
+
+			var teamsTeamPlayerStats = root.Items["teams"].Items["{teamid}"].Items["{playerid}"].Items["stats.xrc"];
+			Assert.AreEqual(false, teamsTeamPlayerStats.IsIndex);
+		}
+
+		[TestMethod]
+		public void It_Should_be_possible_to_check_IsSlot()
+		{
+			var structure = new TestPageStructure();
+			var root = structure.GetRoot();
+
+			var index = root.Items["index.xrc"];
+			Assert.AreEqual(false, index.IsSlot);
+
+			var newsSlot1 = root.Items["news"].Items["_slot1.xrc"];
+			Assert.AreEqual(true, newsSlot1.IsSlot);
+		}
+
 		//[TestMethod]
 		//public void It_Should_be_possible_to_get_file_extension()
 		//{

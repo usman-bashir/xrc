@@ -7,9 +7,7 @@ using System.IO;
 
 namespace xrc.Configuration
 {
-	// TODO Da implementare da classi diverse
-
-	public class RootPathElement : ConfigurationElement, IHostingConfig, IFileSystemConfig
+	public class RootPathElement : ConfigurationElement, IFileSystemConfig
 	{
 		[ConfigurationProperty("virtualPath", IsRequired = true)]
 		public string VirtualPath
@@ -17,20 +15,6 @@ namespace xrc.Configuration
 			get { return (string)this["virtualPath"]; }
 			set { this["virtualPath"] = value; }
 		}
-
-		public Uri WebSiteVirtualDirectory
-		{
-			get { return new Uri(UriExtensions.Combine("/", System.Web.Hosting.HostingEnvironment.ApplicationVirtualPath), UriKind.Relative); }
-		}
-		public Uri AppRelativeUrlToRelativeUrl(string url)
-		{
-			return new Uri(UriExtensions.AppRelativeUrlToRelativeUrl(url, WebSiteVirtualDirectory.ToString()), UriKind.RelativeOrAbsolute);
-		}
-		public string RelativeUrlToAppRelativeUrl(Uri url)
-		{
-			return UriExtensions.RelativeUrlToAppRelativeUrl(url.ToString(), WebSiteVirtualDirectory);
-		}
-
 
 		public string XrcRootVirtualPath
 		{

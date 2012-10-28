@@ -66,8 +66,10 @@
     <Compile Include="Components\ComponentDefinitionList.cs" />
     <Compile Include="Configuration\ComponentCollection.cs" />
     <Compile Include="Configuration\ComponentElement.cs" />
+    <Compile Include="Configuration\AspNetHostingConfig.cs" />
+    <Compile Include="Configuration\IHostingConfig.cs" />
     <Compile Include="Configuration\ISitesConfig.cs" />
-    <Compile Include="Configuration\IRootPathConfig.cs" />
+    <Compile Include="Configuration\IFileSystemConfig.cs" />
     <Compile Include="Configuration\RootPathElement.cs" />
     <Compile Include="Context\Context.cs" />
     <Compile Include="Context\XrcRequestContext.cs" />

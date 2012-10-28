@@ -29,7 +29,7 @@ namespace xrc
 				throw new ArgumentNullException("innerRequest");
 
 			_httpMethod = innerRequest.HttpMethod;
-			_url = new xrc.XrcUrl(innerRequest.AppRelativeCurrentExecutionFilePath);
+			_url = new xrc.XrcUrl(VirtualPathUtility.ToAppRelative(innerRequest.RawUrl));
 			_queryString = innerRequest.QueryString;
 			_innerRequest = innerRequest;
 			_cookies = _innerRequest.Cookies;

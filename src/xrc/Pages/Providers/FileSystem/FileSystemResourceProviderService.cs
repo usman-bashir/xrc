@@ -73,7 +73,7 @@ namespace xrc.Pages.Providers.FileSystem
 
 		public string ResourceToHtml(string resourceLocation)
 		{
-			return ResourceToHtml(resourceLocation);
+			return ResourceToText(resourceLocation);
 		}
 
 		private string MapPath(string resourceLocation)

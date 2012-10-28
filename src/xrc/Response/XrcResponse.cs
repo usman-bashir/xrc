@@ -77,6 +77,11 @@ namespace xrc
 			}
 		}
 
+		bool UseInnerResponse
+		{
+			get { return !_isStreamOwner; }
+		}
+
 		public override HttpCookieCollection Cookies
 		{
 			get { return _cookies; }
@@ -85,31 +90,56 @@ namespace xrc
 		public override int StatusCode
 		{
 			get { return _statusCode; }
-			set { _statusCode = value; }
+			set 
+			{
+				_statusCode = value;
+				if (UseInnerResponse)
+					_innerResponse.StatusCode = value;
+			}
 		}
 
 		public override string StatusDescription
 		{
 			get { return _statusDescription; }
-			set { _statusDescription = value; }
+			set 
+			{
+				_statusDescription = value;
+				if (UseInnerResponse)
+					_innerResponse.StatusDescription = value;
+			}
 		}
 
 		public override string RedirectLocation
 		{
 			get { return _redirectLocation; }
-			set { _redirectLocation = value; }
+			set 
+			{ 
+				_redirectLocation = value;
+				if (UseInnerResponse)
+					_innerResponse.RedirectLocation = value;
+			}
 		}
 
 		public override Encoding ContentEncoding
 		{
 			get { return _contentEncoding; }
-			set { _contentEncoding = value; }
+			set 
+			{
+				_contentEncoding = value;
+				if (UseInnerResponse)
+					_innerResponse.ContentEncoding = value;
+			}
 		}
 
 		public override string ContentType
 		{
 			get { return _contentType; }
-			set { _contentType = value; }
+			set 
+			{
+				_contentType = value;
+				if (UseInnerResponse)
+					_innerResponse.ContentType = value;
+			}
 		}
 
 		public override TextWriter Output
@@ -133,7 +163,7 @@ namespace xrc
 
         public override void RedirectPermanent(string url)
         {
-			if (_innerResponse != null)
+			if (UseInnerResponse)
 				_innerResponse.RedirectPermanent(url);
 			else
 	            throw new XrcException(string.Format("Response redirection required, redirect url is '{0}'.", url));
@@ -141,7 +171,7 @@ namespace xrc
 
 		public override void RedirectPermanent(string url, bool endResponse)
 		{
-			if (_innerResponse != null)
+			if (UseInnerResponse)
 				_innerResponse.RedirectPermanent(url, true);
 			else
 				throw new XrcException(string.Format("Response redirection required, redirect url is '{0}'.", url));

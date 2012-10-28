@@ -37,6 +37,14 @@ namespace xrc.Pages.Providers.Common
 		{
 			return _list.GetEnumerator();
 		}
+
+		public XrcItem this[string resourceName]
+		{
+			get
+			{
+				return _list.FirstOrDefault(p => p.ResourceName == resourceName);
+			}
+		}
 	}
 
 }

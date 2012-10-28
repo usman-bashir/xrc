@@ -9,78 +9,18 @@ using Moq;
 
 namespace xrc.Pages.Providers.Common
 {
-	class TestPageStructure : IPageStructureService
-	{
-		public XrcItem GetRoot()
-		{
-			return XrcItem.NewRoot("~/",
-					XrcItem.NewXrcFile("index.xrc"),
-					XrcItem.NewXrcFile("about.xrc"),
-					XrcItem.NewXrcFile("ConTact.xrc"),
-					XrcItem.NewDirectory("news",
-						XrcItem.NewXrcFile("index.xrc"),
-						XrcItem.NewDirectory("{id_catch-all}",
-							XrcItem.NewXrcFile("index.xrc")
-						)
-					),
-					XrcItem.NewDirectory("docs",
-						XrcItem.NewXrcFile("{page_CATCH-ALL}.xrc")
-					),
-					XrcItem.NewDirectory("athletes",
-						XrcItem.NewXrcFile("index.xrc"),
-						XrcItem.NewConfigFile(),
-						XrcItem.NewDirectory("{athleteid}",
-							XrcItem.NewXrcFile("index.xrc"),
-							XrcItem.NewXrcFile("bio.xrc")
-						)
-					),
-					XrcItem.NewDirectory("teams",
-						XrcItem.NewXrcFile("index.xrc"),
-						XrcItem.NewDirectory("{teamid}",
-							XrcItem.NewDirectory("{playerid}",
-								XrcItem.NewXrcFile("index.xrc"),
-								XrcItem.NewXrcFile("stats.xrc")
-							),
-							XrcItem.NewXrcFile("index.xrc"),
-							XrcItem.NewXrcFile("matches.xrc"),
-							XrcItem.NewXrcFile("_layout.xrc")
-						)
-					),
-					XrcItem.NewDirectory("photos",
-						XrcItem.NewDirectory("{id}sport",
-							XrcItem.NewXrcFile("index.xrc")
-							),
-						XrcItem.NewDirectory("photo{id}",
-							XrcItem.NewXrcFile("index.xrc")
-							)
-						)
-				);
-		}
-	}
-
-	class TestPageStructure_With_VirtualDir : IPageStructureService
-	{
-		public XrcItem GetRoot()
-		{
-			return XrcItem.NewRoot("~/xrcroot",
-					XrcItem.NewXrcFile("index.xrc"),
-					XrcItem.NewXrcFile("about.xrc")
-				);
-		}
-	}
-
 	[TestClass]
 	public class PageLocatorService_Test
 	{
 		PageLocatorResult Locate(string url)
 		{
-			PageLocatorService target = new PageLocatorService(new TestPageStructure());
+			var target = new PageLocatorService(new TestPageStructure());
 			return target.Locate(new XrcUrl(url));
 		}
 
 		PageLocatorResult Locate_with_VirtualDir(string url)
 		{
-			PageLocatorService target = new PageLocatorService(new TestPageStructure_With_VirtualDir());
+			var target = new PageLocatorService(new TestPageStructure_With_VirtualDir());
 			return target.Locate(new XrcUrl(url));
 		}
 
@@ -208,45 +148,25 @@ namespace xrc.Pages.Providers.Common
 			Assert.AreEqual("4658135/test/long/url/index.htm", Locate("~/docs/4658135/test/long/url/index.htm").UrlSegmentsParameters["page"]);
 		}
 
+		[TestMethod]
+		public void File_not_found()
+		{
+		    // File not found == null
+			Assert.IsNull(Locate("~/index.xrc"));
+			Assert.IsNull(Locate("~/notvalid"));
+		    Assert.IsNull(Locate("~/athletes/totti/notfound"));
+		    Assert.IsNull(Locate("~/athletes/totti/index.xrc"));
+		}
 
-#warning da terminare
-
-		//[TestMethod]
-		//public void It_should_be_possible_to_Locate_File_Advanced()
-		//{
-		//    var workingPath = new Mocks.RootPathConfigMock("~/sampleWebSite1", TestHelper.GetPath("sampleWebSite1"));
-		//    PageLocatorService target = new PageLocatorService(workingPath);
-		//    var appPath = workingPath.PhysicalPath.ToLowerInvariant();
-
-		//    // Default page index and etensions
-		//    Assert.AreEqual(target.Locate("/athletes/totti/index").File.FullPath, Path.Combine(appPath, @"athletes\{athleteid}\index.xrc"));
-
-		//    // folder config file
-		//    Assert.AreEqual(target.Locate("/athletes").File.Parent.GetConfigFile(), Path.Combine(appPath, @"athletes\xrc.config"));
-		//    Assert.AreEqual(target.Locate("/teams").File.Parent.GetConfigFile(), null);
-
-		//    // default layout resolution
-		//    Assert.AreEqual(target.Locate("/about").File.Parent.SearchLayout().FullName, "~/shared/_layout");
-		//    Assert.AreEqual(target.Locate("/teams/torino").File.Parent.SearchLayout().FullName, "~/teams/{teamid}/_layout");
-
-		//    // File not found == null
-		//    Assert.IsNull(target.Locate("notvalid"));
-		//    Assert.IsNull(target.Locate("/notvalid"));
-		//    Assert.IsNull(target.Locate("/athletes/totti/notfound"));
-		//    Assert.IsNull(target.Locate("/athletes/totti/index.xrc"));
-		//}
-
-		//[TestMethod]
-		//public void It_should_not_be_possible_to_use_invalid_url()
-		//{
-		//    var workingPath = new Mocks.RootPathConfigMock("~/sampleWebSite1", TestHelper.GetPath("sampleWebSite1"));
-		//    PageLocatorService target = new PageLocatorService(workingPath);
-		//    var appPath = workingPath.PhysicalPath.ToLowerInvariant();
-
-		//    // Absolute uri not supported
-		//    TestHelper.Throws<UriFormatException>(() => target.Locate("http://server1/absoluteuri"));
-		//    TestHelper.Throws<UriFormatException>(() => target.Locate("http://server1/"));
-		//    TestHelper.Throws<UriFormatException>(() => target.Locate("http://server1.com"));
-		//}
+		[TestMethod]
+		public void It_should_not_be_possible_to_use_invalid_url()
+		{
+			TestHelper.Throws<XrcException>(() => Locate("notvalid"));
+			TestHelper.Throws<XrcException>(() => Locate("/notvalid"));
+			TestHelper.Throws<XrcException>(() => Locate("~notvalid"));
+			TestHelper.Throws<XrcException>(() => Locate("http://server1/absoluteuri"));
+			TestHelper.Throws<XrcException>(() => Locate("http://server1/"));
+			TestHelper.Throws<XrcException>(() => Locate("http://server1.com"));
+		}
 	}
 }

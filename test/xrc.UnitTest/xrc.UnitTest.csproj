@@ -70,6 +70,7 @@
     <Compile Include="Mocks\PageProviderServiceMock.cs" />
     <Compile Include="Mocks\SitesConfigMock.cs" />
     <Compile Include="Mocks\MashupScriptServiceMock.cs" />
+    <Compile Include="Mocks\TestPageStructureService.cs" />
     <Compile Include="Modules\TestModule.cs" />
     <Compile Include="Pages\Providers\Common\Parsers\MarkdownParserService_Test.cs" />
     <Compile Include="Pages\Providers\Common\Parsers\XsltParserService_Test.cs" />

@@ -19,16 +19,4 @@ namespace xrc.Configuration
 
 		string RelativeUrlToAppRelativeUrl(Uri url);
 	}
-
-	// TODO Da spostare nella sezione file system
-
-	public interface IFileSystemConfig
-	{
-		string XrcRootVirtualPath
-		{
-			get;
-		}
-
-		string MapPath(string virtualPath);
-	}
 }

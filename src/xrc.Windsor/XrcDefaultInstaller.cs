@@ -23,9 +23,9 @@ namespace xrc.IoC.Windsor
 
 			container.Kernel.Resolver.AddSubResolver(new ArrayResolver(container.Kernel));
 
-			container.Register(Component.For<xrc.Configuration.IHostingConfig>().Instance(_xrcSection.RootPath).Named("HostingConfig"));
-			container.Register(Component.For<xrc.Configuration.IFileSystemConfig>().Instance(_xrcSection.RootPath).Named("FileSystemConfig"));
+			container.Register(Component.For<xrc.Configuration.IFileSystemConfig>().Instance(_xrcSection.RootPath));
 			container.Register(Component.For<xrc.Configuration.ISitesConfig>().Instance(_xrcSection));
+			container.Register(Component.For<xrc.Configuration.IHostingConfig>().ImplementedBy<xrc.Configuration.AspNetHostingConfig>());
 
 			container.Register(Component.For<Views.IViewCatalogService>().ImplementedBy<Views.WindsorViewCatalogService>());
 			container.Register(Component.For<Modules.IModuleCatalogService>().ImplementedBy<Modules.WindsorModuleCatalogService>());
