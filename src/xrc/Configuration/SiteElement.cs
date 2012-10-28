@@ -15,18 +15,11 @@ namespace xrc.Configuration
             set { this["key"] = value; }
         }
 
-        [ConfigurationProperty("uri", IsRequired = true)]
-        public Uri Uri
+        [ConfigurationProperty("uriPattern", IsRequired = true)]
+        public string UriPattern
         {
-            get { return (Uri)this["uri"]; }
-            set { this["uri"] = value; }
-        }
-
-        [ConfigurationProperty("secureUri")]
-        public Uri SecureUri
-        {
-            get { return (Uri)this["secureUri"]; }
-            set { this["secureUri"] = value; }
+			get { return (string)this["uriPattern"]; }
+			set { this["uriPattern"] = value; }
         }
 
         [ConfigurationProperty("parameters")]

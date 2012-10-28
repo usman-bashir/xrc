@@ -8,8 +8,8 @@ namespace xrc.Sites
     public interface ISiteConfiguration
     {
         string Key { get; }
-        Uri Uri { get; }
-        Uri SecureUri { get; }
+        string UriPattern { get; }
         IDictionary<string, string> Parameters { get; }
+		bool MatchUrl(Uri url);
 	}
 }

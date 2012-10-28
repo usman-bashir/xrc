@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<bookstore>
-	<book>
-		<title>Book 1</title>
-	</book>
-	<book>
-		<title>Book 2</title>
-	</book>
-</bookstore>

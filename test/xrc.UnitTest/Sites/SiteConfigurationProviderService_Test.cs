@@ -14,10 +14,10 @@ namespace xrc.Sites
         public void It_should_be_possible_to_GetSiteFromUri()
         {
 			var sitesConfig = new Mocks.SitesConfigMock(
-					new SiteConfiguration("en", new Uri("http://www.contoso.com")),
-					new SiteConfiguration("it", new Uri("http://it.contoso.com")),
-					new SiteConfiguration("test", new Uri("http://contoso.com:8080"), null, new Uri("https://contoso.com:8043")),
-					new SiteConfiguration("test_virtual", new Uri("http://contoso.com/virtualpath"))
+					new SiteConfiguration("en", @"(http://www\.contoso\.com/|https://www\.contoso\.com/)"),
+					new SiteConfiguration("it", @"http://it\.contoso\.com"),
+					new SiteConfiguration("test", @"(http://contoso\.com:8080|https://contoso\.com:8043)", null),
+					new SiteConfiguration("test_virtual", @"http://contoso\.com/virtualpath")
 				);
 
 			SiteConfigurationProviderService target = new SiteConfigurationProviderService(sitesConfig);

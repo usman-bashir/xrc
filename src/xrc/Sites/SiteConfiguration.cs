@@ -4,39 +4,33 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace xrc.Sites
 {
     public class SiteConfiguration : ISiteConfiguration
     {
-		public SiteConfiguration(string key, Uri uri)
-			:this(key, uri, null, null)
+		readonly Regex _patternRegEx;
+
+		public SiteConfiguration(string key, string uriPattern)
+			: this(key, uriPattern, null)
 		{
 		}
 
-        public SiteConfiguration(string key, Uri uri,
-                                IDictionary<string, string> parameters,
-                                Uri secureUri = null)
+        public SiteConfiguration(string key, string uriPattern,
+                                IDictionary<string, string> parameters)
         {
             if (string.IsNullOrWhiteSpace(key))
                 throw new ArgumentNullException("key");
-            if (uri == null)
-                throw new ArgumentNullException("uri");
+			if (uriPattern == null)
+				throw new ArgumentNullException("uriPattern");
 			if (parameters == null)
 				parameters = new Dictionary<string, string>();
-            if (!uri.IsAbsoluteUri)
-                throw new UriFormatException(string.Format("Uri '{0}' is not absolute.", uri));
-            if (secureUri != null && !secureUri.IsAbsoluteUri)
-                throw new UriFormatException(string.Format("Uri '{0}' is not absolute.", secureUri));
 
             Key = key;
-            Uri = uri.ToLower().AppendTrailingSlash();
+			UriPattern = uriPattern;
             Parameters = parameters;
-
-            if (secureUri == null)
-                SecureUri = Uri.ToSecure();
-            else
-				SecureUri = secureUri.ToLower().AppendTrailingSlash();
+			_patternRegEx = new Regex(uriPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
         }
 
         public string Key
@@ -45,7 +39,7 @@ namespace xrc.Sites
             private set;
         }
 
-        public Uri Uri
+        public string UriPattern
         {
             get;
             private set;
@@ -57,10 +51,9 @@ namespace xrc.Sites
             private set;
         }
 
-        public Uri SecureUri
-        {
-            get;
-            private set;
-        }
-    }
+		public bool MatchUrl(Uri url)
+		{
+			return _patternRegEx.Match(url.ToString()).Success;
+		}
+	}
 }

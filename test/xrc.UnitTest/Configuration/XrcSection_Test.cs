@@ -32,7 +32,7 @@ namespace xrc.Configuration
 
 			_siteContoso_en = new SiteElement();
 			_siteContoso_en.Key = "en";
-			_siteContoso_en.Uri = new Uri("http://www.contoso.com");
+			_siteContoso_en.UriPattern = "http://www.contoso.com";
 			_siteContoso_en.Parameters.Add(new SiteParameterElement() { Key = "paramA", Value = "value_contoso_A" });
 			_siteContoso_en.Parameters.Add(new SiteParameterElement() { Key = "paramB", Value = "value_contoso_B" });
 			_siteContoso_en.Parameters.Add(new SiteParameterElement() { Key = "param2", Value = "override_contoso" });
@@ -40,26 +40,25 @@ namespace xrc.Configuration
 
 			_siteContoso_it = new SiteElement();
 			_siteContoso_it.Key = "it";
-			_siteContoso_it.Uri = new Uri("http://it.contoso.com");
+			_siteContoso_it.UriPattern = "http://it.contoso.com";
 			_siteContoso_it.Parameters.Add(new SiteParameterElement() { Key = "hello", Value = "ciao" });
 			_section.Sites.Add(_siteContoso_it);
 
 			_test = new SiteElement();
 			_test.Key = "test";
-			_test.Uri = new Uri("http://contoso.com:8080");
-			_test.SecureUri = new Uri("https://contoso.com:8043");
+			_test.UriPattern = "https?://contoso.com:(8080|8043)";
 			_test.Parameters.Add(new SiteParameterElement() { Key = "paramA", Value = "8081" });
 			_test.Parameters.Add(new SiteParameterElement() { Key = "hello", Value = "hola" });
 			_section.Sites.Add(_test);
 
 			_test_virtual = new SiteElement();
 			_test_virtual.Key = "test_virtual";
-			_test_virtual.Uri = new Uri("http://contoso.com/virtualpath");
+			_test_virtual.UriPattern = "http://contoso.com/virtualpath";
 			_section.Sites.Add(_test_virtual);
 
 			_develop = new SiteElement();
 			_develop.Key = "develop";
-			_develop.Uri = new Uri("http://localhost");
+			_develop.UriPattern = "http://localhost";
 			_develop.Parameters.Add(new SiteParameterElement() { Key = "debug", Value = "true" });
 			_section.Sites.Add(_develop);
 		}

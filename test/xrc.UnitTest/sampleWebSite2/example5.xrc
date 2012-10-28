@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<xrc:page xmlns:xrc="urn:xrc">
-	<xrc:parameters>
-		<xrc:add key="title" value="My page title" />
-		<xrc:add key="timeout" value="100" type="System.Int32" />
-	</xrc:parameters>
-</xrc:page>
-

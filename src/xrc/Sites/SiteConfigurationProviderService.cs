@@ -23,14 +23,8 @@ namespace xrc.Sites
         {
             foreach (var site in _sites.Values)
             {
-                //Note: Uri.IsBaseOf returns true also when called with
-                // new Uri("http://contoso.com/path").IsBaseOf(new Uri("http://contoso.com"))
-                // Which for me is wrong...so I check also the path
-                if (site.Uri.IsBaseOfWithPath(uri))
-                    return site;
-
-                if (uri.Scheme == Uri.UriSchemeHttps && site.SecureUri.IsBaseOfWithPath(uri))
-                    return site;
+				if (site.MatchUrl(uri))
+					return site;
             }
 
 			throw new SiteConfigurationNotFoundException(string.Format("Site configuration for uri '{0}' not found.", uri));

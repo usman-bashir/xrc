@@ -7,17 +7,7 @@
 	<xrc>
 		<rootPath virtualPath="~/xrc" />
 		<sites>
-			<!-- Example site configuration
-			<add key="local" uri="http://localhost/">
-				<parameters>
-					<add key="debug" value="true" />
-				</parameters>
-			</add>
-			<add key="production" uri="http://yoursite.com/">
-				<parameters>
-					<add key="debug" value="false" />
-				</parameters>
-			</add>-->
+			<add key="default" uriPattern="." />
 		</sites>
 		<parameters>
 			<add key="debug" value="false" />

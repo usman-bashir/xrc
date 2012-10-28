@@ -74,7 +74,7 @@ namespace xrc.Configuration
 			foreach (SiteParameterElement param in element.Parameters)
 				parameters[param.Key] = param.Value;
 
-			var configuration = new Sites.SiteConfiguration(element.Key, element.Uri, parameters, element.SecureUri);
+			var configuration = new Sites.SiteConfiguration(element.Key, element.UriPattern, parameters);
 			return configuration;
 		}
 	}
