@@ -132,6 +132,19 @@
 		</xs:complexContent>
 	</xs:complexType>
 
+	<xs:element name="RawView" substitutionGroup="xrc:viewElement" type="xrc:RawViewElement" />
+	<xs:complexType name="RawViewElement">
+		<xs:complexContent>
+			<xs:extension base="xrc:viewElementBase">
+				<xs:sequence>
+					<xs:element name="Content" minOccurs="0" maxOccurs="1" type="xrc:contentOrScript" form="unqualified" />
+					<xs:element name="ContentFile" minOccurs="0" maxOccurs="1" type="xrc:FileUri" form="unqualified" />
+					<xs:element name="ContentType" minOccurs="0" maxOccurs="1" type="xs:string" form="unqualified" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
 	<xs:element name="MarkdownView" substitutionGroup="xrc:viewElement" type="xrc:MarkdownViewElement" />
 	<xs:complexType name="MarkdownViewElement">
 		<xs:complexContent>

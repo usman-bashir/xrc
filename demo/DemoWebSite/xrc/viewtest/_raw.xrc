@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:page xmlns:xrc="urn:xrc">
+
+	<xrc:action>
+		<xrc:RawView>
+			<ContentFile>sampleImage.png</ContentFile>
+			<ContentType>image/png</ContentType>
+		</xrc:RawView>
+	</xrc:action>
+
+</xrc:page>

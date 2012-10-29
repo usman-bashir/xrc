@@ -128,6 +128,7 @@
     <Compile Include="Routing\XrcRoute.cs" />
     <Compile Include="Sites\SiteConfigurationMismatchException.cs" />
     <Compile Include="Sites\SiteConfigurationNotFoundException.cs" />
+    <Compile Include="Views\RawView.cs" />
     <Compile Include="Views\MarkdownView.cs" />
     <Compile Include="Views\HtmlView.cs" />
     <Compile Include="Views\IViewCatalogService.cs" />

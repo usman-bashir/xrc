@@ -7,6 +7,12 @@
         get;
         set;
     }
+
+	public xrc.Modules.IUrlModule UrlModule
+	{
+		get;
+		set;
+	}
 }
 <div class="row-fluid">
     @Html.Raw(SlotModule.Include("_xhtml"))
@@ -15,4 +21,6 @@
     @Html.Raw(SlotModule.Include("_markdownFile"))
     @Html.Raw(SlotModule.Include("_slot"))
     @Html.Raw(SlotModule.Include("_demowebsite"))
+	<h3>Raw</h3>
+	<img src="@UrlModule.Content("_raw")" alt="Raw view display a sample image" />
 </div>
