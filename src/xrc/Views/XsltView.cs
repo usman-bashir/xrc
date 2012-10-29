@@ -9,24 +9,24 @@ using System.Xml.Linq;
 using System.Collections.Specialized;
 using System.Web.UI;
 using xrc.Modules;
+using xrc.Pages.Providers;
 
 namespace xrc.Views
 {
     public class XsltView : IView
     {
-        public static ComponentDefinition Definition = new ComponentDefinition("XsltView", typeof(XsltView));
+        const string XSL_ARGUMENTS_NAMESPACE = "";
+        const string XSL_EXTENSIONS_PREFIX = "xrc";
+		readonly XsltSettings _settings = new XsltSettings();
+        readonly IModuleFactory _moduleFactory;
+		readonly IModuleCatalogService _moduleCatalog;
+		readonly IResourceProviderService _resourceProvider;
 
-        private const string XSL_ARGUMENTS_NAMESPACE = "";
-        private const string XSL_EXTENSIONS_PREFIX = "xrc";
-        private XsltSettings _settings = new XsltSettings();
-        private IModuleFactory _moduleFactory;
-        private IModuleCatalogService _moduleCatalog;
-
-        public XsltView(IModuleFactory moduleFactory, IModuleCatalogService moduleCatalog)
+		public XsltView(IModuleFactory moduleFactory, IModuleCatalogService moduleCatalog, IResourceProviderService resourceProvider)
         {
-            this.Xslt = null;
             _moduleFactory = moduleFactory;
             _moduleCatalog = moduleCatalog;
+			_resourceProvider = resourceProvider;
         }
 
 		public XDocument Xslt
@@ -35,16 +35,11 @@ namespace xrc.Views
             set;
         }
 
-		//public bool EnableDocumentFunction 
-		//{
-		//    get { return _settings.EnableDocumentFunction;}
-		//    set { _settings.EnableDocumentFunction = value; }
-		//}
-		//public bool EnableScript 
-		//{
-		//    get { return _settings.EnableScript; }
-		//    set { _settings.EnableScript = value; }
-		//}
+		public string XsltFile
+		{
+			get;
+			set;
+		}
 
         public XDocument Data
         {
@@ -52,10 +47,22 @@ namespace xrc.Views
             set;
         }
 
+		public string DataFile
+		{
+			get;
+			set;
+		}
+
         public void Execute(IContext context)
         {
             if (context == null)
                 throw new ArgumentNullException("context");
+
+			if (Xslt == null && !string.IsNullOrEmpty(XsltFile))
+				Xslt = _resourceProvider.ResourceToXml(context.Page.GetResourceLocation(XsltFile));
+			if (Data == null && !string.IsNullOrEmpty(DataFile))
+				Data = _resourceProvider.ResourceToXml(context.Page.GetResourceLocation(DataFile));
+
             XDocument transformData = Data;
             if (transformData == null)
                 transformData = new XDocument(); 

@@ -7,6 +7,7 @@ using xrc.Sites;
 using System.Web;
 using xrc.Pages.Providers.Common;
 using System.Xml.Linq;
+using System.Json;
 
 namespace xrc.Pages.Providers.FileSystem
 {
@@ -74,6 +75,14 @@ namespace xrc.Pages.Providers.FileSystem
 		public string ResourceToHtml(string resourceLocation)
 		{
 			return ResourceToText(resourceLocation);
+		}
+
+		public JsonValue ResourceToJson(string resourceLocation)
+		{
+			using (Stream stream = OpenResource(resourceLocation))
+			{
+				return JsonValue.Load(stream);
+			}
 		}
 
 		private string MapPath(string resourceLocation)

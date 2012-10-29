@@ -167,9 +167,9 @@ namespace xrc.Pages.Providers.Common.Parsers
 			var property = ownerType.GetProperty(propertyName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
 			if (property == null)
 			{
-				XProperty propertyFile = ParsePropertyFile(item, ownerType, propertyName, element.Value);
-				if (propertyFile != null)
-					return propertyFile;
+				//XProperty propertyFile = ParsePropertyFile(item, ownerType, propertyName, element.Value);
+				//if (propertyFile != null)
+				//    return propertyFile;
 
 				throw new ApplicationException(string.Format("Property '{0}' not found on type '{1}.", propertyName, ownerType));
 			}
@@ -201,36 +201,36 @@ namespace xrc.Pages.Providers.Common.Parsers
 				throw new ApplicationException(string.Format("Invalid element '{0}', value not defined.", element.Name));
 		}
 
-		private XProperty ParsePropertyFile(XrcItem item, Type ownerType, string propertyName, string value)
-		{
-			const string FILE_INCLUDE_SUFFIX = "File";
-			if (propertyName.EndsWith(FILE_INCLUDE_SUFFIX, StringComparison.OrdinalIgnoreCase))
-			{
-				string propertyNameBase = propertyName.Substring(0, propertyName.Length - FILE_INCLUDE_SUFFIX.Length);
-				var propertyBase = ownerType.GetProperty(propertyNameBase, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-				if (propertyBase != null)
-				{
-					// TODO Quando e se si metterà in cache il file xrc con dipendenza al file stesso ricordarsi di considerare anche questi file (letti inline per le property).
+		//private XProperty ParsePropertyFile(XrcItem item, Type ownerType, string propertyName, string value)
+		//{
+		//    const string FILE_INCLUDE_SUFFIX = "File";
+		//    if (propertyName.EndsWith(FILE_INCLUDE_SUFFIX, StringComparison.OrdinalIgnoreCase))
+		//    {
+		//        string propertyNameBase = propertyName.Substring(0, propertyName.Length - FILE_INCLUDE_SUFFIX.Length);
+		//        var propertyBase = ownerType.GetProperty(propertyNameBase, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+		//        if (propertyBase != null)
+		//        {
+		//            // TODO Quando e se si metterà in cache il file xrc con dipendenza al file stesso ricordarsi di considerare anche questi file (letti inline per le property).
 
-					string resourceLocation = UriExtensions.BuildVirtualPath(item.ResourceLocation, value);
-					if (propertyBase.PropertyType == typeof(XDocument))
-					{
-						var xValue = new XValue(propertyBase.PropertyType, _resourceProvider.ResourceToXml(resourceLocation));
-						return new XProperty(propertyBase, xValue);
-					}
-					else if (propertyBase.PropertyType == typeof(string))
-					{
-						var xValue = new XValue(propertyBase.PropertyType, _resourceProvider.ResourceToText(resourceLocation));
-						return new XProperty(propertyBase, xValue);
-					}
-					else if (propertyBase.PropertyType == typeof(byte[]))
-					{
-						var xValue = new XValue(propertyBase.PropertyType, _resourceProvider.ResourceToBytes(resourceLocation));
-						return new XProperty(propertyBase, xValue);
-					}
-				}
-			}
-			return null;
-		}
+		//            string resourceLocation = UriExtensions.BuildVirtualPath(item.ResourceLocation, value);
+		//            if (propertyBase.PropertyType == typeof(XDocument))
+		//            {
+		//                var xValue = new XValue(propertyBase.PropertyType, _resourceProvider.ResourceToXml(resourceLocation));
+		//                return new XProperty(propertyBase, xValue);
+		//            }
+		//            else if (propertyBase.PropertyType == typeof(string))
+		//            {
+		//                var xValue = new XValue(propertyBase.PropertyType, _resourceProvider.ResourceToText(resourceLocation));
+		//                return new XProperty(propertyBase, xValue);
+		//            }
+		//            else if (propertyBase.PropertyType == typeof(byte[]))
+		//            {
+		//                var xValue = new XValue(propertyBase.PropertyType, _resourceProvider.ResourceToBytes(resourceLocation));
+		//                return new XProperty(propertyBase, xValue);
+		//            }
+		//        }
+		//    }
+		//    return null;
+		//}
 	}
 }

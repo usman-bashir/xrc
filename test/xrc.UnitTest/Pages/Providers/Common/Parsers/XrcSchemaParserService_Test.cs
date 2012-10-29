@@ -167,10 +167,7 @@ namespace xrc.Pages.Providers.Common.Parsers
 			PageAction action = page.Actions["GET"];
 			var view = action.Views.Single();
 			Assert.AreEqual(typeof(TestView), view.Component.Type);
-			XDocument xmlData = (XDocument)view.Properties["XDocProperty"].Value.Value;
-
-			var xpath = xmlData.CreateNavigator().SelectSingleNode("//book/title");
-			Assert.AreEqual("Book 1", xpath.Value);
+			Assert.AreEqual("fileInclude.xml", view.Properties["XDocPropertyFile"].Value.Value);
 		}
 
 		[TestMethod]
@@ -189,9 +186,8 @@ namespace xrc.Pages.Providers.Common.Parsers
 			PageAction action = page.Actions["GET"];
 			var view = action.Views.Single();
 			Assert.AreEqual(typeof(TestView), view.Component.Type);
-			string strValue = (string)view.Properties["TextProperty"].Value.Value;
 
-			Assert.AreEqual("File content", strValue);
+			Assert.AreEqual("fileInclude.txt", view.Properties["TextPropertyFile"].Value.Value);
 		}
 
         [TestMethod]
@@ -219,7 +215,9 @@ namespace xrc.Pages.Providers.Common.Parsers
             public static ComponentDefinition Definition = new ComponentDefinition("TestView", typeof(TestView));
 
             public XDocument XDocProperty { get; set; }
+			public string XDocPropertyFile { get; set; }
 			public string TextProperty { get; set; }
+			public string TextPropertyFile { get; set; }
 			public string ScriptProperty { get; set; }
 
             public void Execute(IContext context)
@@ -244,12 +242,6 @@ namespace xrc.Pages.Providers.Common.Parsers
 
 			var pageProvider = new Mock<IResourceProviderService>();
 			pageProvider.Setup(p => p.ResourceToXml(item.ResourceLocation)).Returns(expectedContent);
-			pageProvider.Setup(p => p.ResourceToXml(UriExtensions.BuildVirtualPath(item.ResourceLocation, "fileInclude.xml")))
-							.Returns(XDocument.Parse(@"<bookstore><book><title>Book 1</title></book></bookstore>"));
-			pageProvider.Setup(p => p.ResourceToText(UriExtensions.BuildVirtualPath(item.ResourceLocation, "fileInclude.txt")))
-							.Returns("File content");
-			pageProvider.Setup(p => p.ResourceToBytes(UriExtensions.BuildVirtualPath(item.ResourceLocation, "fileInclude.ico")))
-							.Returns(new byte[]{ 0, 1, 2, 3 });
 
 			var target = new XrcSchemaParserService(pageProvider.Object,
 										new Mocks.PageScriptServiceMock(),

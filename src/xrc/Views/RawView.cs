@@ -3,16 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using xrc.Pages.Providers;
 
 namespace xrc.Views
 {
 	public class RawView : IView
     {
+		readonly IResourceProviderService _resourceProvider;
+
+		public RawView(IResourceProviderService resourceProvider)
+		{
+			_resourceProvider = resourceProvider;
+		}
+
         public byte[] Content
         {
             get;
             set;
         }
+
+		public string ContentFile
+		{
+			get;
+			set;
+		}
 
 		public string ContentType
 		{
@@ -22,6 +36,9 @@ namespace xrc.Views
 
         public void Execute(IContext context)
         {
+			if (Content == null && !string.IsNullOrEmpty(ContentFile))
+				Content = _resourceProvider.ResourceToBytes(context.Page.GetResourceLocation(ContentFile));
+
             if (Content == null)
                 throw new ArgumentNullException("Content");
 

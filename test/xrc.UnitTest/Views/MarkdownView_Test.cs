@@ -9,6 +9,7 @@ using System.Xml.XPath;
 using System.Xml.Linq;
 using Moq;
 using xrc.Markdown;
+using xrc.Pages.Providers;
 
 namespace xrc.Views
 {
@@ -20,9 +21,10 @@ namespace xrc.Views
         {
 			string content = "ciao";
 			var markdownService = new Mock<IMarkdownService>();
+			var resourceProvider = new Mock<IResourceProviderService>();
 			markdownService.Setup(p => p.Transform(content, null)).Returns("new text");
 
-			var target = new MarkdownView(markdownService.Object);
+			var target = new MarkdownView(markdownService.Object, resourceProvider.Object);
 			target.Content = content;
 
             string output;

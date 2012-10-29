@@ -7,16 +7,19 @@ using System.Web.UI;
 using System.Xml;
 using xrc.Markdown;
 using System.Web;
+using xrc.Pages.Providers;
 
 namespace xrc.Views
 {
 	public class MarkdownView : IView
     {
 		readonly IMarkdownService _markdown;
+		readonly IResourceProviderService _resourceProvider;
 
-		public MarkdownView(IMarkdownService markdown)
+		public MarkdownView(IMarkdownService markdown, IResourceProviderService resourceProvider)
 		{
 			_markdown = markdown;
+			_resourceProvider = resourceProvider;
 		}
 
         public string Content
@@ -24,6 +27,12 @@ namespace xrc.Views
             get;
             set;
         }
+
+		public string ContentFile
+		{
+			get;
+			set;
+		}
 
 		public string BaseUrl
 		{
@@ -33,6 +42,9 @@ namespace xrc.Views
 
 		public void Execute(IContext context)
         {
+			if (Content == null && !string.IsNullOrEmpty(ContentFile))
+				Content = _resourceProvider.ResourceToText(context.Page.GetResourceLocation(ContentFile));
+
             context.Response.ContentType = "text/html";
 
 			string currentBaseUrl;

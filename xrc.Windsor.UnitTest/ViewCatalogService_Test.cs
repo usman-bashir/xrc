@@ -22,7 +22,7 @@ namespace xrc.Views
 
 			var target = new WindsorViewCatalogService(container.Kernel);
 
-            Assert.AreEqual(9, target.GetAll().Count());
+            Assert.AreEqual(10, target.GetAll().Count());
 			Assert.AreEqual(typeof(HtmlView).Name, target.Get(typeof(HtmlView).Name).Name);
 			Assert.AreEqual(typeof(HtmlView), target.Get(typeof(HtmlView).Name).Type);
 		}
