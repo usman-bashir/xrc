@@ -107,9 +107,9 @@ namespace xrc.Pages.Providers.Common
 			}
 		}
 
-		public XrcUrl GetUrl(Dictionary<string, string> segmentParameters = null)
+		public XrcUrl BuildUrl(Dictionary<string, string> segmentParameters = null)
 		{
-			string currentName = GetNameFromParameters(segmentParameters);
+			string currentName = BuildSegmentUrl(segmentParameters);
 
 			XrcUrl url;
 			if (ItemType == XrcItemType.Directory)
@@ -117,13 +117,17 @@ namespace xrc.Pages.Providers.Common
 				if (IsRoot)
 					url = new XrcUrl(currentName);
 				else
-					url = Parent.GetUrl(segmentParameters).Append(currentName);
+					url = Parent.BuildUrl(segmentParameters).Append(currentName);
 
 				url = url.AppendTrailingSlash();
 			}
 			else if (ItemType == XrcItemType.XrcFile)
 			{
-				XrcUrl parentUrl = Parent.GetUrl(segmentParameters);
+				XrcUrl parentUrl;
+				if (IsRoot)
+					parentUrl = new XrcUrl("~");
+				else
+					parentUrl = Parent.BuildUrl(segmentParameters);
 
 				if (IsIndex)
 					url = parentUrl;
@@ -136,21 +140,20 @@ namespace xrc.Pages.Providers.Common
 			return url;
 		}
 
-		private string GetNameFromParameters(Dictionary<string, string> segmentParameters)
+		private string BuildSegmentUrl(Dictionary<string, string> segmentParameters = null)
 		{
-			string currentName;
-			if (segmentParameters != null &&
-				_parametricSegment != null && _parametricSegment.IsParametric)
+			if (_parametricSegment != null)
 			{
 				string paramValue;
-				if (segmentParameters.TryGetValue(_parametricSegment.ParameterName, out paramValue))
-					currentName = paramValue;
-				else
-					currentName = Name;
+				if (segmentParameters == null || !_parametricSegment.IsParametric)
+					paramValue = Name;
+				else if (!segmentParameters.TryGetValue(_parametricSegment.ParameterName, out paramValue))
+					paramValue = Name;
+
+				return _parametricSegment.BuildSegmentUrl(paramValue);
 			}
 			else
-				currentName = Name;
-			return currentName;
+				return Name;
 		}
 
 		public XrcItem Parent

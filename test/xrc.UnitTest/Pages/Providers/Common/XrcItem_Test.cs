@@ -145,5 +145,27 @@ namespace xrc.Pages.Providers.Common
 			b = XrcItem.NewXrcFile("shorterprefix{p}.xrc");
 			Assert.IsTrue(a.Priority < b.Priority);
 		}
-    }
+
+		[TestMethod]
+		public void It_Should_be_possible_to_get_name()
+		{
+			Assert.AreEqual("test", XrcItem.NewXrcFile("test.xrc").Name);
+			Assert.AreEqual("test", XrcItem.NewXrcFile("test.xrc.xml").Name);
+			Assert.AreEqual("test.xml", XrcItem.NewXrcFile("test.xml.xrc").Name);
+			Assert.AreEqual("{param}", XrcItem.NewXrcFile("{param}.xrc").Name);
+			Assert.AreEqual("{pageurl_catch-all}.ext", XrcItem.NewXrcFile("{pageUrl_CATCH-ALL}.ext.xrc").Name);
+		}
+
+		[TestMethod]
+		public void It_Should_be_possible_to_get_url()
+		{
+			Assert.AreEqual("~/test", XrcItem.NewXrcFile("test.xrc").BuildUrl().ToString());
+			Assert.AreEqual("~/test", XrcItem.NewXrcFile("test.xrc").BuildUrl(new Dictionary<string, string> { { "test", "p1" } }).ToString());
+			Assert.AreEqual("~/{test}", XrcItem.NewXrcFile("{test}.xrc").BuildUrl().ToString());
+			Assert.AreEqual("~/p1", XrcItem.NewXrcFile("{test}.xrc").BuildUrl(new Dictionary<string, string>{{"test", "p1"}}).ToString());
+			Assert.AreEqual("~/{test}", XrcItem.NewXrcFile("{test}.xrc").BuildUrl(new Dictionary<string, string> { { "test2", "p1" } }).ToString());
+			Assert.AreEqual("~/prefix.p1.suffix", XrcItem.NewXrcFile("prefix.{test}.suffix.xrc").BuildUrl(new Dictionary<string, string> { { "test", "p1" } }).ToString());
+		}
+
+	}
 }

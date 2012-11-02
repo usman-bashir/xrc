@@ -84,7 +84,7 @@ namespace xrc.Pages.Providers.Common.Parsers
 		{
 			var layoutFile = item.LayoutFile;
 			if (layoutFile != null)
-				return layoutFile.GetUrl().ToString();
+				return layoutFile.BuildUrl().ToString();
 
 			return null;
 		}

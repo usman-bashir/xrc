@@ -29,7 +29,7 @@ namespace xrc.Pages.Providers.Common
 			_modules = parserResult.Modules;
 			_siteConfiguration = siteConfiguration;
 			_urlSegmentsParameters = locatorResult.UrlSegmentsParameters;
-			_url = item.GetUrl(_urlSegmentsParameters);
+			_url = item.BuildUrl(_urlSegmentsParameters);
 			_resourceLocation = item.ResourceLocation;
 			_hostingConfig = hostingConfig;
 		}

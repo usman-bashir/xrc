@@ -48,6 +48,7 @@ namespace xrc.Pages
 			Assert.IsNull(target.ParameterName);
 			Assert.IsFalse(target.IsParametric);
 			Assert.AreEqual(8, target.FixedCharacters);
+			Assert.AreEqual("segment1", target.BuildSegmentUrl("p1"));
 
 			ParametricUriSegmentResult result;
 
@@ -114,6 +115,7 @@ namespace xrc.Pages
 			Assert.AreEqual("param1", target.ParameterName);
 			Assert.IsTrue(target.IsParametric);
 			Assert.AreEqual(0, target.FixedCharacters);
+			Assert.AreEqual("p1", target.BuildSegmentUrl("p1"));
 
 			var result = target.Match("/italia/test/index");
 			Assert.AreEqual(true, result.Success);
@@ -160,6 +162,7 @@ namespace xrc.Pages
 			Assert.AreEqual(pattern, target.Expression);
 			Assert.AreEqual("param1", target.ParameterName);
 			Assert.AreEqual(5, target.FixedCharacters);
+			Assert.AreEqual("p1.test", target.BuildSegmentUrl("p1"));
 
 			var result = target.Match("/italia.TEST/test/index");
 			Assert.AreEqual(true, result.Success);
@@ -212,6 +215,7 @@ namespace xrc.Pages
 			Assert.AreEqual(pattern, target.Expression);
 			Assert.AreEqual("param1", target.ParameterName);
 			Assert.AreEqual(4, target.FixedCharacters);
+			Assert.AreEqual("testp1", target.BuildSegmentUrl("p1"));
 
 			var result = target.Match("/test.italia/test/index");
 			Assert.AreEqual(true, result.Success);
@@ -236,6 +240,7 @@ namespace xrc.Pages
 			Assert.AreEqual(pattern, target.Expression);
 			Assert.AreEqual("param1", target.ParameterName);
 			Assert.AreEqual(0, target.FixedCharacters);
+			Assert.AreEqual("p1", target.BuildSegmentUrl("p1"));
 
 			var result = target.Match("/italia/test/index.html");
 			Assert.AreEqual(true, result.Success);
@@ -295,6 +300,7 @@ namespace xrc.Pages
 			var target = new ParametricUriSegment(pattern);
 			Assert.AreEqual(pattern, target.Expression);
 			Assert.AreEqual("param1", target.ParameterName);
+			Assert.AreEqual("p1", target.BuildSegmentUrl("p1"));
 
 			var result = target.Match("/italia/test/index.html");
 			Assert.AreEqual(true, result.Success);
@@ -319,6 +325,7 @@ namespace xrc.Pages
 			Assert.AreEqual(pattern, target.Expression);
 			Assert.AreEqual("param1", target.ParameterName);
 			Assert.AreEqual(5, target.FixedCharacters);
+			Assert.AreEqual("p1.html", target.BuildSegmentUrl("p1"));
 
 			var result = target.Match("/italia/test/index.html");
 			Assert.AreEqual(true, result.Success);
@@ -366,6 +373,7 @@ namespace xrc.Pages
 			Assert.AreEqual(pattern, target.Expression);
 			Assert.AreEqual("param1", target.ParameterName);
 			Assert.AreEqual(8, target.FixedCharacters);
+			Assert.AreEqual("_+-.p1_+-.", target.BuildSegmentUrl("p1"));
 
 			var result = target.Match("_+-.italia.html_+-./test/index.html");
 			Assert.AreEqual(true, result.Success);
@@ -403,6 +411,7 @@ namespace xrc.Pages
 			var target = new ParametricUriSegment(pattern);
 			Assert.AreEqual(pattern, target.Expression);
 			Assert.AreEqual(pattern.Length, target.FixedCharacters);
+			Assert.AreEqual("_+-.TEST_+-.", target.BuildSegmentUrl("p1"));
 
 			var result = target.Match("_+-.TEST_+-./test/index.html");
 			Assert.AreEqual(true, result.Success);

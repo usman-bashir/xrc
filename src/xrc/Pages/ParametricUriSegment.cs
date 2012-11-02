@@ -74,6 +74,14 @@ namespace xrc.Pages
 				return new ParametricUriSegmentResult(false, null, null, null, null);
 		}
 
+		public string BuildSegmentUrl(string paramValue)
+		{
+			if (_paramExpression.IsParametric)
+				return string.Format("{0}{1}{2}", _paramExpression.Prefix, paramValue, _paramExpression.Suffix);
+			else
+				return _paramExpression.Expression;
+		}
+
 		internal class ParametricUriSegmentExpression
 		{
 			public string Expression;
