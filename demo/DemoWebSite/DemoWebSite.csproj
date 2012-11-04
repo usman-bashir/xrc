@@ -204,8 +204,11 @@
     <Content Include="xrc\shared\_layout3cols.xrc">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="xrc\viewtest\_rawdownload.xrc">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="xrc\viewtest\sampleImage.png" />
-    <Content Include="xrc\viewtest\_raw.xrc">
+    <Content Include="xrc\viewtest\_rawimage.xrc">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="xrc\viewtest\_demowebsite.xrc">

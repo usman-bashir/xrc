@@ -12,6 +12,8 @@ namespace xrc
     {
         private IContext _context;
         private Dictionary<object, object> _items = new Dictionary<object, object>();
+
+		// TODO Evitare di creare una cache ogni volta?
         private System.Web.Caching.Cache _cache = new System.Web.Caching.Cache();
 
         public XrcHttpContext(IContext context)

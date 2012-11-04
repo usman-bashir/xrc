@@ -85,6 +85,7 @@
     <Compile Include="Exceptions\XrcException.cs" />
     <Compile Include="Markdown\IMarkdownService.cs" />
     <Compile Include="Markdown\MarkdownService.cs" />
+    <Compile Include="MimeTypes.cs" />
     <Compile Include="Modules\PageModule.cs" />
     <Compile Include="Modules\IPageModule.cs" />
     <Compile Include="Modules\IFileModule.cs" />

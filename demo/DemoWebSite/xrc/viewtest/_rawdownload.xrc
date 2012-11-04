@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:page xmlns:xrc="urn:xrc">
+
+	<xrc:action>
+		<xrc:RawView>
+			<!-- You can also use full path like: C:\Users\davide\My Projects\github\xrc\src\xrc\bin\Release\Castle.Core.dll -->
+			<ContentFile>~/bin/Castle.Core.dll</ContentFile>
+			<FileDownloadName>Test.dll</FileDownloadName>
+		</xrc:RawView>
+	</xrc:action>
+
+</xrc:page>

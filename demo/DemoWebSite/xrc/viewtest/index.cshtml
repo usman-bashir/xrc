@@ -21,6 +21,8 @@
     @Html.Raw(SlotModule.Include("_markdownFile"))
     @Html.Raw(SlotModule.Include("_slot"))
     @Html.Raw(SlotModule.Include("_demowebsite"))
-	<h3>Raw</h3>
-	<img src="@UrlModule.Content("_raw")" alt="Raw view display a sample image" />
+	<h3>Raw (image)</h3>
+	<img src="@UrlModule.Content("_rawimage")" alt="Raw view display a sample image" />
+	<h3>Raw (download)</h3>
+	<a href="@UrlModule.Content("_rawdownload")">download</a>
 </div>

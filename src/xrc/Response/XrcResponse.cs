@@ -177,6 +177,32 @@ namespace xrc
 				throw new XrcException(string.Format("Response redirection required, redirect url is '{0}'.", url));
 		}
 
+		public override void AddHeader(string name, string value)
+		{
+			if (UseInnerResponse)
+				_innerResponse.AddHeader(name, value);
+			else
+			{
+				// TODO "Header not supported for xrc request"
+			}
+		}
+
+		public override void TransmitFile(string filename)
+		{
+			if (UseInnerResponse)
+				_innerResponse.TransmitFile(filename);
+			else
+				throw new NotSupportedException("Operation not supported on XrcResponse withou innerResponse.");
+		}
+
+		public override void TransmitFile(string filename, long offset, long length)
+		{
+			if (UseInnerResponse)
+				_innerResponse.TransmitFile(filename, offset, length);
+			else
+				throw new NotSupportedException("Operation not supported on XrcResponse withou innerResponse.");
+		}
+
 		public override void Write(string s)
 		{
 			_output.Write(s);
