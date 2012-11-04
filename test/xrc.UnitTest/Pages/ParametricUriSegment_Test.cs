@@ -355,14 +355,21 @@ namespace xrc.Pages
 			Assert.AreEqual(false, result.Success);
 
 			result = target.Match("italia.html/test");
-			Assert.AreEqual(false, result.Success);
+			Assert.AreEqual(true, result.Success);
 
-			result = target.Match("italia.html/test/index.html");
+			result = target.Match("part1.html/test/part2.html");
 			Assert.AreEqual(true, result.Success);
 			Assert.AreEqual("param1", result.ParameterName);
-			Assert.AreEqual("italia.html/test/index", result.ParameterValue);
-			Assert.AreEqual("italia.html/test/index.html", result.CurrentUrlPart);
+			Assert.AreEqual("part1.html/test/part2", result.ParameterValue);
+			Assert.AreEqual("part1.html/test/part2.html", result.CurrentUrlPart);
 			Assert.IsNull(result.NextUrlPart);
+
+			result = target.Match("test/index.html/next/part/");
+			Assert.AreEqual(true, result.Success);
+			Assert.AreEqual("param1", result.ParameterName);
+			Assert.AreEqual("test/index", result.ParameterValue);
+			Assert.AreEqual("test/index.html", result.CurrentUrlPart);
+			Assert.AreEqual("next/part/", result.NextUrlPart);
 		}
 
 		[TestMethod]

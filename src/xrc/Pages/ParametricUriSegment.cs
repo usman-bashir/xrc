@@ -14,10 +14,8 @@ namespace xrc.Pages
 		const string SUFFIX_PATTERN = @"(?<suffix>[\w\._\-\+]*)$"; // match any suffix with letter, digits and .+-_
 		static Regex PARAMETER_NAME_REGEX = new Regex(PREFIX_PATTERN + PARAMETER_PATTERN + SUFFIX_PATTERN, RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-		const string NEXTPART_CATCH_END = "(?<nextPart>)/?$"; // match / or end
-		const string NEXTPART_CATCH_NEXT = "(/(?<nextPart>.*)|$)"; // match from / to end
-		const string VALUE_CATCH_ALL = ".+?"; // match any character lazy;
-		const string VALUE_CATCH_SEGMENT = "[^/]+?"; // match any character except / one or more time lazy
+		const string VALUE_CATCH_ALL = ".+"; // match any character one or more times
+		const string VALUE_CATCH_SEGMENT = "[^/]+"; // match any character except / one or more times
 
 		readonly Regex _segmentRegEx;
 		readonly ParametricUriSegmentExpression _paramExpression;
@@ -63,7 +61,9 @@ namespace xrc.Pages
 			{
 				string value = match.Groups["value"].Value ?? string.Empty;
 				value = HttpUtility.UrlDecode(value);
+				value = UriExtensions.RemoveTrailingSlash(value);
 				string segment = match.Groups["segment"].Value ?? string.Empty;
+				segment = UriExtensions.RemoveTrailingSlash(segment);
 				string nextPart = match.Groups["nextPart"].Value;
 				if (nextPart != null && nextPart.Length == 0)
 					nextPart = null;
@@ -161,14 +161,8 @@ namespace xrc.Pages
 
 		static Regex CreateBaseRegex(string prefix, string valuePattern, string suffix, bool catchAll)
 		{
-			string nextPattern;
-			if (catchAll)
-				nextPattern = NEXTPART_CATCH_END;
-			else
-				nextPattern = NEXTPART_CATCH_NEXT;
-
-			string regExPattern = string.Format(@"^/?(?<segment>{0}(?<value>{1}){2}){3}",
-											RegexEscape(prefix), valuePattern, RegexEscape(suffix), nextPattern);
+			string regExPattern = string.Format(@"^/?(?<segment>{0}(?<value>{1}){2})(/(?<nextPart>.*))?$",
+											RegexEscape(prefix), valuePattern, RegexEscape(suffix));
 
 			return new Regex(regExPattern, RegexOptions.IgnoreCase);
 		}
