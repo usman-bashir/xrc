@@ -10,9 +10,9 @@ namespace xrc.Pages.Providers.Common
 	public class PageLocatorResult
     {
 		readonly XrcItem _item;
-		readonly Dictionary<string, string> _urlSegmentsParameters;
+		readonly UriSegmentParameterList _urlSegmentsParameters;
 
-		public PageLocatorResult(XrcItem item, Dictionary<string, string> urlSegmentsParameters)
+		public PageLocatorResult(XrcItem item, UriSegmentParameterList urlSegmentsParameters)
 		{
 			_item = item;
 			_urlSegmentsParameters = urlSegmentsParameters;
@@ -22,7 +22,7 @@ namespace xrc.Pages.Providers.Common
 		{
 			get { return _item; }
 		}
-		public Dictionary<string, string> UrlSegmentsParameters
+		public UriSegmentParameterList UrlSegmentsParameters
 		{
 			get { return _urlSegmentsParameters; }
 		}

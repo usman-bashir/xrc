@@ -107,7 +107,7 @@ namespace xrc.Pages.Providers.Common
 			}
 		}
 
-		public XrcUrl BuildUrl(Dictionary<string, string> segmentParameters = null)
+		public XrcUrl BuildUrl(UriSegmentParameterList segmentParameters = null)
 		{
 			string currentName = BuildSegmentUrl(segmentParameters);
 
@@ -140,7 +140,7 @@ namespace xrc.Pages.Providers.Common
 			return url;
 		}
 
-		private string BuildSegmentUrl(Dictionary<string, string> segmentParameters = null)
+		private string BuildSegmentUrl(UriSegmentParameterList segmentParameters = null)
 		{
 			if (_parametricSegment != null)
 			{

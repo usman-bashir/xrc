@@ -8,7 +8,7 @@ namespace xrc.Pages.Providers.Common
 {
 	public class XrcItemList : IEnumerable<XrcItem>
 	{
-		readonly List<XrcItem> _list = new List<XrcItem>();
+		readonly Dictionary<string, XrcItem> _list = new Dictionary<string, XrcItem>(StringComparer.OrdinalIgnoreCase);
 		readonly XrcItem _parent;
 
 		public XrcItemList(XrcItem parent)
@@ -18,8 +18,14 @@ namespace xrc.Pages.Providers.Common
 
 		public void Add(XrcItem item)
 		{
+			if (item == null)
+				throw new ArgumentNullException("item");
+
+			if (_list.ContainsKey(item.ResourceName))
+				throw new DuplicateItemException(item.ResourceName);
+
+			_list.Add(item.ResourceName, item);
 			item.Parent = _parent;
-			_list.Add(item);
 		}
 
 		public void AddRange(IEnumerable<XrcItem> items)
@@ -30,7 +36,7 @@ namespace xrc.Pages.Providers.Common
 
 		public IEnumerator<XrcItem> GetEnumerator()
 		{
-			return _list.GetEnumerator();
+			return _list.Values.GetEnumerator();
 		}
 
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
@@ -42,7 +48,11 @@ namespace xrc.Pages.Providers.Common
 		{
 			get
 			{
-				return _list.FirstOrDefault(p => p.ResourceName == resourceName);
+				XrcItem item;
+				if (_list.TryGetValue(resourceName, out item))
+					return item;
+
+				return null;
 			}
 		}
 	}

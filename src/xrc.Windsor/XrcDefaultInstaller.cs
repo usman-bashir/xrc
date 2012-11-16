@@ -21,6 +21,8 @@ namespace xrc.IoC.Windsor
         {
             Assembly assembly = typeof(xrc.IKernel).Assembly;
 
+			//container.AddFacility<TraceFacility>();
+
 			container.Kernel.Resolver.AddSubResolver(new ArrayResolver(container.Kernel));
 
 			container.Register(Component.For<xrc.Configuration.IFileSystemConfig>().Instance(_xrcSection.RootPath));

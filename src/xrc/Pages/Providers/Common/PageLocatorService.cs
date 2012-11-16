@@ -22,7 +22,7 @@ namespace xrc.Pages.Providers.Common
 			if (url == null)
 				throw new ArgumentNullException("url");
 
-			var urlSegmentParameters = new Dictionary<string, string>();
+			var urlSegmentParameters = new UriSegmentParameterList();
 
 			var matchItem = MatchItem(_pageStructure.GetRoot(), url.Path, urlSegmentParameters);
 
@@ -32,7 +32,7 @@ namespace xrc.Pages.Providers.Common
 			return new PageLocatorResult(matchItem, urlSegmentParameters);
         }
 
-		XrcItem MatchItem(XrcItem item, string url, Dictionary<string, string> urlSegmentParameters)
+		XrcItem MatchItem(XrcItem item, string url, UriSegmentParameterList urlSegmentParameters)
 		{
 			var matchResult = item.Match(url);
 			if (matchResult.Success)
@@ -57,7 +57,7 @@ namespace xrc.Pages.Providers.Common
 			return null;
 		}
 
-		XrcItem MatchList(XrcItemList list, string url, Dictionary<string, string> urlSegmentParameters)
+		XrcItem MatchList(XrcItemList list, string url, UriSegmentParameterList urlSegmentParameters)
 		{
 			var validItems = list.Where(p => p.ItemType != XrcItemType.ConfigFile)
 								.OrderBy(p => p.Priority);

@@ -160,12 +160,23 @@ namespace xrc.Pages.Providers.Common
 		public void It_Should_be_possible_to_get_url()
 		{
 			Assert.AreEqual("~/test", XrcItem.NewXrcFile("test.xrc").BuildUrl().ToString());
-			Assert.AreEqual("~/test", XrcItem.NewXrcFile("test.xrc").BuildUrl(new Dictionary<string, string> { { "test", "p1" } }).ToString());
+			Assert.AreEqual("~/test", XrcItem.NewXrcFile("test.xrc").BuildUrl(new UriSegmentParameterList { { "test", "p1" } }).ToString());
 			Assert.AreEqual("~/{test}", XrcItem.NewXrcFile("{test}.xrc").BuildUrl().ToString());
-			Assert.AreEqual("~/p1", XrcItem.NewXrcFile("{test}.xrc").BuildUrl(new Dictionary<string, string>{{"test", "p1"}}).ToString());
-			Assert.AreEqual("~/{test}", XrcItem.NewXrcFile("{test}.xrc").BuildUrl(new Dictionary<string, string> { { "test2", "p1" } }).ToString());
-			Assert.AreEqual("~/prefix.p1.suffix", XrcItem.NewXrcFile("prefix.{test}.suffix.xrc").BuildUrl(new Dictionary<string, string> { { "test", "p1" } }).ToString());
+			Assert.AreEqual("~/p1", XrcItem.NewXrcFile("{test}.xrc").BuildUrl(new UriSegmentParameterList { { "test", "p1" } }).ToString());
+			Assert.AreEqual("~/{test}", XrcItem.NewXrcFile("{test}.xrc").BuildUrl(new UriSegmentParameterList { { "test2", "p1" } }).ToString());
+			Assert.AreEqual("~/prefix.p1.suffix", XrcItem.NewXrcFile("prefix.{test}.suffix.xrc").BuildUrl(new UriSegmentParameterList { { "test", "p1" } }).ToString());
 		}
 
+		[TestMethod]
+		public void It_Should_not_be_possible_to_have_2_items_with_the_same_name()
+		{
+			TestHelper.Throws<DuplicateItemException>(() => XrcItem.NewRoot("~", 
+												XrcItem.NewXrcFile("test.xrc"),
+												XrcItem.NewXrcFile("Test.xrc")));
+
+			TestHelper.Throws<DuplicateItemException>(() => XrcItem.NewRoot("~",
+												XrcItem.NewDirectory("test"),
+												XrcItem.NewDirectory("Test")));
+		}
 	}
 }

@@ -16,7 +16,7 @@ namespace xrc.Pages.Providers.Common
 		readonly Sites.ISiteConfiguration _siteConfiguration;
 		readonly XrcUrl _url;
 		readonly string _resourceLocation;
-		readonly Dictionary<string, string> _urlSegmentsParameters;
+		readonly UriSegmentParameterList _urlSegmentsParameters;
 
 		public Page(XrcItem item, 
 					PageParserResult parserResult,
@@ -54,7 +54,7 @@ namespace xrc.Pages.Providers.Common
 			get { return _siteConfiguration; }
 		}
 
-		public Dictionary<string, string> UrlSegmentsParameters
+		public UriSegmentParameterList UrlSegmentsParameters
 		{
 			get { return _urlSegmentsParameters; }
 		}

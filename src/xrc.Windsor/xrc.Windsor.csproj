@@ -55,6 +55,8 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="TraceCallInterceptor.cs" />
+    <Compile Include="TraceFacility.cs" />
     <Compile Include="WindsorModuleCatalogService.cs" />
     <Compile Include="WindsorViewCatalogService.cs" />
     <Compile Include="WindsorModuleFactory.cs" />

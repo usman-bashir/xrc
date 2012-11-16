@@ -40,6 +40,12 @@ namespace xrc.Pages
 
         public void Add(PageParameter item)
         {
+			if (item == null)
+				throw new ArgumentNullException("item");
+
+			if (_parameters.ContainsKey(item.Name))
+				throw new DuplicateItemException(item.Name);
+
             _parameters.Add(item.Name, item);
         }
 

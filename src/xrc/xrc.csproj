@@ -79,6 +79,7 @@
     <Compile Include="Context\XrcHttpContext.cs" />
     <Compile Include="ConvertEx.cs" />
     <Compile Include="Components\ComponentDefinition.cs" />
+    <Compile Include="Exceptions\DuplicateItemException.cs" />
     <Compile Include="Exceptions\PageException.cs" />
     <Compile Include="Exceptions\MovedPermanentlyException.cs" />
     <Compile Include="Exceptions\ResourceNotFoundException.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Modules\IModuleFactory.cs" />
     <Compile Include="Kernel\IXrcService.cs" />
     <Compile Include="Kernel\XrcService.cs" />
+    <Compile Include="Pages\UriSegmentParameterList.cs" />
     <Compile Include="Pages\ParametricUriSegmentResult.cs" />
     <Compile Include="Pages\Providers\Common\XrcItemList.cs" />
     <Compile Include="Pages\Providers\Common\IPageStructureService.cs" />

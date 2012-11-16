@@ -34,7 +34,7 @@ namespace xrc.Pages
 			get;
 		}
 
-		Dictionary<string, string> UrlSegmentsParameters
+		UriSegmentParameterList UrlSegmentsParameters
 		{
 			get;
 		}

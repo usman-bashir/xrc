@@ -55,7 +55,15 @@ namespace xrc
 						XrcItem.NewDirectory("photo{id}",
 							XrcItem.NewXrcFile("index.xrc")
 							)
-						)
+					),
+					XrcItem.NewDirectory("downloads",
+						XrcItem.NewDirectory("{page_CATCH-ALL}2012",
+							XrcItem.NewXrcFile("file1.xrc")
+							),
+						XrcItem.NewDirectory("{page_CATCH-ALL}",
+							XrcItem.NewXrcFile("file2.xrc")
+							)
+					)
 				);
 		}
 	}

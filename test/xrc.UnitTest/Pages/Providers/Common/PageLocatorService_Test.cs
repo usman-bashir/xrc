@@ -156,6 +156,7 @@ namespace xrc.Pages.Providers.Common
 			Assert.IsNull(Locate("~/notvalid"));
 		    Assert.IsNull(Locate("~/athletes/totti/notfound"));
 		    Assert.IsNull(Locate("~/athletes/totti/index.xrc"));
+			Assert.IsNull(Locate("~/downloads/test2012/notfound"));
 		}
 
 		[TestMethod]
