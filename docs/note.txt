@@ -1,41 +1,38 @@
 TODO
- Durante l'identificazione delle pagine scegliere la page o il folder con FixedCharacters maggiore.
- Aggiungere Condition nella view (in modo da scegliere la view a seconda di una condizione scriptabile, es. pageUrl.EndsWith(".dll"))
- Permettere di non inserire le siteConfiguration, magari facendo in modo di accettare * nell'url.
+ Support for MVC Partial e PartialRender
+ Check include bug when rendering inside a param a sub page with a param. Maybe only layout?
  Implementare un Widget per la documentazione di assembly (tramite custom View?)
- Aggiungere StaticContentView (for image, ...)
- Razor parameters "app" error. Check if set is present and if is declared on xrc assembly.
- Implement su XrcRequest tutti i metodi gestendo un fallback alla request di base.
- Valutare se usare invece che MarkdownXrc/MarkdownSharp  MarkdownDeep (http://www.toptensoftware.com/markdowndeep/). Licenza?
- Authentication
- Cache configurabile
  Log configurabile
+ Authentication
+ Reserved params , especially for razor
+ Cache configurabile
  Widgets support: load common widgets from assemblies (widgets can be simple specials views)
  Support redirect page (using a particular view or a specific xrc command?)
  Sample explanation
  Nuget GlobalAsax transform: WebActivator or Scott Hanselman article (https://bitbucket.org/davidebbo/webactivator/wiki/Home) 
  Vocabolario (su distributed cache?)
- Attualmente non è possibile avere un module che dipende da altri moduli che usano IContext. Valutare come registrare meglio la dipendenza IContext.
  XHtmlView dovrebbe renderizzare per i fragment solo il contenuto (senza xml declaration ...), pensare anche come gestire correttamente l'editor visual studio
  Gestione errori comune.
  Unit test, verificare cosa manca
+ Aggiungere Condition nella view (in modo da scegliere la view a seconda di una condizione scriptabile, es. pageUrl.EndsWith(".dll"))
+ Valutare se usare invece che MarkdownXrc/MarkdownSharp  MarkdownDeep (http://www.toptensoftware.com/markdowndeep/). Licenza?
 
 Features
-•	Installazione e configurazione facile sia sulle macchine di sviluppo che in ambienti di produzione. Essendo un sito web asp.net può fare affidamento su tutte le features microsoft di pubblicazione (dovreste riuscire a scaricare da github la solution e provarla in locale senza problemi, i requisiti sono solo VS 2010 Sp1 e nuget aggiornato)
-•	Ambiente di lavoro familiare a ogni sviluppatore utilizzando tecnologie standard (visual studio->html, xslt, razor, ...). Bisogna solo imparare la sintassi del file xrc ma è piuttosto semplice.
-•	Integrazione con MVC che può quindi essere utilizzato quando necessario. Questo apre a tutto quello che gira attorno a MVC (componenti di terze parti, supporto , ...)
-•	Compatibile con Azure (o altre cloud su cui gira asp.net)
-•	Le pagine possono essere scritte in diversi linguaggi. Attualmente ho implementato xslt, razor e html. 
-•	Il supporto a xslt offre una discreta portabilità con il vecchio codice
-•	Possibilità di aggiungere e modificare pagine a 'caldo' (senza rebuild), ogni pagina è autonoma 
-•	Componibilità pagine tramite slot, anche mischiando xslt e razor
-•	Pagine template (layout)
-•	Parametri nell'url (stile valueset) o ereditabili per url
-•	Possibilità di accedere a qualsiasi libreria .net esterna per il reperimento dati (modules)
-•	I dati possono essere in formato xml, json, .net model, ...
-•	Configurazione differenti a seconda dell'ambiente (local, staging, prod, ...)
-•	Sono disponibili tutte le funzionalità sui files di visual studio (versioning + 'social' coding + copia/incolla + search and reaplace)
-•	Windsor or other IoC ready
-•	Easy to add mobile view (thanks to mvc4)
-•	Minify and bundlify (thanks to mvc4)
+ï¿½	Installazione e configurazione facile sia sulle macchine di sviluppo che in ambienti di produzione. Essendo un sito web asp.net puï¿½ fare affidamento su tutte le features microsoft di pubblicazione (dovreste riuscire a scaricare da github la solution e provarla in locale senza problemi, i requisiti sono solo VS 2010 Sp1 e nuget aggiornato)
+ï¿½	Ambiente di lavoro familiare a ogni sviluppatore utilizzando tecnologie standard (visual studio->html, xslt, razor, ...). Bisogna solo imparare la sintassi del file xrc ma ï¿½ piuttosto semplice.
+ï¿½	Integrazione con MVC che puï¿½ quindi essere utilizzato quando necessario. Questo apre a tutto quello che gira attorno a MVC (componenti di terze parti, supporto , ...)
+ï¿½	Compatibile con Azure (o altre cloud su cui gira asp.net)
+ï¿½	Le pagine possono essere scritte in diversi linguaggi. Attualmente ho implementato xslt, razor e html. 
+ï¿½	Il supporto a xslt offre una discreta portabilitï¿½ con il vecchio codice
+ï¿½	Possibilitï¿½ di aggiungere e modificare pagine a 'caldo' (senza rebuild), ogni pagina ï¿½ autonoma 
+ï¿½	Componibilitï¿½ pagine tramite slot, anche mischiando xslt e razor
+ï¿½	Pagine template (layout)
+ï¿½	Parametri nell'url (stile valueset) o ereditabili per url
+ï¿½	Possibilitï¿½ di accedere a qualsiasi libreria .net esterna per il reperimento dati (modules)
+ï¿½	I dati possono essere in formato xml, json, .net model, ...
+ï¿½	Configurazione differenti a seconda dell'ambiente (local, staging, prod, ...)
+ï¿½	Sono disponibili tutte le funzionalitï¿½ sui files di visual studio (versioning + 'social' coding + copia/incolla + search and reaplace)
+ï¿½	Windsor or other IoC ready
+ï¿½	Easy to add mobile view (thanks to mvc4)
+ï¿½	Minify and bundlify (thanks to mvc4)
 
