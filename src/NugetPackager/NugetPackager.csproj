@@ -94,12 +94,17 @@
       <Output TaskParameter="Assemblies" ItemName="NuGetAssemblyInfo" />
     </GetAssemblyIdentity>
     <ItemGroup>
-      <NuspecFiles Include="$(ProjectDir)*.nuspec" />
-    </ItemGroup>
+      <!--<NuspecFiles Include="$(ProjectDir)*.nuspec" />-->
+			<NuspecFiles Include="$(ProjectDir)xrc.Core.nuspec" />
+			<NuspecFiles Include="$(ProjectDir)xrc.Windsor.nuspec" />
+		</ItemGroup>
     <PropertyGroup>
       <NugetExe>"$(SolutionDir).nuget\nuget.exe"</NugetExe>
       <NugetVersion>%(NuGetAssemblyInfo.Version)</NugetVersion>
     </PropertyGroup>
     <Exec Command="$(NugetExe) pack &quot;%(NuspecFiles.FullPath)&quot; -OutputDirectory $(OutputPath) -BasePath $(OutputPath) -Version $(NugetVersion)" />
-  </Target>
+
+		<!-- Note: xrc.Site use a custom version -->
+		<Exec Command="$(NugetExe) pack &quot;$(ProjectDir)xrc.Site.nuspec&quot; -OutputDirectory $(OutputPath) -BasePath $(OutputPath)" />
+	</Target>
 </Project>

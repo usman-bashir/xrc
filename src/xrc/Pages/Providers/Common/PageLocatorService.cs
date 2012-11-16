@@ -37,21 +37,24 @@ namespace xrc.Pages.Providers.Common
 			var matchResult = item.Match(url);
 			if (matchResult.Success)
 			{
-				if (matchResult.IsParameter)
-					urlSegmentParameters.Add(matchResult.ParameterName, matchResult.ParameterValue);
-
+				XrcItem itemFound;
 				if (string.IsNullOrEmpty(matchResult.NextUrlPart))
 				{
 					// last segment found is not a file, so try to read the default (index) file
 					if (item.ItemType == XrcItemType.Directory)
-						return item.IndexFile;
+						itemFound = item.IndexFile;
 					else if (item.ItemType == XrcItemType.XrcFile)
-						return item;
+						itemFound = item;
 					else
 						throw new XrcException(string.Format("Item '{0}' is not supported.", item.ResourceLocation));
 				}
 				else
-					return MatchList(item.Items, matchResult.NextUrlPart, urlSegmentParameters);
+					itemFound = MatchList(item.Items, matchResult.NextUrlPart, urlSegmentParameters);
+
+				if (itemFound != null && matchResult.IsParameter)
+					urlSegmentParameters.Add(matchResult.ParameterName, matchResult.ParameterValue);
+
+				return itemFound;
 			}
 
 			return null;
