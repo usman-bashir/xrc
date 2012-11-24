@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0"?>
 <configuration>
 	<configSections>
-		<section name="xrc" type="xrc.Configuration.XrcSection, xrc" />
+		<section name="xrc" type="xrc.Configuration.XrcSection, xrc.Core" />
 	</configSections>
 
 	<xrc>

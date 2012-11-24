@@ -35,47 +35,38 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="nugetPublish.ps1" />
+    <None Include="xrc.Windsor.symbols.nuspec" />
+    <None Include="xrc.Core.symbols.nuspec" />
     <None Include="xrc.Core.nuspec" />
-    <None Include="xrc.Site\content\net40\Global.asax.cs.example.pp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="xrc.Site\content\net40\Web.config.transform">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="xrc.Site\content\net40\Windsor\ControllerInstaller.cs.pp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="xrc.Site\content\net40\Windsor\WindsorControllerFactory.cs.pp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="xrc.Site\content\net40\xrc\Web.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="xrc.Site\content\net40\Global.asax.cs.example.pp" />
+    <None Include="xrc.Site\content\net40\Web.config.transform" />
+    <None Include="xrc.Site\content\net40\Windsor\ControllerInstaller.cs.pp" />
+    <None Include="xrc.Site\content\net40\Windsor\WindsorControllerFactory.cs.pp" />
+    <None Include="xrc.Site\content\net40\xrc\Web.config" />
     <None Include="xrc.Site.nuspec" />
     <None Include="xrc.Windsor.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="xrc.Site\content\net40\xrc\index.xrc.example">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="xrc.Site\content\net40\xrc\index.xrc.example" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\src\GlobalAssemblyInfo.cs">
+      <Link>GlobalAssemblyInfo.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\xrc.Core\xrc.Core.csproj">
+      <Project>{71988DA4-8569-490F-9D08-5B47EF2202F7}</Project>
+      <Name>xrc.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\xrc.Windsor\xrc.Windsor.csproj">
       <Project>{2496197E-8B17-4AA0-98B2-E57B2C924EDF}</Project>
       <Name>xrc.Windsor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\xrc\xrc.csproj">
-      <Project>{71988DA4-8569-490F-9D08-5B47EF2202F7}</Project>
-      <Name>xrc</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\..\src\GlobalAssemblyInfo.cs">
-      <Link>GlobalAssemblyInfo.cs</Link>
-    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -102,7 +93,8 @@
       <NugetExe>"$(SolutionDir).nuget\nuget.exe"</NugetExe>
       <NugetVersion>%(NuGetAssemblyInfo.Version)</NugetVersion>
     </PropertyGroup>
-    <Exec Command="$(NugetExe) pack &quot;%(NuspecFiles.FullPath)&quot; -OutputDirectory $(OutputPath) -BasePath $(OutputPath) -Version $(NugetVersion)" />
+    <!-- Create standard package -->
+    <Exec Command="$(NugetExe) pack &quot;%(NuspecFiles.FullPath)&quot; -OutputDirectory $(OutputPath) -BasePath $(OutputPath) -Version $(NugetVersion) -Symbols" />
     <!-- Note: xrc.Site use a custom version -->
     <Exec Command="$(NugetExe) pack &quot;$(ProjectDir)xrc.Site.nuspec&quot; -OutputDirectory $(OutputPath) -BasePath $(OutputPath)" />
   </Target>

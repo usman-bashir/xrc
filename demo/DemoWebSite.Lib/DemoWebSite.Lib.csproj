@@ -64,9 +64,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\xrc\xrc.csproj">
+    <ProjectReference Include="..\..\src\xrc.Core\xrc.Core.csproj">
       <Project>{71988DA4-8569-490F-9D08-5B47EF2202F7}</Project>
-      <Name>xrc</Name>
+      <Name>xrc.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
