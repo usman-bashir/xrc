@@ -11,7 +11,7 @@ foreach ($file in $files)
 	if (!$fileName.contains("symbols"))
 	{
 		
-		$cmd = "$nugetexe push ""$fileName"""
+		$cmd = "$nugetexe push ""$file"""
 		write $cmd
 		iex $cmd
 	}
