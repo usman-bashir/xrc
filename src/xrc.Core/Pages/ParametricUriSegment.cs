@@ -10,7 +10,7 @@ namespace xrc.Pages
 	public class ParametricUriSegment
 	{
 		const string PREFIX_PATTERN = @"^(?<prefix>[\w\._\-\+]*)"; // match any prefix with letter, digits and .+-_ 
-		const string PARAMETER_PATTERN = @"\{(?<name>\w+)(?<catchAll>_CATCH-ALL)?\}";  // match any parameter name with letter, digits and optional ending with _CATCH-ALL
+		const string PARAMETER_PATTERN = @"\{(?<name>\w+)(?<catchAll>\.\.\.)?\}";  // match any parameter name with letter, digits and optional ending with "..."
 		const string SUFFIX_PATTERN = @"(?<suffix>[\w\._\-\+]*)$"; // match any suffix with letter, digits and .+-_
 		static Regex PARAMETER_NAME_REGEX = new Regex(PREFIX_PATTERN + PARAMETER_PATTERN + SUFFIX_PATTERN, RegexOptions.Compiled | RegexOptions.IgnoreCase);
 

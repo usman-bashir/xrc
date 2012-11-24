@@ -19,12 +19,12 @@ namespace xrc
 					XrcItem.NewDirectory("news",
 						XrcItem.NewXrcFile("index.xrc"),
 						XrcItem.NewXrcFile("_slot1.xrc"),
-						XrcItem.NewDirectory("{id_catch-all}",
+						XrcItem.NewDirectory("{id...}",
 							XrcItem.NewXrcFile("index.xrc")
 						)
 					),
 					XrcItem.NewDirectory("docs",
-						XrcItem.NewXrcFile("{page_CATCH-ALL}.xrc")
+						XrcItem.NewXrcFile("{page...}.xrc")
 					),
 					XrcItem.NewDirectory("athletes",
 						XrcItem.NewXrcFile("index.xrc"),
@@ -57,10 +57,10 @@ namespace xrc
 							)
 					),
 					XrcItem.NewDirectory("downloads",
-						XrcItem.NewDirectory("{page_CATCH-ALL}2012",
+						XrcItem.NewDirectory("{page...}2012",
 							XrcItem.NewXrcFile("file1.xrc")
 							),
-						XrcItem.NewDirectory("{page_CATCH-ALL}",
+						XrcItem.NewDirectory("{page...}",
 							XrcItem.NewXrcFile("file2.xrc")
 							)
 					)

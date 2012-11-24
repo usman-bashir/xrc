@@ -144,7 +144,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="xrc\docs\test1\{url_CATCH-ALL}.ext.xrc">
+    <Content Include="xrc\docs\test1\{url...}.ext.xrc">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="xrc\news\search.xrc">
@@ -268,10 +268,10 @@
     <Content Include="xrc\docs\xrc.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="xrc\docs\test2\{url_CATCH-ALL}\index.xrc.cshtml">
+    <Content Include="xrc\docs\test2\{url...}\index.xrc.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="xrc\docs\test1\{url_CATCH-ALL}.xrc.cshtml">
+    <Content Include="xrc\docs\test1\{url...}.xrc.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="xrc\viewtest\index.cshtml" />

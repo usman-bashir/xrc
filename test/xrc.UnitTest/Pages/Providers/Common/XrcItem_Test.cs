@@ -153,7 +153,7 @@ namespace xrc.Pages.Providers.Common
 			Assert.AreEqual("test", XrcItem.NewXrcFile("test.xrc.xml").Name);
 			Assert.AreEqual("test.xml", XrcItem.NewXrcFile("test.xml.xrc").Name);
 			Assert.AreEqual("{param}", XrcItem.NewXrcFile("{param}.xrc").Name);
-			Assert.AreEqual("{pageurl_catch-all}.ext", XrcItem.NewXrcFile("{pageUrl_CATCH-ALL}.ext.xrc").Name);
+			Assert.AreEqual("{pageurl...}.ext", XrcItem.NewXrcFile("{pageUrl...}.ext.xrc").Name);
 		}
 
 		[TestMethod]

@@ -235,7 +235,7 @@ namespace xrc.Pages
 		[TestMethod]
 		public void Parameter_Segment_With_CatchAll()
 		{
-			string pattern = "{param1_CATCH-ALL}";
+			string pattern = "{param1...}";
 			var target = new ParametricUriSegment(pattern);
 			Assert.AreEqual(pattern, target.Expression);
 			Assert.AreEqual("param1", target.ParameterName);
@@ -296,7 +296,7 @@ namespace xrc.Pages
 		[TestMethod]
 		public void Parameter_Segment_With_CatchAll_LowerCase()
 		{
-			string pattern = "{param1_catch-all}";
+			string pattern = "{param1...}";
 			var target = new ParametricUriSegment(pattern);
 			Assert.AreEqual(pattern, target.Expression);
 			Assert.AreEqual("param1", target.ParameterName);
@@ -320,7 +320,7 @@ namespace xrc.Pages
 		[TestMethod]
 		public void Parameter_Segment_With_CatchAll_and_Suffix()
 		{
-			string pattern = "{param1_CATCH-ALL}.html";
+			string pattern = "{param1...}.html";
 			var target = new ParametricUriSegment(pattern);
 			Assert.AreEqual(pattern, target.Expression);
 			Assert.AreEqual("param1", target.ParameterName);

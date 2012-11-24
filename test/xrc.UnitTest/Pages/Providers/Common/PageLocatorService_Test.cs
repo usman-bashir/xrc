@@ -126,25 +126,25 @@ namespace xrc.Pages.Providers.Common
 		[TestMethod]
 		public void It_should_be_possible_to_Locate_File_With_Parameters_Catch_All_Directory()
 		{
-			Assert.AreEqual("~/news/{id_catch-all}/index.xrc", Locate("~/news/sport/basket/2012").Item.ResourceLocation);
+			Assert.AreEqual("~/news/{id...}/index.xrc", Locate("~/news/sport/basket/2012").Item.ResourceLocation);
 			Assert.AreEqual("sport/basket/2012", Locate("~/news/sport/basket/2012").UrlSegmentsParameters["id"]);
 
-			Assert.AreEqual("~/news/{id_catch-all}/index.xrc", Locate("~/news/4658135").Item.ResourceLocation);
+			Assert.AreEqual("~/news/{id...}/index.xrc", Locate("~/news/4658135").Item.ResourceLocation);
 			Assert.AreEqual("4658135", Locate("~/news/4658135").UrlSegmentsParameters["id"]);
-			Assert.AreEqual("~/news/{id_catch-all}/index.xrc", Locate("~/news/4658135/").Item.ResourceLocation);
+			Assert.AreEqual("~/news/{id...}/index.xrc", Locate("~/news/4658135/").Item.ResourceLocation);
 			Assert.AreEqual("4658135", Locate("~/news/4658135/").UrlSegmentsParameters["id"]);
 		}
 
 		[TestMethod]
 		public void It_should_be_possible_to_Locate_File_With_Parameters_Catch_All_File()
 		{
-			Assert.AreEqual("~/docs/{page_CATCH-ALL}.xrc", Locate("~/docs/4658135").Item.ResourceLocation);
+			Assert.AreEqual("~/docs/{page...}.xrc", Locate("~/docs/4658135").Item.ResourceLocation);
 			Assert.AreEqual("4658135", Locate("~/docs/4658135").UrlSegmentsParameters["page"]);
 
-			Assert.AreEqual("~/docs/{page_CATCH-ALL}.xrc", Locate("~/docs/4658135/").Item.ResourceLocation);
+			Assert.AreEqual("~/docs/{page...}.xrc", Locate("~/docs/4658135/").Item.ResourceLocation);
 			Assert.AreEqual("4658135", Locate("~/docs/4658135/").UrlSegmentsParameters["page"]);
 
-			Assert.AreEqual("~/docs/{page_CATCH-ALL}.xrc", Locate("~/docs/4658135/test/long/url/index.htm").Item.ResourceLocation);
+			Assert.AreEqual("~/docs/{page...}.xrc", Locate("~/docs/4658135/test/long/url/index.htm").Item.ResourceLocation);
 			Assert.AreEqual("4658135/test/long/url/index.htm", Locate("~/docs/4658135/test/long/url/index.htm").UrlSegmentsParameters["page"]);
 		}
 
