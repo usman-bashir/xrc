@@ -36,8 +36,6 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="nugetPublish.ps1" />
-    <None Include="xrc.Windsor.symbols.nuspec" />
-    <None Include="xrc.Core.symbols.nuspec" />
     <None Include="xrc.Core.nuspec" />
     <None Include="xrc.Site\content\net40\Global.asax.cs.example.pp" />
     <None Include="xrc.Site\content\net40\Web.config.transform" />
