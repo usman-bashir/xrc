@@ -7,9 +7,7 @@ Introduction
 ------------
 
 XRC is a rendering framework for ASP.NET that can be used in combination with ASP.NET MVC. 
-Using a [CQRS] approach can be used for rendering (query) dynamic or static content inside an existing ASP.NET site.
-
-
+Can be used for rendering (query) dynamic or static content inside an existing ASP.NET site.
 
 Why XRC?
 --------
@@ -54,6 +52,8 @@ XRC is available on [NuGet]. You can install the package using:
 
 	PM> Install-Package xrc.Site
 
+Source code and symbols (.pdb files) for debugging are available on [Symbol Source].
+
 License
 -------
 
@@ -70,3 +70,4 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 [CQRS]: http://martinfowler.com/bliki/CQRS.html
 [MIT License]: http://opensource.org/licenses/mit-license.php
 [NuGet]: https://nuget.org/packages/xrc.Site
+[Symbol Source]: http://www.symbolsource.org/
