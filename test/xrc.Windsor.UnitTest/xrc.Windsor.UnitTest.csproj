@@ -62,11 +62,11 @@
     <Compile Include="ViewCatalogService_Test.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\xrc.Windsor\xrc.Windsor.csproj">
+    <ProjectReference Include="..\..\src\xrc.Windsor\xrc.Windsor.csproj">
       <Project>{2496197E-8B17-4AA0-98B2-E57B2C924EDF}</Project>
       <Name>xrc.Windsor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\src\xrc\xrc.csproj">
+    <ProjectReference Include="..\..\src\xrc\xrc.csproj">
       <Project>{71988DA4-8569-490F-9D08-5B47EF2202F7}</Project>
       <Name>xrc</Name>
     </ProjectReference>

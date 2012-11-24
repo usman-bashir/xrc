@@ -63,17 +63,17 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\xrc.Windsor\xrc.Windsor.csproj">
+    <ProjectReference Include="..\..\src\xrc.Windsor\xrc.Windsor.csproj">
       <Project>{2496197E-8B17-4AA0-98B2-E57B2C924EDF}</Project>
       <Name>xrc.Windsor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\xrc\xrc.csproj">
+    <ProjectReference Include="..\..\src\xrc\xrc.csproj">
       <Project>{71988DA4-8569-490F-9D08-5B47EF2202F7}</Project>
       <Name>xrc</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\GlobalAssemblyInfo.cs">
+    <Compile Include="..\..\src\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
   </ItemGroup>
@@ -95,16 +95,15 @@
     </GetAssemblyIdentity>
     <ItemGroup>
       <!--<NuspecFiles Include="$(ProjectDir)*.nuspec" />-->
-			<NuspecFiles Include="$(ProjectDir)xrc.Core.nuspec" />
-			<NuspecFiles Include="$(ProjectDir)xrc.Windsor.nuspec" />
-		</ItemGroup>
+      <NuspecFiles Include="$(ProjectDir)xrc.Core.nuspec" />
+      <NuspecFiles Include="$(ProjectDir)xrc.Windsor.nuspec" />
+    </ItemGroup>
     <PropertyGroup>
       <NugetExe>"$(SolutionDir).nuget\nuget.exe"</NugetExe>
       <NugetVersion>%(NuGetAssemblyInfo.Version)</NugetVersion>
     </PropertyGroup>
     <Exec Command="$(NugetExe) pack &quot;%(NuspecFiles.FullPath)&quot; -OutputDirectory $(OutputPath) -BasePath $(OutputPath) -Version $(NugetVersion)" />
-
-		<!-- Note: xrc.Site use a custom version -->
-		<Exec Command="$(NugetExe) pack &quot;$(ProjectDir)xrc.Site.nuspec&quot; -OutputDirectory $(OutputPath) -BasePath $(OutputPath)" />
-	</Target>
+    <!-- Note: xrc.Site use a custom version -->
+    <Exec Command="$(NugetExe) pack &quot;$(ProjectDir)xrc.Site.nuspec&quot; -OutputDirectory $(OutputPath) -BasePath $(OutputPath)" />
+  </Target>
 </Project>
