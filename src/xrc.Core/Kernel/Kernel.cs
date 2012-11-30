@@ -49,7 +49,7 @@ namespace xrc
 		{
 			var xrcUrl = new xrc.XrcUrl(httpContext.Request.AppRelativeCurrentExecutionFilePath);
 
-			return _xrcService.Match(xrcUrl);
+			return Match(xrcUrl);
 		}
 
 		public void ProcessRequest(HttpContextBase httpContext)
@@ -57,6 +57,16 @@ namespace xrc
 			var context = new Context(httpContext);
 			var siteConfiguration = _siteConfigurationProvider.GetSiteFromUri(httpContext.Request.Url);
 
+			ProcessRequest(context, siteConfiguration);
+		}
+
+		public bool Match(XrcUrl url)
+		{
+			return _xrcService.Match(url);
+		}
+
+		public void ProcessRequest(IContext context, ISiteConfiguration siteConfiguration)
+		{
 			_xrcService.ProcessRequest(context, siteConfiguration);
 		}
 	}

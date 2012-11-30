@@ -67,11 +67,11 @@ namespace xrc
 			else
 			{
 				_cookies = _innerResponse.Cookies;
-				_statusCode = _innerResponse.StatusCode;
+				_statusCode = (int)HttpStatusCode.OK;
 				_contentEncoding = _innerResponse.ContentEncoding;
 				_contentType = _innerResponse.ContentType;
-				_redirectLocation = _innerResponse.RedirectLocation;
-				_statusDescription = _innerResponse.StatusDescription;
+				_redirectLocation = null;
+				_statusDescription = null;
 				_outputStream = stream;
 				_output = new StreamWriter(stream, _contentEncoding);
 			}

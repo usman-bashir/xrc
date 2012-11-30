@@ -84,6 +84,7 @@
     <Compile Include="Exceptions\MovedPermanentlyException.cs" />
     <Compile Include="Exceptions\ResourceNotFoundException.cs" />
     <Compile Include="Exceptions\XrcException.cs" />
+    <Compile Include="HttpModules\CustomErrorPages.cs" />
     <Compile Include="Markdown\IMarkdownService.cs" />
     <Compile Include="Markdown\MarkdownService.cs" />
     <Compile Include="MimeTypes.cs" />

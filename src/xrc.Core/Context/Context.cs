@@ -67,8 +67,10 @@ namespace xrc
         {
             if (Exception != null)
                 throw Exception;
-            else if (Response.StatusCode < 200 || Response.StatusCode >= 300)
-				throw new HttpException(Response.StatusCode, Response.StatusDescription ?? "Failed to process request.");
+
+			// 
+			//else if (Response.StatusCode < 200 || Response.StatusCode >= 300)
+			//    throw new HttpException(Response.StatusCode, Response.StatusDescription ?? "Failed to process request.");
         }
 
 		public IContext GetInitiatorContext()

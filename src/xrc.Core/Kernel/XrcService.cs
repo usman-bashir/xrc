@@ -102,8 +102,6 @@ namespace xrc
                     context.Parameters.Add(new ContextParameter(p.Name, p.PropertyType, p.GetValue(parameters, null)));
                 }
             }
-            //else
-            //    throw new XrcException(string.Format("Parameters type '{0}' not supported.", parameters.GetType()));
         }
 
 		public bool Match(XrcUrl url)
