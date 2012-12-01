@@ -30,7 +30,7 @@ namespace xrc.Views
 
 			XrcUrl xrcUrl = context.Page.GetPageUrl(SlotUrl);
 
-			ContentResult result = _xrcService.Page(xrcUrl, context.Page.SiteConfiguration, null, context);
+			ContentResult result = _xrcService.Page(xrcUrl, null, context);
 
 			context.Response.ContentEncoding = result.ContentEncoding;
 			context.Response.ContentType = result.ContentType;

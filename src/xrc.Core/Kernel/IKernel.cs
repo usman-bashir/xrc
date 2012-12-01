@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
-using xrc.Sites;
 
 namespace xrc
 {
@@ -15,7 +14,7 @@ namespace xrc
 
 		bool Match(XrcUrl url);
 
-		void ProcessRequest(IContext context, ISiteConfiguration siteConfiguration);
+		void ProcessRequest(IContext context);
 
 		void Init();
     }

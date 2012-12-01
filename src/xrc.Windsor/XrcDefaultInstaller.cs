@@ -5,6 +5,7 @@ using System.Text;
 using Castle.MicroKernel.Registration;
 using System.Reflection;
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
+using System.Web;
 
 namespace xrc.IoC.Windsor
 {
@@ -25,9 +26,11 @@ namespace xrc.IoC.Windsor
 
 			container.Kernel.Resolver.AddSubResolver(new ArrayResolver(container.Kernel));
 
-			container.Register(Component.For<xrc.Configuration.IFileSystemConfig>().Instance(_xrcSection.RootPath));
-			container.Register(Component.For<xrc.Configuration.ISitesConfig>().Instance(_xrcSection));
-			container.Register(Component.For<xrc.Configuration.IHostingConfig>().ImplementedBy<xrc.Configuration.AspNetHostingConfig>());
+			container.Register(Component.For<xrc.Configuration.IFileSystemConfig>().Instance(new Configuration.FileSystemConfig(_xrcSection)));
+			container.Register(Component.For<xrc.Configuration.ICustomErrorsConfig>().Instance(new Configuration.CustomErrorsConfig(_xrcSection)));
+
+			container.Register(Component.For<xrc.Configuration.IEnvironmentConfig>().ImplementedBy<Configuration.EnvironmentConfig>());
+			container.Register(Component.For<xrc.Configuration.IHostingConfig>().ImplementedBy<Configuration.AspNetHostingConfig>());
 
 			container.Register(Component.For<Views.IViewCatalogService>().ImplementedBy<Views.WindsorViewCatalogService>());
 			container.Register(Component.For<Modules.IModuleCatalogService>().ImplementedBy<Modules.WindsorModuleCatalogService>());
@@ -53,6 +56,7 @@ namespace xrc.IoC.Windsor
 
             container.Register(Classes.FromAssembly(assembly)
                                 .Where(p => p.Name.EndsWith("Module"))
+								.Unless(p => typeof(IHttpModule).IsAssignableFrom(p))
 								.WithServiceAllInterfaces()
                                 .LifestyleTransient());
         }

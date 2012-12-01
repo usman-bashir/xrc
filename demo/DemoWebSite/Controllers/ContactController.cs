@@ -10,15 +10,12 @@ namespace DemoWebSite.Controllers
     {
         readonly IContactModule _contactModule;
 		readonly xrc.IXrcService _xrc;
-		readonly xrc.Sites.ISiteConfigurationProviderService _siteConfigurationProvider;
 
         public ContactController(IContactModule contactModule,
-                                xrc.IXrcService xrc,
-								xrc.Sites.ISiteConfigurationProviderService siteConfigurationProvider)
+                                xrc.IXrcService xrc)
         {
             _contactModule = contactModule;
             _xrc = xrc;
-			_siteConfigurationProvider = siteConfigurationProvider;
         }
 
         public ActionResult SendMVC(string firstName, string lastName, string message)
@@ -34,12 +31,7 @@ namespace DemoWebSite.Controllers
             Contact newContact = new Contact() { FirstName = firstName, LastName = lastName, Message = message };
             _contactModule.Add(newContact);
 
-			return _xrc.Page(new xrc.XrcUrl("~/contact/_sendsuccess"), GetSiteConfiguration(), new { newContact = newContact });
+			return _xrc.Page(new xrc.XrcUrl("~/contact/_sendsuccess"), new { newContact = newContact });
         }
-
-		xrc.Sites.ISiteConfiguration GetSiteConfiguration()
-		{
-			return _siteConfigurationProvider.GetSiteFromUri(Request.Url);
-		}
     }
 }

@@ -13,7 +13,6 @@ namespace xrc.Pages.Providers.Common
 		readonly PageParameterList _parameters;
 		readonly ModuleDefinitionList _modules;
 		readonly Configuration.IHostingConfig _hostingConfig;
-		readonly Sites.ISiteConfiguration _siteConfiguration;
 		readonly XrcUrl _url;
 		readonly string _resourceLocation;
 		readonly UriSegmentParameterList _urlSegmentsParameters;
@@ -21,13 +20,11 @@ namespace xrc.Pages.Providers.Common
 		public Page(XrcItem item, 
 					PageParserResult parserResult,
 					PageLocatorResult locatorResult,
-					Sites.ISiteConfiguration siteConfiguration,
 					Configuration.IHostingConfig hostingConfig)
 		{
 			_actions = parserResult.Actions;
 			_parameters = parserResult.Parameters;
 			_modules = parserResult.Modules;
-			_siteConfiguration = siteConfiguration;
 			_urlSegmentsParameters = locatorResult.UrlSegmentsParameters;
 			_url = item.BuildUrl(_urlSegmentsParameters);
 			_resourceLocation = item.ResourceLocation;
@@ -47,11 +44,6 @@ namespace xrc.Pages.Providers.Common
 		public ModuleDefinitionList Modules
 		{
 			get { return _modules; }
-		}
-
-		public Sites.ISiteConfiguration SiteConfiguration
-		{
-			get { return _siteConfiguration; }
 		}
 
 		public UriSegmentParameterList UrlSegmentsParameters

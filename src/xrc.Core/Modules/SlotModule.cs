@@ -44,7 +44,7 @@ namespace xrc.Modules
         {
 			XrcUrl xrcUrl = _context.Page.GetPageUrl(url);
 
-			return _xrcService.Page(xrcUrl, _context.Page.SiteConfiguration, parameters, callerContext: _context).Content;
+			return _xrcService.Page(xrcUrl, parameters, callerContext: _context).Content;
         }
     }
 }

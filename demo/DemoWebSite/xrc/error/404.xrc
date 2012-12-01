@@ -3,14 +3,13 @@
 
 	<xrc:parameters>
 		<xrc:add key="title" value="error" />
-		<!--<xrc:add key="httpStatus" />-->
 	</xrc:parameters>
 
 	<xrc:action method="GET" layout="~/shared/_layoutRazor">
 		<xrc:XHtmlView>
 			<Content>
 				<div>
-					Error page!
+					Error page not found!
 				</div>
 			</Content>
 		</xrc:XHtmlView>

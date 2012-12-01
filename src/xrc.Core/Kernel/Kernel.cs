@@ -9,7 +9,6 @@ using System.Reflection;
 using xrc.Views;
 using System.Web;
 using xrc.Script;
-using xrc.Sites;
 using xrc.Modules;
 using xrc.Pages.Providers;
 using xrc.Pages.Script;
@@ -19,12 +18,10 @@ namespace xrc
     public class Kernel : IKernel
     {
 		readonly IXrcService _xrcService;
-		readonly ISiteConfigurationProviderService _siteConfigurationProvider;
 
-		public Kernel(IXrcService xrcService, ISiteConfigurationProviderService siteConfigurationProvider)
+		public Kernel(IXrcService xrcService)
         {
 			_xrcService = xrcService;
-			_siteConfigurationProvider = siteConfigurationProvider;
         }
 
         // TODO Check if it is possible to remove this static reference
@@ -55,9 +52,8 @@ namespace xrc
 		public void ProcessRequest(HttpContextBase httpContext)
 		{
 			var context = new Context(httpContext);
-			var siteConfiguration = _siteConfigurationProvider.GetSiteFromUri(httpContext.Request.Url);
 
-			ProcessRequest(context, siteConfiguration);
+			ProcessRequest(context);
 		}
 
 		public bool Match(XrcUrl url)
@@ -65,9 +61,9 @@ namespace xrc
 			return _xrcService.Match(url);
 		}
 
-		public void ProcessRequest(IContext context, ISiteConfiguration siteConfiguration)
+		public void ProcessRequest(IContext context)
 		{
-			_xrcService.ProcessRequest(context, siteConfiguration);
+			_xrcService.ProcessRequest(context);
 		}
 	}
 }

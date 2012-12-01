@@ -79,10 +79,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\XrcAppStart.cs" />
+    <Compile Include="App_Start\Windsor\CustomXrcInstaller.cs" />
     <Compile Include="Controllers\ContactController.cs" />
-    <Compile Include="Windsor\ControllerInstaller.cs" />
+    <Compile Include="App_Start\Windsor\ControllerInstaller.cs" />
     <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="Windsor\WindsorControllerFactory.cs" />
+    <Compile Include="App_Start\Windsor\WindsorControllerFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -144,7 +145,7 @@
     <Content Include="xrc\contact\index.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="xrc\error.xrc">
+    <Content Include="xrc\error\404.xrc">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="xrc\docs\loremipsum_xslt.xml">
@@ -156,6 +157,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="xrc\docs\test1\{url...}.ext.xrc">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="xrc\error\default.xrc">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="xrc\news\search.xrc">

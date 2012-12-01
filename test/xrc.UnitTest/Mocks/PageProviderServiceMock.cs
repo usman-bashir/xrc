@@ -55,7 +55,7 @@ namespace xrc.Mocks
 			throw new NotImplementedException();
 		}
 
-		public Pages.IPage GetPage(XrcUrl url, Sites.ISiteConfiguration siteConfiguration)
+		public Pages.IPage GetPage(XrcUrl url)
 		{
 			throw new NotImplementedException();
 		}

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:page xmlns:xrc="urn:xrc">
+
+	<xrc:parameters>
+		<xrc:add key="title" value="error" />
+	</xrc:parameters>
+
+	<xrc:action method="GET" layout="~/shared/_layoutRazor">
+		<xrc:XHtmlView>
+			<Content>
+				<div>
+					Error page default!
+				</div>
+			</Content>
+		</xrc:XHtmlView>
+	</xrc:action>
+
+</xrc:page>

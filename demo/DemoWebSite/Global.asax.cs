@@ -18,6 +18,10 @@ namespace DemoWebSite
 
         private void RegisterRoutes(RouteCollection routes)
 		{
+			routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
+			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+			routes.IgnoreRoute("{*robotstxt}", new { robotstxt = @"(.*/)?robots.txt(/.*)?" });
+
 			routes.Add("xrc", new xrc.Routing.XrcRoute());
 
 			// Standard mvc route
