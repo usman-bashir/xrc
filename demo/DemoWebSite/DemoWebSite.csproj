@@ -78,12 +78,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\XrcAppStart.cs" />
+    <Compile Include="App_Start\xrcAppStart.cs" />
     <Compile Include="App_Start\Windsor\CustomXrcInstaller.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="App_Start\Windsor\ControllerInstaller.cs" />
     <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="App_Start\Windsor\WindsorControllerFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -160,6 +159,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="xrc\error\default.xrc">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="xrc\error\index.xrc">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="xrc\news\search.xrc">
@@ -291,6 +293,7 @@
     </Content>
     <Content Include="xrc\viewtest\index.cshtml" />
     <Content Include="xrc\viewtest\_markdownFile.md" />
+    <Content Include="xrc\error\index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\xrc.Core\xrc.Core.csproj">

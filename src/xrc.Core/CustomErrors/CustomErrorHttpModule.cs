@@ -13,14 +13,15 @@ namespace xrc.CustomErrors
 
 	public class CustomErrorHttpModule : IHttpModule
 	{
-		// TODO Inject using IoC
-		Configuration.ICustomErrorsConfig _customErrorConfig;
+		readonly Configuration.ICustomErrorsConfig _customErrorConfig;
+		public CustomErrorHttpModule(Configuration.ICustomErrorsConfig customErrorConfig)
+		{
+			_customErrorConfig = customErrorConfig;
+		}
 
 		public void Init(HttpApplication httpApplication)
 		{
 			httpApplication.Error += Application_Error;
-
-			_customErrorConfig = new Configuration.CustomErrorsConfig(Configuration.XrcSection.GetSection(true));
 		}
 
 		void Application_Error(object sender, EventArgs e)

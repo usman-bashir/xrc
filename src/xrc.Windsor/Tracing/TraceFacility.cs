@@ -6,7 +6,7 @@ using Castle.MicroKernel.Facilities;
 using Castle.MicroKernel;
 using Castle.Core;
 
-namespace xrc.IoC.Windsor
+namespace xrc.Windsor.Tracing
 {
 	public class TraceFacility : AbstractFacility
 	{

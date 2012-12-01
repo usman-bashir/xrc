@@ -1,54 +1,67 @@
 ﻿using System.Web.Mvc;
 using Castle.Windsor;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+using System.Web.Routing;
 
 [assembly: WebActivator.PreApplicationStartMethod(
-    typeof(DemoWebSite.XrcAppStart), "PreStart")]
+	typeof(DemoWebSite.xrcAppStart), "PreStart")]
 
 namespace DemoWebSite
 {
-	public class XrcAppStart
+	public class xrcAppStart
 	{
 		static IWindsorContainer _container;
 
 		public static void PreStart()
 		{
-			BootstrapContainer();
+			InitializeContainer();
 
-			BootstrapXrc();
+			InitializeXrc();
 
-			SetMVCControllerFactory();
+			SetupHttpModulesFactory();
 
-			RegisterModules();
+			SetupControllerFactory();
+
+			RegisterRoutes(RouteTable.Routes);
 		}
 
-		static void BootstrapContainer()
+		static void RegisterRoutes(RouteCollection routes)
+		{
+			routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
+			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+			routes.IgnoreRoute("{*robotstxt}", new { robotstxt = @"(.*/)?robots.txt(/.*)?" });
+
+			routes.Add("xrc", new xrc.Routing.XrcRoute());
+		}
+
+		static void InitializeContainer()
 		{
 			_container = new WindsorContainer();
 
-			// register xrc
 			var xrcSection = xrc.Configuration.XrcSection.GetSection();
-			_container.Install(new xrc.IoC.Windsor.XrcDefaultInstaller(xrcSection));
+			_container.Install(new xrc.Windsor.Installers.XrcInstaller(xrcSection));
 
 			_container.Install(Castle.Windsor.Installer.FromAssembly.This());
 		}
 
-		static void BootstrapXrc()
+		static void InitializeXrc()
 		{
 			xrc.IKernel kernel = _container.Resolve<xrc.IKernel>();
 			kernel.Init();
 		}
 
-		static void SetMVCControllerFactory()
+		static void SetupHttpModulesFactory()
 		{
-			var controllerFactory = new Windsor.WindsorControllerFactory(_container.Kernel);
-			ControllerBuilder.Current.SetControllerFactory(controllerFactory);
+			xrc.Windsor.HttpModuleFactory.Setup(_container.Kernel);
+
+			DynamicModuleUtility.RegisterModule(typeof(xrc.Windsor.HttpModuleFactory)); // .NET 4.0
+			// HttpApplication.RegisterModule // .NET 4.5
 		}
 
-		static void RegisterModules()
+		static void SetupControllerFactory()
 		{
-			DynamicModuleUtility.RegisterModule(typeof(xrc.CustomErrors.CustomErrorHttpModule)); // .NET 4.0
-			// HttpApplication.RegisterModule // .NET 4.5
+			var controllerFactory = new xrc.Windsor.ControllerFactory(_container.Kernel);
+			ControllerBuilder.Current.SetControllerFactory(controllerFactory);
 		}
 	}
 }
