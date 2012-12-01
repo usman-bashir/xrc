@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Configuration;
+using xrc.CustomErrors;
 
 namespace xrc.Configuration
 {
-	public class XrcSection : ConfigurationSection, ISitesConfig
+	public class XrcSection : ConfigurationSection
     {
         public static XrcSection GetSection()
         {
@@ -24,16 +25,10 @@ namespace xrc.Configuration
             return section;
         }
 
-        [ConfigurationProperty("sites")]
-        public SiteCollection Sites
+        [ConfigurationProperty("customErrors")]
+		public CustomErrorCollection CustomErrors
         {
-            get { return this["sites"] as SiteCollection; }
-        }
-
-        [ConfigurationProperty("parameters")]
-        public SiteParameterCollection Parameters
-        {
-            get { return this["parameters"] as SiteParameterCollection; }
+			get { return this["customErrors"] as CustomErrorCollection; }
         }
 
         [ConfigurationProperty("modules")]
@@ -52,30 +47,6 @@ namespace xrc.Configuration
 		public RootPathElement RootPath
 		{
 			get { return this["rootPath"] as RootPathElement; }
-		}
-
-		IEnumerable<Sites.ISiteConfiguration> ISitesConfig.Sites
-		{
-			get 
-			{
-				foreach (SiteElement siteElement in Sites)
-				{
-					yield return GetSiteFromConfig(siteElement);
-				}
-			}
-		}
-
-		private Sites.ISiteConfiguration GetSiteFromConfig(SiteElement element)
-		{
-			Dictionary<string, string> parameters = new Dictionary<string, string>();
-
-			foreach (SiteParameterElement param in Parameters)
-				parameters[param.Key] = param.Value;
-			foreach (SiteParameterElement param in element.Parameters)
-				parameters[param.Key] = param.Value;
-
-			var configuration = new Sites.SiteConfiguration(element.Key, element.UriPattern, parameters);
-			return configuration;
 		}
 	}
 }

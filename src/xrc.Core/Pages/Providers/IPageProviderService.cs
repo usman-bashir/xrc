@@ -10,6 +10,6 @@ namespace xrc.Pages.Providers
 	{
 		bool PageExists(XrcUrl url);
 
-		IPage GetPage(XrcUrl url, Sites.ISiteConfiguration siteConfiguration);
+		IPage GetPage(XrcUrl url);
 	}
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using xrc.Modules;
-using xrc.Sites;
 
 namespace xrc.Pages
 {
@@ -38,8 +37,6 @@ namespace xrc.Pages
 		{
 			get;
 		}
-
-		ISiteConfiguration SiteConfiguration { get; }
 
 		string GetResourceLocation(string resourceName);
 

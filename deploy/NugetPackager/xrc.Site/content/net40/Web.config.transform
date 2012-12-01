@@ -6,12 +6,13 @@
 
 	<xrc>
 		<rootPath virtualPath="~/xrc" />
-		<sites>
-			<add key="default" uriPattern="." />
-		</sites>
 		<parameters>
 			<add key="debug" value="false" />
 		</parameters>
+
+		<!--<customErrors defaultUrl="~/error/default">
+			<add statusCode="404" url="~/error/404" />
+		</customErrors>-->
 	</xrc>
 
 </configuration>

@@ -30,7 +30,7 @@ namespace xrc.Modules
 		{
 			XrcUrl xrcUrl = _context.Page.GetPageUrl(url);
 
-			return _pageProvider.GetPage(xrcUrl, _context.Page.SiteConfiguration);
+			return _pageProvider.GetPage(xrcUrl);
 		}
 
 		public Pages.IPage GetInitiator()

@@ -11,8 +11,8 @@ namespace xrc
     {
 		bool Match(XrcUrl url);
 
-		void ProcessRequest(IContext context, Sites.ISiteConfiguration siteConfiguration);
+		void ProcessRequest(IContext context);
 
-		ContentResult Page(XrcUrl url, Sites.ISiteConfiguration siteConfiguration, object parameters = null, IContext callerContext = null);
+		ContentResult Page(XrcUrl url, object parameters = null, IContext callerContext = null);
     }
 }

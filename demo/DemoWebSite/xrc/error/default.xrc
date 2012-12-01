@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:page xmlns:xrc="urn:xrc">
+
+	<xrc:parameters>
+		<xrc:add key="title" value="error" />
+		<xrc:add key="exception" type="System.Exception" />
+		<xrc:add key="httpStatus" type="System.Int32" />
+	</xrc:parameters>
+
+	<xrc:action method="GET" layout="~/shared/_layoutRazor">
+		<xrc:RazorView>
+			<ViewUrl>default.cshtml</ViewUrl>
+		</xrc:RazorView>
+	</xrc:action>
+
+</xrc:page>

@@ -3,7 +3,7 @@ using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 
-namespace DemoWebSite
+namespace $rootnamespace$.Installers
 {
     public class ControllersInstaller : IWindsorInstaller
     {

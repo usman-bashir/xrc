@@ -12,6 +12,10 @@ namespace xrc
 
 		void ProcessRequest(HttpContextBase httpContext);
 
+		bool Match(XrcUrl url);
+
+		void ProcessRequest(IContext context);
+
 		void Init();
     }
 }

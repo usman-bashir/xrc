@@ -68,7 +68,6 @@
     <Compile Include="Markdown\MarkdownService_Test.cs" />
     <Compile Include="Mocks\ContextMock.cs" />
     <Compile Include="Mocks\PageProviderServiceMock.cs" />
-    <Compile Include="Mocks\SitesConfigMock.cs" />
     <Compile Include="Mocks\MashupScriptServiceMock.cs" />
     <Compile Include="Mocks\TestPageStructureService.cs" />
     <Compile Include="Modules\TestModule.cs" />
@@ -83,8 +82,6 @@
     <Compile Include="Pages\Providers\FileSystem\FileSystemPageProviderService_Test.cs" />
     <Compile Include="Pages\ParametricUriSegment_Test.cs" />
     <Compile Include="UriExtensions_Test.cs" />
-    <Compile Include="Sites\SiteConfigurationProviderService_Test.cs" />
-    <Compile Include="Sites\SiteConfiguration_Test.cs" />
     <Compile Include="Kernel\XrcService_Test.cs" />
     <Compile Include="Mocks\RendererCatalogServiceMock.cs" />
     <Compile Include="Mocks\ModuleFactoryMock.cs" />

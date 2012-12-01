@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Castle.DynamicProxy;
 
-namespace xrc.IoC.Windsor
+namespace xrc.Windsor.Tracing
 {
 	public class TraceCallInterceptor : IInterceptor
 	{

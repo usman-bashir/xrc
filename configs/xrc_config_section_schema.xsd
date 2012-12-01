@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!-- TODO For now intellisense for we.config works only if I manually use the schema (on the config property window)... -->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+		   xmlns:vs="http://schemas.microsoft.com/Visual-Studio-Intellisense" 
+		   elementFormDefault="qualified" 
+		   attributeFormDefault="unqualified" 
+		   vs:helpNamespace="urn:xrc_config_section">
+
+	<xs:element name="xrc">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="customErrors" maxOccurs="1" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element minOccurs="0" maxOccurs="unbounded" name="add">
+								<xs:complexType>
+									<xs:attribute name="statusCode" type="xs:int" use="required" />
+									<xs:attribute name="url" type="xs:string" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="defaultUrl" type="xs:string" use="optional" />
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element name="rootPath" minOccurs="0" maxOccurs="1">
+					<xs:complexType>
+						<xs:attribute name="virtualPath" type="xs:string" use="required" />
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

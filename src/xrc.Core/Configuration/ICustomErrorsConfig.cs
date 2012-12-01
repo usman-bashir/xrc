@@ -6,11 +6,8 @@ using System.Configuration;
 
 namespace xrc.Configuration
 {
-	public interface ISitesConfig
+	public interface ICustomErrorsConfig
     {
-		IEnumerable<Sites.ISiteConfiguration> Sites
-        {
-            get;
-        }
+		string GetErrorPage(int statusCode);
 	}
 }

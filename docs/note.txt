@@ -9,7 +9,6 @@ TODO
  Widgets support: load common widgets from assemblies (widgets can be simple specials views)
  Support redirect page (using a particular view or a specific xrc command?)
  Sample explanation
- Nuget GlobalAsax transform: WebActivator or Scott Hanselman article (https://bitbucket.org/davidebbo/webactivator/wiki/Home) 
  Vocabolario (su distributed cache?)
  XHtmlView dovrebbe renderizzare per i fragment solo il contenuto (senza xml declaration ...), pensare anche come gestire correttamente l'editor visual studio
  Gestione errori comune.

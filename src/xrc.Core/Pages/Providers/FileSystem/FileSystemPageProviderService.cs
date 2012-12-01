@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using xrc.Sites;
 using System.Web;
 using xrc.Pages.Providers.Common;
 using System.Xml.Linq;
@@ -34,7 +33,7 @@ namespace xrc.Pages.Providers.FileSystem
 			return locatorResult != null;
 		}
 
-		public IPage GetPage(XrcUrl url, Sites.ISiteConfiguration siteConfiguration)
+		public IPage GetPage(XrcUrl url)
 		{
 			PageLocatorResult locatorResult = _pageLocator.Locate(url);
 			if (locatorResult == null)
@@ -42,7 +41,7 @@ namespace xrc.Pages.Providers.FileSystem
 
 			PageParserResult parserResult = _pageParser.Parse(locatorResult.Item);
 
-			return new Page(locatorResult.Item, parserResult, locatorResult, siteConfiguration, _hostingConfig);
+			return new Page(locatorResult.Item, parserResult, locatorResult, _hostingConfig);
 		}
 	}
 }

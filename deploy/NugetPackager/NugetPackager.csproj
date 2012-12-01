@@ -37,10 +37,7 @@
   <ItemGroup>
     <None Include="nugetPublish.ps1" />
     <None Include="xrc.Core.nuspec" />
-    <None Include="xrc.Site\content\net40\Global.asax.cs.example.pp" />
     <None Include="xrc.Site\content\net40\Web.config.transform" />
-    <None Include="xrc.Site\content\net40\Windsor\ControllerInstaller.cs.pp" />
-    <None Include="xrc.Site\content\net40\Windsor\WindsorControllerFactory.cs.pp" />
     <None Include="xrc.Site\content\net40\xrc\Web.config" />
     <None Include="xrc.Site.nuspec" />
     <None Include="xrc.Windsor.nuspec" />
@@ -55,6 +52,9 @@
     <Compile Include="..\..\src\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <None Include="xrc.Site\content\net40\App_Start\Installers\ControllerInstaller.cs.pp" />
+    <None Include="xrc.Site\content\net40\App_Start\Installers\CustomXrcInstaller.cs.pp" />
+    <None Include="xrc.Site\content\net40\App_Start\xrcAppStart.cs.pp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\xrc.Core\xrc.Core.csproj">

@@ -21,22 +21,25 @@ namespace xrc
 		readonly IViewFactory _viewFactory;
 		readonly IModuleFactory _moduleFactory;
 		readonly IPageScriptService _scriptService;
-		readonly Configuration.IHostingConfig _config;
+		readonly Configuration.IHostingConfig _hostingConfig;
+		readonly Configuration.IEnvironmentConfig _environmentConfig;
 
 		public XrcService(IPageProviderService pageProvider,
 					IViewFactory viewFactory,
 					IModuleFactory moduleFactory,
 					IPageScriptService scriptService,
-					Configuration.IHostingConfig config)
+					Configuration.IHostingConfig hostingConfig,
+					Configuration.IEnvironmentConfig environmentConfig)
         {
-			_config = config;
+			_hostingConfig = hostingConfig;
+			_environmentConfig = environmentConfig;
 			_pageProvider = pageProvider;
 			_viewFactory = viewFactory;
 			_moduleFactory = moduleFactory;
 			_scriptService = scriptService;
         }
 
-		public System.Web.Mvc.ContentResult Page(XrcUrl url, Sites.ISiteConfiguration siteConfiguration, object parameters = null, IContext callerContext = null)
+		public System.Web.Mvc.ContentResult Page(XrcUrl url, object parameters = null, IContext callerContext = null)
         {
 			try
 			{
@@ -54,7 +57,7 @@ namespace xrc
 					context.CallerContext = callerContext;
 					AddParameters(context, parameters);
 
-					ProcessRequest(context, siteConfiguration);
+					ProcessRequest(context);
 
 					context.CheckResponse();
 
@@ -102,8 +105,6 @@ namespace xrc
                     context.Parameters.Add(new ContextParameter(p.Name, p.PropertyType, p.GetValue(parameters, null)));
                 }
             }
-            //else
-            //    throw new XrcException(string.Format("Parameters type '{0}' not supported.", parameters.GetType()));
         }
 
 		public bool Match(XrcUrl url)
@@ -111,9 +112,9 @@ namespace xrc
 			return _pageProvider.PageExists(url);
 		}
 
-		public void ProcessRequest(IContext context, Sites.ISiteConfiguration siteConfiguration)
+		public void ProcessRequest(IContext context)
 		{
-			context.Page = _pageProvider.GetPage(context.Request.XrcUrl, siteConfiguration);
+			context.Page = _pageProvider.GetPage(context.Request.XrcUrl);
 			if (context.Page == null)
 			{
 				ProcessRequestNotFound(context);
@@ -157,7 +158,7 @@ namespace xrc
 
 		private Uri GetCanonicalUrl(IContext context)
 		{
-			Uri relativeUrl = _config.AppRelativeUrlToRelativeUrl(context.Page.PageUrl.ToString());
+			Uri relativeUrl = _hostingConfig.AppRelativeUrlToRelativeUrl(context.Page.PageUrl.ToString());
 
 			// TODO Devo usare un dominio fittizio perchè UriBuilder non supporta relative url. Verificare se c'è un metodo migliore.
 			// Probabilmente l'url compreso di query string dovrebbe essere un parametro della Page
@@ -225,7 +226,7 @@ namespace xrc
 
 			try
 			{
-				ProcessRequest(layoutContext, childContext.Page.SiteConfiguration);
+				ProcessRequest(layoutContext);
 				layoutContext.CheckResponse();
 			}
 			catch (Exception ex)
@@ -273,10 +274,10 @@ namespace xrc
 			// Set the parameters only when not already present, so save the list of inherited parameters
 			string[] inheritdKeys = context.Parameters.Select(p => p.Name).ToArray();
 
-			foreach (var item in context.Page.SiteConfiguration.Parameters)
+			foreach (var item in _environmentConfig.Settings)
 			{
-				if (!inheritdKeys.Contains(item.Key, StringComparer.OrdinalIgnoreCase))
-					context.Parameters[item.Key] = new ContextParameter(item.Key, typeof(string), item.Value);
+				if (!inheritdKeys.Contains(item.Key, StringComparer.OrdinalIgnoreCase) && item.Value != null)
+					context.Parameters[item.Key] = new ContextParameter(item.Key, item.Value.GetType(), item.Value);
 			}
 
 			foreach (var item in context.Page.UrlSegmentsParameters)

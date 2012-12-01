@@ -100,9 +100,14 @@ namespace xrc.Views
 			foreach (var item in context.Parameters)
 			{
 				if (item.Value != null)
-					arguments.AddParam(item.Name, XSL_ARGUMENTS_NAMESPACE, item.Value);
+					arguments.AddParam(SanitizeParamName(item.Name), XSL_ARGUMENTS_NAMESPACE, item.Value);
 			}
         }
+
+		private static string SanitizeParamName(string name)
+		{
+			return name.Replace(':', '_').Replace('.', '_').Replace('.', ',').Replace(" ", "");
+		}
 
         private void UnloadModules(List<object> modules)
         {
