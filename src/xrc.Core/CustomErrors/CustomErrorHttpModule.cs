@@ -27,18 +27,19 @@ namespace xrc.CustomErrors
 		void Application_Error(object sender, EventArgs e)
 		{
 			var exception = Server.GetLastError();
+			if (exception == null)
+				return;
 
 			var httpStatus = GetHttpStatus(exception);
-
 			var url = GetErrorPage(httpStatus);
 
 			if (string.IsNullOrWhiteSpace(url))
 				return;
 
-			ProcessErrorPage(httpStatus, url);
+			ProcessErrorPage(exception, httpStatus, url);
 		}
 
-		void ProcessErrorPage(int httpStatus, string url)
+		void ProcessErrorPage(Exception exception, int httpStatus, string url)
 		{
 			Response.Clear();
 			Response.TrySkipIisCustomErrors = true;
@@ -47,6 +48,8 @@ namespace xrc.CustomErrors
 			var xrcRequest = new xrc.XrcRequest(new xrc.XrcUrl(url), "GET", new HttpRequestWrapper(Context.Request));
 			var xrcResponse = new xrc.XrcResponse(new HttpResponseWrapper(Context.Response));
 			var context = new xrc.Context(xrcRequest, xrcResponse);
+			context.Parameters.Add(new ContextParameter("Exception", typeof(Exception), exception));
+			context.Parameters.Add(new ContextParameter("HttpStatus", typeof(int), httpStatus));
 
 			xrc.Kernel.Current.ProcessRequest(context);
 
@@ -61,14 +64,13 @@ namespace xrc.CustomErrors
 
 		int GetHttpStatus(Exception exception)
 		{
-			int httpStatus;
-
 			var httpException = exception as HttpException;
 			if (httpException != null)
-				httpStatus = httpException.GetHttpCode();
+				return httpException.GetHttpCode();
+			else if (exception.InnerException != null)
+				return GetHttpStatus(exception.InnerException);
 			else
-				httpStatus = 500;
-			return httpStatus;
+				return 500;
 		}
 
 		public void Dispose() { }

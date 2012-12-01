@@ -9,7 +9,10 @@
 		<xrc:XHtmlView>
 			<Content>
 				<div>
-					Error page not found!
+					<h2>Resource not found</h2>
+					<p>
+						Error page not found!
+					</p>
 				</div>
 			</Content>
 		</xrc:XHtmlView>

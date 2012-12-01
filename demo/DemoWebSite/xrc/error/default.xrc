@@ -3,16 +3,14 @@
 
 	<xrc:parameters>
 		<xrc:add key="title" value="error" />
+		<xrc:add key="exception" type="System.Exception" />
+		<xrc:add key="httpStatus" type="System.Int32" />
 	</xrc:parameters>
 
 	<xrc:action method="GET" layout="~/shared/_layoutRazor">
-		<xrc:XHtmlView>
-			<Content>
-				<div>
-					Error page default!
-				</div>
-			</Content>
-		</xrc:XHtmlView>
+		<xrc:RazorView>
+			<ViewUrl>default.cshtml</ViewUrl>
+		</xrc:RazorView>
 	</xrc:action>
 
 </xrc:page>
