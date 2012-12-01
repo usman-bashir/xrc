@@ -79,9 +79,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\xrcAppStart.cs" />
-    <Compile Include="App_Start\Windsor\CustomXrcInstaller.cs" />
+    <Compile Include="App_Start\Installers\CustomXrcInstaller.cs" />
     <Compile Include="Controllers\ContactController.cs" />
-    <Compile Include="App_Start\Windsor\ControllerInstaller.cs" />
+    <Compile Include="App_Start\Installers\ControllerInstaller.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
