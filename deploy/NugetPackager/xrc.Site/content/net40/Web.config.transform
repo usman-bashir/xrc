@@ -6,9 +6,6 @@
 
 	<xrc>
 		<rootPath virtualPath="~/xrc" />
-		<parameters>
-			<add key="debug" value="false" />
-		</parameters>
 
 		<!--<customErrors defaultUrl="~/error/default">
 			<add statusCode="404" url="~/error/404" />
