@@ -110,22 +110,22 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="xrc\contact\index.xrc">
+    <Content Include="xrc\razor\index.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="xrc\contact\_contactForm1.xrc">
+    <Content Include="xrc\razor\_contactForm1.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="xrc\contact\_contactForm2.xrc">
+    <Content Include="xrc\razor\_contactForm2.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="xrc\contact\_contactList.xrc">
+    <Content Include="xrc\razor\_contactList.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="xrc\contact\_sendSuccess.xrc">
+    <Content Include="xrc\razor\_sendSuccess.xrc">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="xrc\contact\_test.xrc">
+    <Content Include="xrc\razor\_razorInclude.xrc">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="xrc\docs\loremipsum_html.xrc.html">
@@ -261,25 +261,28 @@
     <Content Include="Views\Test\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Test\PartialSlot.cshtml" />
+    <Content Include="Views\Test\PartialAction.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="xrc\contact\_contactForm1.cshtml" />
+    <Content Include="xrc\razor\_contactForm1.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="xrc\contact\_contactForm2.cshtml" />
+    <Content Include="xrc\razor\_contactForm2.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="xrc\contact\_contactList.cshtml" />
+    <Content Include="xrc\razor\_contactList.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="xrc\contact\_sendSuccess.cshtml" />
+    <Content Include="xrc\razor\_sendSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="xrc\contact\_test.cshtml" />
+    <Content Include="xrc\razor\_razorInclude.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="xrc\contact\index.cshtml" />
+    <Content Include="xrc\razor\index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="xrc\razor\_partial.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

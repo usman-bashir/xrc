@@ -54,12 +54,19 @@ namespace xrc.Views
 
             ViewContext viewContext = new ViewContext();
             viewContext.ViewData = new ViewDataDictionary(Model);
-            viewContext.RouteData.Values.Add("controller", "RazorView");
-            if (HttpContext.Current == null)
+			
+			viewContext.RouteData.Values.Add("controller", "xrcRazorView");
+			viewContext.RouteData.DataTokens.Add("controller", "xrcRazorView");
+
+			if (HttpContext.Current == null)
                 viewContext.RequestContext = new XrcRequestContext(context);
             else
                 viewContext.RequestContext = new XrcRequestContext(new HttpContextWrapper(HttpContext.Current)); // TODO Sembra che questo codice in release su IIS non funzionava (anche su azure), era qualcosa legato alla cache (DefaultViewLocationCache.GetViewLocation) ma non sono riuscito a capire il problema
+
+			viewContext.RequestContext.RouteData.Values.Add("controller", "xrcRazorView");
+
             viewContext.HttpContext = viewContext.RequestContext.HttpContext;
+			viewContext.TempData = new TempDataDictionary();
 
             LoadParameters(context, viewContext);
 
@@ -71,15 +78,17 @@ namespace xrc.Views
 				throw new ApplicationException(string.Format("Razor view '{0}' not found.", ViewUrl));
 
             var viewEngine = result.ViewEngine;
-            var view = result.View;
+            var mvcView = result.View;
+			viewContext.View = mvcView;
 
             try
             {
-                view.Render(viewContext, context.Response.Output);
+				mvcView.Render(viewContext, context.Response.Output);
             }
             finally
             {
-                viewEngine.ReleaseView(viewContext, view);
+				// TODO Should I release the view? Should I release other objects?
+				viewEngine.ReleaseView(viewContext, mvcView);
             }
         }
 

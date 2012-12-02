@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:page xmlns:xrc="urn:xrc">
+
+	<xrc:parameters>
+		<xrc:add key="title" value="razor and mvc" />
+		<xrc:add key="activeMenu" value="razor and mvc" />
+	</xrc:parameters>
+
+	<xrc:action method="GET" layout="~/shared/_layout">
+		<xrc:RazorView>
+			<ViewUrl>index.cshtml</ViewUrl>
+		</xrc:RazorView>
+	</xrc:action>
+
+</xrc:page>

@@ -14,7 +14,7 @@ namespace xrc.Web.AcceptanceTest.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult PartialSlot()
+		public ActionResult PartialAction()
         {
             return View();
         }

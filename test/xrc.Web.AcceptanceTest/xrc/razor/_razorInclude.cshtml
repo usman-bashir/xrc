@@ -12,7 +12,8 @@
 <p>Show an example of a razor page and how to read parameters: <br />
 hello from razor: @DateTime.Now, hello from xrc parameter: @param1</p>
 
+<h2>Html.Action</h2>
+@Html.Action("PartialAction", "Test")
 
-@* TODO Non funziona...
-@Html.Action("PartialSlot", "Test")
-*@
+<h2>Html.Partial</h2>
+@Html.Partial("~/xrc/razor/_partial.cshtml")
