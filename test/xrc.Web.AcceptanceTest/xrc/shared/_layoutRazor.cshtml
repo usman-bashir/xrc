@@ -1,0 +1,34 @@
+﻿@inherits xrc.Razor.XrcWebViewPage
+			  
+@functions
+{
+	public string title { get; set; }
+	public string activeMenu { get; set; }
+	
+	public xrc.Modules.ISlotModule SlotModule { get; set; }
+}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		@title (razor layout)
+	</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<!-- jquery -->
+	<script type="text/javascript" src="@Url.Content("~/scripts/jquery-1.7.2.min.js")"></script>
+	<!-- bootstrap -->
+	<link rel="Stylesheet" type="text/css" href="@Url.Content("~/content/bootstrap.min.css")" />
+	<link rel="Stylesheet" type="text/css" href="@Url.Content("~/content/bootstrap-responsive.min.css")" />
+	<script type="text/javascript" src="@Url.Content("~/scripts/bootstrap.min.js")"></script>
+	<link rel="stylesheet" type="text/css" href="@Url.Content("~/content/site.css")" />
+</head>
+<body>
+
+	 @Html.Raw(SlotModule.Include("~/shared/_header", new { activeMenu = activeMenu}))
+
+	<div class="container-fluid">
+		@Html.Raw(SlotModule.IncludeChild())
+		@Html.Raw(SlotModule.Include("~/shared/_footer"))
+	</div>
+</body>
+</html>

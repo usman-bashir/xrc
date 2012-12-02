@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:page xmlns:xrc="urn:xrc">
+
+	<!-- This is an example of a xslt layout file -->
+
+	<xrc:action method="GET">
+		<xrc:XsltView>
+			<XsltFile>_layout.xslt</XsltFile>
+		</xrc:XsltView>
+	</xrc:action>
+
+</xrc:page>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:page xmlns:xrc="urn:xrc">
+
+	<xrc:parameters>
+		<!-- This parameter will be used as the page title in the shared/layout.xslt page -->
+		<xrc:add key="title" value="home" />
+		<!-- This parameter will be passed on the shared/_header.xrc -->
+		<xrc:add key="activeMenu" value="home" />
+	</xrc:parameters>
+
+	<xrc:action layout="~/shared/_layout">
+		<xrc:XHtmlView>
+			<ContentFile>index.xhtml</ContentFile>
+		</xrc:XHtmlView>
+
+		<!-- TODO: How to configure outputcache -->
+		<xrc:outputcache />
+	</xrc:action>
+
+</xrc:page>

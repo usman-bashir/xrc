@@ -15,12 +15,10 @@
 			<Data xmlns="">
 				<header>
 					<menu url="~/" />
-					<menu url="~/books" />
-					<menu url="~/olympics/" />
-					<menu url="~/twitter/" />
-					<menu url="~/news/" />
-					<menu url="~/widgets" />
-					<menu url="~/about" />
+					<menu url="~/docs" />
+					<menu url="~/errors" />
+					<menu url="~/contact" />
+					<menu url="~/viewtest" />
 				</header>
 			</Data>
 

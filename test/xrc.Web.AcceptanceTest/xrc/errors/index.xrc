@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:page xmlns:xrc="urn:xrc">
+
+	<xrc:parameters>
+		<!-- This parameter will be used as the page title in the shared/layout.xslt page -->
+		<xrc:add key="title" value="errors" />
+		<!-- This parameter will be passed on the shared/_header.xrc -->
+		<xrc:add key="activeMenu" value="errors" />
+		
+		<xrc:add key="httpStatus" value="200" type="System.Int32" allowRequestOverride="true" />
+	</xrc:parameters>
+	
+	<xrc:action method="GET" layout="~/shared/_layoutRazor">
+		<xrc:RazorView>
+			<ViewUrl>index.cshtml</ViewUrl>
+		</xrc:RazorView>
+	</xrc:action>
+
+</xrc:page>

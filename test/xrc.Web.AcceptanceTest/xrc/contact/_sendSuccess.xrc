@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:page xmlns:xrc="urn:xrc">
+
+	<xrc:parameters>
+		<xrc:add key="newContact" type="xrc.Web.AcceptanceTest.Contact, xrc.Web.AcceptanceTest"/>
+	</xrc:parameters>
+
+	<xrc:action>
+		<xrc:RazorView>
+			<ViewUrl>_sendSuccess.cshtml</ViewUrl>
+			<Model>@newContact</Model>
+		</xrc:RazorView>
+	</xrc:action>
+
+</xrc:page>

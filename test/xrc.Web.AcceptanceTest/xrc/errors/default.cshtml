@@ -1,0 +1,20 @@
+﻿@inherits xrc.Razor.XrcWebViewPage
+
+@functions
+{
+	public int HttpStatus
+	{
+		get;
+		set;
+	}
+
+	public Exception Exception
+	{
+		get;
+		set;
+	}
+}
+
+<h2>Error @HttpStatus</h2>
+
+<p>@Exception.ToString()</p>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:page xmlns:xrc="urn:xrc"
+         xmlns:File="xrc:FileModule">
+
+	<!-- This is an example of a razor layout file -->
+
+	<xrc:action method="GET">
+		<xrc:RazorView>
+			<ViewUrl>_layoutRazor.cshtml</ViewUrl>
+		</xrc:RazorView>
+	</xrc:action>
+
+</xrc:page>
