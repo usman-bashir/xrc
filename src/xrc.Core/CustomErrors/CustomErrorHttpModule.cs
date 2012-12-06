@@ -42,8 +42,10 @@ namespace xrc.CustomErrors
 		void ProcessErrorPage(Exception exception, int httpStatus, string customErrorUrl)
 		{
 			Response.Clear();
-			Response.TrySkipIisCustomErrors = true;
 			Server.ClearError();
+
+			Response.StatusCode = httpStatus;
+			Response.TrySkipIisCustomErrors = true;
 
 			var xrcRequest = new xrc.XrcRequest(new xrc.XrcUrl(customErrorUrl), "GET", new HttpRequestWrapper(Context.Request));
 			var xrcResponse = new xrc.XrcResponse(new HttpResponseWrapper(Context.Response));
@@ -53,8 +55,6 @@ namespace xrc.CustomErrors
 			context.Parameters.Add(new ContextParameter("ErrorUrl", typeof(Uri), Context.Request.Url));
 
 			xrc.Kernel.Current.ProcessRequest(context);
-
-			Response.StatusCode = httpStatus;
 		}
 
 		string GetErrorPage(int httpStatus)

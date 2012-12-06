@@ -53,11 +53,11 @@ namespace xrc
 			if (string.IsNullOrWhiteSpace(baseUri.ToString()))
 				return false;
 
-            baseUri = baseUri.ToLower();
-            uri = uri.ToLower();
-
 			if (baseUri.IsAbsoluteUri && uri.IsAbsoluteUri)
 			{
+				baseUri = baseUri.ToLower();
+				uri = uri.ToLower();
+
 				if (baseUri.Scheme == uri.Scheme &&
 					baseUri.Host == uri.Host &&
 					baseUri.Port == uri.Port &&
@@ -68,7 +68,9 @@ namespace xrc
 			}
 			else if (!baseUri.IsAbsoluteUri && !uri.IsAbsoluteUri)
 			{
-				return uri.ToString().StartsWith(baseUri.ToString());
+				baseUri = baseUri.RemoveTrailingSlash();
+
+				return uri.ToString().StartsWith(baseUri.ToString(), StringComparison.InvariantCultureIgnoreCase);
 			}
 			else
 				throw new XrcException("Uri not valid, cannot compare a relative uri with an absolute uri.");
@@ -85,21 +87,24 @@ namespace xrc
 
 			if (baseUri.IsAbsoluteUri && uri.IsAbsoluteUri)
 			{
-				string basePath = baseUri.GetComponents(UriComponents.PathAndQuery, UriFormat.UriEscaped).Trim('/').ToLower();
-				string uriPath = uri.GetComponents(UriComponents.PathAndQuery, UriFormat.UriEscaped).TrimStart('/').ToLower();
+				string basePath = baseUri.GetComponents(UriComponents.PathAndQuery, UriFormat.UriEscaped).Trim('/');
+				string uriPath = uri.GetComponents(UriComponents.PathAndQuery, UriFormat.UriEscaped).TrimStart('/');
 
 				string uriv = uriPath;
 				if (basePath.Length != 0)
-					uriv = uriv.Replace(basePath, "").TrimStart('/');
+					uriv = Regex.Replace(uriv, basePath, "", RegexOptions.IgnoreCase).TrimStart('/');
 				uriv = uriv.TrimStart('/');
 				return new Uri(uriv, UriKind.RelativeOrAbsolute);
 			}
 			else if (!baseUri.IsAbsoluteUri && !uri.IsAbsoluteUri)
 			{
-				string baseUriValid = baseUri.AppendTrailingSlash().ToString();
-				string urlString = uri.ToString();
-				if (urlString.StartsWith(baseUriValid))
+				string baseUriValid = baseUri.RemoveTrailingSlash().RemoveHeadSlash().ToString();
+				string urlString = uri.RemoveHeadSlash().ToString();
+				if (urlString.StartsWith(baseUriValid, StringComparison.InvariantCultureIgnoreCase))
+				{
 					urlString = urlString.Substring(baseUriValid.Length);
+					urlString = RemoveHeadSlash(urlString);
+				}
 
 				return new Uri(urlString, UriKind.Relative);
 			}

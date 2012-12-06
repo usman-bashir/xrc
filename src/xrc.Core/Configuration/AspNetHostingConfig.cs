@@ -11,7 +11,11 @@ namespace xrc.Configuration
 	{
 		public Uri WebSiteVirtualDirectory
 		{
-			get { return new Uri(UriExtensions.Combine("/", System.Web.Hosting.HostingEnvironment.ApplicationVirtualPath), UriKind.Relative); }
+			get 
+			{
+				var uri = new Uri(UriExtensions.Combine("/", System.Web.Hosting.HostingEnvironment.ApplicationVirtualPath), UriKind.Relative);
+				return uri.AppendTrailingSlash(); 
+			}
 		}
 		public Uri AppRelativeUrlToRelativeUrl(string url)
 		{
