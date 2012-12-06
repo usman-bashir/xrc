@@ -23,7 +23,7 @@ namespace xrc.Pages.Providers.Common.Parsers
 		[TestMethod]
 		public void It_Should_be_possible_to_parse_html()
 		{
-			var viewType = typeof(HtmlView);
+			var viewType = typeof(MarkdownView);
 
 			var expectedContent = "## Test";
 

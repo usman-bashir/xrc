@@ -1,0 +1,20 @@
+﻿@inherits xrc.Razor.XrcWebViewPage
+
+@functions
+{
+    public xrc.Modules.ISlotModule SlotModule
+    {
+        get;
+        set;
+    }
+
+	public xrc.Modules.IUrlModule UrlModule
+	{
+		get;
+		set;
+	}
+}
+<div class="row-fluid">
+	<h3>Error slot</h3>
+    @Html.Raw(SlotModule.Include("_errorSlot"))
+</div>

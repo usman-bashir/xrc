@@ -18,10 +18,12 @@ namespace xrc
     public class Kernel : IKernel
     {
 		readonly IXrcService _xrcService;
+		readonly IHostingConfig _hostingConfig;
 
-		public Kernel(IXrcService xrcService)
+		public Kernel(IXrcService xrcService, IHostingConfig hostingConfig)
         {
 			_xrcService = xrcService;
+			_hostingConfig = hostingConfig;
         }
 
         // TODO Check if it is possible to remove this static reference
@@ -44,7 +46,10 @@ namespace xrc
 
 		public bool Match(HttpContextBase httpContext)
 		{
-			var xrcUrl = new xrc.XrcUrl(httpContext.Request.AppRelativeCurrentExecutionFilePath);
+			var relativeUrl = httpContext.Request.RawUrl;
+			var appRelativeUrl = _hostingConfig.RelativeUrlToAppRelativeUrl(new Uri(relativeUrl, UriKind.Relative));
+
+			var xrcUrl = new xrc.XrcUrl(appRelativeUrl);
 
 			return Match(xrcUrl);
 		}

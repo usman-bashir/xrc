@@ -28,6 +28,7 @@
 	<xs:complexType name="actionElement">
 		<xs:sequence>
 			<xs:element ref="xrc:viewElement" maxOccurs="unbounded" minOccurs="1" />
+			<xs:element name="catchException" maxOccurs="1" minOccurs="0" type="xrc:catchExceptionElement" />
 			<xs:element name="outputcache" maxOccurs="1" minOccurs="0">
 				<xs:complexType></xs:complexType>
 			</xs:element>
@@ -44,6 +45,10 @@
 			</xs:simpleType>
 		</xs:attribute>
 		<xs:attribute name="layout" type="xs:string" use="optional" />
+	</xs:complexType>
+
+	<xs:complexType name="catchExceptionElement">
+		<xs:attribute name="url" type="xs:string" use="optional" />
 	</xs:complexType>
 
 	<xs:element name="viewElement" abstract="true" type="xrc:viewElementBase" />

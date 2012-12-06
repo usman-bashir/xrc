@@ -38,6 +38,9 @@ namespace xrc.Pages.Providers.Common.Parsers
 			var pageParameters = new PageParameterList();
 
 			var viewComponentDefinition = _viewCatalog.Get(typeof(XHtmlView).Name);
+			if (viewComponentDefinition == null)
+				throw new XrcException(string.Format("View '{0}' not found on catalog.", typeof(XHtmlView).Name));
+
 			var view = new ViewDefinition(viewComponentDefinition, null);
 			string propertyName = "Content";
 			var viewProperty = viewComponentDefinition.Type.GetProperty(propertyName);

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xrc:page xmlns:xrc="urn:xrc">
+
+	<xrc:action>
+		<xrc:XsltView>
+			<XsltFile>not_exists.xslt</XsltFile>
+			<DataFile>not_exists.xslt</DataFile>
+		</xrc:XsltView>
+
+		<xrc:catchException url="_friendlyError" />
+	</xrc:action>
+
+</xrc:page>

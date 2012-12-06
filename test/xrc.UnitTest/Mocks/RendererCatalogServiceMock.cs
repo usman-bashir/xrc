@@ -27,7 +27,10 @@ namespace xrc.Mocks
 
         public ComponentDefinition Get(string name)
         {
-            return _component;
+			if (string.Equals(name, _component.Name, StringComparison.InvariantCultureIgnoreCase))
+				return _component;
+			else
+				return null;
         }
     }
 }

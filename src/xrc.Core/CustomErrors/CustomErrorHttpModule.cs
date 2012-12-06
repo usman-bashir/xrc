@@ -31,25 +31,26 @@ namespace xrc.CustomErrors
 				return;
 
 			var httpStatus = GetHttpStatus(exception);
-			var url = GetErrorPage(httpStatus);
+			var customErrorUrl = GetErrorPage(httpStatus);
 
-			if (string.IsNullOrWhiteSpace(url))
+			if (string.IsNullOrWhiteSpace(customErrorUrl))
 				return;
 
-			ProcessErrorPage(exception, httpStatus, url);
+			ProcessErrorPage(exception, httpStatus, customErrorUrl);
 		}
 
-		void ProcessErrorPage(Exception exception, int httpStatus, string url)
+		void ProcessErrorPage(Exception exception, int httpStatus, string customErrorUrl)
 		{
 			Response.Clear();
 			Response.TrySkipIisCustomErrors = true;
 			Server.ClearError();
 
-			var xrcRequest = new xrc.XrcRequest(new xrc.XrcUrl(url), "GET", new HttpRequestWrapper(Context.Request));
+			var xrcRequest = new xrc.XrcRequest(new xrc.XrcUrl(customErrorUrl), "GET", new HttpRequestWrapper(Context.Request));
 			var xrcResponse = new xrc.XrcResponse(new HttpResponseWrapper(Context.Response));
 			var context = new xrc.Context(xrcRequest, xrcResponse);
 			context.Parameters.Add(new ContextParameter("Exception", typeof(Exception), exception));
 			context.Parameters.Add(new ContextParameter("HttpStatus", typeof(int), httpStatus));
+			context.Parameters.Add(new ContextParameter("ErrorUrl", typeof(Uri), Context.Request.Url));
 
 			xrc.Kernel.Current.ProcessRequest(context);
 

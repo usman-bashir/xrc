@@ -192,6 +192,7 @@ namespace xrc
 			Assert.AreEqual("~/test", UriExtensions.RelativeUrlToAppRelativeUrl("/base/test", new Uri("/base", UriKind.Relative)));
 			Assert.AreEqual("~/base/test", UriExtensions.RelativeUrlToAppRelativeUrl("/base/test", new Uri("", UriKind.Relative)));
 			Assert.AreEqual("~/base/test", UriExtensions.RelativeUrlToAppRelativeUrl("/base/test", new Uri("", UriKind.Relative)));
+			Assert.AreEqual("~/test?param1=v1#anchor1", UriExtensions.RelativeUrlToAppRelativeUrl("/base/test?param1=v1#anchor1", new Uri("/base", UriKind.Relative)));
 		}
 
 		[TestMethod]

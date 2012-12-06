@@ -110,6 +110,15 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
+    <Content Include="xrc\actiontest\_friendlyError.xrc">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="xrc\actiontest\index.xrc">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="xrc\actiontest\_errorSlot.xrc">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="xrc\razor\index.xrc">
       <SubType>Designer</SubType>
     </Content>
@@ -284,6 +293,9 @@
   <ItemGroup>
     <Content Include="xrc\razor\_partial.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="xrc\actiontest\index.cshtml" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -302,7 +314,7 @@
           <UseIIS>False</UseIIS>
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>50110</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <DevelopmentServerVPath>/xrctest/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

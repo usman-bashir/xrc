@@ -24,7 +24,9 @@ namespace xrc.Pages.Providers.Common.Parsers
 		readonly static XName VALUE = "value";
 		readonly static XName LAYOUT = "layout";
 		readonly static XName SLOT = "slot";
+		readonly static XName URL = "url";
 		readonly static XName OUTPUTCACHE = XMLNS + "outputcache";
+		readonly static XName CATCHEXCEPTION = XMLNS + "catchException";
 		readonly static XName ALLOWREQUESTOVERRIDE = "allowRequestOverride";
 		readonly static string DEFAULT_METHOD = "GET";
 
@@ -86,11 +88,22 @@ namespace xrc.Pages.Providers.Common.Parsers
 				if (actionElement.Attribute(LAYOUT) != null)
 					action.Layout = actionElement.AttributeAs<string>(LAYOUT);
 
-				foreach (var viewElement in actionElement.Elements())
+				foreach (var subElement in actionElement.Elements())
 				{
-					if (viewElement.Name != OUTPUTCACHE)
+					if (subElement.Name.Namespace != XMLNS)
+						continue;
+
+					if (subElement.Name == OUTPUTCACHE)
 					{
-						var view = ParseView(item, viewElement, parserResult);
+					}
+					else if (subElement.Name == CATCHEXCEPTION)
+					{
+						var url = subElement.AttributeAsOrDefault<string>(URL);
+						action.CatchException = new PageCatchException(url);
+					}
+					else
+					{
+						var view = ParseView(item, subElement, parserResult);
 						action.Views.Add(view);
 					}
 				}
@@ -119,15 +132,15 @@ namespace xrc.Pages.Providers.Common.Parsers
 
 		private void ParseParameters(XElement paramsElement, PageParserResult parserResult)
 		{
-			foreach (var actionElement in paramsElement.Elements(ADD))
+			foreach (var addElement in paramsElement.Elements(ADD))
 			{
-				string key = actionElement.AttributeAs<string>(KEY);
-				string value = actionElement.AttributeAsOrDefault<string>(VALUE);
-				string typeName = actionElement.AttributeAsOrDefault<string>(TYPE);
+				string key = addElement.AttributeAs<string>(KEY);
+				string value = addElement.AttributeAsOrDefault<string>(VALUE);
+				string typeName = addElement.AttributeAsOrDefault<string>(TYPE);
 				if (string.IsNullOrWhiteSpace(typeName))
 					typeName = typeof(string).FullName;
 				Type type = Type.GetType(typeName, true, true);
-				bool allowRequestOverride = actionElement.AttributeAsOrDefault<bool>(ALLOWREQUESTOVERRIDE);
+				bool allowRequestOverride = addElement.AttributeAsOrDefault<bool>(ALLOWREQUESTOVERRIDE);
 
 				var xValue = _scriptService.Parse(value, type, parserResult.Modules, parserResult.Parameters);
 
@@ -137,23 +150,24 @@ namespace xrc.Pages.Providers.Common.Parsers
 
 		private ViewDefinition ParseView(XrcItem item, XElement xElement, PageParserResult parserResult)
 		{
-			string typeName = xElement.Name.LocalName;
-			ComponentDefinition component = _viewCatalog.Get(typeName);
-			if (component == null)
-				throw new ApplicationException(string.Format("Component '{0}' not found'.", typeName));
-			if (!typeof(IView).IsAssignableFrom(component.Type))
-				throw new ApplicationException(string.Format("Type '{0}' is not a view.", component.Type));
+			string viewTypeName = xElement.Name.LocalName;
+			ComponentDefinition viewComponent = _viewCatalog.Get(viewTypeName);
+			if (viewComponent == null)
+				throw new XrcException(string.Format("View '{0}' not found.", viewTypeName));
+
+			if (!typeof(IView).IsAssignableFrom(viewComponent.Type))
+				throw new ApplicationException(string.Format("Type '{0}' is not a view.", viewComponent.Type));
 
 			string slot = string.Empty;
 			if (xElement.Attribute(SLOT) != null)
 				slot = xElement.AttributeAs<string>(SLOT);
 
-			ViewDefinition view = new ViewDefinition(component, slot);
+			ViewDefinition view = new ViewDefinition(viewComponent, slot);
 
 			// TODO Escludere le property con un namespace? O usare un namespace particolare per le property?
 			foreach (var element in xElement.Elements())
 			{
-				var property = ParseProperty(item, element, component.Type, parserResult);
+				var property = ParseProperty(item, element, viewComponent.Type, parserResult);
 
 				view.Properties.Add(property);
 			}

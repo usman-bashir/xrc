@@ -240,9 +240,11 @@ namespace xrc
 
 		private static void ProcessRequestNotFound(IContext context)
 		{
+			string resourceUrl = context.Request.XrcUrl.ToString();
+
 			context.Response.StatusCode = (int)System.Net.HttpStatusCode.NotFound;
-			context.Response.StatusDescription = string.Format("Resource '{0}' not found.", context.Request.Url);
-			context.Exception = new ResourceNotFoundException(context.Request.Url.ToString());
+			context.Response.StatusDescription = string.Format("Resource '{0}' not found.", resourceUrl);
+			context.Exception = new ResourceNotFoundException(resourceUrl);
 		}
 
 		private void ProcessPermanentRedirect(IContext context, Uri canonicalUrl)
@@ -331,10 +333,27 @@ namespace xrc
 
 				view.Execute(context);
 			}
+			catch (Exception ex)
+			{
+				if (action.CatchException != null)
+					ProcessActionException(context, action, ex);
+				else
+					throw;
+			}
 			finally
 			{
 				_viewFactory.Release(view);
 			}
+		}
+
+		private void ProcessActionException(IContext context, PageAction action, Exception ex)
+		{
+			XrcUrl errorPage = context.Page.GetPageUrl(action.CatchException.Url.ToLower());
+			var errorContent = Page(errorPage, new { Exception = ex }, context);
+
+			// TODO If there is already some content on the stream? An exception can occurs when some content is already written... Think if this is acceptable.
+
+			context.Response.Write(errorContent.Content);
 		}
     }
 }

@@ -13,8 +13,21 @@
 		get;
 		set;
 	}
+
+	public Uri ErrorUrl
+	{
+		get;
+		set;
+	}
+
+	Exception GetOriginalException(Exception ex)
+	{
+		if (ex.InnerException == null) return ex;
+
+		return GetOriginalException(ex.InnerException);
+	}
 }
 
-<h2>Error @HttpStatus</h2>
+<h2>Error @HttpStatus @ErrorUrl</h2>
 
-<p>@Exception.ToString()</p>
+<p>@GetOriginalException(Exception).Message</p>

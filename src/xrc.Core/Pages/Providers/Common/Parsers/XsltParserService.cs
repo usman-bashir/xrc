@@ -39,6 +39,9 @@ namespace xrc.Pages.Providers.Common.Parsers
 			var pageParameters = new PageParameterList();
 
 			var viewComponentDefinition = _viewCatalog.Get(typeof(XsltView).Name);
+			if (viewComponentDefinition == null)
+				throw new XrcException(string.Format("View '{0}' not found on catalog.", typeof(XsltView).Name));
+
 			var view = new ViewDefinition(viewComponentDefinition, null);
 
 			XDocument xsltContent = _resourceProvider.ResourceToXml(item.ResourceLocation);

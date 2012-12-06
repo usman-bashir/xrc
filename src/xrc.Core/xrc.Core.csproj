@@ -103,6 +103,7 @@
     <Compile Include="Modules\IModuleFactory.cs" />
     <Compile Include="Kernel\IXrcService.cs" />
     <Compile Include="Kernel\XrcService.cs" />
+    <Compile Include="Pages\PageCatchException.cs" />
     <Compile Include="Pages\UriSegmentParameterList.cs" />
     <Compile Include="Pages\ParametricUriSegmentResult.cs" />
     <Compile Include="Pages\Providers\Common\XrcItemList.cs" />

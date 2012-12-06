@@ -1,7 +1,7 @@
 XRC
 ===
 
-Version: 0.3 Alpha
+Version: 0.6 Alpha
 
 Introduction
 ------------

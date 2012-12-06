@@ -210,6 +210,21 @@ namespace xrc.Pages.Providers.Common.Parsers
             Assert.AreEqual("slot3", action.Views["slot3"].Slot);
         }
 
+		[TestMethod]
+        public void It_Should_be_possible_to_define_catch_exception()
+        {
+			PageParserResult page = TargetParse(@"<?xml version='1.0' encoding='utf-8' ?>
+<xrc:page xmlns:xrc='urn:xrc'>
+	<xrc:action>
+		<xrc:catchException url='_friendlyError' />
+	</xrc:action>
+</xrc:page>
+");
+
+            PageAction action = page.Actions["GET"];
+			Assert.AreEqual("_friendlyError", action.CatchException.Url);
+        }
+
         class TestView : IView
         {
             public static ComponentDefinition Definition = new ComponentDefinition("TestView", typeof(TestView));
