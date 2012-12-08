@@ -1,10 +1,13 @@
 TODO
+ Integrate with restsharp (create a module to make rest calls)
  Check include bug when rendering inside a param a sub page with a param. Maybe only layout?
  Implementare un Widget per la documentazione di assembly (tramite custom View?)
  Log configurabile
  Authentication
- Reserved params , especially for razor
+ Check reserved params , especially for razor
  Cache configurabile
+ Mobile support (like MVC 4)
+
  Widgets support: load common widgets from assemblies (widgets can be simple specials views)
  Support redirect page (using a particular view or a specific xrc command?)
  Sample explanation

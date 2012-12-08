@@ -7,7 +7,21 @@ Introduction
 ------------
 
 XRC is a rendering framework for ASP.NET that can be used in combination with ASP.NET MVC. 
-Can be used for rendering (query) dynamic or static content inside an existing ASP.NET site.
+Can be used for rendering dynamic or static content inside an existing ASP.NET site.
+
+Different view engines can be used (Razor, XSLT, ...) and can read data from different data sources (any .NET class can be used as a data provider).
+
+Easy to use also for front-end developers who don't know .NET. Adding a page is simple as write a small xml and the corresponding view page using the language that you prefer (XSLT, Razor, ...).
+
+XRC offers a set of features that can be used by all views. In this way each view engine is responsable of only the rendering of the actual content. All the infrastruture are handled in a common way by XRC.
+Most important features are:
+
+- Url bind
+- Layout
+- Composition
+- Parameters
+
+XRC also offers a clear separation between the presentation and the business layer. If you wrate the presentation layer you can concentrate on the view and simply invoke data retrivial methods of the business layer. On the business layer on the other hand you must simply provide standard .NET classes so you can use your preferred framework or data access strategy.
 
 Why XRC?
 --------
@@ -22,13 +36,19 @@ The following figure shows the platform stack of xrc.
 ![xrc stack](https://raw.github.com/davideicardi/xrc/master/docs/xrc_stack.png "xrc stack")
 
 
+How XRC works
+-------------
+
+
+
+
+
 Features
 -------------------------
 
-- Integrated and compatible with any ASP.NET MVC web site
-- Multilevel layout pages can be written using Razor or Xslt
-- Partial
-- Multi site configuration (dev, test, staging, prod, ...)
+- Integrated and compatible with any ASP.NET MVC web site. Usually you write your command operations with MVC controller and query operations with XRC.
+- Multilevel layout pages can be written using Razor or Xslt.
+- You can use your existing knowledge and all the views can be easily used for other framework because are based on well known technologies (razor, xslt, ...).
 - Built-in view engines for:
 	- Html
 	- XHtml
@@ -37,16 +57,19 @@ Features
 	- Markdown
 	- Json
 	- Xml
-- On the same page you can mix content using different languages
-- Url segment parameters, query parameters or static parameters 
-- Easy setup and deploy
-- Azure ready
-- Any .NET class can be used as data provider
-- Extensible infrastructure
-- IoC friendly with native Windsor Castle support
+	- Raw (byte[])
+- Mix content using different view engines.
+- Partial page rendering.
+- Friendly urls
+- Url segment parameters, query parameters or static parameters.
+- Any .NET class can be used as data provider.
+- Extensible infrastructure.
+- IoC friendly with native Windsor Castle support.
+- Friendly error (with custom errors and http status codes)
+- Easy setup and deploy.
+- Azure ready.
 - TODO Caching
 - TODO Authentication
-
 
 Installing and using XRC
 ------------------------
