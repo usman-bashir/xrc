@@ -1,5 +1,4 @@
 TODO
- Support for MVC Partial e PartialRender
  Check include bug when rendering inside a param a sub page with a param. Maybe only layout?
  Implementare un Widget per la documentazione di assembly (tramite custom View?)
  Log configurabile

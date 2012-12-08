@@ -17,6 +17,9 @@ Why XRC?
 Architecture
 ------------
 
+The following figure shows the platform stack of xrc.
+
+![xrc stack](https://raw.github.com/davideicardi/xrc/master/docs/xrc_stack.png "xrc stack")
 
 
 Features
