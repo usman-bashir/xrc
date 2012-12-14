@@ -6,26 +6,30 @@ Version: 0.6 Alpha
 Introduction
 ------------
 
-XRC is a rendering framework for ASP.NET that can be used in combination with ASP.NET MVC. 
-Can be used for rendering dynamic or static content inside an existing ASP.NET site.
+XRC is a rendering framework for ASP.NET that can be used in combination with ASP.NET MVC 
+for rendering dynamic or static content inside an existing ASP.NET site.
 
-Different view engines can be used (Razor, XSLT, ...) and can read data from different data sources (any .NET class can be used as a data provider).
+Different view engines are supported (Razor, XSLT, ...) and any .NET class can be used as a data provider.
 
-Easy to use also for front-end developers who don't know .NET. Adding a page is simple as write a small xml and the corresponding view page using the language that you prefer (XSLT, Razor, ...).
+XRC is easy to use also for front-end developers who don't know .NET. Adding a page is as simple as writing 
+an xml and the corresponding view page.
 
-XRC offers a set of features that can be used by all views. In this way each view engine is responsable of only the rendering of the actual content. All the infrastruture are handled in a common way by XRC.
+XRC offers a common set of features that can be used by all view engines. In this way each view engine is 
+responsable of only the rendering of the actual content. All the infrastruture are handled by XRC.
 Most important features are:
 
-- Url bind
+- Url routing (on top of ASP.NET routing)
 - Layout
-- Composition
+- Page composition
 - Parameters
 
-XRC also offers a clear separation between the presentation and the business layer. If you wrate the presentation layer you can concentrate on the view and simply invoke data retrivial methods of the business layer. On the business layer on the other hand you must simply provide standard .NET classes so you can use your preferred framework or data access strategy.
+XRC also offers a clear separation between presentation and business layer. On the presentation layer 
+you can concentrate on the view and simply invoke data retrivial methods. 
+On the business layer on the other hand you must simply provide standard .NET classes so you can use 
+your preferred framework or data access strategy.
 
 Why XRC?
 --------
-
 
 
 Architecture
@@ -39,8 +43,52 @@ The following figure shows the platform stack of xrc.
 How XRC works
 -------------
 
+On every web requests XRC checks if there is a corresponding .xrc page to handle the request.
+
+- *http://yoursite/* maps to `~/xrc/index.xrc`
+- *http://yoursite/about* maps to `~/xrc/about.xrc`
+
+Here an example of a xrc file:
+
+	<?xml version="1.0" encoding="utf-8" ?>
+	<xrc:page xmlns:xrc="urn:xrc">
+		<xrc:parameters>
+			<xrc:add key="title" value="home" />
+			<xrc:add key="activeMenu" value="home" />
+		</xrc:parameters>
+		<xrc:action layout="~/shared/_layout">
+			<xrc:XHtmlView>
+				<ContentFile>index.xhtml</ContentFile>
+			</xrc:XHtmlView>
+		</xrc:action>
+	</xrc:page>
+
+In the example above the .xrc file contains the layout to use, some custom parameters, the `XHtmlView` view engine (ie. Razor) with a cshtml view file.
+Here another example:
+
+	<?xml version="1.0" encoding="utf-8" ?>
+	<xrc:page xmlns:xrc="urn:xrc" xmlns:Books="xrc:BooksModule">
+		<xrc:parameters>
+			<xrc:add key="genre" />
+			<xrc:add key="title" value='@string.Format("books - {0}", genre)' />
+		</xrc:parameters>
+		<xrc:action method="GET">
+			<xrc:XsltView>
+				<XsltFile>../../books.xsl</XsltFile>
+				<DataFile>@Books.GetByGenre(genre)</DataFile>
+			</xrc:XsltView>
+		</xrc:action>
+	</xrc:page>
+
+In this .xrc file I use `XsltView` view engine and I load the xml using a custom module (a .NET class that was previous registered). 
+Note also that the `title` parameter is generated using a simple C# script.
+
+Url and parameters
+------------------
 
 
+Layout and page composition
+---------------------------
 
 
 Features
@@ -71,14 +119,16 @@ Features
 - TODO Caching
 - TODO Authentication
 
-Installing and using XRC
-------------------------
+
+Getting started
+---------------
 
 XRC is available on [NuGet]. You can install the package using:
 
 	PM> Install-Package xrc.Site
 
 Source code and symbols (.pdb files) for debugging are available on [Symbol Source].
+
 
 License
 -------
