@@ -22,21 +22,21 @@
 
 
 Features
-�	Installazione e configurazione facile sia sulle macchine di sviluppo che in ambienti di produzione. Essendo un sito web asp.net pu� fare affidamento su tutte le features microsoft di pubblicazione (dovreste riuscire a scaricare da github la solution e provarla in locale senza problemi, i requisiti sono solo VS 2010 Sp1 e nuget aggiornato)
-�	Ambiente di lavoro familiare a ogni sviluppatore utilizzando tecnologie standard (visual studio->html, xslt, razor, ...). Bisogna solo imparare la sintassi del file xrc ma � piuttosto semplice.
-�	Integrazione con MVC che pu� quindi essere utilizzato quando necessario. Questo apre a tutto quello che gira attorno a MVC (componenti di terze parti, supporto , ...)
-�	Compatibile con Azure (o altre cloud su cui gira asp.net)
-�	Le pagine possono essere scritte in diversi linguaggi. Attualmente ho implementato xslt, razor e html. 
-�	Il supporto a xslt offre una discreta portabilit� con il vecchio codice
-�	Possibilit� di aggiungere e modificare pagine a 'caldo' (senza rebuild), ogni pagina � autonoma 
-�	Componibilit� pagine tramite slot, anche mischiando xslt e razor
-�	Pagine template (layout)
-�	Parametri nell'url (stile valueset) o ereditabili per url
-�	Possibilit� di accedere a qualsiasi libreria .net esterna per il reperimento dati (modules)
-�	I dati possono essere in formato xml, json, .net model, ...
-�	Configurazione differenti a seconda dell'ambiente (local, staging, prod, ...)
-�	Sono disponibili tutte le funzionalit� sui files di visual studio (versioning + 'social' coding + copia/incolla + search and reaplace)
-�	Windsor or other IoC ready
-�	Easy to add mobile view (thanks to mvc4)
-�	Minify and bundlify (thanks to mvc4)
+Installazione e configurazione facile sia sulle macchine di sviluppo che in ambienti di produzione. Essendo un sito web asp.net pu� fare affidamento su tutte le features microsoft di pubblicazione (dovreste riuscire a scaricare da github la solution e provarla in locale senza problemi, i requisiti sono solo VS 2010 Sp1 e nuget aggiornato)
+Ambiente di lavoro familiare a ogni sviluppatore utilizzando tecnologie standard (visual studio->html, xslt, razor, ...). Bisogna solo imparare la sintassi del file xrc ma � piuttosto semplice.
+Integrazione con MVC che può quindi essere utilizzato quando necessario. Questo apre a tutto quello che gira attorno a MVC (componenti di terze parti, supporto , ...)
+Compatibile con Azure (o altre cloud su cui gira asp.net)
+Le pagine possono essere scritte in diversi linguaggi. Attualmente ho implementato xslt, razor e html. 
+Il supporto a xslt offre una discreta portabilità con il vecchio codice
+Possibilità di aggiungere e modificare pagine a 'caldo' (senza rebuild), ogni pagina è autonoma 
+Componibilità pagine tramite slot, anche mischiando xslt e razor
+Pagine template (layout)
+Parametri nell'url (stile valueset) o ereditabili per url
+Possibilità di accedere a qualsiasi libreria .net esterna per il reperimento dati (modules)
+I dati possono essere in formato xml, json, .net model, ...
+Configurazione differenti a seconda dell'ambiente (local, staging, prod, ...)
+Sono disponibili tutte le funzionalità sui files di visual studio (versioning + 'social' coding + copia/incolla + search and reaplace)
+Windsor or other IoC ready
+Easy to add mobile view (thanks to mvc4)
+Minify and bundlify (thanks to mvc4)
 
