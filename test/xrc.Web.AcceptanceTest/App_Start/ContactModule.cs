@@ -17,7 +17,7 @@ namespace xrc.Web.AcceptanceTest
 
         public Contact GetDefault()
 		{
-			return new Contact() { FirstName = "John", LastName = "Wayne", Message = "Your message" };
+			return new Contact() { FirstName = "John", LastName = "Wayne", Message = "Your message for test." };
 		}
 
         public void Add(Contact contact)

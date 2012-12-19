@@ -58,7 +58,7 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="HttpModuleFactory.cs" />
-    <Compile Include="Tracing\TraceCallInterceptor.cs" />
+    <Compile Include="Tracing\StackTraceInterceptor.cs" />
     <Compile Include="Tracing\TraceFacility.cs" />
     <Compile Include="ControllerFactory.cs" />
     <Compile Include="xrcIntegration\WindsorModuleCatalogService.cs" />

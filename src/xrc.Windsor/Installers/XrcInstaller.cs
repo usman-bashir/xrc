@@ -22,7 +22,8 @@ namespace xrc.Windsor.Installers
         {
             Assembly coreAssembly = typeof(xrc.IKernel).Assembly;
 
-			//container.AddFacility<TraceFacility>();
+			// Enable StackTrace tracing
+			//container.AddFacility<Tracing.TraceFacility>();
 
 			container.Kernel.Resolver.AddSubResolver(new ArrayResolver(container.Kernel));
 

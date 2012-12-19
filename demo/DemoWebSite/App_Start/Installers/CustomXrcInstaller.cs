@@ -12,7 +12,6 @@ namespace DemoWebSite.Installers
         {
 			container.Register(Classes.FromAssemblyContaining<TwitterModule>()
 								.Where(p => p.Name.EndsWith("Module"))
-								.WithServiceSelf()
 								.WithServiceDefaultInterfaces()
 								.LifestyleTransient());
 		}

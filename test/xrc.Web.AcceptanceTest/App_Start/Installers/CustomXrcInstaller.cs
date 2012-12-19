@@ -17,7 +17,6 @@ namespace xrc.Web.AcceptanceTest.Installers
 
 			container.Register(Classes.FromAssemblyContaining<ContactModule>()
 								.Where(p => p.Name.EndsWith("Module"))
-								.WithServiceSelf()
 								.WithServiceDefaultInterfaces()
 								.LifestyleTransient());
 		}
