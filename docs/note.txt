@@ -1,21 +1,22 @@
 ﻿TODO
- Integrate with restsharp (create a module to make rest calls)
- Check include bug when rendering inside a param a sub page with a param. Maybe only layout?
+ Verifica: E' possibile creare delle pagine con output non html (ad esempio rss?)
+ Authentication
  Implementare un Widget per la documentazione di assembly (tramite custom View?)
  Log configurabile
- Authentication
- Check reserved params , especially for razor
+ Integrate with restsharp (create a module/assembly to make rest calls)
+ Check include bug when rendering inside a param a sub page with a param. Maybe only layout?
+ UnitTest XrcService e verificare cosa manca
+ Mobile support (like MVC 4)
+ Allow to load custom assembly and namespace from scripting code
+ Check reserved params, especially for razor
  Cache configurabile
  Review scripting feature. There are better alternatives? Is currenctly secure? Performance? Memory leak?
  See if there is a better way to roting request. For example using MVC routing? Also for parameters?
- Mobile support (like MVC 4)
  Widgets support: load common widgets from assemblies (widgets can be simple specials views)
  Support redirect page (using a particular view or a specific xrc command?)
  Sample explanation
  Vocabolario (su distributed cache?)
  XHtmlView dovrebbe renderizzare per i fragment solo il contenuto (senza xml declaration ...), pensare anche come gestire correttamente l'editor visual studio
- Gestione errori comune.
- Unit test, verificare cosa manca
  Aggiungere Condition nella view (in modo da scegliere la view a seconda di una condizione scriptabile, es. pageUrl.EndsWith(".dll"))
  Valutare se usare invece che MarkdownXrc/MarkdownSharp  MarkdownDeep (http://www.toptensoftware.com/markdowndeep/). Licenza?
 
