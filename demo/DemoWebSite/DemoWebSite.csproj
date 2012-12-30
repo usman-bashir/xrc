@@ -23,6 +23,10 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -106,6 +110,8 @@
     </Content>
     <Content Include="xrc\books\genre\{genre}\shared\_layout.cshtml" />
     <Content Include="Views\Web.config" />
+    <None Include="Properties\PublishProfiles\qspdemo - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\qspdemo - Web Deploy.pubxml" />
     <None Include="xrc\books\xrc.config">
       <SubType>Designer</SubType>
     </None>
