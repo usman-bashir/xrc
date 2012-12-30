@@ -1,16 +1,12 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xrc.UnitTest", "test\xrc.UnitTest\xrc.UnitTest.csproj", "{342FBF7C-BF21-477E-A7E6-8D8BEC6F3E88}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0C914B1E-05A1-401F-BD55-1286523C0CED}"
 	ProjectSection(SolutionItems) = preProject
 		Local.testsettings = Local.testsettings
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 		xrc.vsmdi = xrc.vsmdi
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoWebSite", "demo\DemoWebSite\DemoWebSite.csproj", "{578499F8-3E4B-41E4-832D-BD83B55131A5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{B51A8B94-7352-4FBA-902D-3FF5C9022563}"
 EndProject
@@ -21,15 +17,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{D9CD02D9-3
 		docs\setup_visual_studio.txt = docs\setup_visual_studio.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xrc.Windsor", "src\xrc.Windsor\xrc.Windsor.csproj", "{2496197E-8B17-4AA0-98B2-E57B2C924EDF}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AEA07738-1626-4102-90CE-AD61FD38231F}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoWebSite.Lib", "demo\DemoWebSite.Lib\DemoWebSite.Lib.csproj", "{8015F2FD-AC46-47FD-9FD3-8E48A0001433}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configs", "configs", "{E488FA0A-FE0C-4F0B-95B3-C56FD6BBDABD}"
 	ProjectSection(SolutionItems) = preProject
@@ -51,6 +43,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B8687CAB-036
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{5D6614C7-66ED-4404-8327-9E08207A5EDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xrc.UnitTest", "test\xrc.UnitTest\xrc.UnitTest.csproj", "{342FBF7C-BF21-477E-A7E6-8D8BEC6F3E88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoWebSite", "demo\DemoWebSite\DemoWebSite.csproj", "{578499F8-3E4B-41E4-832D-BD83B55131A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xrc.Windsor", "src\xrc.Windsor\xrc.Windsor.csproj", "{2496197E-8B17-4AA0-98B2-E57B2C924EDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoWebSite.Lib", "demo\DemoWebSite.Lib\DemoWebSite.Lib.csproj", "{8015F2FD-AC46-47FD-9FD3-8E48A0001433}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NugetPackager", "deploy\NugetPackager\NugetPackager.csproj", "{2C565518-5478-410A-9334-B8301920676D}"
 EndProject
@@ -107,8 +107,8 @@ Global
 		{342FBF7C-BF21-477E-A7E6-8D8BEC6F3E88} = {B51A8B94-7352-4FBA-902D-3FF5C9022563}
 		{7EC2797E-7A04-4DDC-9165-0CA2EEE7AC11} = {B51A8B94-7352-4FBA-902D-3FF5C9022563}
 		{EA14C66D-380E-47CC-B333-F35C582E9B5B} = {B51A8B94-7352-4FBA-902D-3FF5C9022563}
-		{8015F2FD-AC46-47FD-9FD3-8E48A0001433} = {4D8B9E4D-A643-45EB-872F-A06C1CE01674}
 		{578499F8-3E4B-41E4-832D-BD83B55131A5} = {4D8B9E4D-A643-45EB-872F-A06C1CE01674}
+		{8015F2FD-AC46-47FD-9FD3-8E48A0001433} = {4D8B9E4D-A643-45EB-872F-A06C1CE01674}
 		{2496197E-8B17-4AA0-98B2-E57B2C924EDF} = {B8687CAB-0363-4E20-BB9D-1ED3A253F2AB}
 		{71988DA4-8569-490F-9D08-5B47EF2202F7} = {B8687CAB-0363-4E20-BB9D-1ED3A253F2AB}
 		{2C565518-5478-410A-9334-B8301920676D} = {5D6614C7-66ED-4404-8327-9E08207A5EDD}
