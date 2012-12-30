@@ -1,4 +1,4 @@
-XRC
+Query Server Pages (codename: XRC)
 ===
 
 Version: 0.6 Alpha
