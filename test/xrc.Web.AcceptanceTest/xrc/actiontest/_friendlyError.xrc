@@ -5,7 +5,7 @@
 		<xrc:XHtmlView>
 			<Content>
 				<div>
-					This is a custom errro page.
+					This is a custom friendly error page.
 				</div>
 			</Content>
 		</xrc:XHtmlView>

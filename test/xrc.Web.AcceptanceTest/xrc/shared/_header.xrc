@@ -19,7 +19,6 @@
 					<menu url="~/errors" />
 					<menu url="~/razor" />
 					<menu url="~/viewtest" />
-					<menu url="~/viewtest" />
 					<menu url="~/actiontest" />
 				</header>
 			</Data>
