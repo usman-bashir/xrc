@@ -48,7 +48,7 @@ namespace xrc.Pages.Script
         {
             string script;
             if (TryExtractScript(expression, out script))
-                return new XValue(returnType, ParseScript(script, returnType, modules, parameters));
+                return new XValue(returnType, ParseScript(script, modules, parameters));
             else
             {
                 object value = ConvertEx.ChangeType(expression, returnType, CultureInfo.InvariantCulture);
@@ -56,7 +56,7 @@ namespace xrc.Pages.Script
             }
         }
 
-        private IScriptExpression ParseScript(string script, Type returnType, Modules.ModuleDefinitionList modules, PageParameterList parameters)
+        private IScriptExpression ParseScript(string script, Modules.ModuleDefinitionList modules, PageParameterList parameters)
         {
             var argParameters = new ScriptParameterList();
             foreach (var m in modules)
@@ -64,7 +64,7 @@ namespace xrc.Pages.Script
             foreach (var p in parameters)
                 argParameters.Add(new ScriptParameter(p.Name, p.Value.ValueType));
 
-            return _scriptService.Parse(script, returnType, argParameters);
+            return _scriptService.Parse(script, argParameters);
         }
 
         public object Eval(XValue value, Dictionary<string, object> modules, ContextParameterList parameters)

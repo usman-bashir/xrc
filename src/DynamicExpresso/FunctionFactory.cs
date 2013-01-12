@@ -5,9 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
-// See http://www.fidelitydesign.net/?p=333
-
-namespace DynamicExpression
+namespace DynamicExpresso
 {
     internal static class FunctionFactory
     {
@@ -15,7 +13,10 @@ namespace DynamicExpression
 		{
 			ExpressionParser parser = new ExpressionParser(arguments, expression, null);
 
-			var @delegate = Expression.Lambda(parser.Parse(returnType), arguments).Compile();
+            var lambdaExp = Expression.Lambda(parser.Parse(returnType), arguments);
+
+            var @delegate = lambdaExp.Compile();
+
 			return @delegate;
 		}
 

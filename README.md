@@ -116,6 +116,7 @@ Features
 - Friendly error (with custom errors and http status codes)
 - Easy setup and deploy.
 - Azure ready.
+- Nwe pages can be added without recompilation
 - TODO Caching
 - TODO Authentication
 

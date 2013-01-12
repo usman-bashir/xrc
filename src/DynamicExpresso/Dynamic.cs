@@ -1,8 +1,4 @@
-﻿//Copyright (C) Microsoft Corporation.  All rights reserved.
-
-// See http://www.fidelitydesign.net/?p=333
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
@@ -11,7 +7,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading;
 
-namespace DynamicExpression
+namespace DynamicExpresso
 {
     internal static class DynamicQueryable
     {
@@ -656,7 +652,7 @@ namespace DynamicExpression
                 if (!String.IsNullOrEmpty(pe.Name))
                     AddSymbol(pe.Name, pe);
             if (parameters.Count() == 1 && String.IsNullOrEmpty(parameters.First().Name))
-				it = parameters.First();
+                it = parameters.First();
         }
 
         void ProcessValues(object[] values)
@@ -682,7 +678,7 @@ namespace DynamicExpression
             symbols.Add(name, value);
         }
 
-        public Expression Parse(Type resultType)
+        public Expression Parse(Type resultType = null)
         {
             int exprPos = token.pos;
             Expression expr = ParseExpression();

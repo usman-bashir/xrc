@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using DynamicExpression;
 using xrc.Modules;
 using System.Linq.Expressions;
 using xrc.Script;
@@ -64,7 +63,7 @@ namespace xrc.Pages.Script
         public void It_should_be_possible_to_parse_and_eval_script_with_modules()
         {
             var scriptService = new Moq.Mock<IScriptService>();
-            scriptService.Setup(p => p.Parse("TestModule.Name", typeof(string), Moq.It.IsAny<ScriptParameterList>())).Returns(new Mocks.ScriptExpressionMock("TestModule.Name", typeof(string)));
+            scriptService.Setup(p => p.Parse("TestModule.Name", Moq.It.IsAny<ScriptParameterList>())).Returns(new Mocks.ScriptExpressionMock("TestModule.Name", typeof(string)));
             TestModule testModule = new TestModule();
 
             ModuleDefinitionList modules = new ModuleDefinitionList();
@@ -76,7 +75,7 @@ namespace xrc.Pages.Script
             XValue exp;
             exp = target.Parse("@TestModule.Name", typeof(string), modules, parameters);
 
-            scriptService.Verify(p => p.Parse("TestModule.Name", typeof(string), Moq.It.IsAny<ScriptParameterList>()));
+            scriptService.Verify(p => p.Parse("TestModule.Name", Moq.It.IsAny<ScriptParameterList>()));
 
 			Dictionary<string, object> modulesInstance = new Dictionary<string, object>();
             modulesInstance.Add("TestModule", testModule);

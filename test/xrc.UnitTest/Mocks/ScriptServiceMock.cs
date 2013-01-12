@@ -16,9 +16,9 @@ namespace xrc.Mocks
             _evalObject = evalObject;
         }
 
-        public IScriptExpression Parse(string expression, Type returnType, ScriptParameterList parameters)
+        public IScriptExpression Parse(string expression, ScriptParameterList parameters)
         {
-            return new ScriptExpressionMock(expression, returnType);
+            return new ScriptExpressionMock(expression, _evalObject != null ? _evalObject.GetType() : typeof(object));
         }
 
         public object Eval(IScriptExpression expression, ScriptParameterList parameters)

@@ -31,7 +31,7 @@ namespace xrc.Web.AcceptanceTest.Controllers
             Contact newContact = new Contact() { FirstName = firstName, LastName = lastName, Message = message };
             _contactModule.Add(newContact);
 
-			return _xrc.Page(new xrc.XrcUrl("~/contact/_sendsuccess"), new { newContact = newContact });
+			return _xrc.Page(new xrc.XrcUrl("~/razor/_sendsuccess"), new { newContact = newContact });
         }
     }
 }

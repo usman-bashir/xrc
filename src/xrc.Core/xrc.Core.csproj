@@ -162,8 +162,6 @@
     <Compile Include="Routing\XrcRouteHandler.cs" />
     <Compile Include="Script\ScriptParameter.cs" />
     <Compile Include="Script\ScriptParameterList.cs" />
-    <Compile Include="Script\DynamicExpression\Dynamic.cs" />
-    <Compile Include="Script\DynamicExpression\FunctionFactory.cs" />
     <Compile Include="Script\IScriptExpression.cs" />
     <Compile Include="Pages\Script\PageScriptService.cs" />
     <Compile Include="Pages\Script\IPageScriptService.cs" />
@@ -201,9 +199,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Script\TODO.txt" />
+    <ProjectReference Include="..\DynamicExpresso\DynamicExpresso.csproj">
+      <Project>{c6b7c0d2-b84a-4307-9c61-d95613db564d}</Project>
+      <Name>DynamicExpresso</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

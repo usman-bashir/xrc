@@ -9,38 +9,26 @@ namespace xrc.Script
 {
     public class ScriptExpression : IScriptExpression
     {
-        private Delegate _compiledExpression;
-        private string _value;
-        private ScriptParameterList _parameters;
+        readonly DynamicExpresso.ExpressionDefinition _expression;
 
-        public ScriptExpression(string textExpression, ScriptParameterList parameters, Delegate compiledDelegate)
+        public ScriptExpression(DynamicExpresso.ExpressionDefinition expression)
         {
-			_value = textExpression;
-			_compiledExpression = compiledDelegate;
-            _parameters = parameters;
+            _expression = expression;
         }
 
         public override string ToString()
         {
-            return _value;
+            return _expression.ToString();
         }
-
-		public Delegate CompiledExpression
-		{
-            get
-            {
-                return _compiledExpression;
-            }
-		}
 
         public Type ReturnType
         {
-            get { return _compiledExpression.Method.ReturnType; }
+            get { return _expression.ReturnType; }
         }
 
-        public ScriptParameterList Parameters
+        public DynamicExpresso.ExpressionDefinition ExpressionDefinition
         {
-            get { return _parameters; }
+            get { return _expression; }
         }
     }
 }
