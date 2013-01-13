@@ -29,10 +29,12 @@ namespace DynamicExpresso.UnitTest
             //TODO Assert.AreEqual(45.5, target.Eval("45.5"));
             //TODO Assert.AreEqual(45.8f, target.Eval("45.8f"));
             Assert.IsNull(target.Eval("null"));
+            Assert.IsTrue((bool)target.Eval("true"));
+            Assert.IsFalse((bool)target.Eval("false"));
         }
 
         [TestMethod]
-        public void Eval_Operators()
+        public void Eval_Numbers_Operators()
         {
             var target = new ExpressionEngine();
 
@@ -43,6 +45,29 @@ namespace DynamicExpresso.UnitTest
             Assert.AreEqual(8, target.Eval("2 * 4"));
             Assert.AreEqual(4, target.Eval("8 / 2"));
             //TODO Assert.AreEqual(9, target.Eval("3 ^ 2"));
+        }
+
+        [TestMethod]
+        public void Eval_Comparison_Operators()
+        {
+            var target = new ExpressionEngine();
+
+            Assert.IsFalse((bool)target.Eval("0 > 3"));
+            Assert.IsTrue((bool)target.Eval("3 < 5"));
+            Assert.IsTrue((bool)target.Eval("\"dav\" == \"dav\""));
+            Assert.IsFalse((bool)target.Eval("\"dav\" == \"jack\""));
+            Assert.IsFalse((bool)target.Eval("5 == 3"));
+            Assert.IsTrue((bool)target.Eval("5 != 3"));
+        }
+
+
+        [TestMethod]
+        public void Eval_Logical_Operators()
+        {
+            var target = new ExpressionEngine();
+
+            Assert.IsTrue((bool)target.Eval("0 > 3 || true"));
+            Assert.IsFalse((bool)target.Eval("0 > 3 && 4 < 6"));
         }
 
         [TestMethod]
@@ -111,9 +136,25 @@ namespace DynamicExpresso.UnitTest
             Assert.AreEqual(x.CallMethod(y, z, w), target.Eval("x.CallMethod( y, z,w)", parameters));
         }
 
+        [TestMethod]
+        public void Eval_complex_expression()
+        {
+            var target = new ExpressionEngine();
+
+            var x = new MyTestService();
+            var y = 5;
+            var parameters = new[] {
+                            new ExpressionParameter("x", x.GetType(), x),
+                            new ExpressionParameter("y", y.GetType(), y),
+                            };
+
+            Assert.AreEqual(true, target.Eval("x.SomeNumber > y && x.HelloWorld().Length == 10", parameters));
+            Assert.AreEqual(x.SomeNumber * 4 + 65 / x.SomeNumber, target.Eval("x.SomeNumber * 4 + 65 / x.SomeNumber", parameters));
+        }
+
         // Missing tests
         // --------------
-        // - new of primitive types
+        // - iif
         // - new of custom types
         // - static method of custom types
         // - is operator

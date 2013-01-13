@@ -39,11 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dynamic.cs" />
+    <Compile Include="ParseException.cs" />
+    <Compile Include="ExpressionParser.cs" />
+    <Compile Include="ErrorMessages.cs" />
     <Compile Include="ExpressionDefinition.cs" />
     <Compile Include="ExpressionEngine.cs" />
     <Compile Include="ExpressionParameter.cs" />
-    <Compile Include="FunctionFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
