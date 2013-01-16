@@ -6,6 +6,13 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading;
+using System.Globalization;
+
+// Code based on the Dynamic.cs file of the DynamicQuery sample by Microsoft
+// http://msdn.microsoft.com/en-us/vstudio/bb894665.aspx 
+// http://weblogs.asp.net/scottgu/archive/2008/01/07/dynamic-linq-part-1-using-the-linq-dynamic-query-library.aspx
+//
+// Copyright (C) Microsoft Corporation.  All rights reserved.
 
 namespace DynamicExpresso
 {
@@ -161,61 +168,39 @@ namespace DynamicExpresso
             void Average(decimal? selector);
         }
 
-        static readonly Type[] predefinedTypes = {
-            typeof(Object),
-            typeof(Boolean),
-            typeof(Char),
-            typeof(String),
-            typeof(SByte),
-            typeof(Byte),
-            typeof(Int16),
-            typeof(UInt16),
-            typeof(Int32),
-            typeof(UInt32),
-            typeof(Int64),
-            typeof(UInt64),
-            typeof(Single),
-            typeof(Double),
-            typeof(Decimal),
-            typeof(DateTime),
-            typeof(TimeSpan),
-            typeof(Guid),
-            typeof(Math),
-            typeof(Convert)
-        };
-
-        static readonly Expression trueLiteral = Expression.Constant(true);
-        static readonly Expression falseLiteral = Expression.Constant(false);
-        static readonly Expression nullLiteral = Expression.Constant(null);
-
-        static readonly string keywordIt = "it";
-        static readonly string keywordIif = "iif";
-        static readonly string keywordNew = "new";
-
-        static Dictionary<string, object> keywords;
+        ParserSettings _settings;
 
         Dictionary<string, object> symbols;
-        IDictionary<string, object> externals;
         Dictionary<Expression, string> literals;
+
         ParameterExpression it;
+
         string text;
         int textPos;
         int textLen;
         char ch;
         Token token;
 
-        public ExpressionParser(ParameterExpression[] parameters, string expression, object[] values)
+        public ExpressionParser(string expression, ParameterExpression[] parameters, ParserSettings settings)
         {
-            if (expression == null) throw new ArgumentNullException("expression");
-            if (keywords == null) keywords = CreateKeywords();
+            _settings = settings;
+
             symbols = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
             literals = new Dictionary<Expression, string>();
-            if (parameters != null) ProcessParameters(parameters);
-            if (values != null) ProcessValues(values);
+
+            ProcessParameters(parameters);
+
             text = expression;
             textLen = text.Length;
             SetTextPos(0);
             NextToken();
+        }
+
+        void AddSymbol(string name, object value)
+        {
+            if (symbols.ContainsKey(name))
+                throw ParseError(ErrorMessages.DuplicateIdentifier, name);
+            symbols.Add(name, value);
         }
 
         void ProcessParameters(IEnumerable<ParameterExpression> parameters)
@@ -225,29 +210,6 @@ namespace DynamicExpresso
                     AddSymbol(pe.Name, pe);
             if (parameters.Count() == 1 && String.IsNullOrEmpty(parameters.First().Name))
                 it = parameters.First();
-        }
-
-        void ProcessValues(object[] values)
-        {
-            for (int i = 0; i < values.Length; i++)
-            {
-                object value = values[i];
-                if (i == values.Length - 1 && value is IDictionary<string, object>)
-                {
-                    externals = (IDictionary<string, object>)value;
-                }
-                else
-                {
-                    AddSymbol("@" + i.ToString(System.Globalization.CultureInfo.InvariantCulture), value);
-                }
-            }
-        }
-
-        void AddSymbol(string name, object value)
-        {
-            if (symbols.ContainsKey(name))
-                throw ParseError(ErrorMessages.DuplicateIdentifier, name);
-            symbols.Add(name, value);
         }
 
         public Expression Parse(Type resultType = null)
@@ -552,7 +514,7 @@ namespace DynamicExpresso
             if (text[0] != '-')
             {
                 ulong value;
-                if (!UInt64.TryParse(text, out value))
+                if (!UInt64.TryParse(text, ParserConstants.LiteralUnsignedNumber, _settings.Culture, out value))
                     throw ParseError(ErrorMessages.InvalidIntegerLiteral, text);
                 NextToken();
                 if (value <= (ulong)Int32.MaxValue) return CreateLiteral((int)value, text);
@@ -563,7 +525,7 @@ namespace DynamicExpresso
             else
             {
                 long value;
-                if (!Int64.TryParse(text, out value))
+                if (!Int64.TryParse(text, ParserConstants.LiteralNumber, _settings.Culture, out value))
                     throw ParseError(ErrorMessages.InvalidIntegerLiteral, text);
                 NextToken();
                 if (value >= Int32.MinValue && value <= Int32.MaxValue)
@@ -581,12 +543,20 @@ namespace DynamicExpresso
             if (last == 'F' || last == 'f')
             {
                 float f;
-                if (Single.TryParse(text.Substring(0, text.Length - 1), out f)) value = f;
+                if (float.TryParse(text.Substring(0, text.Length - 1), ParserConstants.LiteralDecimalNumber, _settings.Culture, out f)) 
+                    value = f;
+            }
+            else if (last == 'M' || last == 'm')
+            {
+                decimal dc;
+                if (decimal.TryParse(text.Substring(0, text.Length - 1), ParserConstants.LiteralDecimalNumber, _settings.Culture, out dc)) 
+                    value = dc;
             }
             else
             {
                 double d;
-                if (Double.TryParse(text, out d)) value = d;
+                if (double.TryParse(text, ParserConstants.LiteralDecimalNumber, _settings.Culture, out d)) 
+                    value = d;
             }
             if (value == null) throw ParseError(ErrorMessages.InvalidRealLiteral, text);
             NextToken();
@@ -614,17 +584,17 @@ namespace DynamicExpresso
         {
             ValidateToken(TokenId.Identifier);
             object value;
-            if (keywords.TryGetValue(token.text, out value))
+            if (_settings.Keywords.TryGetValue(token.text, out value))
             {
                 if (value is Type) return ParseTypeAccess((Type)value);
-                if (value == (object)keywordIt) return ParseIt();
-                if (value == (object)keywordIif) return ParseIif();
-                if (value == (object)keywordNew) return ParseNew();
+                if (value == (object)ParserConstants.keywordIt) return ParseIt();
+                if (value == (object)ParserConstants.keywordIif) return ParseIif();
+                if (value == (object)ParserConstants.keywordNew) return ParseNew();
                 NextToken();
                 return (Expression)value;
             }
             if (symbols.TryGetValue(token.text, out value) ||
-                externals != null && externals.TryGetValue(token.text, out value))
+                _settings.Externals != null && _settings.Externals.TryGetValue(token.text, out value))
             {
                 Expression expr = value as Expression;
                 if (expr == null)
@@ -667,8 +637,8 @@ namespace DynamicExpresso
                 throw ParseError(errorPos, ErrorMessages.FirstExprMustBeBool);
             if (expr1.Type != expr2.Type)
             {
-                Expression expr1as2 = expr2 != nullLiteral ? PromoteExpression(expr1, expr2.Type, true) : null;
-                Expression expr2as1 = expr1 != nullLiteral ? PromoteExpression(expr2, expr1.Type, true) : null;
+                Expression expr1as2 = expr2 != ParserConstants.nullLiteral ? PromoteExpression(expr1, expr2.Type, true) : null;
+                Expression expr2as1 = expr1 != ParserConstants.nullLiteral ? PromoteExpression(expr2, expr1.Type, true) : null;
                 if (expr1as2 != null && expr2as1 == null)
                 {
                     expr1 = expr1as2;
@@ -679,8 +649,8 @@ namespace DynamicExpresso
                 }
                 else
                 {
-                    string type1 = expr1 != nullLiteral ? expr1.Type.Name : "null";
-                    string type2 = expr2 != nullLiteral ? expr2.Type.Name : "null";
+                    string type1 = expr1 != ParserConstants.nullLiteral ? expr1.Type.Name : "null";
+                    string type2 = expr2 != ParserConstants.nullLiteral ? expr2.Type.Name : "null";
                     if (expr1as2 != null && expr2as1 != null)
                         throw ParseError(errorPos, ErrorMessages.BothTypesConvertToOther, type1, type2);
                     throw ParseError(errorPos, ErrorMessages.NeitherTypeConvertsToOther, type1, type2);
@@ -946,7 +916,7 @@ namespace DynamicExpresso
 
         static bool IsPredefinedType(Type type)
         {
-            foreach (Type t in predefinedTypes) if (t == type) return true;
+            foreach (Type t in ParserConstants.predefinedTypes) if (t == type) return true;
             return false;
         }
 
@@ -1170,7 +1140,7 @@ namespace DynamicExpresso
             if (expr is ConstantExpression)
             {
                 ConstantExpression ce = (ConstantExpression)expr;
-                if (ce == nullLiteral)
+                if (ce == ParserConstants.nullLiteral)
                 {
                     if (!type.IsValueType || IsNullableType(type))
                         return Expression.Constant(null, type);
@@ -1210,53 +1180,53 @@ namespace DynamicExpresso
             return null;
         }
 
-        static object ParseNumber(string text, Type type)
+        object ParseNumber(string text, Type type)
         {
             switch (Type.GetTypeCode(GetNonNullableType(type)))
             {
                 case TypeCode.SByte:
                     sbyte sb;
-                    if (sbyte.TryParse(text, out sb)) return sb;
+                    if (sbyte.TryParse(text, ParserConstants.LiteralNumber, _settings.Culture, out sb)) return sb;
                     break;
                 case TypeCode.Byte:
                     byte b;
-                    if (byte.TryParse(text, out b)) return b;
+                    if (byte.TryParse(text, ParserConstants.LiteralNumber, _settings.Culture, out b)) return b;
                     break;
                 case TypeCode.Int16:
                     short s;
-                    if (short.TryParse(text, out s)) return s;
+                    if (short.TryParse(text, ParserConstants.LiteralNumber, _settings.Culture, out s)) return s;
                     break;
                 case TypeCode.UInt16:
                     ushort us;
-                    if (ushort.TryParse(text, out us)) return us;
+                    if (ushort.TryParse(text, ParserConstants.LiteralUnsignedNumber, _settings.Culture, out us)) return us;
                     break;
                 case TypeCode.Int32:
                     int i;
-                    if (int.TryParse(text, out i)) return i;
+                    if (int.TryParse(text, ParserConstants.LiteralNumber, _settings.Culture, out i)) return i;
                     break;
                 case TypeCode.UInt32:
                     uint ui;
-                    if (uint.TryParse(text, out ui)) return ui;
+                    if (uint.TryParse(text, ParserConstants.LiteralUnsignedNumber, _settings.Culture, out ui)) return ui;
                     break;
                 case TypeCode.Int64:
                     long l;
-                    if (long.TryParse(text, out l)) return l;
+                    if (long.TryParse(text, ParserConstants.LiteralNumber, _settings.Culture, out l)) return l;
                     break;
                 case TypeCode.UInt64:
                     ulong ul;
-                    if (ulong.TryParse(text, out ul)) return ul;
+                    if (ulong.TryParse(text, ParserConstants.LiteralUnsignedNumber, _settings.Culture, out ul)) return ul;
                     break;
                 case TypeCode.Single:
                     float f;
-                    if (float.TryParse(text, out f)) return f;
+                    if (float.TryParse(text, ParserConstants.LiteralDecimalNumber, _settings.Culture, out f)) return f;
                     break;
                 case TypeCode.Double:
                     double d;
-                    if (double.TryParse(text, out d)) return d;
+                    if (double.TryParse(text, ParserConstants.LiteralDecimalNumber, _settings.Culture, out d)) return d;
                     break;
                 case TypeCode.Decimal:
                     decimal e;
-                    if (decimal.TryParse(text, out e)) return e;
+                    if (decimal.TryParse(text, ParserConstants.LiteralDecimalNumber, _settings.Culture, out e)) return e;
                     break;
             }
             return null;
@@ -1718,7 +1688,8 @@ namespace DynamicExpresso
                                 NextChar();
                             } while (Char.IsDigit(ch));
                         }
-                        if (ch == 'F' || ch == 'f') NextChar();
+                        if (ch == 'F' || ch == 'f' || ch == 'M' || ch == 'm')
+                            NextChar();
                         break;
                     }
                     if (textPos == textLen)
@@ -1768,20 +1739,7 @@ namespace DynamicExpresso
 
         Exception ParseError(int pos, string format, params object[] args)
         {
-            return new ParseException(string.Format(System.Globalization.CultureInfo.CurrentCulture, format, args), pos);
-        }
-
-        static Dictionary<string, object> CreateKeywords()
-        {
-            Dictionary<string, object> d = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
-            d.Add("true", trueLiteral);
-            d.Add("false", falseLiteral);
-            d.Add("null", nullLiteral);
-            d.Add(keywordIt, keywordIt);
-            d.Add(keywordIif, keywordIif);
-            d.Add(keywordNew, keywordNew);
-            foreach (Type type in predefinedTypes) d.Add(type.Name, type);
-            return d;
+            return new ParseException(string.Format(format, args), pos);
         }
     }
 }

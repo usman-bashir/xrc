@@ -8,12 +8,14 @@ namespace DynamicExpresso
 {
     public class ExpressionEngine
     {
+        ParserSettings _settings = new ParserSettings();
+
         public ExpressionDefinition Parse(string expressionText, params ExpressionParameter[] parameters)
         {
             var arguments = (from p in parameters
                             select ParameterExpression.Parameter(p.Type, p.Name)).ToArray();
 
-            var parser = new ExpressionParser(arguments, expressionText, null);
+            var parser = new ExpressionParser(expressionText, arguments, _settings);
             var expression = parser.Parse();
 
             var lambdaExp = Expression.Lambda(expression, arguments);

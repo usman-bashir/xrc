@@ -45,6 +45,8 @@
     <Compile Include="ExpressionDefinition.cs" />
     <Compile Include="ExpressionEngine.cs" />
     <Compile Include="ExpressionParameter.cs" />
+    <Compile Include="ParserConstants.cs" />
+    <Compile Include="ParserSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
