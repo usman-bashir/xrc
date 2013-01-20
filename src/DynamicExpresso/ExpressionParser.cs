@@ -18,6 +18,11 @@ namespace DynamicExpresso
 {
     internal class ExpressionParser
     {
+        const NumberStyles ParseLiteralNumberStyle = NumberStyles.AllowLeadingSign;
+        const NumberStyles ParseLiteralUnsignedNumberStyle = NumberStyles.None;
+        const NumberStyles ParseLiteralDecimalNumberStyle = NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint;
+        static CultureInfo ParseCulture = CultureInfo.InvariantCulture;
+
         struct Token
         {
             public TokenId id;
@@ -35,7 +40,6 @@ namespace DynamicExpresso
             RealLiteral,
             Exclamation,
             Percent,
-            Amphersand,
             OpenParen,
             CloseParen,
             Asterisk,
@@ -46,7 +50,6 @@ namespace DynamicExpresso
             Slash,
             Colon,
             LessThan,
-            Equal,
             GreaterThan,
             Question,
             OpenBracket,
@@ -55,7 +58,6 @@ namespace DynamicExpresso
             ExclamationEqual,
             DoubleAmphersand,
             LessThanEqual,
-            LessGreater,
             DoubleEqual,
             GreaterThanEqual,
             DoubleBar
@@ -212,39 +214,37 @@ namespace DynamicExpresso
                 it = parameters.First();
         }
 
-        public Expression Parse(Type resultType = null)
+        public Expression Parse()
         {
             int exprPos = token.pos;
-            Expression expr = ParseExpression();
-            if (resultType != null)
-                if ((expr = PromoteExpression(expr, resultType, true)) == null)
-                    throw ParseError(exprPos, ErrorMessages.ExpressionTypeMismatch, GetTypeName(resultType));
+            Expression expr = ParseConditional();
+
             ValidateToken(TokenId.End, ErrorMessages.SyntaxError);
             return expr;
         }
 
         // ?: operator
-        Expression ParseExpression()
+        Expression ParseConditional()
         {
             int errorPos = token.pos;
             Expression expr = ParseLogicalOr();
             if (token.id == TokenId.Question)
             {
                 NextToken();
-                Expression expr1 = ParseExpression();
+                Expression expr1 = ParseConditional();
                 ValidateToken(TokenId.Colon, ErrorMessages.ColonExpected);
                 NextToken();
-                Expression expr2 = ParseExpression();
+                Expression expr2 = ParseConditional();
                 expr = GenerateConditional(expr, expr1, expr2, errorPos);
             }
             return expr;
         }
 
-        // ||, or operator
+        // || operator
         Expression ParseLogicalOr()
         {
             Expression left = ParseLogicalAnd();
-            while (token.id == TokenId.DoubleBar || TokenIdentifierIs("or"))
+            while (token.id == TokenId.DoubleBar)
             {
                 Token op = token;
                 NextToken();
@@ -255,11 +255,11 @@ namespace DynamicExpresso
             return left;
         }
 
-        // &&, and operator
+        // && operator
         Expression ParseLogicalAnd()
         {
             Expression left = ParseComparison();
-            while (token.id == TokenId.DoubleAmphersand || TokenIdentifierIs("and"))
+            while (token.id == TokenId.DoubleAmphersand)
             {
                 Token op = token;
                 NextToken();
@@ -270,20 +270,18 @@ namespace DynamicExpresso
             return left;
         }
 
-        // =, ==, !=, <>, >, >=, <, <= operators
+        // ==, !=, >, >=, <, <= operators
         Expression ParseComparison()
         {
             Expression left = ParseAdditive();
-            while (token.id == TokenId.Equal || token.id == TokenId.DoubleEqual ||
-                token.id == TokenId.ExclamationEqual || token.id == TokenId.LessGreater ||
+            while (token.id == TokenId.DoubleEqual ||token.id == TokenId.ExclamationEqual  ||
                 token.id == TokenId.GreaterThan || token.id == TokenId.GreaterThanEqual ||
                 token.id == TokenId.LessThan || token.id == TokenId.LessThanEqual)
             {
                 Token op = token;
                 NextToken();
                 Expression right = ParseAdditive();
-                bool isEquality = op.id == TokenId.Equal || op.id == TokenId.DoubleEqual ||
-                    op.id == TokenId.ExclamationEqual || op.id == TokenId.LessGreater;
+                bool isEquality = op.id == TokenId.DoubleEqual || op.id == TokenId.ExclamationEqual;
                 if (isEquality && !left.Type.IsValueType && !right.Type.IsValueType)
                 {
                     if (left.Type != right.Type)
@@ -328,12 +326,10 @@ namespace DynamicExpresso
                 }
                 switch (op.id)
                 {
-                    case TokenId.Equal:
                     case TokenId.DoubleEqual:
                         left = GenerateEqual(left, right);
                         break;
                     case TokenId.ExclamationEqual:
-                    case TokenId.LessGreater:
                         left = GenerateNotEqual(left, right);
                         break;
                     case TokenId.GreaterThan:
@@ -357,8 +353,7 @@ namespace DynamicExpresso
         Expression ParseAdditive()
         {
             Expression left = ParseMultiplicative();
-            while (token.id == TokenId.Plus || token.id == TokenId.Minus ||
-                token.id == TokenId.Amphersand)
+            while (token.id == TokenId.Plus || token.id == TokenId.Minus)
             {
                 Token op = token;
                 NextToken();
@@ -367,16 +362,18 @@ namespace DynamicExpresso
                 {
                     case TokenId.Plus:
                         if (left.Type == typeof(string) || right.Type == typeof(string))
-                            goto case TokenId.Amphersand;
-                        CheckAndPromoteOperands(typeof(IAddSignatures), op.text, ref left, ref right, op.pos);
-                        left = GenerateAdd(left, right);
+                        {
+                            left = GenerateStringConcat(left, right);
+                        }
+                        else
+                        {
+                            CheckAndPromoteOperands(typeof(IAddSignatures), op.text, ref left, ref right, op.pos);
+                            left = GenerateAdd(left, right);
+                        }
                         break;
                     case TokenId.Minus:
                         CheckAndPromoteOperands(typeof(ISubtractSignatures), op.text, ref left, ref right, op.pos);
                         left = GenerateSubtract(left, right);
-                        break;
-                    case TokenId.Amphersand:
-                        left = GenerateStringConcat(left, right);
                         break;
                 }
             }
@@ -514,7 +511,7 @@ namespace DynamicExpresso
             if (text[0] != '-')
             {
                 ulong value;
-                if (!UInt64.TryParse(text, ParserConstants.LiteralUnsignedNumber, _settings.Culture, out value))
+                if (!UInt64.TryParse(text, ParseLiteralUnsignedNumberStyle, ParseCulture, out value))
                     throw ParseError(ErrorMessages.InvalidIntegerLiteral, text);
                 NextToken();
                 if (value <= (ulong)Int32.MaxValue) return CreateLiteral((int)value, text);
@@ -525,7 +522,7 @@ namespace DynamicExpresso
             else
             {
                 long value;
-                if (!Int64.TryParse(text, ParserConstants.LiteralNumber, _settings.Culture, out value))
+                if (!Int64.TryParse(text, ParseLiteralNumberStyle, ParseCulture, out value))
                     throw ParseError(ErrorMessages.InvalidIntegerLiteral, text);
                 NextToken();
                 if (value >= Int32.MinValue && value <= Int32.MaxValue)
@@ -543,19 +540,19 @@ namespace DynamicExpresso
             if (last == 'F' || last == 'f')
             {
                 float f;
-                if (float.TryParse(text.Substring(0, text.Length - 1), ParserConstants.LiteralDecimalNumber, _settings.Culture, out f)) 
+                if (float.TryParse(text.Substring(0, text.Length - 1), ParseLiteralDecimalNumberStyle, ParseCulture, out f)) 
                     value = f;
             }
             else if (last == 'M' || last == 'm')
             {
                 decimal dc;
-                if (decimal.TryParse(text.Substring(0, text.Length - 1), ParserConstants.LiteralDecimalNumber, _settings.Culture, out dc)) 
+                if (decimal.TryParse(text.Substring(0, text.Length - 1), ParseLiteralDecimalNumberStyle, ParseCulture, out dc)) 
                     value = dc;
             }
             else
             {
                 double d;
-                if (double.TryParse(text, ParserConstants.LiteralDecimalNumber, _settings.Culture, out d)) 
+                if (double.TryParse(text, ParseLiteralDecimalNumberStyle, ParseCulture, out d)) 
                     value = d;
             }
             if (value == null) throw ParseError(ErrorMessages.InvalidRealLiteral, text);
@@ -574,7 +571,7 @@ namespace DynamicExpresso
         {
             ValidateToken(TokenId.OpenParen, ErrorMessages.OpenParenExpected);
             NextToken();
-            Expression e = ParseExpression();
+            Expression e = ParseConditional();
             ValidateToken(TokenId.CloseParen, ErrorMessages.CloseParenOrOperatorExpected);
             NextToken();
             return e;
@@ -583,10 +580,14 @@ namespace DynamicExpresso
         Expression ParseIdentifier()
         {
             ValidateToken(TokenId.Identifier);
+            Type knownType;
+            if (_settings.KnownTypes.TryGetValue(token.text, out knownType))
+            {
+                return ParseTypeAccess(knownType);
+            }
             object value;
             if (_settings.Keywords.TryGetValue(token.text, out value))
             {
-                if (value is Type) return ParseTypeAccess((Type)value);
                 if (value == (object)ParserConstants.keywordIt) return ParseIt();
                 if (value == (object)ParserConstants.keywordIif) return ParseIif();
                 if (value == (object)ParserConstants.keywordNew) return ParseNew();
@@ -873,7 +874,7 @@ namespace DynamicExpresso
             List<Expression> argList = new List<Expression>();
             while (true)
             {
-                argList.Add(ParseExpression());
+                argList.Add(ParseConditional());
                 if (token.id != TokenId.Comma) break;
                 NextToken();
             }
@@ -912,12 +913,6 @@ namespace DynamicExpresso
                             GetTypeName(expr.Type));
                 }
             }
-        }
-
-        static bool IsPredefinedType(Type type)
-        {
-            foreach (Type t in ParserConstants.predefinedTypes) if (t == type) return true;
-            return false;
         }
 
         static bool IsNullableType(Type type)
@@ -1186,47 +1181,47 @@ namespace DynamicExpresso
             {
                 case TypeCode.SByte:
                     sbyte sb;
-                    if (sbyte.TryParse(text, ParserConstants.LiteralNumber, _settings.Culture, out sb)) return sb;
+                    if (sbyte.TryParse(text, ParseLiteralNumberStyle, ParseCulture, out sb)) return sb;
                     break;
                 case TypeCode.Byte:
                     byte b;
-                    if (byte.TryParse(text, ParserConstants.LiteralNumber, _settings.Culture, out b)) return b;
+                    if (byte.TryParse(text, ParseLiteralNumberStyle, ParseCulture, out b)) return b;
                     break;
                 case TypeCode.Int16:
                     short s;
-                    if (short.TryParse(text, ParserConstants.LiteralNumber, _settings.Culture, out s)) return s;
+                    if (short.TryParse(text, ParseLiteralNumberStyle, ParseCulture, out s)) return s;
                     break;
                 case TypeCode.UInt16:
                     ushort us;
-                    if (ushort.TryParse(text, ParserConstants.LiteralUnsignedNumber, _settings.Culture, out us)) return us;
+                    if (ushort.TryParse(text, ParseLiteralUnsignedNumberStyle, ParseCulture, out us)) return us;
                     break;
                 case TypeCode.Int32:
                     int i;
-                    if (int.TryParse(text, ParserConstants.LiteralNumber, _settings.Culture, out i)) return i;
+                    if (int.TryParse(text, ParseLiteralNumberStyle, ParseCulture, out i)) return i;
                     break;
                 case TypeCode.UInt32:
                     uint ui;
-                    if (uint.TryParse(text, ParserConstants.LiteralUnsignedNumber, _settings.Culture, out ui)) return ui;
+                    if (uint.TryParse(text, ParseLiteralUnsignedNumberStyle, ParseCulture, out ui)) return ui;
                     break;
                 case TypeCode.Int64:
                     long l;
-                    if (long.TryParse(text, ParserConstants.LiteralNumber, _settings.Culture, out l)) return l;
+                    if (long.TryParse(text, ParseLiteralNumberStyle, ParseCulture, out l)) return l;
                     break;
                 case TypeCode.UInt64:
                     ulong ul;
-                    if (ulong.TryParse(text, ParserConstants.LiteralUnsignedNumber, _settings.Culture, out ul)) return ul;
+                    if (ulong.TryParse(text, ParseLiteralUnsignedNumberStyle, ParseCulture, out ul)) return ul;
                     break;
                 case TypeCode.Single:
                     float f;
-                    if (float.TryParse(text, ParserConstants.LiteralDecimalNumber, _settings.Culture, out f)) return f;
+                    if (float.TryParse(text, ParseLiteralDecimalNumberStyle, ParseCulture, out f)) return f;
                     break;
                 case TypeCode.Double:
                     double d;
-                    if (double.TryParse(text, ParserConstants.LiteralDecimalNumber, _settings.Culture, out d)) return d;
+                    if (double.TryParse(text, ParseLiteralDecimalNumberStyle, ParseCulture, out d)) return d;
                     break;
                 case TypeCode.Decimal:
                     decimal e;
-                    if (decimal.TryParse(text, ParserConstants.LiteralDecimalNumber, _settings.Culture, out e)) return e;
+                    if (decimal.TryParse(text, ParseLiteralDecimalNumberStyle, ParseCulture, out e)) return e;
                     break;
             }
             return null;
@@ -1533,7 +1528,7 @@ namespace DynamicExpresso
                     }
                     else
                     {
-                        t = TokenId.Amphersand;
+                        throw ParseError(textPos, ErrorMessages.InvalidCharacter, ch);
                     }
                     break;
                 case '(':
@@ -1579,11 +1574,6 @@ namespace DynamicExpresso
                         NextChar();
                         t = TokenId.LessThanEqual;
                     }
-                    else if (ch == '>')
-                    {
-                        NextChar();
-                        t = TokenId.LessGreater;
-                    }
                     else
                     {
                         t = TokenId.LessThan;
@@ -1598,7 +1588,7 @@ namespace DynamicExpresso
                     }
                     else
                     {
-                        t = TokenId.Equal;
+                        throw ParseError(textPos, ErrorMessages.InvalidCharacter, ch);
                     }
                     break;
                 case '>':

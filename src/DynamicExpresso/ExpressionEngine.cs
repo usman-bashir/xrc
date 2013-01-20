@@ -8,7 +8,17 @@ namespace DynamicExpresso
 {
     public class ExpressionEngine
     {
-        ParserSettings _settings = new ParserSettings();
+        ParserSettings _settings;
+
+        public ExpressionEngine()
+            :this(new ParserSettings())
+        {
+        }
+
+        public ExpressionEngine(ParserSettings settings)
+        {
+            _settings = settings;
+        }
 
         public ExpressionDefinition Parse(string expressionText, params ExpressionParameter[] parameters)
         {
