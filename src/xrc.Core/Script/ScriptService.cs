@@ -11,15 +11,15 @@ namespace xrc.Script
 {
     public class ScriptService : IScriptService
     {
-        readonly DynamicExpresso.ExpressionEngine _engine;
+        readonly DynamicExpresso.Interpreter _engine;
         public ScriptService()
 		{
-            _engine = new DynamicExpresso.ExpressionEngine();
+            _engine = new DynamicExpresso.Interpreter();
 		}
 
         public IScriptExpression Parse(string script, ScriptParameterList parameters)
         {
-            var exp = _engine.Parse(script, parameters.Select(p => new DynamicExpresso.ExpressionParameter(p.Name, p.Type, p.Value)).ToArray());
+            var exp = _engine.Parse(script, parameters.Select(p => new DynamicExpresso.FunctionParam(p.Name, p.Type, p.Value)).ToArray());
 
             return new ScriptExpression(exp);
         }
@@ -28,9 +28,9 @@ namespace xrc.Script
         {
             ScriptExpression scriptExpression = (ScriptExpression)expression;
 
-            var args = parameters.Select(p => new DynamicExpresso.ExpressionParameter(p.Name, p.Type, p.Value)).ToArray();
+            var args = parameters.Select(p => new DynamicExpresso.FunctionParam(p.Name, p.Type, p.Value)).ToArray();
 
-            return scriptExpression.ExpressionDefinition.Eval(args);
+            return scriptExpression.ExpressionDefinition.Invoke(args);
         }
     }
 }
