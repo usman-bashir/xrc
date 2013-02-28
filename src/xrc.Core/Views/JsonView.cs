@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Json;
 using xrc.Pages.Providers;
 
 namespace xrc.Views
@@ -16,7 +15,7 @@ namespace xrc.Views
 			_resourceProvider = resourceProvider;
         }
 
-		public JsonValue Content
+		public string Content
 		{
 			get;
 			set;

@@ -6,7 +6,6 @@ using System.IO;
 using System.Web;
 using xrc.Pages.Providers.Common;
 using System.Xml.Linq;
-using System.Json;
 
 namespace xrc.Pages.Providers.FileSystem
 {
@@ -76,12 +75,9 @@ namespace xrc.Pages.Providers.FileSystem
 			return ResourceToText(resourceLocation);
 		}
 
-		public JsonValue ResourceToJson(string resourceLocation)
+		public string ResourceToJson(string resourceLocation)
 		{
-			using (Stream stream = OpenResource(resourceLocation))
-			{
-				return JsonValue.Load(stream);
-			}
+            return ResourceToText(resourceLocation);
 		}
 
 		private string MapPath(string resourceLocation)

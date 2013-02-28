@@ -9,9 +9,9 @@ namespace xrc.Script
 {
     public class ScriptExpression : IScriptExpression
     {
-        readonly DynamicExpresso.Function _expression;
+        readonly DynamicExpresso.Lambda _expression;
 
-        public ScriptExpression(DynamicExpresso.Function expression)
+        public ScriptExpression(DynamicExpresso.Lambda expression)
         {
             _expression = expression;
         }
@@ -26,7 +26,7 @@ namespace xrc.Script
             get { return _expression.ReturnType; }
         }
 
-        public DynamicExpresso.Function ExpressionDefinition
+        public DynamicExpresso.Lambda ExpressionDefinition
         {
             get { return _expression; }
         }

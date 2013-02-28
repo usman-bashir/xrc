@@ -19,7 +19,7 @@ namespace xrc.Script
 
         public IScriptExpression Parse(string script, ScriptParameterList parameters)
         {
-            var exp = _engine.Parse(script, parameters.Select(p => new DynamicExpresso.FunctionParam(p.Name, p.Type, p.Value)).ToArray());
+            var exp = _engine.Parse(script, parameters.Select(p => new DynamicExpresso.Parameter(p.Name, p.Type, p.Value)).ToArray());
 
             return new ScriptExpression(exp);
         }
@@ -28,7 +28,7 @@ namespace xrc.Script
         {
             ScriptExpression scriptExpression = (ScriptExpression)expression;
 
-            var args = parameters.Select(p => new DynamicExpresso.FunctionParam(p.Name, p.Type, p.Value)).ToArray();
+            var args = parameters.Select(p => new DynamicExpresso.Parameter(p.Name, p.Type, p.Value)).ToArray();
 
             return scriptExpression.ExpressionDefinition.Invoke(args);
         }

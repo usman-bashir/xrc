@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using System.Json;
 
 namespace xrc.Pages.Providers
 {
@@ -19,7 +18,7 @@ namespace xrc.Pages.Providers
 		string ResourceToHtml(string resourceLocation);
 		string ResourceToText(string resourceLocation);
 		byte[] ResourceToBytes(string resourceLocation);
-		JsonValue ResourceToJson(string resourceLocation);
+		string ResourceToJson(string resourceLocation);
 
 		bool ResourceExists(string resourceLocation);
 	}
