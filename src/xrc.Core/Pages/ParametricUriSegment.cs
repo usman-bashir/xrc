@@ -25,6 +25,9 @@ namespace xrc.Pages
 			if (string.IsNullOrEmpty(expression))
 				throw new ArgumentNullException("expression");
 
+            if (expression.Contains('/'))
+                throw new ArgumentException("Uri segment expression cannot contains '/' characters.");
+
 			_paramExpression = ParseExpression(expression);
 
 			_segmentRegEx = CreateRegex(_paramExpression);

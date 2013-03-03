@@ -200,6 +200,24 @@ namespace xrc
 			return GetPath(new Uri(uri, UriKind.RelativeOrAbsolute));
 		}
 
+        public static string GetName(this Uri uri)
+        {
+            if (uri == null)
+                throw new ArgumentNullException("uri");
+
+            return GetName(uri.ToString());
+        }
+
+        public static string GetName(string uri)
+        {
+			if (uri == null)
+				throw new ArgumentNullException("uri");
+
+            var parts = uri.Split('/', '\\');
+
+            return parts.Last();
+        }
+
 		/// <summary>
 		/// Similar to Url.GetComponents(UriComponents.Query, UriFormat.Unescaped) but support also relative uri
 		/// </summary>

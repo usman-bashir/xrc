@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C5BFC17C-949C-4C79-833B-B66531A0AD5F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>xrc.Pages.Providers.FileSystem</RootNamespace>
+    <AssemblyName>xrc.Pages.Providers.FileSystem</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FileSystemPageProviderService.cs" />
+    <Compile Include="FileSystemPageStructureService.cs" />
+    <Compile Include="FileSystemResourceProviderService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TreeStructure\ConfigFile.cs" />
+    <Compile Include="TreeStructure\PageRoot.cs" />
+    <Compile Include="TreeStructure\PageFileList.cs" />
+    <Compile Include="TreeStructure\PageDirectory.cs" />
+    <Compile Include="TreeStructure\IPageLocatorService.cs" />
+    <Compile Include="TreeStructure\IPageStructureService.cs" />
+    <Compile Include="TreeStructure\Item.cs" />
+    <Compile Include="TreeStructure\PageDirectoryList.cs" />
+    <Compile Include="TreeStructure\ItemType.cs" />
+    <Compile Include="TreeStructure\PageFile.cs" />
+    <Compile Include="TreeStructure\PageLocatorResult.cs" />
+    <Compile Include="TreeStructure\PageLocatorService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\xrc.Core\xrc.Core.csproj">
+      <Project>{71988da4-8569-490f-9d08-5b47ef2202f7}</Project>
+      <Name>xrc.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

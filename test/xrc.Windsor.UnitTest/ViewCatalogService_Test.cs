@@ -15,12 +15,10 @@ namespace xrc.Views
         public void It_should_be_possible_to_get_all_default_views()
         {
 			var container = new WindsorContainer();
-			container.Register(Classes.FromAssemblyContaining<HtmlView>()
-								.BasedOn<xrc.Views.IView>()
-								.WithServiceSelf()
-								.LifestyleTransient());
 
-			var target = new WindsorViewCatalogService(container.Kernel);
+			var target = new WindsorViewCatalogService(container);
+
+            target.RegisterAll();
 
             Assert.AreEqual(10, target.GetAll().Count());
 			Assert.AreEqual(typeof(HtmlView).Name, target.Get(typeof(HtmlView).Name).Name);
@@ -35,7 +33,7 @@ namespace xrc.Views
 			container.Register(Component.For<TestView>()
 							.LifeStyle.Transient);
 
-			var target = new WindsorViewCatalogService(container.Kernel);
+			var target = new WindsorViewCatalogService(container);
 
 			Assert.AreEqual(1, target.GetAll().Count());
 			Assert.AreEqual(typeof(TestView), target.Get(typeof(TestView).Name).Type);
@@ -50,7 +48,7 @@ namespace xrc.Views
 							.Named("CustomName")
 							.LifeStyle.Transient);
 
-			var target = new WindsorViewCatalogService(container.Kernel);
+			var target = new WindsorViewCatalogService(container);
 
 			Assert.AreEqual(1, target.GetAll().Count());
 			Assert.AreEqual(typeof(TestView), target.Get("CustomName").Type);

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Castle.MicroKernel.Registration;
+using Castle.Windsor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,19 +9,19 @@ namespace xrc.Views
 {
     public class WindsorViewCatalogService : IViewCatalogService
     {
-        readonly Castle.MicroKernel.IKernel _windsorKernel;
+        readonly WindsorContainer _container;
 		readonly Lazy<IEnumerable<ComponentDefinition>> _components;
 
-		public WindsorViewCatalogService(Castle.MicroKernel.IKernel windsorKernel)
+        public WindsorViewCatalogService(WindsorContainer container)
         {
-            _windsorKernel = windsorKernel;
+            _container = container;
 
 			_components = new Lazy<IEnumerable<ComponentDefinition>>(LoadComponents);
         }
 
 		IEnumerable<ComponentDefinition> LoadComponents()
 		{
-			var handlers = _windsorKernel.GetAssignableHandlers(typeof(IView));
+            var handlers = _container.Kernel.GetAssignableHandlers(typeof(IView));
 
 			var components = from h in handlers
 							 from s in h.ComponentModel.Services
@@ -61,5 +63,29 @@ namespace xrc.Views
 
 			return true;
 		}
+
+        public void RegisterAll()
+        {
+            var assemblyFilter = new AssemblyFilter(AssemblyDirectory);
+
+            _container.Register(Classes.FromAssemblyInDirectory(assemblyFilter)
+                                .BasedOn<IView>()
+                                .WithServiceAllInterfaces()
+                                .LifestyleTransient());
+        }
+
+        string AssemblyDirectory
+        {
+            get
+            {
+                var codeBase = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+
+                var uri = new UriBuilder(codeBase);
+
+                var path = Uri.UnescapeDataString(uri.Path);
+
+                return System.IO.Path.GetDirectoryName(path);
+            }
+        }
     }
 }

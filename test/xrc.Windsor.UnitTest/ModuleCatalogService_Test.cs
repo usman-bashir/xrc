@@ -12,27 +12,22 @@ namespace xrc.Modules
     public class ModuleCatalogService_Test
     {
         [TestMethod()]
-        public void It_should_be_possible_to_get_all_default_modules()
+        public void It_should_be_possible_to_get_all_service_and_module()
         {
 			var container = new WindsorContainer();
-			container.Register(Classes.FromAssemblyContaining<UrlModule>()
-								.Where(p => p.Name.EndsWith("Module"))
-								.WithServiceAllInterfaces()
-								.LifestyleTransient());
 
-			container.Register(Classes.FromAssemblyContaining<XrcService>()
-								.Where(p => p.Name.EndsWith("Service"))
-								.WithServiceAllInterfaces()
-								.LifestyleSingleton());
-
-			var target = new WindsorModuleCatalogService(container.Kernel);
+			var target = new WindsorModuleCatalogService(container);
+            target.RegisterAll();
 
             Assert.AreEqual(21, target.GetAll().Count());
 			Assert.AreEqual(typeof(UrlModule).Name, target.Get(typeof(UrlModule).Name).Name);
 			Assert.AreEqual(typeof(IUrlModule), target.Get(typeof(UrlModule).Name).Type);
 			Assert.AreEqual(typeof(XrcService).Name, target.Get(typeof(XrcService).Name).Name);
 			Assert.AreEqual(typeof(IXrcService), target.Get(typeof(XrcService).Name).Type);
-		}
+
+            Assert.AreEqual(typeof(xrc.Markdown.IMarkdownService), target.Get(typeof(xrc.Markdown.MarkdownService).Name).Type);
+            Assert.AreEqual(typeof(xrc.Pages.Providers.FileSystem.FileSystemPageProviderService), target.Get(typeof(xrc.Pages.Providers.FileSystem.FileSystemPageProviderService).Name).Type);
+        }
 
 		[TestMethod()]
 		public void It_should_be_possible_to_get_a_custom_module_and_service()
@@ -45,7 +40,7 @@ namespace xrc.Modules
 			container.Register(Component.For<TestService>()
 							.LifeStyle.Singleton);
 
-			var target = new WindsorModuleCatalogService(container.Kernel);
+			var target = new WindsorModuleCatalogService(container);
 
 			Assert.AreEqual(2, target.GetAll().Count());
 			Assert.AreEqual(typeof(TestModule).Name, target.Get(typeof(TestModule).Name).Name);
@@ -63,7 +58,7 @@ namespace xrc.Modules
 							.Named("CustomNameModule")
 							.LifeStyle.Transient);
 
-			var target = new WindsorModuleCatalogService(container.Kernel);
+			var target = new WindsorModuleCatalogService(container);
 
 			Assert.AreEqual(1, target.GetAll().Count());
 			Assert.AreEqual(typeof(TestModule), target.Get("CustomNameModule").Type);

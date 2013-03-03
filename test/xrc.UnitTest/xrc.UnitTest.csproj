@@ -65,21 +65,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\XrcSection_Test.cs" />
-    <Compile Include="Markdown\MarkdownService_Test.cs" />
     <Compile Include="Mocks\ContextMock.cs" />
     <Compile Include="Mocks\PageProviderServiceMock.cs" />
     <Compile Include="Mocks\MashupScriptServiceMock.cs" />
-    <Compile Include="Mocks\TestPageStructureService.cs" />
     <Compile Include="Modules\TestModule.cs" />
-    <Compile Include="Pages\Providers\Common\Parsers\MarkdownParserService_Test.cs" />
-    <Compile Include="Pages\Providers\Common\Parsers\XsltParserService_Test.cs" />
-    <Compile Include="Pages\Providers\Common\Parsers\RazorParserService_Test.cs" />
-    <Compile Include="Pages\Providers\Common\Parsers\HtmlParserService_Test.cs" />
-    <Compile Include="Pages\Providers\Common\Parsers\XHtmlParserService_Test.cs" />
-    <Compile Include="Pages\Providers\Common\Parsers\XrcParserService_Test.cs" />
-    <Compile Include="Pages\Providers\Common\PageParserResult_Test.cs" />
-    <Compile Include="Pages\Providers\Common\XrcItem_Test.cs" />
-    <Compile Include="Pages\Providers\FileSystem\FileSystemPageProviderService_Test.cs" />
+    <Compile Include="Pages\Parsers\PageParserResult_Test.cs" />
+    <Compile Include="Pages\Parsers\XsltParserService_Test.cs" />
+    <Compile Include="Pages\Parsers\RazorParserService_Test.cs" />
+    <Compile Include="Pages\Parsers\HtmlParserService_Test.cs" />
+    <Compile Include="Pages\Parsers\XHtmlParserService_Test.cs" />
+    <Compile Include="Pages\Parsers\XrcParserService_Test.cs" />
     <Compile Include="Pages\ParametricUriSegment_Test.cs" />
     <Compile Include="UriExtensions_Test.cs" />
     <Compile Include="Kernel\XrcService_Test.cs" />
@@ -88,14 +83,12 @@
     <Compile Include="Mocks\ModuleCatalogServiceMock.cs" />
     <Compile Include="Mocks\ScriptExpressionMock.cs" />
     <Compile Include="Script\ScriptService_Test.cs" />
-    <Compile Include="Pages\Providers\Common\PageLocatorService_Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\MarkdownView_Test.cs" />
     <Compile Include="Views\Xslt\XsltView_Test.cs" />
     <Compile Include="Mocks\ScriptServiceMock.cs" />
     <Compile Include="Pages\Script\PageScriptService_Test.cs" />
     <Compile Include="TestHelper.cs" />
-    <Compile Include="Pages\Providers\Common\Parsers\XrcSchemaParserService_Test.cs" />
+    <Compile Include="Pages\Parsers\XrcSchemaParserService_Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Xslt\books.xml">
@@ -121,9 +114,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Components\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\src\xrc.Core\xrc.Core.csproj">
       <Project>{71988DA4-8569-490F-9D08-5B47EF2202F7}</Project>

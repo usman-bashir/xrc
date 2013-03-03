@@ -216,5 +216,30 @@ namespace xrc
 			Assert.AreEqual(false, UriExtensions.IsAppRelativeVirtualUrl("test/index"));
 			Assert.AreEqual(false, UriExtensions.IsAppRelativeVirtualUrl("http://www.google.com/index/page?p1=v1#anchor"));
 		}
+
+        [TestMethod]
+        public void GetName()
+        {
+            Assert.AreEqual("test", UriExtensions.GetName("~/test"));
+            Assert.AreEqual("index", UriExtensions.GetName("~/test/index"));
+            Assert.AreEqual("", UriExtensions.GetName("~/test/index/"));
+            Assert.AreEqual("index.xrc", UriExtensions.GetName("~/test/index.xrc"));
+            Assert.AreEqual("", UriExtensions.GetName("~/"));
+            Assert.AreEqual("~", UriExtensions.GetName("~"));
+
+            Assert.AreEqual("test", UriExtensions.GetName("/test"));
+            Assert.AreEqual("index", UriExtensions.GetName("/test/index"));
+            Assert.AreEqual("", UriExtensions.GetName("/test/index/"));
+            Assert.AreEqual("index.xrc", UriExtensions.GetName("http://www.google.com/test/index.xrc"));
+        }
+
+        [TestMethod]
+        public void GetNameUri()
+        {
+            Assert.AreEqual("test", new Uri("/test", UriKind.Relative).GetName());
+            Assert.AreEqual("index", new Uri("/test/index", UriKind.Relative).GetName());
+            Assert.AreEqual("", new Uri("/test/index/", UriKind.Relative).GetName());
+            Assert.AreEqual("index.xrc", new Uri("http://www.google.com/test/index.xrc").GetName());
+        }
     }
 }

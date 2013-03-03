@@ -36,7 +36,7 @@ namespace xrc.Pages
             get { return _views; }
         }
 
-		public PageCatchException CatchException
+		public PageCatch CatchException
 		{
 			get;
 			set;

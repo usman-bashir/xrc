@@ -9,8 +9,9 @@ namespace xrc.Pages.Providers
 	public interface IResourceProviderService
 	{
 		/// <summary>
-		/// Open the specified resource. resourceLocation parameter can be a fully qualified resource or a virtual path.
+		/// Open the specified resource as a stream.
 		/// </summary>
+        /// <param name="resourceLocation">Can be a fully qualified resource or a virtual path.</param>
 		System.IO.Stream OpenResource(string resourceLocation);
 
 		XDocument ResourceToXml(string resourceLocation);

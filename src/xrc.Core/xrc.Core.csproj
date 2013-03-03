@@ -45,10 +45,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\DynamicExpresso.Core.0.8.0.0\lib\net40\DynamicExpresso.Core.dll</HintPath>
     </Reference>
-    <Reference Include="MarkdownXrc, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\MarkdownXrc.1.0.2.0\lib\net40\MarkdownXrc.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -57,7 +53,6 @@
     <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -92,8 +87,6 @@
     <Compile Include="Exceptions\ResourceNotFoundException.cs" />
     <Compile Include="Exceptions\XrcException.cs" />
     <Compile Include="CustomErrors\CustomErrorHttpModule.cs" />
-    <Compile Include="Markdown\IMarkdownService.cs" />
-    <Compile Include="Markdown\MarkdownService.cs" />
     <Compile Include="MimeTypes.cs" />
     <Compile Include="Modules\PageModule.cs" />
     <Compile Include="Modules\IPageModule.cs" />
@@ -106,32 +99,22 @@
     <Compile Include="Modules\IModuleFactory.cs" />
     <Compile Include="Kernel\IXrcService.cs" />
     <Compile Include="Kernel\XrcService.cs" />
-    <Compile Include="Pages\PageCatchException.cs" />
+    <Compile Include="Pages\PageCatch.cs" />
+    <Compile Include="Pages\Parsers\HtmlParserService.cs" />
+    <Compile Include="Pages\Parsers\IPageParserService.cs" />
+    <Compile Include="Pages\Parsers\IParserService.cs" />
+    <Compile Include="Pages\Parsers\PageDefinition.cs" />
+    <Compile Include="Pages\Parsers\PageParserService.cs" />
+    <Compile Include="Pages\Parsers\ParserServiceBase.cs" />
+    <Compile Include="Pages\Parsers\RazorParserService.cs" />
+    <Compile Include="Pages\Parsers\XHtmlParserService.cs" />
+    <Compile Include="Pages\Parsers\XrcParserService.cs" />
+    <Compile Include="Pages\Parsers\XrcSchemaParserService.cs" />
+    <Compile Include="Pages\Parsers\XsltParserService.cs" />
     <Compile Include="Pages\UriSegmentParameterList.cs" />
     <Compile Include="Pages\ParametricUriSegmentResult.cs" />
-    <Compile Include="Pages\Providers\Common\XrcItemList.cs" />
-    <Compile Include="Pages\Providers\Common\IPageStructureService.cs" />
-    <Compile Include="Pages\Providers\Common\PageLocatorResult.cs" />
-    <Compile Include="Pages\Providers\Common\XrcItem.cs" />
-    <Compile Include="Pages\Providers\Common\XrcItemType.cs" />
-    <Compile Include="Pages\Providers\Common\Parsers\MarkdownParserService.cs" />
-    <Compile Include="Pages\Providers\Common\Parsers\XsltParserService.cs" />
-    <Compile Include="Pages\Providers\Common\Parsers\RazorParserService.cs" />
-    <Compile Include="Pages\Providers\Common\Parsers\HtmlParserService.cs" />
-    <Compile Include="Pages\Providers\Common\Parsers\XHtmlParserService.cs" />
-    <Compile Include="Pages\Providers\Common\Parsers\IXrcSchemaParserService.cs" />
-    <Compile Include="Pages\Providers\Common\Parsers\XrcSchemaParserService.cs" />
-    <Compile Include="Pages\Providers\Common\Parsers\ParserServiceBase.cs" />
-    <Compile Include="Pages\Providers\Common\IParserService.cs" />
-    <Compile Include="Pages\Providers\Common\Parsers\XrcParserService.cs" />
-    <Compile Include="Pages\Providers\FileSystem\FileSystemResourceProviderService.cs" />
     <Compile Include="Pages\Providers\IResourceProviderService.cs" />
-    <Compile Include="Pages\Providers\FileSystem\FileSystemPageStructureService.cs" />
-    <Compile Include="Pages\Providers\FileSystem\XrcFile.cs" />
-    <Compile Include="Pages\Providers\FileSystem\XrcFileSystemHelper.cs" />
-    <Compile Include="Pages\Providers\Common\Page.cs" />
-    <Compile Include="Pages\Providers\FileSystem\FileSystemPageProviderService.cs" />
-    <Compile Include="Pages\Providers\Common\PageParserResult.cs" />
+    <Compile Include="Pages\Page.cs" />
     <Compile Include="Pages\Providers\IPageProviderService.cs" />
     <Compile Include="Pages\ParametricUriSegment.cs" />
     <Compile Include="Razor\XrcWebViewPageExtension.cs" />
@@ -139,7 +122,6 @@
     <Compile Include="Razor\XrcWebViewPage.cs" />
     <Compile Include="Routing\XrcRoute.cs" />
     <Compile Include="Views\RawView.cs" />
-    <Compile Include="Views\MarkdownView.cs" />
     <Compile Include="Views\HtmlView.cs" />
     <Compile Include="Views\IViewCatalogService.cs" />
     <Compile Include="Views\IViewFactory.cs" />
@@ -172,10 +154,6 @@
     <Compile Include="Pages\XPropertyList.cs" />
     <Compile Include="Pages\ViewDefinitionList.cs" />
     <Compile Include="Pages\PageActionList.cs" />
-    <Compile Include="Pages\Providers\FileSystem\XrcFolder.cs" />
-    <Compile Include="Pages\Providers\Common\PageParserService.cs" />
-    <Compile Include="Pages\Providers\Common\PageLocatorService.cs" />
-    <Compile Include="Pages\Providers\Common\IPageLocatorService.cs" />
     <Compile Include="Pages\ViewDefinition.cs" />
     <Compile Include="Script\ScriptService.cs" />
     <Compile Include="Script\IScriptService.cs" />
@@ -183,7 +161,6 @@
     <Compile Include="Pages\XProperty.cs" />
     <Compile Include="Pages\XClass.cs" />
     <Compile Include="Script\ScriptExpression.cs" />
-    <Compile Include="Pages\Providers\Common\IPageParserService.cs" />
     <Compile Include="Pages\PageAction.cs" />
     <Compile Include="Pages\IPage.cs" />
     <Compile Include="UriExtensions.cs" />
@@ -199,6 +176,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -48,6 +48,11 @@ namespace xrc.Pages
 			}
         }
 
+        public bool Contains(string method)
+        {
+            return _list.ContainsKey(method);
+        }
+
         public IEnumerator<PageAction> GetEnumerator()
         {
             foreach (var item in _list)

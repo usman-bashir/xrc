@@ -61,5 +61,19 @@ namespace xrc
 		{
 			return _appRelaviteUrl;
 		}
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as XrcUrl;
+            if (other == null)
+                return false;
+
+            return _appRelaviteUrl.Equals(other._appRelaviteUrl);
+        }
+
+        public override int GetHashCode()
+        {
+            return _appRelaviteUrl.GetHashCode();
+        }
 	}
 }

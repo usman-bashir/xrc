@@ -44,6 +44,9 @@
       <HintPath>..\..\packages\Castle.Windsor.3.2.0\lib\net40\Castle.Windsor.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Moq">
+      <HintPath>..\..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -67,6 +70,14 @@
     <ProjectReference Include="..\..\src\xrc.Core\xrc.Core.csproj">
       <Project>{71988DA4-8569-490F-9D08-5B47EF2202F7}</Project>
       <Name>xrc.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\xrc.Markdown\xrc.Markdown.csproj">
+      <Project>{e1bba9c3-dc31-4901-88b1-d037f26aaf44}</Project>
+      <Name>xrc.Markdown</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\xrc.Pages.Providers.FileSystem\xrc.Pages.Providers.FileSystem.csproj">
+      <Project>{c5bfc17c-949c-4c79-833b-b66531a0ad5f}</Project>
+      <Name>xrc.Pages.Providers.FileSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\xrc.Windsor\xrc.Windsor.csproj">
       <Project>{2496197E-8B17-4AA0-98B2-E57B2C924EDF}</Project>

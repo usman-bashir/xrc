@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Castle.MicroKernel.Registration;
+using Castle.Windsor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,19 +9,49 @@ namespace xrc.Modules
 {
     public class WindsorModuleCatalogService : IModuleCatalogService
     {
-        readonly Castle.MicroKernel.IKernel _windsorKernel;
+        readonly WindsorContainer _container;
 		readonly Lazy<IEnumerable<ComponentDefinition>> _components;
 
-		public WindsorModuleCatalogService(Castle.MicroKernel.IKernel windsorKernel)
+        public WindsorModuleCatalogService(WindsorContainer container)
         {
-            _windsorKernel = windsorKernel;
+            _container = container;
 
 			_components = new Lazy<IEnumerable<ComponentDefinition>>(LoadComponents);
         }
 
+        public void RegisterAll()
+        {
+            var assemblyFilter = new AssemblyFilter(AssemblyDirectory);
+
+            _container.Register(Classes.FromAssemblyInDirectory(assemblyFilter)
+                                .Where(p => p.Name.EndsWith("Module"))
+                                .WithServiceAllInterfaces()
+                                .LifestyleTransient());
+
+            _container.Register(Classes.FromAssemblyInDirectory(assemblyFilter)
+                                .Where(p => p.Name.EndsWith("Service"))
+                                .WithServiceAllInterfaces()
+                                .LifestyleSingleton());
+
+        }
+
+        string AssemblyDirectory
+        {
+            get
+            {
+                var codeBase = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+
+                var uri = new UriBuilder(codeBase);
+
+                var path = Uri.UnescapeDataString(uri.Path);
+
+                return System.IO.Path.GetDirectoryName(path);
+            }
+        }
+
 		IEnumerable<ComponentDefinition> LoadComponents()
 		{
-			var handlers = _windsorKernel.GetAssignableHandlers(typeof(object));
+            var handlers = _container.Kernel.GetAssignableHandlers(typeof(object));
 
 			var validHandlers = from h in handlers
 					where h.ComponentModel.Name.EndsWith("Module") ||
