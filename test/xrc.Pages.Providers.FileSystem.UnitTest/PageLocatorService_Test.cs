@@ -13,13 +13,13 @@ namespace xrc.Pages.TreeStructure
 	{
 		PageLocatorResult Locate(string url)
 		{
-			var target = new PageLocatorService(new TestPageStructure());
+			var target = new PageLocatorService(new TestPageStructure1());
 			return target.Locate(new XrcUrl(url));
 		}
 
 		PageLocatorResult Locate_with_VirtualDir(string url)
 		{
-			var target = new PageLocatorService(new TestPageStructure_With_VirtualDir());
+			var target = new PageLocatorService(new TestPageStructure2());
 			return target.Locate(new XrcUrl(url));
 		}
 

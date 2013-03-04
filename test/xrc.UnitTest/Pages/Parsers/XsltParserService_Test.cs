@@ -33,7 +33,7 @@ namespace xrc.Pages.Parsers
 			pageProvider.Setup(p => p.ResourceToXml("~/item.xml")).Returns(expectedXml);
 			pageProvider.Setup(p => p.ResourceExists("~/item.xml")).Returns(true);
 
-			var target = new XsltParserService(viewCatalog, pageProvider.Object);
+			var target = new XsltParser(viewCatalog, pageProvider.Object);
 
             PageDefinition page = target.Parse(resourceLocation);
 			var view = page.Actions["GET"].Views.Single();
@@ -60,7 +60,7 @@ namespace xrc.Pages.Parsers
 			pageProvider.Setup(p => p.ResourceToXml(resourceLocation)).Returns(expectedContent);
 			pageProvider.Setup(p => p.ResourceExists("~/item.xml")).Returns(false);
 
-			var target = new XsltParserService(viewCatalog, pageProvider.Object);
+			var target = new XsltParser(viewCatalog, pageProvider.Object);
 
             PageDefinition page = target.Parse(resourceLocation);
 			var view = page.Actions["GET"].Views.Single();

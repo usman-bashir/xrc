@@ -12,12 +12,12 @@ using xrc.Pages.Providers;
 
 namespace xrc.Pages.Parsers
 {
-	public class XsltParserService : ParserServiceBase
+	public class XsltParser : ResourceParserBase
 	{
 		readonly IViewCatalogService _viewCatalog;
 		readonly IResourceProviderService _resourceProvider;
 
-		public XsltParserService(IViewCatalogService viewCatalog,
+		public XsltParser(IViewCatalogService viewCatalog,
 								IResourceProviderService resourceProvider)
 			: base(".xrc.xslt")
 		{

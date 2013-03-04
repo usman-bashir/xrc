@@ -6,8 +6,8 @@
     <ProjectGuid>{005AF330-A291-4B74-8D78-33F092563121}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>xrc.Pages.Providers.FileSystem.UnitTest</RootNamespace>
-    <AssemblyName>xrc.Pages.Providers.FileSystem.UnitTest</AssemblyName>
+    <RootNamespace>xrc</RootNamespace>
+    <AssemblyName>xrc.FileSystemPages.UnitTest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -71,9 +71,9 @@
       <Project>{71988da4-8569-490f-9d08-5b47ef2202f7}</Project>
       <Name>xrc.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\xrc.Pages.Providers.FileSystem\xrc.Pages.Providers.FileSystem.csproj">
+    <ProjectReference Include="..\..\src\xrc.FileSystemPages\xrc.FileSystemPages.csproj">
       <Project>{c5bfc17c-949c-4c79-833b-b66531a0ad5f}</Project>
-      <Name>xrc.Pages.Providers.FileSystem</Name>
+      <Name>xrc.FileSystemPages</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

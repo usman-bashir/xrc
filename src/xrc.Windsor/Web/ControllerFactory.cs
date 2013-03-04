@@ -3,13 +3,13 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Castle.MicroKernel;
 
-namespace xrc.Windsor
+namespace xrc.Web
 {
-    public class ControllerFactory : DefaultControllerFactory
+    public class WindsorControllerFactory : DefaultControllerFactory
     {
 		private readonly Castle.MicroKernel.IKernel kernel;
 
-		public ControllerFactory(Castle.MicroKernel.IKernel kernel)
+        public WindsorControllerFactory(Castle.MicroKernel.IKernel kernel)
         {
             this.kernel = kernel;
         }

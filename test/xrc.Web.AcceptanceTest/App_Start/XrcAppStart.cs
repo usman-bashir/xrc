@@ -39,7 +39,7 @@ namespace xrc.Web.AcceptanceTest
 			_container = new WindsorContainer();
 
 			var xrcSection = xrc.Configuration.XrcSection.GetSection();
-			_container.Install(new xrc.Windsor.Installers.XrcInstaller(xrcSection));
+            XrcWindsor.InstallCore(_container, xrcSection);
 
 			_container.Install(Castle.Windsor.Installer.FromAssembly.This());
 		}
@@ -52,15 +52,15 @@ namespace xrc.Web.AcceptanceTest
 
 		static void SetupHttpModulesFactory()
 		{
-			xrc.Windsor.HttpModuleFactory.Setup(_container.Kernel);
+			xrc.Web.WindsorHttpModuleFactory.Setup(_container.Kernel);
 
-			DynamicModuleUtility.RegisterModule(typeof(xrc.Windsor.HttpModuleFactory)); // .NET 4.0
+			DynamicModuleUtility.RegisterModule(typeof(xrc.Web.WindsorHttpModuleFactory)); // .NET 4.0
 			// HttpApplication.RegisterModule // .NET 4.5
 		}
 
 		static void SetupControllerFactory()
 		{
-			var controllerFactory = new xrc.Windsor.ControllerFactory(_container.Kernel);
+			var controllerFactory = new xrc.Web.WindsorControllerFactory(_container.Kernel);
 			ControllerBuilder.Current.SetControllerFactory(controllerFactory);
 		}
 	}

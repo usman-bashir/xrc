@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace xrc.Pages.TreeStructure
 {
+    // TODO Da rimuovere e gestire come un semplice attributo della directory
 	public class ConfigFile : Item
     {
         public const string XRC_DIRECTORY_CONFIG_FILE = "xrc.config";

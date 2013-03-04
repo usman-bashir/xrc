@@ -35,6 +35,8 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="xrc.FileSystemPages.nuspec" />
+    <None Include="xrc.Markdown.nuspec" />
     <None Include="nugetPublish.ps1" />
     <None Include="xrc.Core.nuspec" />
     <None Include="xrc.Site\content\net40\Web.config.transform" />
@@ -61,6 +63,14 @@
       <Project>{71988DA4-8569-490F-9D08-5B47EF2202F7}</Project>
       <Name>xrc.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\xrc.FileSystemPages\xrc.FileSystemPages.csproj">
+      <Project>{c5bfc17c-949c-4c79-833b-b66531a0ad5f}</Project>
+      <Name>xrc.FileSystemPages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\xrc.Markdown\xrc.Markdown.csproj">
+      <Project>{e1bba9c3-dc31-4901-88b1-d037f26aaf44}</Project>
+      <Name>xrc.Markdown</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\xrc.Windsor\xrc.Windsor.csproj">
       <Project>{2496197E-8B17-4AA0-98B2-E57B2C924EDF}</Project>
       <Name>xrc.Windsor</Name>
@@ -86,6 +96,8 @@
       <!--<NuspecFiles Include="$(ProjectDir)*.nuspec" />-->
       <NuspecFiles Include="$(ProjectDir)xrc.Core.nuspec" />
       <NuspecFiles Include="$(ProjectDir)xrc.Windsor.nuspec" />
+      <NuspecFiles Include="$(ProjectDir)xrc.Markdown.nuspec" />
+      <NuspecFiles Include="$(ProjectDir)xrc.FileSystemPages.nuspec" />
     </ItemGroup>
     <PropertyGroup>
       <NugetExe>"$(SolutionDir).nuget\nuget.exe"</NugetExe>

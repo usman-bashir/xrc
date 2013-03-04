@@ -18,7 +18,7 @@ namespace xrc.Pages.TreeStructure
 		[TestMethod]
 		public void It_Should_be_possible_to_get_layoutfile()
 		{
-			var structure = new TestPageStructure();
+			var structure = new TestPageStructure1();
 			var root = structure.GetRoot();
 
 			var index = root.Files["index.xrc"];
@@ -34,7 +34,7 @@ namespace xrc.Pages.TreeStructure
 		[TestMethod]
 		public void It_Should_be_possible_to_get_configfile()
 		{
-			var structure = new TestPageStructure();
+			var structure = new TestPageStructure1();
 			var root = structure.GetRoot();
 
 			Assert.AreEqual("~/xrc.config", root.ConfigFile.ResourceLocation);
@@ -46,7 +46,7 @@ namespace xrc.Pages.TreeStructure
 		[TestMethod]
 		public void It_Should_be_possible_to_check_IsIndex()
 		{
-			var structure = new TestPageStructure();
+			var structure = new TestPageStructure1();
 			var root = structure.GetRoot();
 
 			var index = root.Files["index.xrc"];
@@ -59,7 +59,7 @@ namespace xrc.Pages.TreeStructure
 		[TestMethod]
 		public void It_Should_be_possible_to_check_IsSlot()
 		{
-			var structure = new TestPageStructure();
+			var structure = new TestPageStructure1();
 			var root = structure.GetRoot();
 
             var index = root.Files["index.xrc"];

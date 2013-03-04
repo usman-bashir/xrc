@@ -5,7 +5,7 @@ using System.Text;
 
 namespace xrc.Pages.TreeStructure
 {
-	class TestPageStructure : IPageStructureService
+	class TestPageStructure1 : IPageStructureService
 	{
         public PageRoot GetRoot()
 		{
@@ -67,7 +67,7 @@ namespace xrc.Pages.TreeStructure
 		}
 	}
 
-	class TestPageStructure_With_VirtualDir : IPageStructureService
+	class TestPageStructure2 : IPageStructureService
 	{
         public PageRoot GetRoot()
 		{

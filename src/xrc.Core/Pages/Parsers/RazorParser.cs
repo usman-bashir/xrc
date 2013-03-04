@@ -7,21 +7,17 @@ using xrc.Pages.Script;
 using xrc.Modules;
 using xrc.Script;
 using System.Xml.Linq;
-using System.IO;
-using xrc.Pages.Providers;
 
 namespace xrc.Pages.Parsers
 {
-	public class HtmlParserService : ParserServiceBase
+	public class RazorParser : ResourceParserBase
 	{
 		readonly IViewCatalogService _viewCatalog;
-        readonly IResourceProviderService _resourceProvider;
 
-        public HtmlParserService(IViewCatalogService viewCatalog, IResourceProviderService resourceProvider)
-			: base(".xrc.html")
+		public RazorParser(IViewCatalogService viewCatalog)
+			: base(".xrc.cshtml")
 		{
 			_viewCatalog = viewCatalog;
-            _resourceProvider = resourceProvider;
 		}
 
 		public override PageDefinition Parse(string resourceLocation)
@@ -33,18 +29,18 @@ namespace xrc.Pages.Parsers
 			var moduleDefinitionList = new ModuleDefinitionList();
 			var pageParameters = new PageParameterList();
 
-			var viewComponentDefinition = _viewCatalog.Get(typeof(HtmlView).Name);
+			var viewComponentDefinition = _viewCatalog.Get(typeof(RazorView).Name);
 			if (viewComponentDefinition == null)
-				throw new XrcException(string.Format("View '{0}' not found on catalog.", typeof(HtmlView).Name));
+				throw new XrcException(string.Format("View '{0}' not found on catalog.", typeof(RazorView).Name));
 
 			var view = new ViewDefinition(viewComponentDefinition, null);
-			string propertyName = "Content";
+			string propertyName = "ViewUrl";
 			var viewProperty = viewComponentDefinition.Type.GetProperty(propertyName);
 			if (viewProperty == null)
 				throw new XrcException(string.Format("Property '{0}' for type '{1}' not found.", propertyName, viewComponentDefinition.Type.FullName));
 
-            string content = _resourceProvider.ResourceToHtml(resourceLocation);
-			var propertyValue = new XValue(viewProperty.PropertyType, content);
+			string fileName = UriExtensions.GetName(resourceLocation);
+			var propertyValue = new XValue(viewProperty.PropertyType, fileName);
 
 			view.Properties.Add(new XProperty(viewProperty, propertyValue));
 			action.Views.Add(view);

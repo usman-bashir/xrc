@@ -10,7 +10,6 @@ foreach ($file in $files)
 	# exclude symbols packages because they are automatically pushed when pushing the standard package
 	if (!$fileName.contains("symbols"))
 	{
-		
 		$cmd = "$nugetexe push ""$file"""
 		write $cmd
 		iex $cmd

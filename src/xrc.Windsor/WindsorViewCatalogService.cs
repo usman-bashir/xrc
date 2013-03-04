@@ -9,10 +9,10 @@ namespace xrc.Views
 {
     public class WindsorViewCatalogService : IViewCatalogService
     {
-        readonly WindsorContainer _container;
+        readonly Castle.MicroKernel.IKernel _container;
 		readonly Lazy<IEnumerable<ComponentDefinition>> _components;
 
-        public WindsorViewCatalogService(WindsorContainer container)
+        public WindsorViewCatalogService(Castle.MicroKernel.IKernel container)
         {
             _container = container;
 
@@ -21,10 +21,11 @@ namespace xrc.Views
 
 		IEnumerable<ComponentDefinition> LoadComponents()
 		{
-            var handlers = _container.Kernel.GetAssignableHandlers(typeof(IView));
+            var handlers = _container.GetAssignableHandlers(typeof(IView));
 
 			var components = from h in handlers
 							 from s in h.ComponentModel.Services
+                             where s != typeof(IView)
 							 select new ComponentDefinition(GetComponentName(h.ComponentModel, s), s);
 
 			return components.ToList();
@@ -63,16 +64,6 @@ namespace xrc.Views
 
 			return true;
 		}
-
-        public void RegisterAll()
-        {
-            var assemblyFilter = new AssemblyFilter(AssemblyDirectory);
-
-            _container.Register(Classes.FromAssemblyInDirectory(assemblyFilter)
-                                .BasedOn<IView>()
-                                .WithServiceAllInterfaces()
-                                .LifestyleTransient());
-        }
 
         string AssemblyDirectory
         {

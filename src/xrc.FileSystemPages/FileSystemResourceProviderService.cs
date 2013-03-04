@@ -6,7 +6,7 @@ using System.IO;
 using System.Web;
 using System.Xml.Linq;
 
-namespace xrc.Pages.Providers.FileSystem
+namespace xrc.Pages.Providers
 {
 	public class FileSystemResourceProviderService : IResourceProviderService
 	{

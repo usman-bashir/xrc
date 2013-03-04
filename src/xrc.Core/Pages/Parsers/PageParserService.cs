@@ -15,9 +15,9 @@ namespace xrc.Pages.Parsers
 {
     public class PageParserService : IPageParserService
     {
-		readonly IParserService[] _parsers;
+		readonly IResourceParser[] _parsers;
 
-		public PageParserService(IParserService[] parsers)
+		public PageParserService(IResourceParser[] parsers)
 		{
 			_parsers = parsers;
 		}

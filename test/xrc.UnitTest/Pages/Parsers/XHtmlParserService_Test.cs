@@ -29,7 +29,7 @@ namespace xrc.Pages.Parsers
 			var pageProvider = new Mock<IResourceProviderService>();
             pageProvider.Setup(p => p.ResourceToXml(resourceLocation)).Returns(expectedContent);
 
-			var target = new XHtmlParserService(viewCatalog, pageProvider.Object);
+			var target = new XHtmlParser(viewCatalog, pageProvider.Object);
 
             var page = target.Parse(resourceLocation);
 			var view = page.Actions["GET"].Views.Single();

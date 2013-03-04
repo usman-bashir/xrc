@@ -7,14 +7,14 @@ using System.IO;
 using xrc.Pages.TreeStructure;
 using xrc.Pages.Parsers;
 
-namespace xrc.Pages.Providers.FileSystem
+namespace xrc.Pages.Providers
 {
 	public class FileSystemPageStructureService : IPageStructureService
     {
 		readonly IFileSystemConfig _config;
-		readonly IParserService[] _parsers;
+		readonly IResourceParser[] _parsers;
 
-		public FileSystemPageStructureService(IFileSystemConfig config, IParserService[] parsers)
+		public FileSystemPageStructureService(IFileSystemConfig config, IResourceParser[] parsers)
 		{
 			_config = config;
 			_parsers = parsers;
@@ -45,7 +45,9 @@ namespace xrc.Pages.Providers.FileSystem
 			foreach (var parser in _parsers)
 			{
 				var parserFiles = Directory.GetFiles(directoryPath, string.Format("*{0}", parser.Extension))
+                                                .Where(p => Path.GetFileName(p) != ConfigFile.XRC_DIRECTORY_CONFIG_FILE)
 												.Select(p => new PageFile(Path.GetFileName(p)));
+
                 directory.Files.AddRange(parserFiles);
 			}
 

@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using xrc.Pages.Script;
-using xrc.Modules;
-using xrc.Views;
-using System.Xml.Linq;
 using System.Reflection;
-using System.IO;
+using System.Text;
+using System.Xml.Linq;
+using xrc.Modules;
 using xrc.Pages.Providers;
+using xrc.Pages.Script;
+using xrc.Views;
 
 namespace xrc.Pages.Parsers
 {
-	public class XrcSchemaParserService
+	public class XrcParser : ResourceParserBase
 	{
-		readonly static XNamespace XMLNS = "urn:xrc";
+        readonly static XNamespace XMLNS = "urn:xrc";
 		readonly static XName PAGE = XMLNS + "page";
 		readonly static XName ACTION = XMLNS + "action";
 		readonly static XName PARAMETERS = XMLNS + "parameters";
@@ -38,10 +37,11 @@ namespace xrc.Pages.Parsers
         readonly IModuleCatalogService _moduleCatalog;
         readonly IViewCatalogService _viewCatalog;
 
-		public XrcSchemaParserService(IResourceProviderService resourceProvider,
+        public XrcParser(IResourceProviderService resourceProvider,
 									IPageScriptService scriptService, 
 									IModuleCatalogService moduleCatalog, 
 									IViewCatalogService viewCatalog)
+			: base(".xrc")
 		{
 			_resourceProvider = resourceProvider;
 			_scriptService = scriptService;
@@ -49,7 +49,7 @@ namespace xrc.Pages.Parsers
 			_viewCatalog = viewCatalog;
 		}
 
-		public PageDefinition Parse(string resourceLocation)
+		public override PageDefinition Parse(string resourceLocation)
 		{
 			var result = new PageDefinition();
 			try

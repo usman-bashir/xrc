@@ -12,7 +12,7 @@ using xrc.Pages.Providers;
 
 namespace xrc.Pages.Parsers
 {
-	public class MarkdownParserService : ParserServiceBase
+	public class MarkdownParserService : ResourceParserBase
 	{
 		readonly IViewCatalogService _viewCatalog;
         readonly IResourceProviderService _resourceProvider;

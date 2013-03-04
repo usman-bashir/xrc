@@ -1,10 +1,10 @@
 XRC (Query Server Pages)
-===
+=======================
 
 Version: 0.7 Alpha
 
 Introduction
-------------
+-----------------------
 
 XRC is a rendering framework for ASP.NET that can be used in combination with ASP.NET MVC 
 for rendering dynamic or static content inside an existing ASP.NET site.
@@ -29,11 +29,11 @@ On the business layer on the other hand you must simply provide standard .NET cl
 your preferred framework or data access strategy.
 
 Why XRC?
---------
+-----------------------
 
 
 Architecture
-------------
+-----------------------
 
 The following figure shows the platform stack of xrc.
 
@@ -41,7 +41,7 @@ The following figure shows the platform stack of xrc.
 
 
 How XRC works
--------------
+-----------------------
 
 On every web requests XRC checks if there is a corresponding .xrc page to handle the request.
 
@@ -84,15 +84,15 @@ In this .xrc file I use `XsltView` view engine and I load the xml using a custom
 Note also that the `title` parameter is generated using a simple C# script.
 
 Url and parameters
-------------------
+-----------------------
 
 
 Layout and page composition
----------------------------
+-----------------------
 
 
 Features
--------------------------
+-----------------------
 
 - Integrated and compatible with any ASP.NET MVC web site. Usually you write your command operations with MVC controller and query operations with XRC.
 - Multilevel layout pages can be written using Razor or Xslt.
@@ -106,7 +106,7 @@ Features
 	- Json
 	- Xml
 	- Raw (byte[])
-- Mix content using different view engines.
+- Mix content using different view engines or standard ASP.NET MVC.
 - Partial page rendering.
 - Friendly urls
 - Url segment parameters, query parameters or static parameters.
@@ -116,13 +116,14 @@ Features
 - Friendly error (with custom errors and http status codes)
 - Easy setup and deploy.
 - Azure ready.
-- Nwe pages can be added without recompilation
+- New pages can be added without recompilation
+- Extensible architecture
 - TODO Caching
 - TODO Authentication
 
 
 Getting started
----------------
+-----------------------
 
 XRC is available on [NuGet]. You can install the package using:
 
@@ -131,8 +132,23 @@ XRC is available on [NuGet]. You can install the package using:
 Source code and symbols (.pdb files) for debugging are available on [Symbol Source].
 
 
+Extensions
+-----------------------
+
+Extensions can be used to add custom view engines, services, modules or parsers.
+Currently these extensions are available:
+
+- xrc.FileSystemPages (deployed also as a dependency of xrc.Site)
+- xrc.Markdown
+
+You can install any extensions by installing the corresponding nuget package and then in the CustomXrcInstaller.cs file add the following line:
+
+	xrc.XrcWindsor.InstallExtension(container, System.Reflection.Assembly.Load("xrc.Markdown"));
+
+You can create your own extensions and installing it using this same code.
+
 License
--------
+-----------------------
 
 *[MIT License]* 
 

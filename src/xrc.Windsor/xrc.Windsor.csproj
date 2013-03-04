@@ -60,15 +60,15 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="HttpModuleFactory.cs" />
+    <Compile Include="Web\HttpModuleFactory.cs" />
     <Compile Include="Tracing\StackTraceInterceptor.cs" />
     <Compile Include="Tracing\TraceFacility.cs" />
-    <Compile Include="ControllerFactory.cs" />
-    <Compile Include="xrcIntegration\WindsorModuleCatalogService.cs" />
-    <Compile Include="xrcIntegration\WindsorViewCatalogService.cs" />
-    <Compile Include="xrcIntegration\WindsorModuleFactory.cs" />
-    <Compile Include="xrcIntegration\WindsorViewFactory.cs" />
-    <Compile Include="Installers\XrcInstaller.cs" />
+    <Compile Include="Web\ControllerFactory.cs" />
+    <Compile Include="WindsorModuleCatalogService.cs" />
+    <Compile Include="WindsorViewCatalogService.cs" />
+    <Compile Include="WindsorModuleFactory.cs" />
+    <Compile Include="WindsorViewFactory.cs" />
+    <Compile Include="XrcWindsor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

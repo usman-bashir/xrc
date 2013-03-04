@@ -10,10 +10,9 @@ namespace DemoWebSite.Installers
 
         public void Install(Castle.Windsor.IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store)
         {
-			container.Register(Classes.FromAssemblyContaining<TwitterModule>()
-								.Where(p => p.Name.EndsWith("Module"))
-								.WithServiceDefaultInterfaces()
-								.LifestyleTransient());
-		}
+            xrc.XrcWindsor.InstallExtension(container, System.Reflection.Assembly.Load("xrc.FileSystemPages"));
+            xrc.XrcWindsor.InstallExtension(container, System.Reflection.Assembly.Load("DemoWebSite.Lib"));
+            xrc.XrcWindsor.InstallExtension(container, System.Reflection.Assembly.Load("xrc.Markdown"));
+        }
     }
 }

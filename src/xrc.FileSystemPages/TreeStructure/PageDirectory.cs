@@ -98,7 +98,7 @@ namespace xrc.Pages.TreeStructure
             get 
             {
                 return Files.FirstOrDefault(p => p.ItemType == TreeStructure.ItemType.PageFile
-                                                && ((PageFile)p).IsLayout)
+                                                && ((PageFile)p).IsDefaultLayout)
                                                 as PageFile;
             }
         }

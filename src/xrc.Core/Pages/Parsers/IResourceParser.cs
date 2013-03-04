@@ -5,7 +5,7 @@ using System.Text;
 
 namespace xrc.Pages.Parsers
 {
-	public interface IParserService
+	public interface IResourceParser
 	{
 		string Extension { get; }
 

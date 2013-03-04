@@ -249,7 +249,7 @@ namespace xrc.Pages.Parsers
 			var pageProvider = new Mock<IResourceProviderService>();
             pageProvider.Setup(p => p.ResourceToXml("~/item.xrc")).Returns(expectedContent);
 
-			var target = new XrcSchemaParserService(pageProvider.Object,
+			var target = new XrcParser(pageProvider.Object,
 										new Mocks.PageScriptServiceMock(),
 										new Mocks.ModuleCatalogServiceMock(),
 										new Mocks.ViewCatalogServiceMock(TestView.Definition));

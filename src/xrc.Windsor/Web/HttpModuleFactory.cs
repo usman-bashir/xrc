@@ -6,9 +6,9 @@ using System;
 using System.Reflection;
 using Castle.MicroKernel.Registration;
 
-namespace xrc.Windsor
+namespace xrc.Web
 {
-	public class HttpModuleFactory : IHttpModule
+	public class WindsorHttpModuleFactory : IHttpModule
 	{
 		static Castle.MicroKernel.IKernel _kernel;
 
@@ -19,7 +19,7 @@ namespace xrc.Windsor
 
 		IHttpModule[] _modules;
 
-		public HttpModuleFactory()
+        public WindsorHttpModuleFactory()
 		{
 			if (_kernel == null)
 				throw new InvalidOperationException("Container not initialized.");

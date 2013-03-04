@@ -10,15 +10,9 @@ namespace xrc.Web.AcceptanceTest.Installers
 
         public void Install(Castle.Windsor.IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store)
         {
-			container.Register(Classes.FromAssemblyContaining<TestView>()
-					.BasedOn<xrc.Views.IView>()
-					.WithServiceSelf()
-					.LifestyleTransient());
-
-			container.Register(Classes.FromAssemblyContaining<ContactModule>()
-								.Where(p => p.Name.EndsWith("Module"))
-								.WithServiceDefaultInterfaces()
-								.LifestyleTransient());
-		}
+            XrcWindsor.InstallExtension(container, System.Reflection.Assembly.GetExecutingAssembly());
+            XrcWindsor.InstallExtension(container, System.Reflection.Assembly.Load("xrc.Markdown"));
+            XrcWindsor.InstallExtension(container, System.Reflection.Assembly.Load("xrc.FileSystemPages"));
+        }
     }
 }

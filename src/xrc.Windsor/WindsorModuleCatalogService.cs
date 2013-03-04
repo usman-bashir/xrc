@@ -9,30 +9,14 @@ namespace xrc.Modules
 {
     public class WindsorModuleCatalogService : IModuleCatalogService
     {
-        readonly WindsorContainer _container;
+        readonly Castle.MicroKernel.IKernel _container;
 		readonly Lazy<IEnumerable<ComponentDefinition>> _components;
 
-        public WindsorModuleCatalogService(WindsorContainer container)
+        public WindsorModuleCatalogService(Castle.MicroKernel.IKernel container)
         {
             _container = container;
 
 			_components = new Lazy<IEnumerable<ComponentDefinition>>(LoadComponents);
-        }
-
-        public void RegisterAll()
-        {
-            var assemblyFilter = new AssemblyFilter(AssemblyDirectory);
-
-            _container.Register(Classes.FromAssemblyInDirectory(assemblyFilter)
-                                .Where(p => p.Name.EndsWith("Module"))
-                                .WithServiceAllInterfaces()
-                                .LifestyleTransient());
-
-            _container.Register(Classes.FromAssemblyInDirectory(assemblyFilter)
-                                .Where(p => p.Name.EndsWith("Service"))
-                                .WithServiceAllInterfaces()
-                                .LifestyleSingleton());
-
         }
 
         string AssemblyDirectory
@@ -51,7 +35,7 @@ namespace xrc.Modules
 
 		IEnumerable<ComponentDefinition> LoadComponents()
 		{
-            var handlers = _container.Kernel.GetAssignableHandlers(typeof(object));
+            var handlers = _container.GetAssignableHandlers(typeof(object));
 
 			var validHandlers = from h in handlers
 					where h.ComponentModel.Name.EndsWith("Module") ||

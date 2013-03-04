@@ -10,11 +10,11 @@ using System.Reflection;
 
 namespace xrc.Pages.Parsers
 {
-	public abstract class ParserServiceBase : IParserService
+	public abstract class ResourceParserBase : IResourceParser
 	{
 		readonly string _extension;
 
-		protected ParserServiceBase(string extension)
+		protected ResourceParserBase(string extension)
 		{
 			_extension = extension;
 		}

@@ -24,7 +24,7 @@ namespace xrc.Pages.Parsers
 
 			var viewCatalog = new Mocks.ViewCatalogServiceMock(new ComponentDefinition(viewType.Name, viewType));
 
-			var target = new RazorParserService(viewCatalog);
+			var target = new RazorParser(viewCatalog);
 
             PageDefinition page = target.Parse(resourceLocation);
 			var view = page.Actions["GET"].Views.Single();

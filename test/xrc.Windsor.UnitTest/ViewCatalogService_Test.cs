@@ -12,17 +12,19 @@ namespace xrc.Views
     public class ViewCatalogService_Test
     {
         [TestMethod()]
-        public void It_should_be_possible_to_get_all_default_views()
+        public void It_should_be_possible_to_get_all_views()
         {
 			var container = new WindsorContainer();
 
-			var target = new WindsorViewCatalogService(container);
+            XrcWindsor.InstallExtension(container, System.Reflection.Assembly.Load("xrc.Core"));
+            XrcWindsor.InstallExtension(container, System.Reflection.Assembly.Load("xrc.Markdown"));
+            XrcWindsor.InstallExtension(container, System.Reflection.Assembly.Load("xrc.FileSystemPages"));
 
-            target.RegisterAll();
+			var target = new WindsorViewCatalogService(container.Kernel);
 
             Assert.AreEqual(10, target.GetAll().Count());
 			Assert.AreEqual(typeof(HtmlView).Name, target.Get(typeof(HtmlView).Name).Name);
-			Assert.AreEqual(typeof(HtmlView), target.Get(typeof(HtmlView).Name).Type);
+            Assert.AreEqual(typeof(MarkdownView), target.Get(typeof(MarkdownView).Name).Type);
 		}
 
 		[TestMethod()]
@@ -33,7 +35,7 @@ namespace xrc.Views
 			container.Register(Component.For<TestView>()
 							.LifeStyle.Transient);
 
-			var target = new WindsorViewCatalogService(container);
+			var target = new WindsorViewCatalogService(container.Kernel);
 
 			Assert.AreEqual(1, target.GetAll().Count());
 			Assert.AreEqual(typeof(TestView), target.Get(typeof(TestView).Name).Type);
@@ -48,7 +50,7 @@ namespace xrc.Views
 							.Named("CustomName")
 							.LifeStyle.Transient);
 
-			var target = new WindsorViewCatalogService(container);
+			var target = new WindsorViewCatalogService(container.Kernel);
 
 			Assert.AreEqual(1, target.GetAll().Count());
 			Assert.AreEqual(typeof(TestView), target.Get("CustomName").Type);

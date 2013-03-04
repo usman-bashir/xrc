@@ -57,9 +57,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xrc.Markdown", "src\xrc.Mar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xrc.Markdown.UnitTest", "test\xrc.Markdown.UnitTest\xrc.Markdown.UnitTest.csproj", "{25A7E088-4589-4F97-9D5E-3B7490AF536F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xrc.Pages.Providers.FileSystem", "src\xrc.Pages.Providers.FileSystem\xrc.Pages.Providers.FileSystem.csproj", "{C5BFC17C-949C-4C79-833B-B66531A0AD5F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xrc.FileSystemPages", "src\xrc.FileSystemPages\xrc.FileSystemPages.csproj", "{C5BFC17C-949C-4C79-833B-B66531A0AD5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xrc.Pages.Providers.FileSystem.UnitTest", "test\xrc.Pages.Providers.FileSystem.UnitTest\xrc.Pages.Providers.FileSystem.UnitTest.csproj", "{005AF330-A291-4B74-8D78-33F092563121}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xrc.FileSystemPages.UnitTest", "test\xrc.Pages.Providers.FileSystem.UnitTest\xrc.FileSystemPages.UnitTest.csproj", "{005AF330-A291-4B74-8D78-33F092563121}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution

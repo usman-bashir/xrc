@@ -9,7 +9,7 @@ using xrc.Configuration;
 using xrc.Pages.TreeStructure;
 using xrc.Pages.Parsers;
 
-namespace xrc.Pages.Providers.FileSystem
+namespace xrc.Pages.Providers
 {
 	public class FileSystemPageProviderService : IPageProviderService
 	{
@@ -58,11 +58,17 @@ namespace xrc.Pages.Providers.FileSystem
 
         void SetLayout(PageDefinition pageDefinition, PageFile pageFile, UriSegmentParameterList uriParameters)
         {
+            if (pageFile.IsSlot || pageFile.IsDefaultLayout)
+                return;
+
             if (!pageDefinition.Actions.Contains("GET"))
                 return;
 
+            if (pageFile.DefaultLayoutFile == null)
+                return;
+
             var action = pageDefinition.Actions["GET"];
-            if (action != null)
+            if (action != null && action.Layout == null)
                 action.Layout = pageFile.DefaultLayoutFile.BuildUrl(uriParameters).ToString();
         }
 

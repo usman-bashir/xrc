@@ -7,18 +7,18 @@ using xrc.Pages.Script;
 using xrc.Modules;
 using xrc.Script;
 using System.Xml.Linq;
+using System.IO;
 using xrc.Pages.Providers;
 
 namespace xrc.Pages.Parsers
 {
-	public class XHtmlParserService : ParserServiceBase
+	public class HtmlParser : ResourceParserBase
 	{
 		readonly IViewCatalogService _viewCatalog;
         readonly IResourceProviderService _resourceProvider;
 
-		public XHtmlParserService(IViewCatalogService viewCatalog,
-								IResourceProviderService resourceProvider)
-			: base(".xrc.xhtml")
+        public HtmlParser(IViewCatalogService viewCatalog, IResourceProviderService resourceProvider)
+			: base(".xrc.html")
 		{
 			_viewCatalog = viewCatalog;
             _resourceProvider = resourceProvider;
@@ -33,9 +33,9 @@ namespace xrc.Pages.Parsers
 			var moduleDefinitionList = new ModuleDefinitionList();
 			var pageParameters = new PageParameterList();
 
-			var viewComponentDefinition = _viewCatalog.Get(typeof(XHtmlView).Name);
+			var viewComponentDefinition = _viewCatalog.Get(typeof(HtmlView).Name);
 			if (viewComponentDefinition == null)
-				throw new XrcException(string.Format("View '{0}' not found on catalog.", typeof(XHtmlView).Name));
+				throw new XrcException(string.Format("View '{0}' not found on catalog.", typeof(HtmlView).Name));
 
 			var view = new ViewDefinition(viewComponentDefinition, null);
 			string propertyName = "Content";
@@ -43,7 +43,7 @@ namespace xrc.Pages.Parsers
 			if (viewProperty == null)
 				throw new XrcException(string.Format("Property '{0}' for type '{1}' not found.", propertyName, viewComponentDefinition.Type.FullName));
 
-            XDocument content = _resourceProvider.ResourceToXml(resourceLocation);
+            string content = _resourceProvider.ResourceToHtml(resourceLocation);
 			var propertyValue = new XValue(viewProperty.PropertyType, content);
 
 			view.Properties.Add(new XProperty(viewProperty, propertyValue));
@@ -52,5 +52,5 @@ namespace xrc.Pages.Parsers
 
 			return result;
 		}
- 	}
+	}
 }
