@@ -7,7 +7,9 @@ using System.IO;
 
 namespace xrc.Configuration
 {
-	public class FileSystemConfig : IFileSystemConfig
+    // TODO Da spostare nell'assembly file system
+
+    public class FileSystemConfig : IFileSystemConfig
 	{
 		readonly XrcSection _xrcSection;
 		public FileSystemConfig(XrcSection xrcSection)

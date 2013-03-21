@@ -5,7 +5,7 @@ using System.Text;
 
 namespace xrc.Configuration
 {
-	// TODO Da spostare nella sezione file system
+    // TODO Da spostare nell'assembly file system
 
 	public interface IFileSystemConfig
 	{
