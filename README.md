@@ -83,6 +83,11 @@ Here another example:
 In this .xrc file I use `XsltView` view engine and I load the xml using a custom module (a .NET class that was previous registered). 
 Note also that the `title` parameter is generated using a simple C# script.
 
+Requirements
+------------
+
+XRC requires .NET 4.5 and ASP.NET MVC 4. The solution can be compiled using Visual Studio Express 2012 for Web or compatible environment.
+
 Url and parameters
 -----------------------
 
