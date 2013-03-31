@@ -13,7 +13,7 @@ using xrc.Pages;
 
 namespace xrc
 {
-	// TODO Rivedere classe XrcService
+	// TODO Rivedere
 
     public class XrcService : IXrcService
     {
@@ -39,12 +39,10 @@ namespace xrc
 			_scriptService = scriptService;
         }
 
-		public System.Web.Mvc.ContentResult Page(XrcUrl url, object parameters = null, IContext callerContext = null)
+		public StringResult Page(XrcUrl url, object parameters = null, IContext callerContext = null)
         {
 			try
 			{
-				var contentResult = new System.Web.Mvc.ContentResult();
-
 				var parentRequest = callerContext == null ? null : callerContext.Request;
 				var parentResponse = callerContext == null ? null : callerContext.Response;
 
@@ -61,20 +59,15 @@ namespace xrc
 
 					context.CheckResponse();
 
-					contentResult.ContentEncoding = response.ContentEncoding;
-					contentResult.ContentType = response.ContentType;
-
 					response.Flush();
 
 					stream.Seek(0, SeekOrigin.Begin);
 
-					using (StreamReader reader = new StreamReader(stream))
+					using (StreamReader reader = new StreamReader(stream, response.ContentEncoding))
 					{
-						contentResult.Content = reader.ReadToEnd();
+                        return new StringResult(reader.ReadToEnd(), response.ContentEncoding, response.ContentType);
 					}
 				}
-
-				return contentResult;
 			}
 			catch (Exception ex)
 			{
@@ -196,7 +189,7 @@ namespace xrc
 
 			layoutContext.SlotCallback = (s, e) =>
 			{
-				var childResult = new System.Web.Mvc.ContentResult();
+				var childResult = new StringResult();
 				using (MemoryStream stream = new MemoryStream())
 				{
 					XrcResponse response = new XrcResponse(stream, parentResponse: currentResponse);
@@ -215,7 +208,7 @@ namespace xrc
 
 					stream.Seek(0, SeekOrigin.Begin);
 
-					using (StreamReader reader = new StreamReader(stream))
+                    using (StreamReader reader = new StreamReader(stream, response.ContentEncoding))
 					{
 						childResult.Content = reader.ReadToEnd();
 					}

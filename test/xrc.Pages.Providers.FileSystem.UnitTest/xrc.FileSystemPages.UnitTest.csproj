@@ -40,7 +40,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Moq">
+    <Reference Include="Moq, Version=4.0.10827.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -66,9 +67,6 @@
     <Compile Include="XrcItem_Test.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\src\xrc.Core\xrc.Core.csproj">
       <Project>{71988da4-8569-490f-9d08-5b47ef2202f7}</Project>
       <Name>xrc.Core</Name>
@@ -77,6 +75,9 @@
       <Project>{c5bfc17c-949c-4c79-833b-b66531a0ad5f}</Project>
       <Name>xrc.FileSystemPages</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

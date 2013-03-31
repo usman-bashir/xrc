@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Web.Mvc;
 
 namespace xrc.Views
 {
@@ -29,11 +28,9 @@ namespace xrc.Views
 
 			XrcUrl xrcUrl = context.Page.GetPageUrl(SlotUrl);
 
-			ContentResult result = _xrcService.Page(xrcUrl, null, context);
+			var result = _xrcService.Page(xrcUrl, null, context);
 
-			context.Response.ContentEncoding = result.ContentEncoding;
-			context.Response.ContentType = result.ContentType;
-			context.Response.Write(result.Content);
+            result.Execute(context);
         }
     }
 }

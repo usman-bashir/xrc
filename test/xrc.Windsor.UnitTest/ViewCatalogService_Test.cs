@@ -19,6 +19,7 @@ namespace xrc.Views
             XrcWindsor.InstallExtension(container, System.Reflection.Assembly.Load("xrc.Core"));
             XrcWindsor.InstallExtension(container, System.Reflection.Assembly.Load("xrc.Markdown"));
             XrcWindsor.InstallExtension(container, System.Reflection.Assembly.Load("xrc.FileSystemPages"));
+            XrcWindsor.InstallExtension(container, System.Reflection.Assembly.Load("xrc.MVC4"));
 
 			var target = new WindsorViewCatalogService(container.Kernel);
 

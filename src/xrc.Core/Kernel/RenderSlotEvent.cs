@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Web.Mvc;
 
 namespace xrc
 {
@@ -22,7 +21,7 @@ namespace xrc
             private set;
         }
 
-        public ContentResult Result
+        public StringResult Result
         {
             get;
             set;

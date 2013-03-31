@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Web.Mvc;
 using System.Web;
 
 namespace xrc
@@ -13,6 +12,6 @@ namespace xrc
 
 		void ProcessRequest(IContext context);
 
-		ContentResult Page(XrcUrl url, object parameters = null, IContext callerContext = null);
+		StringResult Page(XrcUrl url, object parameters = null, IContext callerContext = null);
     }
 }

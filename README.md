@@ -1,7 +1,7 @@
-XRC (Query Server Pages)
-=======================
+XRC
+===
 
-Version: 0.7 Alpha
+Version: 0.10 Alpha
 
 Introduction
 -----------------------
@@ -143,10 +143,11 @@ Extensions
 Extensions can be used to add custom view engines, services, modules or parsers.
 Currently these extensions are available:
 
-- xrc.FileSystemPages (deployed also as a dependency of xrc.Site)
+- xrc.FileSystemPages (deployed as a dependency of xrc.Site)
+- xrc.MVC4 (deployed as a dependency of xrc.Site)
 - xrc.Markdown
 
-You can install any extensions by installing the corresponding nuget package and then in the CustomXrcInstaller.cs file add the following line:
+You can install any extensions by installing the corresponding nuget package and then in the CustomXrcInstaller.cs file add a code like:
 
 	xrc.XrcWindsor.InstallExtension(container, System.Reflection.Assembly.Load("xrc.Markdown"));
 

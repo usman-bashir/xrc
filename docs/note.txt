@@ -1,7 +1,4 @@
 ﻿TODO
- Separare integrazione con MVC 3
- Aggiungere integrazione con MVC 4
- Convertire a .NET 4.5
  UnitTest XrcService e verificare cosa manca
  Verifica: E' possibile creare delle pagine con output non html (ad esempio rss?)
  Authentication

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using xrc.Pages.Providers;
-using System.Web.Mvc;
 using System.Web;
 using System.Net;
 
@@ -70,7 +69,7 @@ namespace xrc.Views
             else
                 contentType = MimeTypes.UNKNOWN;
 
-            var result = new FileContentResult(Content, contentType);
+            var result = new BytesResult(Content, contentType);
             if (!string.IsNullOrEmpty(FileDownloadName))
                 result.FileDownloadName = FileDownloadName;
 
@@ -107,7 +106,7 @@ namespace xrc.Views
 
                 using (var contentStream = _resourceProvider.OpenResource(resourceLocation))
                 {
-                    var result = new FileStreamResult(contentStream, contentType);
+                    var result = new StreamResult(contentStream, contentType);
                     if (!string.IsNullOrEmpty(FileDownloadName))
                         result.FileDownloadName = FileDownloadName;
 
@@ -118,10 +117,7 @@ namespace xrc.Views
 
 		private static void ExecuteFileResult(IContext context, FileResult result)
 		{
-			ControllerContext controllerContext = new ControllerContext();
-			controllerContext.HttpContext = new XrcHttpContext(context);
-			controllerContext.RequestContext = new XrcRequestContext(context);
-			result.ExecuteResult(controllerContext);
+			result.Execute(context);
 		}
     }
 }

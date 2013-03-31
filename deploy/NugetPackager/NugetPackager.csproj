@@ -37,17 +37,18 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="xrc.MVC4.nuspec" />
     <None Include="xrc.FileSystemPages.nuspec" />
     <None Include="xrc.Markdown.nuspec" />
     <None Include="nugetPublish.ps1" />
     <None Include="xrc.Core.nuspec" />
-    <None Include="xrc.Site\content\net40\Web.config.transform" />
-    <None Include="xrc.Site\content\net40\xrc\Web.config" />
+    <None Include="xrc.Site\content\net45\Web.config.transform" />
+    <None Include="xrc.Site\content\net45\xrc\Web.config" />
     <None Include="xrc.Site.nuspec" />
     <None Include="xrc.Windsor.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="xrc.Site\content\net40\xrc\index.xrc.example" />
+    <None Include="xrc.Site\content\net45\xrc\index.xrc.example" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -56,9 +57,9 @@
     <Compile Include="..\..\src\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <None Include="xrc.Site\content\net40\App_Start\Installers\ControllerInstaller.cs.pp" />
-    <None Include="xrc.Site\content\net40\App_Start\Installers\CustomXrcInstaller.cs.pp" />
-    <None Include="xrc.Site\content\net40\App_Start\xrcAppStart.cs.pp" />
+    <None Include="xrc.Site\content\net45\App_Start\Installers\ControllerInstaller.cs.pp" />
+    <None Include="xrc.Site\content\net45\App_Start\Installers\CustomXrcInstaller.cs.pp" />
+    <None Include="xrc.Site\content\net45\App_Start\xrcAppStart.cs.pp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\xrc.Core\xrc.Core.csproj">

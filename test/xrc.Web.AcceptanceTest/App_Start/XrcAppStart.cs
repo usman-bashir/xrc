@@ -54,9 +54,10 @@ namespace xrc.Web.AcceptanceTest
 		{
 			xrc.Web.WindsorHttpModuleFactory.Setup(_container.Kernel);
 
-			DynamicModuleUtility.RegisterModule(typeof(xrc.Web.WindsorHttpModuleFactory)); // .NET 4.0
-			// HttpApplication.RegisterModule // .NET 4.5
-		}
+            // .NET 4.0
+            // DynamicModuleUtility.RegisterModule(typeof(xrc.Web.WindsorHttpModuleFactory)); 
+            System.Web.HttpApplication.RegisterModule(typeof(xrc.Web.WindsorHttpModuleFactory));
+        }
 
 		static void SetupControllerFactory()
 		{
