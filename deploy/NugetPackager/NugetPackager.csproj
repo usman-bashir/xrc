@@ -74,6 +74,10 @@
       <Project>{e1bba9c3-dc31-4901-88b1-d037f26aaf44}</Project>
       <Name>xrc.Markdown</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\xrc.MVC4\xrc.MVC4.csproj">
+      <Project>{2ef66817-65df-47b1-aec1-aed34296396f}</Project>
+      <Name>xrc.MVC4</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\xrc.Windsor\xrc.Windsor.csproj">
       <Project>{2496197E-8B17-4AA0-98B2-E57B2C924EDF}</Project>
       <Name>xrc.Windsor</Name>
@@ -101,6 +105,7 @@
       <NuspecFiles Include="$(ProjectDir)xrc.Windsor.nuspec" />
       <NuspecFiles Include="$(ProjectDir)xrc.Markdown.nuspec" />
       <NuspecFiles Include="$(ProjectDir)xrc.FileSystemPages.nuspec" />
+      <NuspecFiles Include="$(ProjectDir)xrc.MVC4.nuspec" />
     </ItemGroup>
     <PropertyGroup>
       <NugetExe>"$(SolutionDir).nuget\nuget.exe"</NugetExe>
