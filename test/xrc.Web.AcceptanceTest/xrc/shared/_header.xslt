@@ -27,7 +27,14 @@
 	</xsl:template>
 	<xsl:template match="menu">
 		<xsl:variable name="pageUrl" select="Url:Content(@url)" />
-		<xsl:variable name="pageTitle" select="Page:GetPageParameterXslt($pageUrl, 'title')" />
+    <xsl:variable name="pageTitle">
+      <xsl:if test="@title">
+        <xsl:value-of select="@title"/>
+      </xsl:if>
+      <xsl:if test="not(@title)">
+        <xsl:value-of select="Page:GetPageParameterXslt($pageUrl, 'title')"/>
+      </xsl:if>
+    </xsl:variable>
 
 		<li>
 			<xsl:if test="$pageTitle = $activeMenu">

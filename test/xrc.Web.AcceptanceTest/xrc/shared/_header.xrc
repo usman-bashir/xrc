@@ -20,7 +20,8 @@
 					<menu url="~/razor" />
 					<menu url="~/viewtest" />
 					<menu url="~/actiontest" />
-				</header>
+          <menu url="~/test" title="standard mvc" />
+        </header>
 			</Data>
 
 		</xrc:XsltView>
