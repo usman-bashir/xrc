@@ -226,8 +226,15 @@
     <Content Include="xrc\shared\_layoutRazor.xrc">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="xrc\viewtest\xslt_sample.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="xrc\viewtest\index.xrc">
       <SubType>Designer</SubType>
+    </Content>
+    <Content Include="xrc\viewtest\xslt_sample.xslt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="xrc\viewtest\sampleImage.png" />
     <Content Include="xrc\viewtest\_demowebsite.xrc">
@@ -257,6 +264,11 @@
     <Content Include="xrc\viewtest\_xhtml.xrc">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="xrc\viewtest\_xslt.xrc">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="xrc\viewtest\razor_sample.cshtml" />
+    <Content Include="xrc\viewtest\_razor.xrc" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

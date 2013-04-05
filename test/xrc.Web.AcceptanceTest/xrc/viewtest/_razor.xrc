@@ -1,8 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <xrc:page xmlns:xrc="urn:xrc">
+
 	<xrc:action>
-		<xrc:MarkdownView>
-			<ContentFile>_markdownFile.md</ContentFile>
-		</xrc:MarkdownView>
+		<xrc:RazorView>
+			<ViewUrl>razor_sample.cshtml</ViewUrl>
+			<Model>@DateTime.Now</Model>
+		</xrc:RazorView>
 	</xrc:action>
+
 </xrc:page>

@@ -15,8 +15,10 @@
 	}
 }
 <div class="row-fluid">
+    @Html.Raw(SlotModule.Include("_xslt"))
     @Html.Raw(SlotModule.Include("_xhtml"))
     @Html.Raw(SlotModule.Include("_html"))
+    @Html.Raw(SlotModule.Include("_razor"))
     @Html.Raw(SlotModule.Include("_markdown"))
     @Html.Raw(SlotModule.Include("_markdownFile"))
     @Html.Raw(SlotModule.Include("_slot"))
